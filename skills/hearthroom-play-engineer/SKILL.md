@@ -6,26 +6,23 @@ description: Use when a card task involves RPG, adventure, open-world, sandbox, 
 # Hearthroom Play Engineer
 
 Use this skill when the weak layer is the card's playable rule engine. The
-output is a play-engine packet, not a full card and not a push. It turns stat
-sheets and manuals into compact loops the model can run every turn. Play cards
-set `type` to `game` in `card.json`.
+output is a play-engine packet, not card files. It turns stat sheets and
+manuals into compact loops the model can run every turn. Play cards set `type`
+to `game` in `card.json`.
 
 ## Required references
 
 Read `../../references/play-engine-design.md` first and
 `../../references/platform-facts.md` for the card folder, the output contract,
 display rules and the `play` command. As needed:
+`../../references/system-intake-card-design.md` when a simulator, management
+or investigation-desk opening needs an intake console;
 `../../references/archetype-contracts.md` when the contract is still open;
-`../../references/system-intake-card-design.md` when a simulator, management,
-mission-board or investigation-desk opening needs an intake console;
-`../../references/world-engine-design.md` for factions, locations or world
-rules; `../../references/longplay-design.md` for route memory and progression;
-`../../references/agency-design.md` when the system controls player actions,
-feelings or consent; `../../references/opening-design.md` when the first screen
-reads like a manual; `../../references/token-economy.md` when rules or panels
-bloat the opening; `../../references/playtest-loop.md` for probes and triage;
-`../../references/card-authoring-templates.md` when the packet must become file
-edits.
+`../../references/world-engine-design.md` for factions and locations;
+`../../references/longplay-design.md` for route memory and progression;
+`../../references/agency-design.md` when the system controls the player;
+`../../references/opening-design.md` when the first screen reads like a
+manual; `../../references/token-economy.md` when rules or panels bloat fields.
 
 ## Workflow
 
@@ -33,7 +30,7 @@ edits.
 2. Choose the smallest scope: light adventure, investigation, RPG/open-world, survival/horror, simulator/management.
 3. Define player position and controls (enter, risk, spend, refuse, retreat, investigate, bargain, unlock, hide) and what the card must not decide (feelings, courage, loyalty, consent, memories, future actions).
 4. Write the core loop, a compact state model of 5-9 fields that change future choices, and the state line every reply carries in the output contract.
-5. Define resource rules (what each resource buys, saves, loses or unlocks) and 2-3 quest or risk routes with trigger, approaches, pressure, cost, risk, reward, failure-forward outcome, memory and renewed hook.
+5. Define resource rules and 2-3 quest or risk routes with trigger, approaches, pressure, cost, risk, reward, failure-forward outcome and renewed hook.
 6. Write the turn protocol, failure-forward behavior, lethal-route warnings and progression phases.
 7. Write the opening contract and state visibility: what the state line shows and whether a display rule in `rules.json` turns it into a bar. If the first screen needs setup controls, follow the console pattern in `system-intake-card-design.md`: scene beat first, then panel, form and choices as `hc-*` components.
 8. Set field allocation and token plan, write the play probes, run the self-review.
@@ -57,7 +54,7 @@ Play-engine packet:
 - progression phases:
 - opening contract:
 - state visibility:
-- field allocation: summary, definition.md, welcome.md, openings/, outputContract, talkExample, lorebook.json, rules.json
+- field allocation:
 - token plan:
 - play probes:
 - self-review: every stat changes choices; state updates each reply; resources cost something; failure never dead-ends; agency preserved; opening playable before it explains; tokens favor rules over lore
@@ -66,14 +63,12 @@ Play-engine packet:
 
 Hand it to `hearthroom-card-author` when the packet is coherent and the author
 wants files written and pushed; `hearthroom-opening-director` when the first
-screen still reads like a manual; `hearthroom-presentation-director` or
-`hearthroom-html-card-components` when the state panel or console markup is
-the open question; `hearthroom-world-engineer` when factions or locations need
-play functions; `hearthroom-longplay-architect` when route memory stays weak;
-`hearthroom-agency-designer` when the system writes player actions or every
-route funnels to one outcome; `hearthroom-token-architect` when rule or state
-bloat hides the engine in the wrong file; `hearthroom-chat-simulation` after
-push and validation when state updates or failure-forward play need real turns.
+screen still reads like a manual; `hearthroom-presentation-director` when the
+state panel or console is the open question; `hearthroom-world-engineer`,
+`hearthroom-longplay-architect`, `hearthroom-agency-designer` or
+`hearthroom-token-architect` for the one layer that stays weak;
+`hearthroom-chat-simulation` after push and validation when state updates or
+failure-forward play need real turns.
 
 ## Do not
 

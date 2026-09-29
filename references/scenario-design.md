@@ -1,12 +1,11 @@
 # Scenario Design
 
 Use this reference when a card is story-first: mystery, investigation, social
-drama, event, case file, rescue, betrayal, political incident, haunting, trial
-or any focused situation where the player enters an ongoing problem and choices
-change the stakes. Such cards set `type` to `story` in `card.json`.
-
-Scenario design is not a plot outline. It is a compact story engine that lets
-the card reveal, pressure, branch and remember without forcing one route.
+drama, event, case file, rescue, betrayal, haunting, trial or any focused
+situation where the player enters an ongoing problem and choices change the
+stakes. Such cards set `type` to `story` in `card.json`. Scenario design is
+not a plot outline. It is a compact story engine that lets the card reveal,
+pressure, branch and remember without forcing one route.
 
 ## Core rule
 
@@ -22,9 +21,8 @@ player accepts, whom the player trusts or which route the player takes.
 Write 2-4 branches as consequences, not menu labels. Each has a trigger,
 player leverage, pressure response, clue or reveal, cost, state change and
 renewal hook. Useful verbs: investigate, hide, accuse, protect, expose,
-bargain, flee, delay, confess, distract, test, decode, follow, confront,
-mislead, destroy, preserve. If two branches produce the same state, merge them
-or make the cost differ.
+bargain, flee, delay, confess, test, follow, confront, mislead, destroy. If
+two branches produce the same state, merge them or make the cost differ.
 
 ## Clue and reveal ladder
 
@@ -54,10 +52,9 @@ force, keyed on their name and the clue words that would surface them.
 
 Track clue status (known, hidden, distorted), suspect stance (trust,
 suspicion, debt, fear, hostility), public risk or deadline, evidence status
-(intact, missing, planted, destroyed, exposed), player stance (investigator,
-accomplice, protector, suspect, negotiator), route flags and unresolved
-promises, lies or owed favors. Avoid a binary solved / unsolved state unless
-the card is a short one-shot; good story cards preserve aftermath.
+(intact, missing, planted, destroyed, exposed), player stance, route flags and
+unresolved promises, lies or owed favors. Avoid a binary solved / unsolved
+state unless the card is a short one-shot; good story cards preserve aftermath.
 
 ## False lead handling
 
@@ -72,10 +69,8 @@ Open inside the incident: one active place, one clue, demand, contradiction,
 body, missing object or overheard line, one node already acting, one reason the
 player matters, and 2-4 reply paths that change clue, trust, risk, access or
 route. Offer those paths as `prologue` lines in `card.json` or as choices in
-the opening.
-
-The second turn reveals, complicates, accuses, narrows access or shows a cost.
-If it only explains the setting, the scenario is not ready.
+the opening. The second turn reveals, complicates, accuses, narrows access or
+shows a cost. If it only explains the setting, the scenario is not ready.
 
 ## Field allocation
 

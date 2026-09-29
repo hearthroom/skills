@@ -3,10 +3,9 @@
 Use this reference when a card is quiet, domestic, slice-of-life, neighborly,
 roommate, workplace, school, cafe, cohabitation, routine or low-stakes
 emotional play that should feel subtle but not flat. Most such cards use
-`type` `companion` in `card.json`.
-
-Daily-life design is not the absence of stakes. It is a small engine where
-ordinary actions slowly change habit, trust, distance, mood and shared objects.
+`type` `companion` in `card.json`. Daily-life design is not the absence of
+stakes. It is a small engine where ordinary actions slowly change habit, trust,
+distance, mood and shared objects.
 
 ## Core rule
 
@@ -20,18 +19,13 @@ character does next.
 
 ## Routine ingredients
 
-A routine works only with all four:
-
-- repeatable action: watering plants, making breakfast, the last train,
-  closing a shop, sorting mail, cleaning a shared kitchen
-- small desire: keep a plant alive, avoid waking someone, finish a repair,
-  save a seat, protect a quiet hour, get one meal right
-- tiny disruption: missing key, cracked cup, wrong weather, changed schedule,
-  broken light, late delivery, overheard line
-- player leverage: help, notice, ask, refuse, tease, fix, hide, offer, leave,
-  change the order, set terms, keep silent
-
-Missing any one, the card becomes mood prose or small talk.
+A routine works only with all four: a repeatable action (watering plants, the
+last train, closing a shop, cleaning a shared kitchen), a small desire (keep a
+plant alive, avoid waking someone, save a seat, protect a quiet hour), a tiny
+disruption (missing key, cracked cup, changed schedule, late delivery,
+overheard line), and player leverage (help, notice, ask, refuse, tease, fix,
+hide, offer, leave, change the order, set terms, keep silent). Missing any
+one, the card becomes mood prose or small talk.
 
 ## Micro-tension
 
@@ -39,38 +33,35 @@ Use low-pressure tension instead of fake drama: privacy (the character wants
 the routine unseen), competence (good at small care, bad at asking), time (the
 building wakes soon, rain starts, a train leaves), boundary (help is welcome,
 intimacy is not automatic), memory (yesterday's object returns changed), social
-friction (a neighbor, coworker or family rule adds a practical cost), care cost
-(helping the player means neglecting the character's own routine).
-Micro-tension invites action; it never forces confession.
+friction (a neighbor or family rule adds a practical cost), care cost (helping
+the player means neglecting the character's own routine). Micro-tension
+invites action; it never forces confession.
 
 ## Habit state
 
 Track only values that change behavior: routine (private, shared,
 interrupted, repaired, avoided), shared object (missing, broken, repaired,
-borrowed, returned, personalized), trust (guarded, practical, warmer,
-strained), distance (polite, comfortable, avoidant, renegotiated), mood or
-weather, promise (note left, favor owed, rule changed, next meeting implied).
-If a state does not alter the next routine, cut it. It usually lives in the
-definition as behavior rather than as a visible line.
+borrowed, returned), trust (guarded, practical, warmer, strained), distance
+(polite, comfortable, avoidant, renegotiated), mood or weather, promise (note
+left, favor owed, next meeting implied). If a state does not alter the next
+routine, cut it. It usually lives in the definition as behavior rather than as
+a visible line.
 
 ## Reply paths
 
 Each path has a player move, a character response, a small change and a
-renewed hook. Useful moves: help, notice, ask, deflect, tease, refuse, stay
-silent, fix, offer, leave, delay, set terms, share, hide, return, rearrange.
-At least three paths must change habit, trust, shared object, boundary or next
-routine differently. Different moods with the same next scene are decorative.
+renewed hook. At least three paths must change habit, trust, shared object,
+boundary or next routine differently. Different moods with the same next
+scene are decorative.
 
 ## Opening policy
 
 Open inside the routine: one concrete place and time, one character action
 already happening, one sensory anchor, one tiny disruption, one reason the
 player matters now, and 2-4 reply paths that change habit, object, trust,
-distance or next routine.
-
-The second turn shows a small change: the character hands over an object,
-alters the order, reveals a bounded reason, respects a boundary, leaves a note
-or plants a next-time callback.
+distance or next routine. The second turn shows a small change: the character
+hands over an object, alters the order, reveals a bounded reason, respects a
+boundary, leaves a note or plants a next-time callback.
 
 ## Romance posture
 
@@ -108,14 +99,10 @@ Run each as one turn of `hearthroom play <dir> -m "…" --allow-spend --json`:
 Pass means the character changes habit, object, trust, distance, mood, promise
 or next-routine pressure without forcing intimacy or needing drama.
 
-## Failure repairs
-
-| Failure | Repair |
-|---|---|
-| Quiet mood becomes no action | add a tiny disruption and player leverage |
-| Comfort loop only | add task, boundary, object and small cost |
-| Instant romance | name the posture and add pacing gates |
-| Routine never changes | add habit state and a next-time callback |
-| Character waits for the player | passive-player behavior tied to the routine: tend the plant, restart the kettle, leave a note |
-| Sudden melodrama | replace with micro-tension and practical consequence |
-| Opening is only atmosphere | rebuild from place, character action, disruption, player implication |
+Common failures and repairs: no action behind the quiet mood (add a
+disruption and player leverage); comfort loop only (add task, boundary,
+object and small cost); instant romance (name the posture, add pacing gates);
+routine never changes (add habit state and a next-time callback); character
+waits for the player (passive behavior tied to the routine: tend the plant,
+restart the kettle, leave a note); opening is only atmosphere (rebuild from
+place, character action, disruption, player implication).

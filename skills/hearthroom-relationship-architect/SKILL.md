@@ -77,11 +77,9 @@ Relationship-engine packet:
 Route it to `hearthroom-card-blueprint` when opening, voice or field planning
 is still needed; `hearthroom-card-author` when the engine is ready;
 `hearthroom-boundary-designer` for mature, jealous or coercion-adjacent
-pressure; `hearthroom-voice-director` when flirting, comfort, apology or
-banter voice is the remaining blocker; `hearthroom-longplay-architect` when
-route memory or session continuation stays weak; `hearthroom-chat-simulation`
-when `hearthroom play` transcripts show comfort loops, ignored boundaries or
-forced intimacy and the author accepts the credit cost.
+pressure; `hearthroom-chat-simulation` when `hearthroom play` transcripts show
+comfort loops, ignored boundaries or forced intimacy and the author accepts
+the credit cost.
 
 ## Do not
 

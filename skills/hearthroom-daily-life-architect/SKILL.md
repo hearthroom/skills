@@ -1,6 +1,6 @@
 ---
 name: hearthroom-daily-life-architect
-description: Use when a daily-life, slice-of-life, quiet companion, neighbor, roommate, cohabitation, cafe, workplace, school or ordinary-routine card feels flat, comfort-only or passive and needs a playable routine engine with small desire, tiny disruption, shared object, habit state and second-turn change before blueprinting, authoring, render review or play testing.
+description: Use when a daily-life, slice-of-life, quiet companion, neighbor, roommate, cafe, workplace or school card feels flat, comfort-only or passive and needs a playable routine engine with small desire, tiny disruption, shared object, habit state and second-turn change before blueprinting, authoring or play testing.
 ---
 
 # Hearthroom Daily-Life Architect
@@ -14,25 +14,23 @@ renewed hooks. Most daily-life cards use `type` `companion` in `card.json`.
 
 Read `../../references/daily-life-design.md` first and
 `../../references/platform-facts.md` for the card folder and the `play`
-command. As needed: `../../references/archetype-contracts.md` when the
-contract may be companion, relationship, light-setting or hybrid;
-`../../references/relationship-engine.md` only when romance or
-repair-and-rupture pacing is the primary blocker;
-`../../references/character-core-design.md` when the character lacks a small
-desire, contradiction or boundary; `../../references/opening-design.md` for
-the first routine moment; `../../references/longplay-design.md` when routine
-memory across sessions is weak; `../../references/agency-design.md` when the
-player can only watch or must comfort; `../../references/voice-calibration.md`
-when quiet restraint drifts; `../../references/token-economy.md` when mood
-prose or panels are bloated.
+command. As needed: `../../references/character-core-design.md` when the
+character lacks a small desire, contradiction or boundary;
+`../../references/opening-design.md` for the first routine moment;
+`../../references/longplay-design.md` when routine memory across sessions is
+weak; `../../references/agency-design.md` when the player can only watch or
+must comfort; `../../references/relationship-engine.md` only when romance
+pacing is the primary blocker; `../../references/voice-calibration.md` when
+quiet restraint drifts; `../../references/token-economy.md` when mood prose
+or panels are bloated.
 
 Use `hearthroom-relationship-architect` instead when relationship state is the
-main blocker, `hearthroom-scenario-architect` when an incident drives the card,
-and `hearthroom-world-engineer` when setting rules are the blocker.
+main blocker and `hearthroom-scenario-architect` when an incident drives the
+card.
 
 ## Workflow
 
-1. Classify the shape (neighbor, roommate, cohabitation, classmate, workplace, cafe, commute, found-family, hybrid) and state the player role, the ordinary routine, the small playable desire and the tiny disruption.
+1. Classify the shape and state the player role, the ordinary routine, the small playable desire and the tiny disruption.
 2. Choose one shared object or place that can return changed later, and the sensory anchors.
 3. Build the loop: ordinary routine, tiny disruption, player choice, small state change, next routine returns altered.
 4. Pick the micro-tension (privacy, time, competence, boundary, memory, social friction, care cost) and define compact habit state.
@@ -58,15 +56,14 @@ Daily-life packet:
 - routine loop:
 - micro-tension:
 - habit state:
-- reply paths: per path, player move, character response, small change, renewed hook
-- closeness / distance lanes:
+- reply paths:
 - passive-player behavior:
 - boundary and romance posture:
 - opening moment:
 - expected first player message:
 - second-turn change:
 - long-session renewal:
-- field allocation: summary, definition.md, welcome.md, talkExample, lorebook.json, presentation
+- field allocation:
 - token plan:
 - play probes:
 - self-review:
@@ -78,9 +75,8 @@ is still open; `hearthroom-card-author` when the packet is coherent and the
 author wants files written and pushed; `hearthroom-opening-director` when the
 first scene is still mood prose; `hearthroom-longplay-architect` when
 return-next-time behavior stays weak; `hearthroom-relationship-architect` when
-romance pacing, repair or rupture is the remaining blocker;
-`hearthroom-chat-simulation` after push and validation when quiet play,
-boundaries or continuity need real turns.
+romance pacing is the remaining blocker; `hearthroom-chat-simulation` after
+push and validation when quiet play, boundaries or continuity need real turns.
 
 ## Do not
 
@@ -88,5 +84,4 @@ boundaries or continuity need real turns.
 - A routine is not playable unless the player can help, refuse, ask, notice, fix, tease, leave, set terms or change the order.
 - Do not repair quietness with melodrama unless the author asked for drama.
 - Do not force romance. State the posture: friendship-first, slow-burn optional, non-romantic, cohabitation friction or another.
-- Do not let the character wait for the player. Tend the plant, restart the kettle, leave a note.
 - Do not edit files, push or play from this skill.

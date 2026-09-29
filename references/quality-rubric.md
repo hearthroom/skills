@@ -187,7 +187,7 @@ Read `tokenBudget` from `card validate --json` before rendering or playing:
 - The opening does not dump the world bible.
 - Game cards expose setup or choices without burying the first action in a
   manual.
-- Layout in the opening uses `hc-*` components or plain text. Reusable layout
+- Layout in the opening uses plain HTML or plain text. Reusable layout
   belongs in display rules, not repeated in every opening.
 
 ## Render quality

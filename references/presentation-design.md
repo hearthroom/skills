@@ -10,14 +10,20 @@ only in a rule's replacement.
 | Layer | Where it lives | Who sees it |
 |---|---|---|
 | Story content | `welcome.md`, `openings/*.md`, replies | player and model |
-| HTML card components (`hc-*`) inside content | the same files | player; the model sees the markup it wrote |
+| Plain HTML and CSS inside content | the same files | player; the model sees the markup it wrote |
 | Display rules | `rules.json` (`find` / `replace`, function bar, page mode) | player only |
 
-Prefer plain prose or Markdown for the opening. Add `hc-*` components when a
-button, a bar, a fact row, a form or a collapsible block carries play value.
+Prefer plain prose or Markdown for the opening. Write ordinary HTML and CSS
+when a bar, a fact row, a panel or a set of choices carries play value: a
+one-off layout sits in the opening itself; repeated chrome and anything with
+a script belong in a display rule in `rules.json`. A button that sends a
+player line is a plain `<button>` in a display rule whose script calls
+`sdk.message.send(text)` (sandbox page). The `hc-*` custom elements are a
+legacy of the classic chat page; the sandbox page does not register them, so
+do not write them for new cards.
 Add display rules when the same visual pattern repeats every turn (a status
 bar, a scene header, a panel that the model emits as a small marker such as
-`<status>hp::85;;mood::shy</status>`), or when the card needs a script.
+`[status]hp::85;;mood::shy[/status]`; square brackets survive the sandbox sanitizer, unknown angle-bracket tags do not), or when the card needs a script.
 
 ## Choosing the chat page
 
@@ -39,7 +45,7 @@ bar, a scene header, a panel that the model emits as a small marker such as
    instruction in the definition (or the output contract) and, if the card has
    a Lorebook, in a constant entry so it survives long play.
 3. Write one rule: `find` matches the marker with a capture, `replace` renders
-   it with `$name` fields or `hc-*` components. Keep the rule under the size
+   it with `$name` fields in plain HTML and CSS. Keep the rule under the size
    limits in the facts sheet.
 4. Put the trigger words for pinned panels in the function bar
    (`mountTrigger`) and let rules expand them.
@@ -76,7 +82,7 @@ page. Do not copy that skill's files into this toolkit; reference it.
 ```text
 Presentation:
 - what the player must see first:
-- opening format: prose | prose + hc-* | html
+- opening format: prose | prose + html blocks | html
 - state shown: (field, why it matters, where it comes from)
 - state hidden or dropped:
 - display rules: (rule name, marker it consumes, what it draws)

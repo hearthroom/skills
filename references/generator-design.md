@@ -78,8 +78,8 @@ producing usable sections. Flavor never hides the artifact.
 The opening starts production quickly: one sentence naming what the card makes,
 2-4 intake fields or choices that matter, a default-start option, one example
 preset, and a promise that the next reply produces one finished artifact.
-Choices can be `prologue` lines in `card.json` or `hc-*` controls in the
-opening. A bare "What would you like to create?" is not an opening.
+Choices can be `prologue` lines in `card.json` or plain HTML choice buttons
+in a display rule. A bare "What would you like to create?" is not an opening.
 
 ## Field allocation
 
@@ -92,8 +92,8 @@ opening. A bare "What would you like to create?" is not an opening.
 - `talkExample` (`card.json`): only when it teaches the schema or a revision.
 - `lorebook.json`: reference material the artifact draws on (symbol tables,
   place names, house styles) as named entries.
-- presentation: `hc-form` or `hc-choices` controls only when they make intake
-  clearer.
+- presentation: plain HTML setup inputs or choice buttons only when they make
+  intake clearer; send buttons live in a display rule.
 
 ## Play probes
 

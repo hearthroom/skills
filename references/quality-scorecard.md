@@ -40,7 +40,7 @@ not `0`.
 | Language style | Do all fields share one language, script, register and pronoun matrix? |
 | Boundary handling | Are rating, pacing, refusal, slowdown and stop conditions explicit where needed? |
 | Token allocation | Do long sections create reusable behavior, state, voice, routes or first-action clarity? |
-| Presentation | Do the opening's text or `hc-*` layout and the display rules support readability, state, action and mood without hiding the engine? |
+| Presentation | Do the opening's text or HTML layout and the display rules support readability, state, action and mood without hiding the engine? |
 | Lorebook reachability | Are entries the card depends on reachable by keywords in a normal turn and by descriptive name and content in agent mode? |
 | Testability | Are render checks, playtest probes and patch triggers clear enough for a later loop? |
 

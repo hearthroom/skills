@@ -12,7 +12,7 @@ paying for. The output is a state packet, not final fields and not a layout.
 
 - `../../references/state-economy-design.md`: how state exists on Hearthroom,
   keep test, visibility, status surface contract, agency safety.
-- `../../references/platform-facts.md`: display rules and `hc-*` components.
+- `../../references/platform-facts.md`: display rules and HTML in openings and replies.
 - `../../references/longplay-design.md`, `../../references/play-engine-design.md`,
   `../../references/presentation-design.md` or `../../references/agency-design.md`
   when the blocker is progression, a game loop, the surface itself, or state
@@ -27,8 +27,8 @@ paying for. The output is a state packet, not final fields and not a layout.
    fields.
 3. Classify each survivor `visible`, `hidden`, `definition-only` or `omit`.
    There is no separate state schema. State is text the character writes in
-   replies, shown directly as `hc-*` components or transformed by a display
-   rule in `rules.json`; the model never sees the rendered result.
+   replies, shown directly as plain HTML written into the reply or transformed
+   by a display rule in `rules.json`; the model never sees the rendered result.
 4. For each kept field write owner, allowed values, update trigger, cadence,
    effect on character behaviour, effect on player options, token cost.
 5. Apply agency safety: never store the player's feelings, consent, loyalty,
@@ -62,7 +62,7 @@ State packet:
 - `hearthroom-longplay-architect` when state mainly serves continuation;
   `hearthroom-play-engineer` when it is a game loop.
 - `hearthroom-presentation-director` when only the surface remains; it owns
-  `rules.json` and the `hc-*` choice.
+  `rules.json` and the choice between HTML in content and a display rule.
 - `hearthroom-card-author` to write `definition.md`, then
   `hearthroom card push --validate --json` and `hearthroom card render --json`.
 - `hearthroom-chat-simulation` to watch a real update with

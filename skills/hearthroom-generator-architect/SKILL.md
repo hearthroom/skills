@@ -17,7 +17,7 @@ Read `../../references/generator-design.md` first and
 `../../references/platform-facts.md` for `card.json`, the output contract
 limit and the `play` command. As needed:
 `../../references/system-intake-card-design.md` when the intake is a visible
-console built from `hc-*` components; `../../references/opening-design.md`
+console built from plain HTML and display rules; `../../references/opening-design.md`
 when the intake opening is vague or long;
 `../../references/archetype-contracts.md` when generator versus companion,
 story or game is open; `../../references/voice-calibration.md` when a diegetic

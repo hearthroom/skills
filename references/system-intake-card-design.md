@@ -8,7 +8,8 @@ Read `../../references/play-engine-design.md` when the primary loop is state,
 resources or simulator consequences, and
 `../../references/generator-design.md` when it produces an artifact. Route to
 `hearthroom-presentation-director` when the open question is what the console
-should show, and to `hearthroom-html-card-components` for exact markup.
+should show, and read `../../references/presentation-design.md` for where the
+HTML and the display rules live.
 
 ## Core rule
 
@@ -51,24 +52,26 @@ revision commands; 5-10% voice and format.
 
 ## Console pattern
 
-Build the opening in this order, as HTML with `hc-*` components:
+Build the opening in this order, as plain prose with plain HTML and CSS
+blocks. Repeated chrome and anything with a script go in a display rule in
+`rules.json`:
 
 1. Scene beat first, in plain prose: one concrete situation and one line that
    makes the next action obvious.
-2. Current state: one `hc-panel` naming what the player is about to run, with
-   `hc-bar`, `hc-meter` or `hc-stat` for the one or two meters that matter now.
-3. Setup: one `hc-form` whose `hc-input`, `hc-radio` and `hc-checkbox`
-   controls already hold the defaults, so submitting unchanged is a valid start.
-4. Actions: 2-4 short choices through `hc-choices` or `hc-btn` send buttons.
+2. Current state: one panel naming what the player is about to run, with a
+   bar or a fact row for the one or two meters that matter now.
+3. Setup: one setup block whose inputs and option lists already hold the
+   defaults, so starting without changes is a valid start.
+4. Actions: 2-4 short choices as send buttons. On the sandbox page each is a
+   plain `<button>` in a display rule whose script calls
+   `sdk.message.send(text)`, reading the setup inputs into the line it sends.
    The first is the default start. Each sends text the definition handles.
 5. Nothing else. Rules, event pools and hidden state stay in the definition and
    the output contract.
 
-Take exact element and attribute forms from
-`../../references/html-card-components.md`. After
-`hearthroom card push --validate --json`, run `hearthroom card render --json`
-and check that `report.components` lists what you used; open the printed play
-link to see layout and contrast.
+After `hearthroom card push --validate --json`, run
+`hearthroom card render --json` and check `rendered`, `report.tags` and every
+rule's status; open the printed play link to see layout and contrast.
 
 The scene comes before the controls, as sibling structure rather than a
 wrapper. Every control changes the next reply; cut a panel that only
@@ -91,7 +94,7 @@ System intake packet:
 - failure-forward behavior:
 - output schema or response format:
 - player-agency guardrails:
-- console plan: which hc-* components carry which control
+- console plan: which HTML block or display rule carries which control
 - field allocation:
 - play probes:
 - hand-off:

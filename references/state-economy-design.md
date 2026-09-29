@@ -7,8 +7,8 @@ omitted. State economy is a writing decision, not a validation gate.
 ## How state exists on Hearthroom
 
 There is no separate state schema. State is text the character writes in its
-replies under rules in `definition.md`. It becomes visible either as HTML or
-`hc-*` components written directly into the reply, or as a compact
+replies under rules in `definition.md`. It becomes visible either as plain
+HTML written directly into the reply, or as a compact
 plain-text line that a display rule in `rules.json` turns into layout before
 display (`$name` reads keys from a first capture shaped `hp::85;;mood::shy`).
 The model never sees the rendered result. "Hidden" state is a line the model
@@ -49,8 +49,8 @@ pressure, risk, resources, clues, route gates, available support.
   current number; write the change (`+6`, `8 -> 14`) in prose.
 - Text, enum, flag, resource, phase, location and availability fields get a
   tag, stat, row or panel type component. Do not invent a `max` to make a
-  field look like a meter. `html-card-components.md` names the components;
-  `hearthroom-presentation-director` picks them.
+  field look like a meter. `hearthroom-presentation-director` picks the HTML
+  shape and whether it lives in the content or in a display rule.
 - `definition.md` owns the contract for every kept field: stable key, label,
   allowed values, update trigger, cadence, play effect. `welcome.md` shows
   the first useful surface. `rules.json` holds the transform.

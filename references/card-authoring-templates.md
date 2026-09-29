@@ -30,7 +30,7 @@ content; do not summarize away their concrete decisions.
 | Longplay | `hearthroom-longplay-architect` | continuity spine, phases, state model, route seeds, role initiative |
 | State economy | `hearthroom-state-economist` | kept and omitted fields, visibility, update triggers, status line contract |
 | Token architecture | `hearthroom-token-architect` | budget signal, allocation, keep / move / cut / rewrite, compression ladder |
-| Presentation | `hearthroom-presentation-director` | plain vs HTML, `hc-*` plan, display rules, status line, first-screen hierarchy |
+| Presentation | `hearthroom-presentation-director` | plain vs HTML, HTML block plan, display rules, status line, first-screen hierarchy |
 | Boundary | `hearthroom-boundary-designer` | rating intent, explicitness ceiling, escalation ladder, refusal, stop conditions, safer fallback |
 | Profile package | `hearthroom-profile-packager` | selected name, summary, tags, first-impression check |
 | Visual identity | `hearthroom-visual-identity-director` | art direction, image prompts, media file status |
@@ -79,7 +79,7 @@ Play:
 - expected second-turn move:
 
 Presentation:
-- opening mode: plain | HTML with hc-* components
+- opening mode: plain | HTML
 - status line the reply carries (if any):
 - display rules needed:
 - function bar content (if any):
@@ -264,7 +264,7 @@ State economy packet:
 
 Presentation packet:
 - opening mode: plain | HTML
-- hc-* components and why each earns its place:
+- HTML blocks and why each earns its place:
 - status line shape and the display rule that draws it:
 - function bar content:
 - page mode: sandbox | classic
@@ -455,7 +455,7 @@ long definitions follow `prompt-attention-architecture.md`.
 ## Opening scene template
 
 For companion, story, daily-life, romance and ensemble cards. Plain text is
-the default; add `hc-*` components only where a presentation packet says they
+the default; add HTML blocks only where a presentation packet says they
 earn their place.
 
 ```text
@@ -504,8 +504,9 @@ first reply path and a second-turn move.
 ```
 
 The system proceeds with defaults when the player gives minimal input. If the
-setup should be a form, `hc-form`, `hc-input`, `hc-radio` and `hc-choices`
-exist; route the layout to `hearthroom-presentation-director`.
+setup should be a form, write plain HTML inputs holding the defaults and send
+buttons in a display rule; route the layout to
+`hearthroom-presentation-director`.
 
 ## Ensemble cast template
 

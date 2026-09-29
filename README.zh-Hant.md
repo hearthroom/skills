@@ -56,7 +56,7 @@ codex plugin marketplace add hearthroom/skills
 - 卡片類型：玩法工程、劇情架構、日常架構、生成器架構、群像導演、系列架構。
 - 素材與包裝：素材蒸餾、原創改編、樣本校準、資料包裝、視覺識別、邊界設計、
   語言風格、設定工程、token 架構、指令護欄。
-- 呈現：呈現導演、HTML 內容卡元件、渲染審查。狀態欄、全域主題與整頁自訂介面
+- 呈現：呈現導演、渲染審查。狀態欄、全域主題與整頁自訂介面
   交給開源的 [tavern-mmd](https://github.com/yofengi/tavern-mmd) 技能；Hearthroom
   的沙盒頁跟 MMD 新版沙盒是同一套作者 API，`hearthroom card import` 讀得懂它的產出。
 - 組裝與迴圈：卡片藍圖、卡片作者、欄位定稿、品質稽核、卡片醫生、協作導演、

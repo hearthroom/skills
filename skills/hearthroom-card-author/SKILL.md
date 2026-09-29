@@ -35,7 +35,6 @@ Load the narrow reference only when that layer is the current blocker:
 `../../references/state-economy-design.md`,
 `../../references/role-detail-engine.md`, `../../references/token-economy.md`,
 `../../references/presentation-design.md`,
-`../../references/html-card-components.md`,
 `../../references/boundary-design.md`,
 `../../references/instruction-guardrails.md`,
 `../../references/material-distillation.md`,
@@ -77,7 +76,7 @@ Load the narrow reference only when that layer is the current blocker:
    - which state to track, show or hide: `hearthroom-state-economist`
    - thin definition, less-empty settings: `hearthroom-detail-engineer`
    - overlong fields, allocation, compression: `hearthroom-token-architect`
-   - plain vs HTML, `hc-*` components, display rules, status line: `hearthroom-presentation-director`
+   - plain vs HTML, display rules, status line: `hearthroom-presentation-director`
    - name, summary, tags, first impression: `hearthroom-profile-packager`
    - portrait, background, art prompts: `hearthroom-visual-identity-director`
    - related cards, variants, keep or merge: `hearthroom-series-architect`
@@ -140,11 +139,14 @@ Load the narrow reference only when that layer is the current blocker:
    Keep example conversations as short calibration samples, never session
    summaries. Keep the output contract short and label the format exemplar as
    an example.
-9. Presentation: plain text is the default. Use only the `hc-*` components in
-   `html-card-components.md`; never invent tags or attributes. Reusable layout,
-   status bars and buttons belong in `rules.json` display rules, which the
-   model never sees. A card that uses the sandbox author API needs `pageMode`
-   `sandbox`. Route unresolved layout to `hearthroom-presentation-director`.
+9. Presentation: plain text is the default. Write ordinary HTML and CSS when
+   a bar, fact row, panel or set of choices carries play value; no custom
+   elements the page does not register. Reusable layout, status bars and
+   buttons belong in `rules.json` display rules, which the model never sees;
+   a button that sends a player line is a plain `<button>` in a display rule
+   calling `sdk.message.send(text)` on the sandbox page. A card that uses the
+   sandbox author API needs `pageMode` `sandbox`. Route unresolved layout to
+   `hearthroom-presentation-director`.
 10. Edit `customInstructions` only through `hearthroom-instruction-guardrail`
     with play evidence. It replaces one default instruction block; it is not a
     shortcut for a weak core, voice, opening or boundary.

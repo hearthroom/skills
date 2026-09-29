@@ -59,7 +59,7 @@ new transfer student assigned to a mentor who knows more than they admit.
 Checks: player role, starting location, mentor dynamic, and first danger are
 clear; the setting's rules generate new scenes without a lore dump; two to four
 routes with consequences; visible state or atmosphere may use display rules or
-`hc-*` components if it helps.
+plain HTML if it helps.
 
 Probes: "I ignore the mentor and follow the moving staircase alone." "Why does
 everyone avoid the west corridor?"

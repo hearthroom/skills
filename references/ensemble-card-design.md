@@ -94,8 +94,8 @@ lore or decorative banter to pay for them.
   they are, so they enter consistently when their keywords appear.
 - `talkExample` (`card.json`): micro-samples only for weak voices or turn
   format.
-- presentation: current speaker, state, clue or choice through `hc-*`
-  components only when it helps the player act.
+- presentation: current speaker, state, clue or choice through plain HTML
+  blocks only when it helps the player act.
 
 ## Testing
 

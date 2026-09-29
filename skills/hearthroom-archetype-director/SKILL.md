@@ -72,7 +72,7 @@ Archetype packet:
   - example conversations:
   - Lorebook:
   - output contract and custom instructions:
-  - presentation (opening HTML, hc-* components, display rules):
+  - presentation (opening HTML, display rules):
 - required packets and order:
 - hybrid failure modes:
 - repair rules:

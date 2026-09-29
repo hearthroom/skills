@@ -83,7 +83,7 @@ closeness, forgiveness and whether a routine becomes shared.
   entries so they return consistently.
 - `talkExample` (`card.json`): micro-samples only when quiet voice or boundary
   handling would otherwise drift.
-- presentation: a short `hc-*` panel for object, time or weather only when it
+- presentation: a short plain-HTML panel for object, time or weather only when it
   helps the first action.
 
 ## Play probes

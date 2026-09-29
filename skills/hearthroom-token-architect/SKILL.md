@@ -17,9 +17,8 @@ rules. Read `../../references/prompt-attention-architecture.md` when the
 problem is attention dilution or format stability rather than raw length.
 Read `../../references/role-card-writing-framework.md` for PACT and archetype
 ranges, `../../references/card-authoring-templates.md` when converting the
-packet into file edits, `../../references/presentation-design.md` and
-`../../references/html-card-components.md` when HTML or display rules cause
-the bloat, `../../references/material-distillation.md` when a source pack is
+packet into file edits, `../../references/presentation-design.md` when HTML
+or display rules cause the bloat, `../../references/material-distillation.md` when a source pack is
 the cause, and `../../references/generator-design.md` when a generator's
 schema, examples or revision operations are being compressed. Read the narrow
 reference for a weak layer before cutting it.
@@ -51,7 +50,7 @@ reference for a weak layer before cutting it.
    budget for the minimum viable reply and the format exemplar before cutting
    lower-priority lore.
 9. Name the rerun checks: `card push --validate --json` for the new counts,
-   `card render --json` for `report.components` and rule statuses, play only
+   `card render --json` for `rendered`, `report.tags` and rule statuses, play only
    when the draft is worth testing.
 
 ## Hand-off

@@ -65,7 +65,7 @@ needs.
 ### 4. Presentation
 
 How the card feels without corrupting the story logic. On Hearthroom this is
-plain text or HTML with `hc-*` components in the opening and replies, plus
+plain text or plain HTML and CSS in the opening and replies, plus
 display rules in `rules.json` that turn reply text into layout, status bars
 and buttons. Styling should reveal state, mood or choice structure; it must
 never hide critical instructions inside decoration. Route presentation

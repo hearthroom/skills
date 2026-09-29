@@ -6,16 +6,15 @@ description: Use when deciding how a Hearthroom card looks and behaves on screen
 # Hearthroom presentation director
 
 Use this skill to plan presentation before fields are written or rules are
-built, and to decide whether the work belongs in the opening, in `hc-*`
-components, in display rules, or in an external kit. Render review judges the
+built, and to decide whether the work belongs in the opening as plain HTML
+and CSS, in display rules, or in an external kit. Render review judges the
 result afterwards; this skill decides the plan.
 
 ## Required references
 
 Read `../../references/presentation-design.md` and the display rules, chat
-pages and HTML card components sections of
-`../../references/platform-facts.md`. Read
-`../../references/html-card-components.md` when components will be used.
+pages and HTML in openings and replies sections of
+`../../references/platform-facts.md`.
 
 ## Workflow
 
@@ -23,7 +22,11 @@ pages and HTML card components sections of
    agency and state. If not, route to the missing skill first.
 2. List what the player must see on the first screen and on every turn.
    Cut anything that is only decoration.
-3. Choose the opening format and the components, with a reason each.
+3. Choose the opening format and each HTML block (bar, fact row, panel,
+   choices), with a reason each. Plain HTML and CSS: in the opening for a
+   one-off layout, in a display rule for repeated chrome or anything with a
+   script. A button that sends a player line is a plain `<button>` in a
+   display rule calling `sdk.message.send(text)` on the sandbox page.
 4. Decide whether display rules are needed. If so, design the marker the
    model emits and the rule that renders it, following the status bar steps
    in the reference.

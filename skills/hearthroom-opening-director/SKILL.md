@@ -16,8 +16,8 @@ full card.
 - `../../references/platform-facts.md`: `welcome.md` is the opening and
   `openings/alt-NN.md` are alternates (`hearthroom play --greeting N` starts
   from one); `prologue` in `card.json` holds player-side suggested first
-  lines, never the character's speech; openings are plain text or HTML with
-  `hc-*` components; the opening limit depends on the card's language, so read
+  lines, never the character's speech; openings are plain text or plain HTML
+  and CSS; the opening limit depends on the card's language, so read
   `tokenBudget.limits` from `hearthroom card push --validate --json`.
 - `../../references/agency-design.md` when the player can only watch or every
   reply lands in the same place.

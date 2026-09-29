@@ -76,11 +76,9 @@ World-engine packet:
 Route it to `hearthroom-card-blueprint` when character core, voice or field
 synthesis is still needed; `hearthroom-opening-director` when the first screen
 must reveal the rule without a lore tour; `hearthroom-play-engineer` for
-mechanics and turn protocol; `hearthroom-longplay-architect` for route state
-and memory; `hearthroom-voice-director` for narrator or faction voice
-contrast; `hearthroom-card-author` when the author wants the files written;
-`hearthroom-chat-simulation` when `hearthroom play` transcripts show lore
-dumping or missing facts.
+mechanics and turn protocol; `hearthroom-card-author` when the author wants
+the files written; `hearthroom-chat-simulation` when `hearthroom play`
+transcripts show lore dumping or missing facts.
 
 ## Do not
 

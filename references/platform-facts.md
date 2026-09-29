@@ -242,8 +242,8 @@ hearthroom card push <dir> --create          # keep it: a real private card on t
 
 `card push --create` makes a real private card that appears in the author's
 inventory on the site. Submitting for community review happens on the site:
-review applies to one frozen version of the card; changing content makes a new
-version that needs its own review. Reviewers see a similarity score for the
+review applies to one frozen version of the card, submitted together with a
+content rating; changing content makes a new version that needs its own review. Reviewers see a similarity score for the
 definition against other submitted and approved cards (reviewers only; the
 author's own other cards are excluded). Originality of the definition text
 matters.

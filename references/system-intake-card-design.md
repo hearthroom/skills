@@ -5,7 +5,7 @@ console, investigation desk, mission board, planner or creator assistant whose
 first screen needs setup inputs, visible state, choices and a clear run loop.
 
 Read `../../references/play-engine-design.md` when the primary loop is state,
-resources, quests or simulator consequences, and
+resources or simulator consequences, and
 `../../references/generator-design.md` when it produces an artifact. Route to
 `hearthroom-presentation-director` when the open question is what the console
 should show, and to `hearthroom-html-card-components` for exact markup.
@@ -21,17 +21,11 @@ concrete premise -> setup defaults -> visible state -> first run action
 
 The opening is not a manual and not a poster. It is a playable console: the
 player sees what they can configure, which state matters and which action
-starts the loop.
-
-## When to use
-
-Use this pattern when the card has modes, presets or setup inputs; a dashboard,
-case board, mission board, planner or simulator console; resource, risk,
-progress, route, budget, inventory, clue or trust state; repeatable start,
-continue, revise, reroll, inspect and commit actions; an artifact plus revision
-operations; or a habit of asking many questions before doing anything useful.
-Route away when the first screen is a relationship scene, a daily-life moment
-or a story incident without setup controls.
+starts the loop. Use it when the card has modes, presets, a dashboard or
+board, tracked state, repeatable start / continue / revise / inspect actions,
+or a habit of asking many questions before doing anything. Route away when the
+first screen is a relationship scene, a daily-life moment or a story incident
+without setup controls.
 
 ## Field allocation
 
@@ -50,10 +44,10 @@ or a story incident without setup controls.
   state update or a revision command.
 - `rules.json`: display rules that turn the state line into bars or panels.
 
-Spend the definition roughly as: 10-15% premise, player role and promise;
-20-25% state model and update rules; 20-25% turn protocol, failure-forward
-behavior and agency rules; 15-20% event pool and progression; 10-15% output
-schema, revision commands and continuity; 5-10% voice and format.
+Spend the definition roughly as: 10-15% premise and promise; 20-25% state
+model and update rules; 20-25% turn protocol, failure-forward behavior and
+agency rules; 15-20% event pool and progression; 10-15% output schema and
+revision commands; 5-10% voice and format.
 
 ## Console pattern
 
@@ -76,11 +70,10 @@ Take exact element and attribute forms from
 and check that `report.components` lists what you used; open the printed play
 link to see layout and contrast.
 
-Rules: the scene comes before the controls, as sibling structure rather than a
-wrapper. Every control changes the next reply; cut a panel that only decorates.
-A player who ignores the controls and types one line must still get a run. The
-prose beat must mean something on its own. One speaker; a console card does
-not need a cast.
+The scene comes before the controls, as sibling structure rather than a
+wrapper. Every control changes the next reply; cut a panel that only
+decorates. A player who ignores the controls and types one line must still get
+a run. One speaker; a console card does not need a cast.
 
 ## System intake packet
 
@@ -108,11 +101,10 @@ System intake packet:
 
 Run each as one turn of `hearthroom play <dir> -m "…" --allow-spend --json`:
 minimal input proceeds with defaults and starts a run; changing one intake
-field changes the next output; asking to inspect state works before acting;
+field changes the next output; the player can inspect state before acting;
 risky input costs something without ending play; the next turn preserves state
 and advances the loop; revise or reroll keeps constraints; a short reply still
-receives a concrete next path.
-
-Patch the card if it asks another setup question instead of running, forgets
-state, gives generic advice, leaves a button sending text nothing handles, or
-explains rules without changing the next action.
+receives a concrete next path. Patch the card if it asks another setup
+question instead of running, forgets state, gives generic advice, leaves a
+button sending text nothing handles, or explains rules without changing the
+next action.

@@ -41,7 +41,7 @@ first when the task is deciding which variants to keep. Read
    primary contract.
 7. List the design packets this card needs and the order to run them:
    character core, relationship, world, play engine, generator, scenario, daily
-   life, ensemble, agency, voice, opening, longplay, boundary, length.
+   life, ensemble, agency, voice, opening, longplay, boundary, token.
 8. Apply the hybrid rules: companion hybrids keep relationship pressure
    primary; heavy-setting hybrids convert lore into choices and state before
    keeping names; generator hybrids keep the artifact concrete; ensemble cards

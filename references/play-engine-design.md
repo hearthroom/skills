@@ -18,27 +18,23 @@ the next choices within a few turns, cut it, merge it or turn it into a cost.
 
 Choose the smallest playable scope:
 
-- light adventure: one mission or journey; one pressure, 2-3 routes, 3-5 state fields
-- investigation / case: clues, suspects, evidence; clue state, risk clock, access rules, cost of accusation
-- RPG / open-world: travel, resources, quests, factions, progression; compact state, resource costs, failure-forward rules, route rewards
-- survival / horror: danger, scarcity, wounds, pursuit; visible risk, limited resources, retreat routes, pacing and boundaries
-- simulator / management: the player runs a system over repeated turns; mode, state schema, update loop, defaults, revise or retry rules
+- light adventure: one mission; one pressure, 2-3 routes, 3-5 state fields
+- investigation / case: clue state, risk clock, access rules, cost of accusation
+- RPG / open-world: compact state, resource costs, failure-forward rules, route rewards
+- survival / horror: visible risk, limited resources, retreat routes, pacing and boundaries
+- simulator / management: mode, state schema, update loop, defaults, revise or retry rules
 
 Lore alone does not justify RPG scope. Choices that need resources, risk,
 routes, state and progression do.
 
 ## Compact state
 
-Track only what changes future behavior: 5-9 fields, not a character sheet.
-Draw from place and time, pressure (danger, exposure, suspicion, pursuit),
-resources (supplies, coin, stamina, light, evidence, favor), condition (wound,
-fatigue, debt, wanted status), route (active quest, clue, unlocked place,
-faction stance) and relationship (trust, rivalry, promise, boundary).
-
-Update state after every reply in which an action, refusal, retreat, passive
-input or partial success changed the situation. Show only state the player can
-use now or soon. Prefer named flags and simple levels over many numbers. Never
-hide state that contradicts the player's visible options.
+Track only what changes future behavior: 5-9 fields drawn from place and
+time, pressure, resources, condition, route and relationship. Update state
+after every reply that changed the situation, including refusals, retreats and
+partial successes. Show only state the player can use now or soon. Prefer
+named flags and simple levels over many numbers. Never hide state that
+contradicts the player's visible options.
 
 The model can only update state it writes into the reply. Put the update format
 in the output contract (`outputContract` in `card.json`) so every reply carries
@@ -50,11 +46,11 @@ Read `../../references/platform-facts.md` for what rules can do and
 ## Resource economy
 
 A resource is playable only if spending, saving, losing or gaining it changes
-the next scene: spend for speed, safety, leverage, information or access; save
-to endure a later clock, bargain or repair; lose through risk, time, injury or
-exposure; gain by trade, discovery, alliance or accepting a cost. Avoid item
-lists where nothing is used, stats that only look game-like, losses that punish
-without opening another route, and rewards that change nothing.
+the next scene: spend for speed, safety, leverage or access; save to endure a
+later clock or bargain; lose through risk, time, injury or exposure; gain by
+trade, discovery, alliance or accepting a cost. Cut item lists where nothing
+is used, stats that only look game-like, and losses that punish without
+opening another route.
 
 ## Quest and risk model
 
@@ -85,14 +81,13 @@ feelings, courage, loyalty, consent, memories or future action. Avoid a bare
 
 ## Failure-forward behavior
 
-Failure changes play; it neither ends it nor vanishes. Use wounds, debt,
-damaged items, lost time, raised clocks, exposed secrets, faction suspicion,
-blocked shortcuts, separated allies, partial clues, costly bargains, forced
-retreats, and depletion that unlocks a harder but playable alternative.
-
-Death, permanent lockout or story end require a clear warning and an explicit
-player choice to keep taking lethal risk. Ignored failure is also failure: if
-nothing changes, the route was decorative.
+Failure changes play; it neither ends it nor vanishes: wounds, debt, damaged
+items, lost time, raised clocks, exposed secrets, faction suspicion, blocked
+shortcuts, partial clues, costly bargains, forced retreats, or depletion that
+unlocks a harder but playable alternative. Death, permanent lockout or story
+end require a clear warning and an explicit player choice to keep taking
+lethal risk. Ignored failure is also failure: if nothing changes, the route
+was decorative.
 
 ## Progression phases
 
@@ -104,15 +99,13 @@ force a fixed order unless the card is a linear scenario.
 ## Opening contract
 
 The first screen combines setup and action: one place and its pressure, one
-visible state panel or compact setup, one concrete object, threat, demand, clue
-or resource decision, 2-4 choices tied to risk, resource, route or state, and
-defaults for minimal input.
-
-Do not open on a rulebook, faction list or inventory catalog. Durable rules
-live in `definition.md`; `welcome.md` proves the system is playable. When the
-setup needs controls, read `../../references/system-intake-card-design.md`.
-Different starting modes can be alternate openings in `openings/alt-NN.md`;
-`play --greeting N` tests each.
+visible state panel or compact setup, one concrete object, threat, demand or
+resource decision, 2-4 choices tied to risk, resource, route or state, and
+defaults for minimal input. Do not open on a rulebook, faction list or
+inventory catalog. Durable rules live in `definition.md`; `welcome.md` proves
+the system is playable. When the setup needs controls, read
+`../../references/system-intake-card-design.md`. Different starting modes can
+be alternate openings in `openings/alt-NN.md`; `play --greeting N` tests each.
 
 ## Field allocation
 
@@ -130,14 +123,10 @@ Different starting modes can be alternate openings in `openings/alt-NN.md`;
 - presentation: `hc-*` components in the opening and display rules in
   `rules.json`, only where they help the player act.
 
-## Token plan
-
-Spend in this order: player position and core loop; compact state and resource
-rules; turn protocol and failure-forward behavior; quest routes and phases;
-opening; narrator style; optional samples. Cut first: inactive factions, unused
-stats, equipment catalogs, combat edge cases, proper-noun lists, lore history,
-repeated atmosphere. Read counts and limits from
-`hearthroom card push --validate --json` under `tokenBudget`.
+Spend tokens on the loop, state, turn protocol and routes before opening,
+style and samples. Cut first: inactive factions, unused stats, equipment
+catalogs, lore history. Read counts and limits from
+`hearthroom card validate --json` under `tokenBudget`.
 
 ## Play probes
 
@@ -152,6 +141,4 @@ once the author accepts the cost; `--history` shows recent messages.
 
 Pass means the card resolves the action, updates the state line, changes
 resource, risk, route, access or relationship, preserves player agency and
-offers a renewed hook. Fail means a manual reply, a forgotten state line, a
-dead end, a decorative resource or a written player action; repair the matching
-section above.
+offers a renewed hook.

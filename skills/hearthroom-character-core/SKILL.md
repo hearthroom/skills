@@ -66,15 +66,12 @@ Character-core packet:
 - next skill:
 ```
 
-Route it to `hearthroom-card-blueprint` when direction, world, voice or opening
-planning is still needed; `hearthroom-relationship-architect` when pacing,
-flirting, comfort loops or repair and rupture need design;
-`hearthroom-voice-director` for speaking style, catchphrase discipline,
-refusal voice or ensemble contrast; `hearthroom-opening-director` when the
-first scene must reveal the core; `hearthroom-longplay-architect` for
-progression, route state or memory; `hearthroom-card-author` when the author
-wants the files written; `hearthroom-chat-simulation` when `hearthroom play`
-transcripts show generic behavior.
+Route it to `hearthroom-card-blueprint` when world, voice or opening planning
+is still needed; `hearthroom-relationship-architect` when pacing, flirting or
+repair and rupture need design; `hearthroom-voice-director` when speaking
+style or ensemble contrast is the gap; `hearthroom-card-author` when the
+author wants the files written; `hearthroom-chat-simulation` when
+`hearthroom play` transcripts show generic behavior.
 
 ## Do not
 

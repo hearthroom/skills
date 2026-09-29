@@ -7,8 +7,8 @@ description: Use when an author wants a set, series, spin-off, alternate version
 
 Use this skill when the author wants several related cards from one promising
 character, relationship, world or creator concept. The output is a card-series
-packet, not card files and not a push. It keeps the shared core recognizable
-while forcing every variant to prove a different playable contract.
+packet, not card files. It keeps the shared core recognizable while forcing
+every variant to prove a different playable contract.
 
 ## Required references
 
@@ -17,15 +17,13 @@ Read `../../references/card-series-design.md` first and
 limits and the CLI loop. As needed: `../../references/archetype-contracts.md`
 for each variant's primary contract;
 `../../references/character-core-design.md` when the shared core is thin or
-unstable; `../../references/relationship-engine.md` when the main variant is
-relationship-heavy; `../../references/opening-design.md` when variant openings
-need first-screen proof; `../../references/longplay-design.md` when variants
-need distinct route memory; `../../references/play-engine-design.md` when a
-kept variant is `game`; `../../references/generator-design.md` when a kept
-variant is `generator`; `../../references/token-economy.md` when shared lore
-would bloat several cards; `../../references/boundary-design.md` when variants
-differ in intensity, rating or refusal posture;
-`../../references/card-authoring-templates.md` for the hand-off shape.
+unstable; `../../references/opening-design.md` when variant openings need
+first-screen proof; `../../references/longplay-design.md` when variants need
+distinct route memory; `../../references/play-engine-design.md` for a `game`
+variant; `../../references/generator-design.md` for a `generator` variant;
+`../../references/boundary-design.md` when variants differ in intensity,
+rating or refusal posture; `../../references/token-economy.md` when shared
+lore would bloat several cards.
 
 ## Workflow
 
@@ -43,7 +41,7 @@ differ in intensity, rating or refusal posture;
 Card-series packet:
 - current seed:
 - series goal:
-- shared core: identity, desire, contradiction, boundary, player leverage, relationship asymmetry, voice baseline, reusable motifs
+- shared core:
 - variant map: keep, merge, reject
 - variant contracts: per variant, primary archetype, card type, player promise, player role, unique pressure, opening proof, long-play loop, boundary posture, token target, field allocation, required hand-offs
 - overlap risks:
@@ -56,9 +54,9 @@ Card-series packet:
 Hand it to `hearthroom-card-blueprint` to blueprint one kept variant;
 `hearthroom-archetype-director` when a variant's contract is still contested;
 `hearthroom-character-core` when the shared core is copied as biography
-instead of behavior; `hearthroom-relationship-architect`,
-`hearthroom-daily-life-architect`, `hearthroom-scenario-architect`,
-`hearthroom-play-engineer`, `hearthroom-generator-architect`,
+instead of behavior; `hearthroom-daily-life-architect`,
+`hearthroom-scenario-architect`, `hearthroom-play-engineer`,
+`hearthroom-generator-architect`, `hearthroom-relationship-architect`,
 `hearthroom-opening-director`, `hearthroom-longplay-architect`,
 `hearthroom-boundary-designer` or `hearthroom-token-architect` for the weak
 layer of one kept variant; `hearthroom-card-author` to write and push real

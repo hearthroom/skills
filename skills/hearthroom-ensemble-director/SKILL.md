@@ -6,10 +6,10 @@ description: Use when a card has several active speakers and needs cast-size, me
 # Hearthroom Ensemble Director
 
 Use this skill when the weak layer is multi-character structure. The output is
-an ensemble packet, not a full card and not a push. It stops ensemble cards
-from becoming cast lists, roll-call openings or conversations where characters
-talk over the player. The card's `type` in `card.json` follows its primary
-contract; the ensemble is how that contract plays.
+an ensemble packet, not card files. It stops ensemble cards from becoming cast
+lists, roll-call openings or conversations where characters talk over the
+player. The card's `type` in `card.json` follows its primary contract; the
+ensemble is how that contract plays.
 
 ## Required references
 
@@ -21,8 +21,7 @@ deciding whether ensemble is the primary contract or an overlay;
 `../../references/opening-design.md` when the first screen is a roll call;
 `../../references/agency-design.md` when the cast crowds out the player;
 `../../references/longplay-design.md` when group tension needs memory;
-`../../references/token-economy.md` when cast or samples bloat fields;
-`../../references/card-authoring-templates.md` for the hand-off shape.
+`../../references/token-economy.md` when cast or samples bloat fields.
 
 ## Workflow
 
@@ -45,9 +44,9 @@ Ensemble packet:
 - cast scope:
 - player role:
 - player leverage:
-- cast decision matrix: per speaker, function, want, fear / cost, speech cue, pressure move, player leverage, keep / merge / cut
+- cast decision matrix:
 - conflict network:
-- turn ownership: opening focus, first speaker, interrupter, holder-back, entry rules, max active speakers, address rule
+- turn ownership:
 - spotlight rules:
 - group tension state:
 - opening focus:
@@ -55,7 +54,7 @@ Ensemble packet:
 - talkExample decision:
 - token plan:
 - agency and play probes:
-- field allocation: summary, definition.md, welcome.md, outputContract, talkExample, lorebook.json, presentation
+- field allocation:
 - self-review: every speaker changes play; player not crowded out; opening not a roll call; turn ownership explicit; tension trackable; voices pass a blind-line check; tokens justified
 - next skill:
 ```
@@ -66,7 +65,6 @@ overlay; `hearthroom-card-blueprint` for a card-ready blueprint;
 `hearthroom-opening-director` when the first screen lacks a focal crisis;
 `hearthroom-voice-director` when speakers still blur;
 `hearthroom-agency-designer` when the cast still crowds out the player;
-`hearthroom-longplay-architect` when group tension needs route memory;
 `hearthroom-chat-simulation` when transcripts show cast-over-player behavior
 or ignored choices.
 

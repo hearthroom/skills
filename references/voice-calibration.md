@@ -4,6 +4,12 @@ Use this reference when a card needs a stronger character voice, ensemble
 contrast, or consistency over long sessions. Voice is how the player
 recognises a character after many turns, even when the scene changes.
 
+Voice rules live in the definition; the register the model actually copies
+lives in the opening and the samples. When a voice card is sound but the
+replies still tremble, stack adjectives or narrate the player's feelings, the
+sample is teaching the wrong thing: fix it with `prose-texture.md` before
+adding rules.
+
 If the voice problem comes from a weak motive or missing player leverage,
 repair the core first with `character-core-design.md`; voice rules cannot
 compensate for a character with no pressure behaviour. Use

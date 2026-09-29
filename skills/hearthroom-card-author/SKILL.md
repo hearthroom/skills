@@ -31,6 +31,7 @@ Load the narrow reference only when that layer is the current blocker:
 `../../references/voice-calibration.md`,
 `../../references/talk-example-design.md`,
 `../../references/language-style.md`, `../../references/opening-design.md`,
+`../../references/prose-texture.md`,
 `../../references/longplay-design.md`,
 `../../references/state-economy-design.md`,
 `../../references/role-detail-engine.md`, `../../references/token-economy.md`,
@@ -71,6 +72,7 @@ Load the narrow reference only when that layer is the current blocker:
    - speaking style, blurred voices, refusal voice: `hearthroom-voice-director`
    - example conversations, omit or keep: `hearthroom-talk-example-curator`
    - script mixing, register, pronouns, translated cadence: `hearthroom-language-stylist`
+   - opening at full volume, trembling ellipses, stacked adjectives, template register: `hearthroom-opening-director` with `prose-texture.md`
    - opening repair, first reply path: `hearthroom-opening-director`
    - dead third turn, memory, progression: `hearthroom-longplay-architect`
    - which state to track, show or hide: `hearthroom-state-economist`
@@ -97,6 +99,10 @@ Load the narrow reference only when that layer is the current blocker:
      they will not do, what changes when the player pushes closer or away;
    - write speech as rhythm, vocabulary, address terms, tells and avoided
      phrasing, never as "natural", "gentle" or "like a real person";
+   - treat the opening and every sample as the reply the model will copy:
+     open below the climax, objects before feelings, whole sentences with an
+     ellipsis budget, one line that refuses the mood; do not add a style
+     rule the opening already contradicts (`prose-texture.md`);
    - write proactive rules: what the character asks, reveals, escalates or
      offers when the player is passive or stalls;
    - repair the chosen type directly: a companion needs relationship pressure

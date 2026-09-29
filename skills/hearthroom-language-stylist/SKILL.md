@@ -15,6 +15,9 @@ and not a new voice.
   `playerName` and `nickname`, register alignment, address matrix, Traditional
   Chinese cleanup, file pass, rewrite rules.
 - `../../references/platform-facts.md`: limits by language.
+- `../../references/prose-texture.md` when the prose is in one script and one
+  register but still reads generated: ellipsis budget, adjectives one at a
+  time, objects before feelings, similes rationed, stock gestures retired.
 - `../../references/voice-calibration.md` only when the pass exposes a real
   voice-rule conflict; `../../references/boundary-design.md` when the card is
   mature or coercion-adjacent and its rating posture is unclear.
@@ -23,7 +26,8 @@ and not a new voice.
 
 1. Confirm this is a language task: script, register, translated cadence,
    pronoun or address drift, punctuation, mixed-language tags, mismatch
-   between files.
+   between files, or template texture (trembling ellipses, stacked
+   adjectives, narrated player feelings) inside otherwise correct prose.
 2. Confirm the engine and opening are worth preserving; otherwise route to
    `hearthroom-card-doctor`, `hearthroom-card-blueprint` or
    `hearthroom-opening-director` first.

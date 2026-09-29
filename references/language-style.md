@@ -11,6 +11,9 @@ opening and voice rules; it never becomes a plot rewrite.
   inconsistent.
 - `voice-calibration.md`: rhythm, vocabulary, refusal style or behaviour
   under pressure is missing.
+- `prose-texture.md`: script and register are right but the words read
+  generated: opening at full volume, ellipsis in every line, stacked
+  adjectives, narrated player feelings.
 - `boundary-design.md`: mature or coercion-adjacent content lacks a rating
   posture, explicitness ceiling, refusal behaviour or agency contract.
 - `profile-packaging.md`: name, summary or tags do not say why to open the
@@ -99,6 +102,9 @@ without a relationship-state reason.
 - Do not soften conflict because a line became more natural.
 - Do not add lore, new feelings or new attraction.
 - Do not narrate the player's feelings, consent or next action.
+- Keep the texture pass from `prose-texture.md` while rewriting: an ellipsis
+  budget, adjectives one at a time, objects before feelings. Natural
+  phrasing that still trembles in every line is still a template.
 
 ## Verification
 

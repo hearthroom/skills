@@ -99,6 +99,7 @@ evidence shows one narrow blocker.
 | Cast talks over the player | Ensemble structure | definition, opening | `hearthroom-ensemble-director` |
 | Rules rolled back, identifiers unsupported, render pretty but inert | Display rules / presentation | `rules.json`, opening | `hearthroom-render-review`, `hearthroom-presentation-director` |
 | Mixed scripts, pronouns, register or tags | Language style | all fields | `hearthroom-language-stylist` |
+| Opening at full volume, ellipsis in every line, stacked adjectives, stop-motion replies | Prose texture | opening, examples, output contract | `hearthroom-opening-director`, `hearthroom-voice-director` (`prose-texture.md`) |
 | Playtest passes safety but feels generic | Character / voice / longplay | definition, examples | choose by transcript evidence |
 
 ## Field triage

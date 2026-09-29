@@ -13,6 +13,10 @@ full card.
 
 - `../../references/opening-design.md`: five beats, first reply path, second-turn
   engine, mode recipes, failure repairs.
+- `../../references/prose-texture.md`: the opening is the first reply sample
+  the model continues from, so its intensity, ellipsis budget,
+  objects-before-feelings and distinguishable voices are copied more
+  reliably than any style rule in the definition.
 - `../../references/platform-facts.md`: `welcome.md` is the opening and
   `openings/alt-NN.md` are alternates (`hearthroom play --greeting N` starts
   from one); `prologue` in `card.json` holds player-side suggested first
@@ -30,7 +34,8 @@ full card.
 
 1. Name the failure: greeting-only, lore before action, menu without scene,
    mood with no task, character waiting for the player, no player role, no
-   pressure, too long, or a second turn that can only restate the premise.
+   pressure, too long, a second turn that can only restate the premise, or a
+   first screen that is already the climax and reads like a template.
 2. Ask only for what blocks the opening: player role, card shape, what the
    character wants, place, pressure, content rating.
 3. Repair upstream first. Flat daily-life routine: `hearthroom-daily-life-architect`.
@@ -50,7 +55,10 @@ full card.
 8. Give a second starting situation its own `openings/alt-NN.md` instead of
    stretching one opening over both.
 9. State the token trade: what stays, what moves to `definition.md` or a
-   Lorebook entry, what is cut. Then self-review.
+   Lorebook entry, what is cut. Then self-review, including the texture
+   checks in `prose-texture.md`: the first screen sits at or below four on
+   the card's own intensity scale, at most two ellipses, no narrated player
+   feelings, objects before adjectives, one line that refuses the mood.
 
 ## Output
 
@@ -82,6 +90,7 @@ Self-review:
 - two or more reply paths change different things:
 - second turn changes state, relationship, risk, route or information:
 - player feelings, consent and actions left to the player:
+- texture: intensity <= 4, ellipses <= 2, objects before feelings, one dry line:
 ```
 
 ## Hand-off
@@ -97,6 +106,8 @@ Self-review:
 ## Do not
 
 - Do not polish a greeting. Replace it with a scene.
+- Do not open on the climax. A first screen at full volume leaves the second
+  turn nothing to do but repeat it.
 - Do not let choices carry the opening. Each choice must change response,
   information, relationship, state, risk or route.
 - Do not put the world bible in the opening.

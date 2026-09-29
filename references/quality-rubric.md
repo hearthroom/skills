@@ -156,6 +156,10 @@ repair; the owning reference has the method.
   and safer fallback before writing the opening (`boundary-design.md`).
 - Mixed scripts, drifting pronouns or register between fields: run a
   language-style pass (`language-style.md`).
+- Opening at the climax, ellipsis in every line, stacked adjectives, narrated
+  player feelings, or replies that tremble in one register whatever the
+  player does: the sample is teaching the register; run a texture pass on the
+  opening and samples rather than adding style rules (`prose-texture.md`).
 - Opening carries lore, durable rules or repeated monologue while the
   definition cannot sustain play after turn one: move the engine to the
   definition and rebuild the opening (`token-economy.md`).

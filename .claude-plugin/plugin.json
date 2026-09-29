@@ -1,0 +1,10 @@
+{
+  "name": "hearthroom",
+  "description": "Card-writing skills for Hearthroom: premise, character, Lorebook, openings, voice, state, presentation, diagnosis and iteration, driven through the hearthroom CLI.",
+  "version": "0.1.0",
+  "author": { "name": "Hearth Room", "email": "contact@hearthroom.club" },
+  "homepage": "https://github.com/hearthroom/skills",
+  "repository": "https://github.com/hearthroom/skills",
+  "license": "MIT",
+  "keywords": ["hearthroom", "skills", "character-cards", "creator-tools", "ai-agents"]
+}

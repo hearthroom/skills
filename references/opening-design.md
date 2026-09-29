@@ -30,6 +30,16 @@ chooses how to respond and never has to invent the main objective.
 - The opening limit depends on the card's language; read it from
   `tokenBudget.limits` in `hearthroom card push --validate --json`.
 
+## The opening is the first reply sample
+
+The opening is the first reply the model has been shown, and it continues
+from samples more reliably than it obeys rules. Style rules in the definition
+are read once; a register the opening demonstrates is copied. Keep the first screen at or
+below four on the card's own intensity scale, carry feeling through objects
+and sounds rather than adjectives, budget the ellipses, and make every
+speaker on the screen distinguishable; `prose-texture.md` has the checks and
+the repairs.
+
 ## The five beats
 
 1. Place and time: where and when the player is.
@@ -108,6 +118,8 @@ can only restate the premise, the opening is weak.
 | Game manual | defaults, state and the first crisis together |
 | Ensemble roll call | one focal speaker and one group pressure |
 | Two unrelated starts | split into `welcome.md` and an `openings/alt-NN.md` |
+| Opening is already the climax | open on the moment before or the morning after; keep the crisis as pressure (`prose-texture.md`) |
+| Trembling, adjective-stacked, narrated player feelings | texture pass: objects before feelings, whole sentences, ellipsis budget (`prose-texture.md`) |
 
 ## Self-review
 
@@ -120,3 +132,5 @@ can only restate the premise, the opening is weak.
 - Is the opening shorter than the definition, unless it is an interactive
   setup?
 - Are the player's feelings, actions and consent left to the player?
+- Is the first screen below the card's climax, with at most two ellipses and
+  one line that refuses the mood?

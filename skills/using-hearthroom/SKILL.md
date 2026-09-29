@@ -53,8 +53,8 @@ Route:
 | World seeds, factions, locations, lore that must become Lorebook entries | `hearthroom-world-engineer` |
 | Stakes, hook, why now, player leverage, a pretty but passive premise | `hearthroom-tension-weaver` |
 | Player agency, spectator openings, decorative choices, route funnelling | `hearthroom-agency-designer` |
-| The opening, alternate openings, first reply paths, second-turn move | `hearthroom-opening-director` |
-| Voice, generic dialogue, catchphrase overuse, speakers blending | `hearthroom-voice-director` |
+| The opening, alternate openings, first reply paths, second-turn move, an opening that is already the climax | `hearthroom-opening-director` |
+| Voice, generic dialogue, catchphrase overuse, speakers blending, replies that tremble or stack adjectives in one register | `hearthroom-voice-director` |
 | Example conversations: omit, micro-samples, or full examples | `hearthroom-talk-example-curator` |
 | Which state to track, show, hide or drop; status panels | `hearthroom-state-economist` |
 | Multi-session play, dead third turns, repetitive loops, progression | `hearthroom-longplay-architect` |

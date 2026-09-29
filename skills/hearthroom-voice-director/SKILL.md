@@ -15,6 +15,10 @@ dialogue. The output is a voice packet with patch targets, not a full card.
 - `../../references/character-core-design.md` when the voice fails because the
   motive, player leverage or pressure behaviour is missing.
 - `../../references/talk-example-design.md` when deciding on examples.
+- `../../references/prose-texture.md` when the voice rules are sound but the
+  replies still tremble, stack adjectives, narrate the player's feelings or
+  come back in one breathless register; the opening and samples are what the
+  model copies, so patch them before adding another rule.
 - `../../references/ensemble-card-design.md` when speakers blur because cast
   function or turn ownership is unclear.
 
@@ -22,8 +26,9 @@ dialogue. The output is a voice packet with patch targets, not a full card.
 
 1. Diagnose: generic assistant tone, mood labels instead of behaviour,
    catchphrase as identity, drift over long sessions, refusal that breaks
-   character, exposition voice, ensemble blur, or dialogue that decides the
-   player's feelings.
+   character, exposition voice, ensemble blur, dialogue that decides the
+   player's feelings, or a template register (ellipsis in every line,
+   stacked adjectives, stock gestures) that the opening itself taught.
 2. If the character has no desire, contradiction, boundary or player leverage,
    route to `hearthroom-character-core` first. Style cannot rescue a character
    with no pressure behaviour.

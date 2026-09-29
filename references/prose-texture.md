@@ -19,6 +19,21 @@ stake loses to a clumsy one that hands the player a question they want
 answered. Texture decides between two cards that both have a hook; it does
 not make a hook. Run `tension-triangle.md` before this reference, not after.
 
+## Where texture bites
+
+Texture matters most where nothing else carries the turn: a single
+character, one relationship, no resources or cast to move. There, the
+register of the replies is most of what the player gets, and the trembling
+register (broken speech, begging, one held breath per paragraph) is the
+commonest way such a card dies. Mature or romance cards that open on a plea
+are the sharpest case; fix the intensity curve there before anything else.
+
+Game, simulator and world cards are more forgiving. A working economy, a
+cast with their own agendas or a turn protocol will keep players through
+prose that would sink a companion card. Spend the texture pass on the first
+screen and the sample, then let the loop do its work; do not polish a
+simulator's status prose while its rules are still thin.
+
 ## The model copies the sample, not the rule
 
 A card carries two kinds of style instruction. Rules ("do not repeat", "avoid

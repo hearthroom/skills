@@ -75,7 +75,6 @@ Route:
 | Over the limits, overlong opening, duplicated lore, token cost | `hearthroom-token-architect` |
 | Behaviour or format still drifts although the fields are coherent | `hearthroom-instruction-guardrail` |
 | Plain text vs HTML, what goes on screen, display rules, chat page, sandbox scripts, status bars, beautification | `hearthroom-presentation-director` |
-| `hc-*` HTML card components, attributes, safe usage | `hearthroom-html-card-components` |
 | A `card render` report, the play page open, a screenshot, overflow or contrast | `hearthroom-render-review` |
 | Turning a direction into a card-ready plan | `hearthroom-card-blueprint` |
 | Writing the actual fields into the card folder | `hearthroom-card-author` |

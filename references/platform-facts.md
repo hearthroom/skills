@@ -77,11 +77,15 @@ validation report rather than hard-coding them.
 ## Lorebook
 
 An entry has `name`, `content`, `keywords`, `secondaryKeywords`, `constant`,
-`disabled`, `triggerRegion` and `matchOptions` (`caseSensitive`,
-`matchWholeWords`, `selectiveLogic` 0–3: any secondary present, not all
-present, none present, all present). A keyword written as `/pattern/flags` is
-a regular expression; lookaround and backreferences work but run under a
-timeout; an invalid pattern is not treated as literal text.
+`disabled`, `triggerRegion` (stored and exported, not used by recall) and
+`matchOptions`: `selective` (whether secondary keywords apply),
+`selectiveLogic` 0–3 (any secondary present, not all present, none present,
+all present), `caseSensitive`, `matchWholeWords`, `scanDepth` (0–100),
+`order` (stable author order among newly admitted entries), `groupId` /
+`groupOrder` (pieces of one long entry) and `extensions` (kept from imports,
+never executed). A keyword written as `/pattern/flags` is a regular
+expression; lookaround and backreferences work but run under a timeout; an
+invalid pattern is not treated as literal text.
 
 How entries reach the model in a normal conversation:
 
@@ -129,6 +133,23 @@ model never sees the result.
 - Limits: one replacement at most 128 KB; the whole rule set at most 32 MB.
 - `mountLayer`: `under`, `over` or `cover`. `cardFormat`: `mmd` or `tavern`
   (how `<style>` in rules is scoped).
+
+On the sandbox page the result then passes a sanitizer before display:
+
+- Tags outside an allowlist are removed and their text kept. The allowlist is
+  ordinary HTML (`div`, `span`, `p`, headings, lists, `table`, `img`, `a`,
+  `button`, `input`, `textarea`, `select`, `details` / `summary`, `progress`,
+  `meter`, `canvas`, `video`, `audio`, `svg` and its shapes, and more). Custom
+  elements and tags with Chinese characters such as `<状态>` are not on it, so
+  a marker the model must emit for a rule should use square brackets
+  (`[status]…[/status]`) or be consumed by a rule before display.
+- `<script>` and `<style>` inside a message are dropped there: rule scripts
+  and styles are extracted once when the card loads. `iframe`, `form`,
+  `object`, `embed` are unwrapped.
+- `data-*`, `aria-*` and `role` attributes written by the author are removed;
+  `on*` handlers on ordinary elements are kept (that is how card buttons
+  work); `on*` inside `<svg>` and `javascript:` URLs are removed.
+- The provider's `card render` shows the text before this sanitizer runs.
 
 `hearthroom card render` runs these rules on the provider with the same engine
 the play page uses and returns `rendered`, `rules[]` with one `status` per
@@ -188,24 +209,21 @@ Sidebars docked flush to an edge and about 48 px wide or less get room made
 for them automatically; `--lt-dock: left|right|none` on the element overrides
 detection.
 
-## HTML card components
+## HTML in openings and replies
 
-Inside a reply or an opening, these `hc-*` elements and classes render on the
-play page: `hc-btn` (`send`, `copy`, `bg`, `w`), `hc-bar`, `hc-meter`,
-`hc-stat`, `hc-tabs` / `hc-tab`, `hc-list` / `hc-item`, `hc-collapse`,
-`hc-toggle`, `hc-form` / `hc-input` / `hc-checkbox` / `hc-radio` / `hc-option`,
-`hc-choices`, `hc-alert`, `hc-notice`, `hc-tag`, `hc-badge`, `hc-panel`,
-`hc-card`, `hc-quote`, `hc-speaker`, `hc-avatar`, `hc-info-row`, `hc-hr`,
-`hc-p`, layout helpers (`hc-f`, `hc-fw`, `hc-fj`, `hc-g`, `hc-c`, `hc-d`,
-`hc-h`, `hc-mt`, `hc-mb`, `hc-my`, `hc-pt`, `hc-pb`), tones (`hc-primary`,
-`hc-secondary`, `hc-success`, `hc-warning`, `hc-danger`, `hc-soft`, `hc-dark`,
-`hc-light`) and backgrounds (`hc-bg-dark`, `hc-bg-night`, `hc-bg-glass`,
-`hc-bg-dim`, `hc-bg-aurora`, `hc-bg-gold`, `hc-bg-blood`, `hc-bg-forest`,
-`hc-bg-blue`, `hc-bg-cyan`, `hc-bg-green`, `hc-bg-orange`, `hc-bg-pink`,
-`hc-bg-purple`, `hc-bg-red`), plus effects `hc-glow`, `hc-glow-text`,
-`hc-gradient-text`, `hc-shimmer`, `hc-pulse`, `hc-pulse-border`,
-`hc-text-outline`, `hc-shadow`. `card render` lists the ones a rendered opening
-uses under `report.components`.
+Openings and replies may contain HTML; the chat page renders it, and display
+rules add `<style>` and `<script>` around it. Write ordinary HTML and CSS.
+
+The `hc-*` custom elements and classes (`hc-btn`, `hc-bar`, `hc-stat`,
+`hc-tag`, `hc-collapse`, `hc-form` and the `hc-bg-*` / `hc-glow` classes) are
+a legacy of the classic chat page: only the classic page registers them and
+loads their stylesheet. The sandbox page, which new cards use by default,
+does not, so there an `<hc-btn>` renders as an unknown empty element. Do not
+write `hc-*` markup for new cards. For a button that sends a player line on
+the sandbox page, use a display rule with a plain `<button>` and
+`sdk.message.send(text)`; for bars, facts and panels, use plain HTML and CSS
+in the rule's replacement. `card render --json` still lists `hc-*` classes it
+finds under `report.components` so imported classic-page cards can be spotted.
 
 ## The CLI loop
 

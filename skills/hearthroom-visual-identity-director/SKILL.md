@@ -18,8 +18,8 @@ readiness note. The platform does not generate images; the author supplies them.
   are uploaded by `card push`.
 - `../../references/profile-packaging.md` when the promise in `name`, `summary`,
   or tags is weak.
-- `../../references/presentation-design.md` when display rules or `hc-*`
-  components must carry the same visual promise.
+- `../../references/presentation-design.md` when display rules or opening
+  HTML must carry the same visual promise.
 
 ## Workflow
 

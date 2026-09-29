@@ -47,8 +47,8 @@ Check these in order.
 6. Format sanity: check Markdown heading hierarchy in `definition.md` (one H1,
    no skipped levels), JSON validity of `card.json`, `lorebook.json` and
    `rules.json`, exact spelling of `{{char}}` and `{{user}}`, and that HTML in
-   the opening uses only the `hc-*` components listed in
-   `html-card-components.md`; never invent tags or attributes. A status line
+   the opening is plain HTML and CSS with no custom elements the page does
+   not register. A status line
    the model must write belongs in the output contract with its drawing rule
    in `rules.json`; never store the player's feelings, consent or chosen route
    as state. Every Lorebook entry has a descriptive `name`, `content`, and
@@ -88,7 +88,7 @@ Field finalization packet:
   - definition:
   - opening:
   - example conversations:
-- format checks: Markdown | HTML (hc-* only) | JSON files | status line
+- format checks: Markdown | HTML (plain, no unregistered custom elements) | JSON files | status line
 - placeholder / meta check:
 - file mapping: card.json | definition.md | welcome.md and openings | lorebook.json | rules.json | assets/
 - validate / render / play hand-off:

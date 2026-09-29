@@ -14,7 +14,6 @@ play page (a browser). Without evidence, route to
 
 Read the display rules and chat pages sections of
 `../../references/platform-facts.md`. Read
-`../../references/html-card-components.md` when components are involved and
 `../../references/presentation-design.md` when the plan itself may be wrong.
 
 ## Workflow
@@ -30,8 +29,10 @@ Read the display rules and chat pages sections of
      the fix is usually `pageMode: sandbox` in `rules.json`.
    - `report.scripts`, `inlineHandlers`, `externalUrls`: confirm they are
      intended. Scripts cannot fetch external URLs on the sandbox page.
-   - `report.components` and `tags`: confirm the components you planned are
-     present and nothing is nested absurdly.
+   - `rendered`, `report.tags` and the rule statuses: confirm the HTML blocks
+     and rules you planned are present and nothing is nested absurdly.
+     `report.components` is only a signal that an imported classic-page card
+     still uses legacy component markup the sandbox page does not render.
    - `rendered`: read it as the player would; check the marker the model
      emits was consumed and nothing leaked as raw text.
 2. If a browser is available, open `previewUrl` at a phone width (about

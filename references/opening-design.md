@@ -25,7 +25,7 @@ chooses how to respond and never has to invent the main objective.
   file-name order; `hearthroom play --greeting N` starts from alternate N.
 - `prologue` in `card.json`: suggested first lines for the player, offered as
   choices. Player side only; never the character's first message.
-- Plain text or HTML. `hc-*` components render on the play page;
+- Plain text or HTML. Plain HTML and CSS render on the play page;
   `hearthroom card render --json` shows the opening after display rules.
 - The opening limit depends on the card's language; read it from
   `tokenBudget.limits` in `hearthroom card push --validate --json`.
@@ -63,8 +63,9 @@ authority figure, the first option set carries an authority opposition axis:
 at least one comply path and at least one resist path. Jokes and chaos are
 tone, not resistance, unless they actually oppose the authority.
 
-Choices can be plain lines in the opening, `prologue` entries, or `hc-*`
-choice components; `hearthroom-presentation-director` decides which.
+Choices can be plain lines in the opening, `prologue` entries, or plain HTML
+choice buttons in a display rule; `hearthroom-presentation-director` decides
+which.
 
 ## Second-turn engine
 

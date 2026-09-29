@@ -83,7 +83,7 @@ shows a cost. If it only explains the setting, the scenario is not ready.
   entries so later reveals stay consistent.
 - `talkExample` (`card.json`): micro-samples only when narrator or suspect
   pressure style would otherwise drift.
-- presentation: a short clue, risk or route panel with `hc-*` components only
+- presentation: a short clue, risk or route panel in plain HTML only
   when it makes action clearer.
 
 ## Play probes

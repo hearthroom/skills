@@ -50,7 +50,7 @@ markers.
 ## Layers
 
 Profile packaging decides the promise in words. Visual identity turns it into
-briefs. Presentation decides display rules, `hc-*` components, and first-screen
+briefs. Presentation decides display rules, opening HTML, and first-screen
 hierarchy. Render review checks actual output. If a visual idea changes the
 engine, route back to the writing skill.
 

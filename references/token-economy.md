@@ -118,7 +118,7 @@ before cutting that structure.
 | summary | player role, situation, tension | rules, lore names | mood stacks, duplicate clauses | one scannable promise |
 | definition | durable engine, voice, boundaries, state rules | hidden opening rules; sometimes-needed lore to Lorebook | trivia, ornamental lists | compact labeled sections |
 | opening | place and time, role action, pressure, player implication, reply paths | lore, rules, route logic | duplicated monologues, long panels | one playable scene |
-| HTML in opening or replies | components that show state, action or route | reusable styling to display rules | decoration with no action value | plain text first, `hc-*` only when it earns its place |
+| HTML in opening or replies | components that show state, action or route | reusable styling to display rules | decoration with no action value | plain text first, HTML only when it earns its place |
 | Lorebook | facts with clear triggers | always-needed facts to the definition | entries nothing triggers | descriptive names, short content |
 | example conversations | small pressure samples when voice drifts | repeated monologue | samples that teach nothing | 2-4 micro-samples tied to behavior |
 
@@ -144,8 +144,8 @@ Visual structure earns tokens only when it clarifies what the player can do
 now, what state changed, which route or mode is active, or what mood or risk
 frames the scene. Put reusable style into display rules and let the model emit
 only the current beat, changed values, consequences and next actions. Check the
-result with `hearthroom card render --json`: `report.components` lists what the
-opening uses, and per-rule statuses show which rules actually fire.
+result with `hearthroom card render --json`: `rendered` and `report.tags` show
+what the opening uses, and per-rule statuses show which rules actually fire.
 
 ## Self-review
 

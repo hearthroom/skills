@@ -15,7 +15,7 @@ Read `../../references/field-finalization.md` first and
 `../../references/platform-facts.md` for the folder layout and limits. Read
 `../../references/card-authoring-templates.md` when the draft needs the final
 field-authoring packet, `../../references/token-economy.md` when lengths or
-allocation are uncertain, and `../../references/html-card-components.md` when
+allocation are uncertain, and `../../references/presentation-design.md` when
 the opening contains HTML.
 
 ## Workflow
@@ -37,7 +37,8 @@ the opening contains HTML.
 5. Prepare a compact fallback for any field near its limit.
 6. Check format: one H1 and no skipped levels in `definition.md`; valid JSON
    in `card.json`, `lorebook.json` and `rules.json`; `{{char}}` and `{{user}}`
-   spelled exactly; only `hc-*` components in opening HTML; the status line
+   spelled exactly; opening HTML is plain HTML and CSS with no custom elements
+   the page does not register; the status line
    shape, if any, declared in the output contract with a matching display
    rule. Unsettled layout goes to `hearthroom-presentation-director` or
    `hearthroom-render-review`, not into a guess.

@@ -57,7 +57,7 @@ Next skill; ready: yes | no; missing author input
 - `hearthroom-card-blueprint`: concept still needs ideation.
 - `hearthroom-card-author`: fields can be drafted now.
 - `hearthroom-presentation-director`: visible state or layout for display rules
-  or `hc-*` components.
+  or opening HTML.
 
 ## Do not
 

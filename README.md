@@ -64,7 +64,7 @@ your agreement, `play --allow-spend`.
 - Sources and framing: material distiller, originality adapter, sample
   calibrator, profile packager, visual identity director, boundary designer,
   language stylist, detail engineer, token architect, instruction guardrail.
-- Presentation: presentation director, HTML card components, render review.
+- Presentation: presentation director, render review.
   Status bars, themes and full custom pages are routed to the open-source
   [tavern-mmd](https://github.com/yofengi/tavern-mmd) skill; Hearthroom's
   sandbox page runs the same author API as MMD's new-style sandbox, and

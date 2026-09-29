@@ -32,7 +32,7 @@ manual; `../../references/token-economy.md` when rules or panels bloat fields.
 4. Write the core loop, a compact state model of 5-9 fields that change future choices, and the state line every reply carries in the output contract.
 5. Define resource rules and 2-3 quest or risk routes with trigger, approaches, pressure, cost, risk, reward, failure-forward outcome and renewed hook.
 6. Write the turn protocol, failure-forward behavior, lethal-route warnings and progression phases.
-7. Write the opening contract and state visibility: what the state line shows and whether a display rule in `rules.json` turns it into a bar. If the first screen needs setup controls, follow the console pattern in `system-intake-card-design.md`: scene beat first, then panel, form and choices as `hc-*` components.
+7. Write the opening contract and state visibility: what the state line shows and whether a display rule in `rules.json` turns it into a bar. If the first screen needs setup controls, follow the console pattern in `system-intake-card-design.md`: scene beat first, then panel, setup inputs and choices as plain HTML and CSS, with send buttons in a display rule.
 8. Set field allocation and token plan, write the play probes, run the self-review.
 
 ## Hand-off

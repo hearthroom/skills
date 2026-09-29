@@ -120,7 +120,7 @@ be alternate openings in `openings/alt-NN.md`; `play --greeting N` tests each.
 - `lorebook.json`: locations, factions, item tables and route notes as
   keyword-triggered entries named by content. Constant entries only for rules
   needed every turn; keep them few and short.
-- presentation: `hc-*` components in the opening and display rules in
+- presentation: plain HTML and CSS in the opening and display rules in
   `rules.json`, only where they help the player act.
 
 Spend tokens on the loop, state, turn protocol and routes before opening,

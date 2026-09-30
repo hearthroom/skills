@@ -208,7 +208,10 @@ The sandbox author API is identical to the new-style sandbox on Meimo Island
   click), `sdk.save.get/set/remove/keys` (at most 10 keys per card per player,
   64 KB each, kept across devices), `sdk.cache.*` (this page load only),
   `sdk.stage.open('content'|'full')/close/el/visible`, `sdk.role.get()`,
-  `sdk.user.get()`, `sdk.on(event, handler)`, `sdk.debug.log(...)`
+  `sdk.user.get()` (name, avatar and `locale`, the player's interface
+  language such as `zh-Hans`), `sdk.text.convert(text)` and
+  `sdk.text.ready()` (see Chinese script below), `sdk.on(event, handler)`,
+  `sdk.debug.log(...)`
   (`?sdkDebug=1` shows the panel).
 - Events: `ready`, `message:new`, `message:mount`, `message:stream`,
   `message:done`, `message:unmount`, `input:change`, `conversation:switch`,
@@ -234,6 +237,24 @@ The sandbox author API is identical to the new-style sandbox on Meimo Island
 - The page runs in a cross-origin iframe. Browser automation can take
   screenshots and accessibility snapshots of it but cannot script it, and
   device APIs such as viewport segments may report a single segment there.
+- Chinese script (Simplified or Traditional) follows the player's interface
+  language, as a display step only: stored and sent text stays as written.
+  After the rules run, the page converts visible text nodes of replies and of
+  the function bar. It does not convert attributes (`title`), CSS `content`,
+  `<script>` / `<style>`, subtrees marked `translate="no"` or
+  `class="notranslate"`, or text a card script creates. It also leaves a
+  string alone when it cannot tell the source script, which catches single
+  characters and short mixed labels. `find` patterns match both scripts
+  (the server widens each Chinese character to a class). The converter loads
+  on demand; `sdk.text.ready()` resolves once it has, and
+  `sdk.text.convert(text)` converts a string the same way.
+- A card script that reads reply text back sees the player's script, not the
+  one the card was written in. Normalise it to the card's script before
+  matching or hashing, with a complete single-character table so the result
+  is not half one script and half the other (the converter will not convert
+  a mixed string back). Text the script draws itself needs `sdk.text.convert`
+  plus a small character table for short labels; CSS `content` strings need
+  a variant per script.
 - The site header is `[data-chat="header"]`; the classes inside it are site
   internals. A card that moves its own bar into the header must fall back to
   `[data-slot="statusbar"]` when the header is hidden or changes.

@@ -252,11 +252,14 @@ The sandbox author API is identical to the new-style sandbox on Meimo Island
   one the card was written in. Normalise it to the card's script before
   matching or hashing, with a complete single-character table so the result
   is not half one script and half the other (the converter will not convert
-  a mixed string back). Normalise only when the player's script differs from
-  the card's; a same-script player must see the text untouched. Build the
-  table from OpenCC's character file and skip characters that are also
-  correct in the target script (卷, 后, 里 in Traditional), or it rewrites
-  correct text (卷 becomes 捲). Text the script draws itself needs `sdk.text.convert`
+  a mixed string back). Normalisation runs in both directions and only on a
+  mismatch: a Traditional card read by a Simplified player normalises to
+  Traditional, a Simplified card read by a Traditional player normalises to
+  Simplified, and a same-script player sees the text untouched. For the
+  one-to-many direction (Simplified to Traditional), take OpenCC's first
+  candidate but keep a character the card itself uses as written (卷, 里, 后),
+  or correct text is rewritten (卷 becomes 捲); do not drop such characters
+  from the table altogether, or strings stay half converted (青云崖·拂曉). Text the script draws itself needs `sdk.text.convert`
   plus a small character table for short labels; CSS `content` strings need
   a variant per script.
 - The site header is `[data-chat="header"]`; the classes inside it are site

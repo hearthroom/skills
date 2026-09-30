@@ -93,6 +93,20 @@ opening → voice → state → blueprint → author → finalizer → push + va
 render → playtest → iterate → publish readiness. Skip stages the author has
 already settled; do not reopen a chosen direction unless asked.
 
+## Feed lessons back into these skills
+
+While or after working on a card, if a skill or reference here was wrong,
+missing, or only learned the hard way (a platform fact, a layout rule, a
+model behaviour, a test that would have caught it earlier), update this
+toolkit as well as the card:
+
+1. Edit the skill or reference that should have told you, in general terms:
+   no card names, ids, private content or credit balances.
+2. Run `npm run validate` and `npm test` in the toolkit.
+3. Commit it with the repository's own author identity.
+4. Tell the person you are working with what changed and why. Push only after
+   they agree.
+
 ## Do not
 
 - Do not route a display-rule, sandbox-script or beautification request to a

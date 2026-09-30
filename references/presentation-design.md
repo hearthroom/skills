@@ -126,6 +126,9 @@ A reply is read before it is answered. On every screen:
 - On a two-page layout the page opposite the text is the control area: it
   keeps the scene art and state while the reader reads, and turns into the
   choice list at the end. The reading page is never covered.
+- While the model is replying, close every panel and show one "writing"
+  indicator, in the page. A panel that reopens because the reply page is not
+  in the reading state shows a second indicator and covers the text.
 
 ## Screens, rotation and foldables
 
@@ -191,6 +194,12 @@ The guideline pages are rendered by script; their text is available as JSON
 at `https://developer.apple.com/tutorials/data/design/human-interface-guidelines/<page>.json`,
 and developer articles at `https://developer.apple.com/tutorials/data/documentation/<path>.json`.
 
+A two-page layout reads as a book only when both pages are the same width,
+open or half-folded; give the whole spread a maximum width instead of letting
+one page grow. With two pages, the header should look like a book's running
+head (chapter title centred, quiet tabs) and drop state that the pages
+already show.
+
 Small layout traps found on these screens:
 
 - `letter-spacing` adds space after the last character, so centred spaced
@@ -200,6 +209,12 @@ Small layout traps found on these screens:
 - A scrolling child of a flex column needs `min-height: 0`, or it pushes the
   rows after it (page controls, a close button) off screen on short
   viewports.
+- A state rule written for another mode (an "expanded" or "peek" class) can
+  reset the scroll container's `overflow` to `visible`; touch scrolling then
+  passes to the page behind. Check the computed `overflow-y` of every panel
+  list in every state, at a short height.
+- `flex-basis: 0` does not give equal columns when the columns have
+  different padding; give each page an explicit share of the width.
 
 ## Presentation packet
 

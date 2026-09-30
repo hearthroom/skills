@@ -46,7 +46,7 @@ Card shape; language; engine preserved
 Promise proof (player role, anchor, tension, first-scene proof, non-generic detail)
 Portrait brief; background brief; negative notes
 Consistency: name/summary | opening | display rules | readable small | original
-Asset readiness: assets/portrait | assets/background | next action
+Asset readiness (two backgrounds: portrait 9:16 baseline, landscape 16:9 for wide screens, safe area central 75%): assets/portrait | assets/background | next action
 Next skill
 ```
 

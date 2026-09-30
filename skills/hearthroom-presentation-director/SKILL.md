@@ -31,6 +31,11 @@ pages and HTML in openings and replies sections of
    model emits and the rule that renders it, following the status bar steps
    in the reference.
 5. Choose the chat page. Default to sandbox; state the reason for classic.
+   If the card takes over the whole page, plan it with the full-page,
+   reading-first and screen-shape sections of the reference: which layout
+   each area shape gets, where the choices appear and when, what the player
+   confirms before a paid send, and which effects the script derives from
+   markers the model already writes.
 6. If the author wants a status bar, a global theme, floating panels or a
    full custom chat page, route to the `tavern-mmd` skill as the reference
    describes and plan the import back into the card folder.
@@ -47,5 +52,7 @@ next (`card import`, `card push --validate`, `card render --json`).
 - Do not write display rules whose only purpose is to hide text from the
   player that the model needed anyway.
 - Do not promise page-specific behaviour the facts sheet does not list.
+- Do not let a choice panel open over, or shrink, text the reader has not
+  finished.
 - Do not vendor another toolkit's files; reference them and import their
   output through the CLI.

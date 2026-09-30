@@ -77,6 +77,110 @@ identifiers expected under `report.unsupported` for a sandbox card are
 `sdk.vars` and `<abc_vars>`; anything else means the kit targeted the wrong
 page. Do not copy that skill's files into this toolkit; reference it.
 
+## Derive the screen from what the model already writes
+
+The strongest presentation adds no work for the model. Faces, colours, maps,
+struck-through lines, badges and scene art can all be computed by the rule
+script from markers the reply already carries (a meter value, a scene title,
+a quoted line). Reactions the model should not spend tokens on (the narrator
+noticing the player hovering over a choice, idling, cancelling twice) can be
+written once in the script and labelled as outside the story. Every such
+effect must serve what the scene is about; a feature with no tie to the
+card's core loop is decoration, whatever it costs to build.
+
+## Full-page layouts: the chat list as transport
+
+A sandbox card may cover the whole chat page with its own layout (a book, a
+dossier, a stage) and leave the message list underneath as the transport.
+
+- A fixed overlay below the site header, sized to the visual viewport so the
+  keyboard does not hide it. The composer and the list keep working below.
+- One page per reply, built from the rendered message and cached per
+  conversation (see the facts on message ids and the virtualised list).
+  While a reply streams, draw it from `message:stream`; before the reply
+  mounts, show the player's line on a pending page so the tap visibly did
+  something.
+- A tap that sends a line spends credits: show what will be sent and let the
+  player confirm, rewrite or cancel. While the model writes, show that it is
+  writing inside the overlay, because the overlay hides the list's own
+  indicator.
+- Effects the site would draw on `author-stage` are drawn inside the overlay
+  when it covers the stage. Keep a switch back to the plain chat page.
+
+## Reading first, choosing second
+
+A reply is read before it is answered. On every screen:
+
+- Show the choices only when the reader has reached the true end of the
+  reply (a few pixels from the bottom), or when they ask for them.
+- Revealing choices must not shrink or cover text the reader has not read.
+  Float the choice panel over the page and scroll the text up so the last
+  line sits just above it; do not re-expand a collapsed page header at the
+  same moment.
+- A panel that would cover the text beside it (a side panel) never opens by
+  itself; at the end of the reply its tab only draws attention.
+- Every panel closes by an explicit button and by swiping it back out. Once
+  the reader closes it, it does not reopen until they scroll well away (a
+  share of the scrollable distance, not a fixed pixel count, since short
+  replies barely scroll) and come back.
+- On a two-page layout the page opposite the text is the control area: it
+  keeps the scene art and state while the reader reads, and turns into the
+  choice list at the end. The reading page is never covered.
+
+## Screens, rotation and foldables
+
+Choose the layout from the available size and shape, never from a device
+name or from orientation alone.
+
+| Shape of the available area | Layout | Choices |
+|---|---|---|
+| wide and landscape (desktop, tablet, foldable opened sideways) | two pages | always shown on large screens; on smaller ones on the control page at the end |
+| portrait, height under about 1.75 x width (A-series paper shapes, square-ish inner screens, small cover screens) | one page | side panel on request |
+| tall phone | one page, header collapses while reading | bottom sheet at the end |
+| short landscape (phone on its side) | one page, compact header | side panel on request |
+| half-folded, hinge horizontal (tent or laptop pose) | text on the upper half | lower half, always shown |
+| half-folded, hinge vertical (book pose) | two pages, spine on the hinge | page after the hinge |
+
+Browser support for foldables:
+
+- Chrome and Chromium browsers on Android expose `window.viewport.segments`
+  (Chrome 138; an earlier trial used `visualViewport.segments`) and
+  `navigator.devicePosture` with `folded` and `continuous` (Chrome 131). CSS
+  has `device-posture`, `horizontal-viewport-segments`,
+  `vertical-viewport-segments` and `env(viewport-segment-*)`.
+- Safari has neither in release builds. On iPhone foldables the card can
+  only see the viewport size.
+- Inside the sandbox iframe the segments are often not reported even when
+  the posture is. The hinge direction then has to be inferred: on an
+  elongated screen (long side at least 1.3 x the short side) the hinge
+  halves the long side whatever the rotation; on a near-square screen the
+  hinge is vertical at the screen's natural rotation (0 or 180 degrees) and
+  horizontal at 90 or 270. A rule based on aspect ratio alone gets one family
+  of devices exactly backwards.
+- Offer a manual setting (automatic, top and bottom, left and right, off) and
+  print the detection result (viewport, rotation, posture, segment count,
+  chosen layout) in the card's settings, so a tester can report it from a
+  device you cannot emulate.
+
+Apple's guidance for its foldable iPhone (Tech Talk "Prepare your app for
+iPhone Duo", 2026) moves navigation and toolbar buttons from the top and
+bottom edges to the side on the cover display, centres sheets on the inner
+display, and asks for layouts driven by size, not orientation, tested in
+every pose. Summaries of the matching Human Interface Guidelines page add:
+in the tent pose, glanceable content on top and controls below; in the book
+pose, displaced elements move toward the trailing edge; nothing important in
+the fold.
+
+Small layout traps found on these screens:
+
+- `letter-spacing` adds space after the last character, so centred spaced
+  text sits left of centre; add an equal `text-indent`.
+- A column with `justify-content: center` clips its top when the content
+  overflows; use `safe center`.
+- A scrolling child of a flex column needs `min-height: 0`, or it pushes the
+  rows after it (page controls, a close button) off screen on short
+  viewports.
+
 ## Presentation packet
 
 ```text
@@ -90,7 +194,9 @@ Presentation:
 - page mode: sandbox | classic (reason)
 - scripts and saves: none | (what they do; sandbox only)
 - kit used: none | tavern-mmd <command>
-- render plan: card render, then play page at 390px and 1280px
+- layouts: (area shape, layout, where the choices appear)
+- render plan: card render, then the play page at 390x844, a short landscape
+  phone, a square-ish unfolded screen (about 900x640), 1280px desktop
 - hand-off:
 ```
 

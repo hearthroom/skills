@@ -139,6 +139,20 @@ model never sees the result.
 - Relative media sources (`<img src="x">`) are neutralised to `data:,` so a
   broken-image `onerror` boot still fires without hitting the site.
 - Limits: one replacement at most 128 KB; the whole rule set at most 32 MB.
+  The 128 KB counts UTF-8 bytes, so comments in Chinese cost three bytes a
+  character. A large script is easier to keep under it when the build strips
+  whole-line comments and indentation, and when script and stylesheet live in
+  two rules that the same function-bar trigger mounts.
+- Only literal relative paths written in a rule (`"assets/art/a.webp"`) are
+  detected and uploaded on push. A path assembled at runtime
+  (`"assets/art/" + id`) is not found; list every file literally, for example
+  in a lookup table.
+- Markers the model emits: a rule that consumes an angle-bracket marker such
+  as `<scene>…</scene>` works, because rules run before the sanitizer; a
+  marker no rule matches is stripped silently. Some models drop the closing
+  tag, so write `(?:</scene>)?` or stop at the next `<`. The page's Markdown
+  pass can join the lines inside a marker into one line, so parse fields by
+  key name (`hp=…`), not by line breaks.
 - `mountLayer`: `under`, `over` or `cover`. `cardFormat`: `mmd` or `tavern`
   (how `<style>` in rules is scoped).
 
@@ -205,6 +219,24 @@ The sandbox author API is identical to the new-style sandbox on Meimo Island
   `BUSY`, `NOT_SUPPORTED`.
 - Not provided anywhere: MMD's platform state variables (`sdk.vars`,
   `<abc_vars>`).
+- `data-msg-id` is not stable across a reload: during a session a new message
+  carries a local id (a millisecond timestamp), after a reload the same
+  message carries the server id (a UUIDv7, whose first 48 bits are also
+  milliseconds). Key anything you store per conversation on message content,
+  not on ids; to order messages, read the time from either kind of id.
+- The message list is virtualised: recent messages mount first and older ones
+  mount as the player scrolls, not always contiguously. A layout that shows
+  the whole conversation (pages, a timeline) keeps its own copy in
+  `localStorage`, merges what mounts, drops duplicates by body text and sorts
+  by id time; mount order is not conversation order.
+- Do not start a first-run animation on `ready` alone; wait until the replayed
+  messages have settled (`message:done` quiet for a moment).
+- The page runs in a cross-origin iframe. Browser automation can take
+  screenshots and accessibility snapshots of it but cannot script it, and
+  device APIs such as viewport segments may report a single segment there.
+- The site header is `[data-chat="header"]`; the classes inside it are site
+  internals. A card that moves its own bar into the header must fall back to
+  `[data-slot="statusbar"]` when the header is hidden or changes.
 
 **Classic**: rules are applied directly onto the site's chat page. The
 selectors authors used there (`.mes`, `.mes_text`, `.mes.Ai` / `.mes.User`,

@@ -79,6 +79,24 @@ system, institution, fate or authority figure, keep at least one comply route
 and one resist route in every recurring option set; a playful option that
 still obeys is not resistance.
 
+## Branches and endings
+
+A long card grows by optional branches that the player reaches by doing
+something the main line did not expect, each with a trigger, a few escalating
+beats, a line or item left in memory and an ending it can lead to. Keep one
+Lorebook entry that says where the branch entrances are and tells the
+character to reveal one at a time (a side path, an odd object, a remark),
+only when the player explores or keeps complying; never list them.
+
+Models play branches willingly but rarely close them: asked to end a story,
+they add another beat. Make the ending the player's move. When the branch
+condition is met (the script can count the player's own lines), offer an
+ending action that sends an explicit line such as "(Ending: X) Let this be
+where it ends", and bind that line in the output contract: that turn must
+play ending X, emit its marker and close. In the same rule, forbid the
+character from writing the player's actions or thoughts in the ending turn;
+without it, the model finishes the story on the player's behalf.
+
 ## Initiative table
 
 ```text

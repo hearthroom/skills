@@ -106,6 +106,19 @@ Reply layout is visible only on the play page. `card render` renders the
 opening, not replies. Open the play link the CLI prints when layout is part
 of acceptance, or record "reply display not checked".
 
+Turns sent with `hearthroom play` reach the model but never pass through the
+play page, so anything a card script builds from the page (page caches,
+counters, unlocks, ending detection) does not see them. Test script-driven
+features by playing in the browser.
+
+Say which evidence you have. A layout checked in a desktop browser with an
+emulated viewport, or with a device API faked by an injected script, is
+"verified in simulation"; only a tester on the device verifies device
+behaviour. A foldable's hinge direction, for instance, can be faked
+consistently with the code's own assumption and still be wrong on the
+hardware. Ask the tester for the card's own detection readout and a photo,
+and change one assumption at a time.
+
 ## Lorebook reachability: normal and agent turns
 
 In a normal turn, Lorebook entries reach the model through keywords, constant

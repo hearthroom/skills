@@ -69,6 +69,10 @@ codex plugin marketplace add hearthroom/skills
 技能會在第一輪之前先問過你。所有工作都留在試玩卡或你自己的私有卡上；
 除非你自己到網站上送審，否則不會有東西被送出去。
 
+## 讓這些 skill 越用越好
+
+這些 skill 靠真實寫卡來改進。助手用它們寫卡時，若發現某個 skill 寫錯或缺了什麼，應該順手把該 skill 或參考文件改好（寫成通用結論，不放卡名、ID、私人內容），跑 `npm run validate` 和 `npm test`，用這個倉庫的作者身分 commit，然後告訴合作的人改了什麼、為什麼改；對方同意後才 push。入口 skill `using-hearthroom` 也寫了同樣的規則，助手工作時就看得到。
+
 ## 開發
 
 ```bash

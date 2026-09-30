@@ -82,6 +82,16 @@ Drafting, validating and rendering cost nothing beyond your agent's own usage.
 the first turn. Work stays on trial cards and your own private cards; nothing
 is submitted for review unless you do it on the site.
 
+## Improving these skills
+
+These skills get better from real card work. When an agent using them finds a
+skill that was wrong or missing something, it should fix the skill or
+reference in general terms (no card names, ids or private content), run
+`npm run validate` and `npm test`, commit with this repository's author
+identity, and tell the person it works with what changed and why; push only
+after they agree. The entry skill `using-hearthroom` says the same, so agents
+see it while they work.
+
 ## Develop
 
 ```bash

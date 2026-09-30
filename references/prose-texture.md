@@ -42,6 +42,11 @@ read once. Samples (the opening, example conversations, a format sample) are
 what the model actually continues from, turn after turn. When the two
 disagree, the sample wins, because imitation is cheaper than obedience.
 
+The same holds for events. A sample that shows a rare payoff (a reward, a
+reveal, a permanent mark) teaches that the payoff happens every turn, and a
+tension that should build over several turns never builds. Make the example
+turn the most common kind of turn, and let the rules describe the rare one.
+
 So the opening is the card's first reply sample, and it teaches more than any
 "style" section. An opening full of trembling dialogue shows the model that
 trembling dialogue is what this card sounds like, and nothing later tells it

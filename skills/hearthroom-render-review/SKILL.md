@@ -36,7 +36,9 @@ Read the display rules and chat pages sections of
    - `rendered`: read it as the player would; check the marker the model
      emits was consumed and nothing leaked as raw text.
 2. If a browser is available, open `previewUrl` at a phone width (about
-   390 px) and a desktop width (about 1280 px). Check overflow, clipped text,
+   390 px) and a desktop width (about 1280 px); for a full-page layout also
+   a short landscape phone and a square-ish unfolded screen (about 900x640),
+   and scroll one reply to its end to see how the choices appear. Check overflow, clipped text,
    contrast against the theme, and that the first screen shows the player's
    next action. Do not judge chrome that belongs to the site (header,
    composer, sidebar).
@@ -68,3 +70,5 @@ Render repair:
   appear in this opening; check a reply pattern or an alternate opening.
 - Do not remove a working script because the render report counted it.
 - Do not report a screenshot of the top of the page as a review of the page.
+- Do not call device behaviour verified from an emulated viewport; say
+  "verified in simulation" until a tester has checked the device.

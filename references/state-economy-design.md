@@ -55,6 +55,11 @@ pressure, risk, resources, clues, route gates, available support.
   allowed values, update trigger, cadence, play effect. `welcome.md` shows
   the first useful surface. `rules.json` holds the transform.
 
+A meter that measures a contest (control, suspicion, favour) needs signed
+movement in the contract: how far each kind of player move pushes it and
+when the other side pulls it back. With only "rises when the player
+resists", models move it one way and it reaches the end in a few turns.
+
 A hidden line drifts over long chats. Give phase, route, clue, risk, location
 and relationship pressure a visible surface that still reads well if the
 model forgets the line.

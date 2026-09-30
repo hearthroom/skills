@@ -89,6 +89,14 @@ How entries reach the model in a normal conversation:
   Write the words a player or the character would actually type, in the
   card's language. A keyword written as `/pattern/flags` is a regular
   expression.
+- The recent messages include the character's own reply. A keyword the
+  character says in most replies (a catchphrase, the setting's key noun, a
+  filler word) admits the entry on the first turn, and since admitted
+  entries stay, it behaves like a constant entry and nudges the model toward
+  that scene. Before pushing, run the keywords over a few real reply texts
+  from a playtest and count hits; an optional branch that fires in most
+  replies needs narrower keywords. A whole-line regex such as
+  `/^\s*[.…]+\s*$/m` catches a minimal player input without catching prose.
 - Secondary keywords can veto a primary hit. Use them only when a common word
   needs a context guard.
 - Constant entries are always included, in priority order, as long as they

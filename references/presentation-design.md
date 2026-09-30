@@ -215,6 +215,17 @@ Small layout traps found on these screens:
   list in every state, at a short height.
 - `flex-basis: 0` does not give equal columns when the columns have
   different padding; give each page an explicit share of the width.
+- Full-screen live filters are the costliest thing a card can add on phones.
+  When a foldable opens, closes or rotates, the browser reallocates the whole
+  surface, and a full-viewport `filter: blur()` or a `drop-shadow` over a
+  scrolling area is recomputed at device pixel ratio each time; Android
+  Chrome in fullscreen can go black. Blur the background image at build time
+  (a small, pre-blurred copy scales up smoothly), darken it with a plain
+  overlay, use `box-shadow` for page shadows, and do not start a cross-fade
+  because the layout changed. Coalesce resize, visual-viewport, observer and
+  orientation events into one layout pass per frame, and pause animations
+  until the size has settled. Profile first: a small DOM and an idle main
+  thread point at the GPU, not at script.
 
 ## Presentation packet
 

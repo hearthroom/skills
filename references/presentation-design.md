@@ -134,10 +134,10 @@ name or from orientation alone.
 
 | Shape of the available area | Layout | Choices |
 |---|---|---|
-| wide and landscape (desktop, tablet, foldable opened sideways) | two pages | always shown on large screens; on smaller ones on the control page at the end |
+| wide and landscape (desktop, tablet, foldable opened sideways) | two pages, the control page narrower | always shown on large screens; on smaller ones on the control page at the end |
 | portrait, height under about 1.75 x width (A-series paper shapes, square-ish inner screens, small cover screens) | one page | side panel on request |
 | tall phone | one page, header collapses while reading | bottom sheet at the end |
-| short landscape (phone on its side) | one page, compact header | side panel on request |
+| short landscape (phone on its side, a foldable's cover screen sideways) | header in a side column, text at full height | side panel on request |
 | half-folded, hinge horizontal (tent or laptop pose) | text on the upper half | lower half, always shown |
 | half-folded, hinge vertical (book pose) | two pages, spine on the hinge | page after the hinge |
 
@@ -162,14 +162,34 @@ Browser support for foldables:
   chosen layout) in the card's settings, so a tester can report it from a
   device you cannot emulate.
 
-Apple's guidance for its foldable iPhone (Tech Talk "Prepare your app for
-iPhone Duo", 2026) moves navigation and toolbar buttons from the top and
-bottom edges to the side on the cover display, centres sheets on the inner
-display, and asks for layouts driven by size, not orientation, tested in
-every pose. Summaries of the matching Human Interface Guidelines page add:
-in the tent pose, glanceable content on top and controls below; in the book
-pose, displaced elements move toward the trailing edge; nothing important in
-the fold.
+Apple's guidance for its foldable iPhone (Human Interface Guidelines,
+"Designing for iPhone Duo", and the developer article "Preparing your app
+for iPhone Duo", both September 2026) applies to web layouts too:
+
+- Sizes: the outer display is 466 x 678 points and the inner display
+  669 x 951, both close to the A-paper ratio; half of the inner display is
+  roughly the outer one. Test those sizes, minus the browser's own bars.
+- The outer display is wider and shorter than other iPhones, so toolbars and
+  tab bars move to the trailing side to keep vertical space for content; they
+  stay on the side on the inner display in landscape, and only the inner
+  display in portrait keeps horizontal bars. On a short screen, move headers
+  and controls into a side column rather than stacking them above the text.
+- Do not build a layout per pose; let one compact and one regular layout
+  expand. Keep controls in similar relative positions across poses, keep
+  text and control sizes as constant as possible, and prefer small
+  adjustments over rearranging when the device folds.
+- When the device is partly folded, the fold is a reserved region that
+  divides the display; keep controls and text out of it. Split layouts move
+  their panes to equal widths on either side of the fold (a narrower leading
+  pane when fully open), and an overlay layout sends its primary view to the
+  trailing or bottom part of the fold and the secondary view to the leading
+  or top part.
+- Controls that belong to one pane stay with that pane; controls for the
+  main content go along the trailing edge.
+
+The guideline pages are rendered by script; their text is available as JSON
+at `https://developer.apple.com/tutorials/data/design/human-interface-guidelines/<page>.json`,
+and developer articles at `https://developer.apple.com/tutorials/data/documentation/<path>.json`.
 
 Small layout traps found on these screens:
 

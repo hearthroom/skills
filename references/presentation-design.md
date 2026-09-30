@@ -106,6 +106,12 @@ dossier, a stage) and leave the message list underneath as the transport.
   indicator.
 - Effects the site would draw on `author-stage` are drawn inside the overlay
   when it covers the stage. Keep a switch back to the plain chat page.
+- A page built from a copy of the rendered message (or from a cached copy)
+  misses whatever the script adds to the message later, such as portraits
+  and badges. Run the same hydration on the page after drawing it.
+- Every component with a lookup (a portrait by name, art by chapter) needs a
+  designed fallback for the miss, and a playtest or preview sample that hits
+  it: the model will introduce minor characters that no table knows.
 
 ## Reading first, choosing second
 

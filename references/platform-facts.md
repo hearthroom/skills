@@ -42,7 +42,8 @@ to read in `--json` output.
 my-card/
   card.json          manifest: name, summary, tags, type, sex, playerName, nickname,
                      language, outputContract, customInstructions, talkExample,
-                     prologue, cardMeta, media.portrait, media.background
+                     prologue, cardMeta, media.portrait, media.background,
+                     media.backgroundLandscape
   definition.md      the definition
   welcome.md         the opening
   openings/alt-NN.md alternate openings, file-name order
@@ -57,6 +58,13 @@ my-card/
 the card calls the player; placeholder values such as 你 / user / you / player
 are ignored and the player's own name or a language default is used instead.
 `nickname` is what `{{char}}` expands to when it differs from `name`.
+
+Two backgrounds: `media.background` is the portrait (9:16) baseline and
+`media.backgroundLandscape` is an optional landscape (16:9) image the chat
+page prefers on wide screens, falling back to the portrait one. Both are
+cropped to cover the screen, so keep important elements inside the central
+75% of each image. On push they become `roleBackground` and
+`roleBackgroundLandscape`.
 
 ## Field limits (characters)
 

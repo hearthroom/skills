@@ -13,7 +13,7 @@ An image that could fit any nearby trope is too generic.
 ## Where images live
 
 Images sit under `assets/` in the card folder and are referenced from
-`card.json` as `media.portrait` and `media.background` by relative path;
+`card.json` as `media.portrait`, `media.background` (portrait 9:16) and `media.backgroundLandscape` (landscape 16:9, optional but expected for a finished card) by relative path;
 `card push` uploads them. The platform does not generate images. The brief is
 for the author or the author's own tools; the card is not complete while a
 referenced file is missing. See `platform-facts.md`.

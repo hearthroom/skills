@@ -23,6 +23,7 @@ Codex：
 
 ```bash
 codex plugin marketplace add hearthroom/skills
+codex plugin add hearthroom@hearthroom-skills
 ```
 
 任何讀得到檔案的助手：clone 這個倉庫，在它的規則檔加一句：

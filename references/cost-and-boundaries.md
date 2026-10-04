@@ -42,5 +42,7 @@ writing problem even when validation passes.
 
 ## Authentication
 
-`hearthroom auth login` once, or `HEARTHROOM_TOKEN` for unattended runs. Do not
-ask the author to paste a token into the conversation.
+Sign in once with a one-time code (`hearthroom auth login --no-wait`, then
+`--resume`), or use `HEARTHROOM_TOKEN` for unattended runs. Passing the author
+the one-time code and address is expected; do not ask the author to paste a
+token into the conversation.

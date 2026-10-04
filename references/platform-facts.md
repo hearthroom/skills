@@ -296,7 +296,8 @@ finds under `report.components` so imported classic-page cards can be spotted.
 ## The CLI loop
 
 ```
-hearthroom auth login                        # once; HEARTHROOM_TOKEN for unattended runs
+hearthroom auth login --no-wait --json       # once: prints user_code + verification_uri
+hearthroom auth login --resume               # after the author types the code and approves
 hearthroom card init <dir> | card import <file…>   # SillyTavern PNG/JSON/CHARX, MMD three-file set
 hearthroom card push <dir> --validate --json # private trial card + validation report
 hearthroom card render <dir> --json          # opening after display rules, per-rule outcome, scan
@@ -305,6 +306,15 @@ hearthroom card pull <dir>                   # bring the provider's copy back to
 hearthroom card push <dir> --create          # keep it: a real private card on the site
 ```
 
+- Sign-in uses a one-time code, so it works from SSH sessions and cloud
+  sandboxes. The author opens `verification_uri` in a browser on any device,
+  signs in (or signs up on the same page) and types `user_code`; nothing is
+  pre-filled. `--no-wait` returns at once so the code can be passed on;
+  `--resume` waits for the approval (run it again if it times out; start over
+  with `--no-wait` if the code expired or was denied). A plain `auth login`
+  waits in the foreground, which suits a person at a terminal, not an agent
+  that only sees output after the command exits. `HEARTHROOM_TOKEN` skips
+  sign-in for unattended runs; `auth status` shows the account.
 - Pushing, validating, rendering, importing, pulling and browsing are free.
   Only `play -m` generates and needs `--allow-spend`.
 - A trial card expires three days after its last push; an account holds at

@@ -22,8 +22,11 @@ manual page (`https://cli.hearthroom.club/manual/<command>.md` or
 1. Name the stage: setup, draft only, first push, iterate, playtest, keep,
    or hand to review.
 2. Check readiness without printing secrets: `hearthroom auth status --json`.
-   If not signed in, ask the author to run `hearthroom auth login`, or use
-   `HEARTHROOM_TOKEN` when the author provides one for unattended work.
+   If not signed in, run `hearthroom auth login --no-wait --json`, give the
+   author the code and address it prints, then run
+   `hearthroom auth login --resume` (see the sign-in fact in
+   `platform-facts.md`); or use `HEARTHROOM_TOKEN` when the author provides one
+   for unattended work.
 3. Choose the target. Default to a trial card. Use `push --create` only when
    the author wants the card kept, and `push --to <id>` only for a card the
    author already owns and asked to update.

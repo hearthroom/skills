@@ -8,9 +8,11 @@ stable machine output; errors are one JSON object with a non-zero exit code.
 
 ## Setup
 
-- `hearthroom auth login` signs in through the browser once. For unattended
-  runs set `HEARTHROOM_TOKEN`. `HEARTHROOM_CONFIG_DIR` isolates an agent's
-  session.
+- Sign in once with a one-time code: `hearthroom auth login --no-wait --json`,
+  give the author `user_code` and `verification_uri`, then
+  `hearthroom auth login --resume`. It works over SSH; details in
+  `platform-facts.md`. For unattended runs set `HEARTHROOM_TOKEN`.
+  `HEARTHROOM_CONFIG_DIR` isolates an agent's session.
 - `hearthroom auth status` and `hearthroom whoami` show the signed-in account
   without printing secrets. Never echo tokens.
 - `hearthroom models` lists the models a card can be played with.

@@ -2,7 +2,8 @@
 
 Every platform claim in this toolkit comes from here. If a fact is not on this
 page, a skill must not assert it; say "not documented" instead. The community
-site's card authoring guide (`/guide` on the site) and the CLI manual
+site's card authoring guide (`https://sukisuki.ai/en/guide.md`, the Markdown of
+`/guide`; `/guide.md` and `/<locale>/guide.md` for other languages) and the CLI manual
 (`https://cli.hearthroom.club/llms-full.txt`) are the primary sources.
 
 ## What Hearthroom is

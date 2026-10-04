@@ -25,6 +25,7 @@ Codex:
 
 ```bash
 codex plugin marketplace add hearthroom/skills
+codex plugin add hearthroom@hearthroom-skills
 ```
 
 Any agent that can read files: clone this repository and add one line to its

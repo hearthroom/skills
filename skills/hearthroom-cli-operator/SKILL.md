@@ -50,6 +50,8 @@ manual page (`https://cli.hearthroom.club/manual/<command>.md` or
   section, field and limit; edit that file.
 - `image_in_use`: the media item is a portrait or background of a listed card;
   detach it before deleting.
+- `this card's files were moved to the media folder …`: the author renamed
+  the folder in the library; set `media.folder` to the name the message gives.
 - `media folder … already holds files this card did not upload`: another
   card uses that folder. Set `media.folder` to a new readable name, or to
   that folder only when the author wants the cards to share it.

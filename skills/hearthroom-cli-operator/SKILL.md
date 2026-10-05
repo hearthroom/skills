@@ -30,6 +30,10 @@ manual page (`https://cli.hearthroom.club/manual/<command>.md` or
 3. Choose the target. Default to a trial card. Use `push --create` only when
    the author wants the card kept, and `push --to <id>` only for a card the
    author already owns and asked to update.
+   Work in the card's one folder; never copy it to a new folder per draft.
+   Before the first push with images, set `media.folder` when the card should
+   share a series folder, and check `mediaFolder` in the push report (Media
+   library in `platform-facts.md`).
 4. Run the smallest command for the stage and read the JSON, not the prose.
    Treat a non-zero exit as a stop: read `error` and `detail`, fix the cause,
    rerun the same command.
@@ -46,6 +50,9 @@ manual page (`https://cli.hearthroom.club/manual/<command>.md` or
   section, field and limit; edit that file.
 - `image_in_use`: the media item is a portrait or background of a listed card;
   detach it before deleting.
+- `media folder … already holds files this card did not upload`: another
+  card uses that folder. Set `media.folder` to a new readable name, or to
+  that folder only when the author wants the cards to share it.
 - `not signed in`: run the sign-in step; do not retry the command in a loop.
 
 ## Hand-off

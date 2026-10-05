@@ -25,6 +25,12 @@ SillyTavern PNG / JSON / CHARX card or an MMD three-file set into a folder and
 reports every source field it could not place. Edit files with any editor; the
 folder format is documented in the facts sheet.
 
+Keep one folder per card for its whole life: iterate, rename and publish from
+the same folder, and use git for drafts. A new folder per draft creates a new
+trial card and, unless `media.folder` is set, a new media-library folder, which
+leaves the author with copies they cannot tell apart. `push` prints the media
+folder it used; the naming rules are under Media library in the facts sheet.
+
 ## The loop
 
 | Step | Command | Costs credits |

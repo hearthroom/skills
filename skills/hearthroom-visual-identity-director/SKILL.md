@@ -35,8 +35,10 @@ readiness note. The platform does not generate images; the author supplies them.
    texture. Add negative notes only for concrete failures (unreadable face,
    text artifacts, clutter, low contrast, wrong age impression).
 5. Decide asset readiness: file present under `assets/` and referenced in
-   `card.json`, author will provide, or missing. `hearthroom media upload`
-   exists for uploading a file on its own; `card push` uploads referenced assets.
+   `card.json`, author will provide, or missing. Plan the paths with the
+   naming rules under Media library in the facts sheet (readable names grouped
+   by job, `media.folder` for art a series shares); `card push` uploads
+   referenced assets into that folder.
 6. Check alignment with `name`, `summary`, the opening, and any display rules.
 
 ## Hand-off

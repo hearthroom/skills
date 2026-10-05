@@ -78,9 +78,14 @@ The author manages the library by these names, so they must read as what
 they are.
 
 - Choose the folder: the card name, or one shared name for a series whose
-  cards reuse the same art (set `media.folder` to it in every card). Changing
-  `media.folder` re-uploads under the new name; the push lists where each old
-  copy still is.
+  cards reuse the same art (set `media.folder` to it in every card).
+- A library folder is a directory: each file is in exactly one folder, and
+  its URL is its path. Renaming or moving a folder or file therefore changes
+  its URLs and the old ones stop working. Rename with
+  `hearthroom media mv <old> <new>`: it lists the author's cards that still
+  mention the old URLs; update them or tell the author which will break, then
+  run it with `--yes` and set `media.folder` to the new name. A push follows
+  files renamed on the website and uploads again files deleted there.
 - Name files for what they show and group them by job: `art/bg/night.webp`,
   `art/expr/shy.webp`, `art/npc/elder.webp`, `ui/frame.webp`. Never put a hash,
   card id, date or version number in a folder or file name. Paths are

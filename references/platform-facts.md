@@ -44,7 +44,7 @@ my-card/
   card.json          manifest: name, summary, tags, type, sex, playerName, nickname,
                      language, outputContract, customInstructions, talkExample,
                      prologue, cardMeta, media.portrait, media.background,
-                     media.backgroundLandscape
+                     media.backgroundLandscape, media.folder
   definition.md      the definition
   welcome.md         the opening
   openings/alt-NN.md alternate openings, file-name order
@@ -66,6 +66,32 @@ page prefers on wide screens, falling back to the portrait one. Both are
 cropped to cover the screen, so keep important elements inside the central
 75% of each image. On push they become `roleBackground` and
 `roleBackgroundLandscape`.
+
+## Media library
+
+Every file under `assets/` goes into one folder of the author's media
+library, and the served URL mirrors the path:
+`assets/art/expr/happy.webp` → `<libraryPrefix>/<folder>/art/expr/happy.webp`.
+The folder is `media.folder` in `card.json`, or the card name when unset; the
+first push records it, so a later rename of the card does not move files.
+The author manages the library by these names, so they must read as what
+they are.
+
+- Choose the folder: the card name, or one shared name for a series whose
+  cards reuse the same art (set `media.folder` to it in every card). Changing
+  `media.folder` re-uploads under the new name; the push lists where each old
+  copy still is.
+- Name files for what they show and group them by job: `art/bg/night.webp`,
+  `art/expr/shy.webp`, `art/npc/elder.webp`, `ui/frame.webp`. Never put a hash,
+  card id, date or version number in a folder or file name. Paths are
+  case-sensitive; use lowercase ASCII with hyphens for any name code builds.
+- Keep one card folder for the card's whole life and iterate in it, with git
+  for history. A new local folder per draft gets a new library folder.
+- Upload the final size and format; replacing a file at the same path changes
+  it for every card that uses it, which is how a shared asset is updated.
+- If the push stops because the folder already holds files this card did not
+  upload, pick a new `media.folder`, or set it to that folder only when the
+  card is meant to share it.
 
 ## Field limits (characters)
 
@@ -144,10 +170,14 @@ model never sees the result.
   character. A large script is easier to keep under it when the build strips
   whole-line comments and indentation, and when script and stylesheet live in
   two rules that the same function-bar trigger mounts.
-- Only literal relative paths written in a rule (`"assets/art/a.webp"`) are
-  detected and uploaded on push. A path assembled at runtime
-  (`"assets/art/" + id`) is not found; list every file literally, for example
-  in a lookup table.
+- `assets/` paths written in a rule are uploaded on push and rewritten to
+  their served URL. A directory reference uploads every file in that
+  directory and rewrites the directory part, so the file name can come from
+  the reply: `<img src="assets/art/expr/$1.webp">` for a find of
+  `/<face>(\w+)<\/face>/`, or `"assets/art/expr/" + mood + ".webp"` and
+  `` `assets/art/expr/${mood}.webp` `` in a script. Name those files exactly
+  after the values the model emits, and list the allowed values in the
+  output contract so a reply cannot ask for a file that does not exist.
 - Markers the model emits: a rule that consumes an angle-bracket marker such
   as `<scene>…</scene>` works, because rules run before the sanitizer; a
   marker no rule matches is stripped silently. Some models drop the closing

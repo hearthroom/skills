@@ -130,7 +130,8 @@ Load the narrow reference only when that layer is the current blocker:
    `customInstructions` and `media`. The definition goes in `definition.md`,
    the opening in `welcome.md`, alternates in `openings/alt-NN.md`, entries in
    `lorebook.json`, display rules and page mode in `rules.json`, media files
-   under `assets/`, and working notes only in `README.md`. When patching, edit
+   under `assets/` (named and grouped as Media library in `platform-facts.md`
+   says), and working notes only in `README.md`. When patching, edit
    only the fields that change.
 7. Keep the definition an engine. If it is a thin biography or under budget
    for its language and ambition, use `hearthroom-detail-engineer` before

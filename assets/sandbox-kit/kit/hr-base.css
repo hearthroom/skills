@@ -1,0 +1,120 @@
+/* hr-base: structure for everything the kit draws. Colours come from --hr-* tokens, which the
+   compiled preset defines per [data-theme] and which fall back to the platform's --chat-*.
+   Spacing follows --rpx (the shell's design-width unit) so the kit scales with the page; font
+   sizes are absolute px (readability is not proportional). Author styles are unlayered, so
+   every rule here beats the shell's @layer lt-base without !important. */
+
+[data-chat="root"] {
+  --hr-bg: var(--chat-bg);
+  --hr-surface: var(--chat-surface);
+  --hr-surface-2: var(--chat-modal-surface);
+  --hr-text: var(--chat-text);
+  --hr-muted: var(--chat-text-muted);
+  --hr-border: var(--chat-border);
+  --hr-accent: var(--chat-accent);
+  --hr-on-accent: #fff;
+  --hr-hp: #d4645f; --hr-mp: #5b8def; --hr-sp: #5fb77a; --hr-xp: #d9a441;
+  --hr-good: #5fb77a; --hr-warn: #d9a441; --hr-bad: #d4645f;
+  --hr-gap: calc(12 * var(--rpx));
+  --hr-pad: calc(16 * var(--rpx));
+  --hr-radius: calc(12 * var(--rpx));
+  --hr-shadow: 0 2px 10px rgba(0, 0, 0, .25);
+  --hr-font-size: 15px;
+  --hr-line-height: 1.6;
+  --hr-glow: 0;
+}
+[data-chat="root"].hr-density-compact { --hr-gap: calc(8 * var(--rpx)); --hr-pad: calc(10 * var(--rpx)); }
+
+/* Body text follows the player's preference; the platform's own chrome is left alone. */
+[data-chat="root"] [data-chat="message-body"] { font-size: var(--hr-font-size); line-height: var(--hr-line-height); }
+
+/* ---------- status panel (inside the bubble) ---------- */
+.hr-status { display: block; margin: var(--hr-gap) 0 0; white-space: normal; font-size: 13px; line-height: 1.45; }
+.hr-status--raw { white-space: pre-line; opacity: .85; }        /* before hydrate: readable, not a widget */
+.hr-status--plain { white-space: pre-line; }                   /* nothing parsable: keep the text */
+.hr-panel { display: flex; flex-direction: column; gap: calc(var(--hr-gap) * .6); padding: var(--hr-pad); border: 1px solid var(--hr-border); border-radius: var(--hr-radius); background: var(--hr-surface); color: var(--hr-text); box-shadow: var(--hr-shadow); }
+.hr-title { font-weight: 600; color: var(--hr-muted); letter-spacing: .04em; font-size: 12px; text-transform: uppercase; }
+.hr-section { display: flex; flex-direction: column; gap: calc(var(--hr-gap) * .5); padding-top: calc(var(--hr-gap) * .5); border-top: 1px dashed var(--hr-border); }
+.hr-section:first-child { border-top: 0; padding-top: 0; }
+.hr-section__t { font-size: 12px; font-weight: 600; color: var(--hr-muted); }
+.hr-row { display: flex; align-items: center; gap: calc(var(--hr-gap) * .75); min-width: 0; }
+.hr-label { flex: 0 0 auto; min-width: 4.5em; color: var(--hr-muted); font-size: 12px; }
+.hr-val { flex: 0 0 auto; color: var(--hr-text); }
+.hr-num { font-variant-numeric: tabular-nums; }
+.hr-bar { flex: 1 1 auto; height: calc(12 * var(--rpx)); min-height: 6px; border-radius: 999px; background: color-mix(in srgb, var(--hr-border) 60%, transparent); overflow: hidden; }
+.hr-bar__fill { display: block; height: 100%; width: 0; border-radius: inherit; background: var(--hr-accent); box-shadow: 0 0 calc(var(--hr-glow) * 8px) var(--hr-accent); transition: width .35s ease; }
+.hr-tone--hp .hr-bar__fill { background: var(--hr-hp); box-shadow: 0 0 calc(var(--hr-glow) * 8px) var(--hr-hp); }
+.hr-tone--mp .hr-bar__fill { background: var(--hr-mp); box-shadow: 0 0 calc(var(--hr-glow) * 8px) var(--hr-mp); }
+.hr-tone--sp .hr-bar__fill { background: var(--hr-sp); box-shadow: 0 0 calc(var(--hr-glow) * 8px) var(--hr-sp); }
+.hr-tone--xp .hr-bar__fill { background: var(--hr-xp); box-shadow: 0 0 calc(var(--hr-glow) * 8px) var(--hr-xp); }
+.hr-tone--good .hr-bar__fill { background: var(--hr-good); }
+.hr-tone--warn .hr-bar__fill { background: var(--hr-warn); }
+.hr-tone--bad .hr-bar__fill { background: var(--hr-bad); }
+.hr-level { display: flex; align-items: center; gap: calc(var(--hr-gap) * .5); flex: 1 1 auto; min-width: 0; }
+.hr-level__name { flex: 0 0 auto; }
+.hr-chips, .hr-stats, .hr-kvlist, .hr-path { display: flex; flex-wrap: wrap; gap: calc(var(--hr-gap) * .4); min-width: 0; }
+.hr-chip { padding: 2px 8px; border-radius: 999px; border: 1px solid var(--hr-border); background: var(--hr-surface-2); font-size: 12px; }
+.hr-chip--kv { display: inline-flex; gap: 6px; }
+.hr-chip__v { color: var(--hr-accent); }
+.hr-stat { display: inline-flex; flex-direction: column; align-items: center; min-width: 3em; padding: 4px 8px; border-radius: calc(var(--hr-radius) * .5); background: var(--hr-surface-2); }
+.hr-stat__k { font-size: 11px; color: var(--hr-muted); }
+.hr-stat__v { font-weight: 600; }
+.hr-kvlist { flex-direction: column; gap: 2px; }
+.hr-kv { display: flex; gap: 8px; }
+.hr-kv__k { color: var(--hr-muted); min-width: 3em; }
+.hr-note { display: none; width: 100%; font-size: 11px; color: var(--hr-muted); }
+.hr-stat--note, .hr-kv--note { cursor: pointer; }
+.hr-stat--note:focus-within .hr-note, .hr-kv--note:focus-within .hr-note, .hr-stat--note.hr-open .hr-note, .hr-kv--note.hr-open .hr-note { display: block; }
+.hr-path__sep { color: var(--hr-muted); }
+.hr-path__seg:last-child { color: var(--hr-accent); font-weight: 600; }
+
+/* ---------- pinned bar (function bar) ---------- */
+.hr-pinned { display: flex; gap: var(--hr-gap); padding: calc(6 * var(--rpx)) var(--hr-pad); font-size: 12px; color: var(--hr-text); background: color-mix(in srgb, var(--hr-surface) 85%, transparent); border-bottom: 1px solid var(--hr-border); }
+.hr-pinned__k { color: var(--hr-muted); margin-right: 4px; }
+.hr-pinned__v { font-variant-numeric: tabular-nums; }
+
+/* ---------- dock + drawer (z-index inside the author band 3500–7999) ---------- */
+.hr-dock { position: absolute; top: 20%; z-index: 3600; }
+.hr-dock--right { right: 0; }
+.hr-dock--left { left: 0; }
+.hr-dock__tab { display: flex; align-items: center; justify-content: center; width: calc(72 * var(--rpx)); min-width: 36px; height: calc(88 * var(--rpx)); min-height: 44px; border: 1px solid var(--hr-border); border-right: 0; border-radius: var(--hr-radius) 0 0 var(--hr-radius); background: var(--hr-surface); color: var(--hr-text); box-shadow: var(--hr-shadow); cursor: pointer; font: inherit; }
+.hr-dock--left .hr-dock__tab { border-right: 1px solid var(--hr-border); border-left: 0; border-radius: 0 var(--hr-radius) var(--hr-radius) 0; }
+.hr-dock--right .hr-dock__tab { position: absolute; right: 0; }
+.hr-dock--left .hr-dock__tab { position: absolute; left: 0; }
+.hr-drawer { position: fixed; top: 0; bottom: 0; width: min(85vw, 360px); z-index: 3700; display: flex; flex-direction: column; background: var(--hr-bg); color: var(--hr-text); border-left: 1px solid var(--hr-border); box-shadow: var(--hr-shadow); transform: translateX(100%); transition: transform .25s ease; }
+.hr-dock--right .hr-drawer { right: 0; }
+.hr-dock--left .hr-drawer { left: 0; transform: translateX(-100%); border-left: 0; border-right: 1px solid var(--hr-border); }
+.hr-dock--open .hr-drawer { transform: none; }
+.hr-drawer__nav { display: flex; gap: 4px; padding: var(--hr-pad); border-bottom: 1px solid var(--hr-border); }
+.hr-drawer__nav--hidden { display: none; }
+.hr-drawer__navbtn { padding: 6px 10px; border-radius: 999px; border: 1px solid var(--hr-border); background: transparent; color: var(--hr-text); font: inherit; font-size: 13px; cursor: pointer; }
+.hr-drawer__navbtn--on { background: var(--hr-accent); color: var(--hr-on-accent); border-color: var(--hr-accent); }
+.hr-drawer__body { flex: 1 1 auto; min-height: 0; overflow: auto; padding: var(--hr-pad); }
+.hr-drawer__close { position: absolute; top: 6px; right: 10px; width: 32px; height: 32px; border: 0; border-radius: 50%; background: transparent; color: var(--hr-muted); font-size: 22px; line-height: 1; cursor: pointer; }
+.hr-dock--left .hr-drawer__close { right: auto; left: 10px; }
+
+/* ---------- settings pane ---------- */
+.hr-set { display: flex; flex-direction: column; gap: var(--hr-gap); }
+.hr-set__row { display: flex; align-items: center; justify-content: space-between; gap: var(--hr-gap); font-size: 14px; }
+.hr-set__range { flex: 1 1 auto; max-width: 55%; accent-color: var(--hr-accent); }
+.hr-set__select { padding: 4px 8px; border-radius: 8px; border: 1px solid var(--hr-border); background: var(--hr-surface); color: var(--hr-text); font: inherit; }
+.hr-btn { padding: 8px 14px; border-radius: 999px; border: 1px solid var(--hr-border); background: var(--hr-surface); color: var(--hr-text); font: inherit; cursor: pointer; }
+.hr-set__reset { align-self: flex-start; }
+
+/* ---------- choices ---------- */
+.hr-choices { display: flex; flex-wrap: wrap; gap: calc(var(--hr-gap) * .6); margin-top: var(--hr-gap); }
+.hr-choice { padding: 8px 14px; border-radius: var(--hr-radius); border: 1px solid var(--hr-border); background: var(--hr-surface); color: var(--hr-text); font: inherit; font-size: 14px; text-align: left; cursor: pointer; transition: background .15s ease, border-color .15s ease; }
+.hr-choice:hover, .hr-choice:focus-visible { border-color: var(--hr-accent); outline: none; }
+.hr-choice--armed { border-color: var(--hr-accent); background: color-mix(in srgb, var(--hr-accent) 15%, var(--hr-surface)); }
+.hr-choice--armed::after { content: " ↩"; color: var(--hr-accent); }
+.hr-choice--spent { opacity: .45; cursor: default; }
+.hr-choice--picked { opacity: 1; border-color: var(--hr-accent); }
+.hr-choices--old .hr-choice { opacity: .4; pointer-events: none; }
+
+/* ---------- toast, stage ---------- */
+.hr-toast { position: absolute; left: 50%; bottom: calc(120 * var(--rpx)); transform: translateX(-50%); z-index: 3800; padding: 8px 14px; border-radius: 999px; background: var(--hr-surface-2); color: var(--hr-text); border: 1px solid var(--hr-border); box-shadow: var(--hr-shadow); font-size: 13px; pointer-events: none; }
+.hr-stage { min-height: 100%; padding: var(--hr-pad); color: var(--hr-text); background: var(--hr-bg); }
+
+/* ---------- motion ---------- */
+@media (prefers-reduced-motion: reduce) { .hr-bar__fill, .hr-drawer, .hr-choice { transition: none; } }
+[data-chat="root"].hr-motion-reduced .hr-bar__fill, [data-chat="root"].hr-motion-reduced .hr-drawer, [data-chat="root"].hr-motion-reduced .hr-choice { transition: none; }

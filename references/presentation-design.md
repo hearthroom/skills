@@ -52,30 +52,26 @@ bar, a scene header, a panel that the model emits as a small marker such as
 5. Run `hearthroom card render` and check every rule is `applied`, then open
    the play page on a phone width and a desktop width.
 
-## Beautification kits from MMD and SillyTavern
+## Status panels, themes and chrome: the sandbox kit
 
-Hearthroom's sandbox author API is identical to the new-style sandbox on Meimo
-Island (MMD), and `card import` reads the MMD three-file set and SillyTavern
-cards. A kit written for MMD's sandbox therefore runs on Hearthroom as is;
-a kit written for MMD's older page (rules applied on the chat page, `img
-onerror` boot) also works, on either page, because `onerror` boot scripts run
-on both.
+For a status panel, a theme, a settings drawer, a pinned bar or choice
+buttons on the sandbox page, use the toolkit's own kit
+(`../assets/sandbox-kit/`, method in `sandbox-kit.md`, skill
+`hearthroom-sandbox-kit`). It draws a `[status]` block the model already
+writes, inside the bubble, from a schema; it ships a preset with a dark and a
+light side that is contrast-checked at build time; it runs on the sandbox
+author API only. The build merges three rules into `rules.json`; the local
+checker (`../scripts/check-card.mjs`) and the offline preview (facts sheet)
+show whether it works before a push.
 
-For status bars, global themes, floating panels and full custom chat pages,
-route to the open-source `tavern-mmd` skill
-(https://github.com/yofengi/tavern-mmd) rather than re-deriving that craft:
-
-- `/mmdsandbox` + `/beautify` produces a six-key rules file (`chatVersion: 1`)
-  that `hearthroom card import` turns into `rules.json` with
-  `pageMode: sandbox`.
-- `/mmd` + `/beautify` produces the four-key rules file for the older page;
-  import it, then set `pageMode` to `sandbox` unless the author wants classic.
-- `/st` produces SillyTavern output; import the card or the regex JSON.
-
-After any import: `card push --validate`, then `card render --json`. The only
-identifiers expected under `report.unsupported` for a sandbox card are
-`sdk.vars` and `<abc_vars>`; anything else means the kit targeted the wrong
-page. Do not copy that skill's files into this toolkit; reference it.
+Kits written for other platforms still import: `card import` reads the MMD
+three-file set (`chatVersion: 1` becomes `pageMode: sandbox`) and SillyTavern
+cards, and a sandbox kit written for MMD's new-style page runs here with the
+differences the facts sheet lists; `card render` reports `sdk.vars` and
+`<abc_vars>` under `unsupported`, nothing else should appear there. An
+author who targets SillyTavern or MMD's older page as well can keep using the
+open-source `tavern-mmd` skill for those platforms; on Hearthroom the kit
+above is the route, and its output is checked with the same checker.
 
 ## Derive the screen from what the model already writes
 
@@ -245,7 +241,7 @@ Presentation:
 - function bar:
 - page mode: sandbox | classic (reason)
 - scripts and saves: none | (what they do; sandbox only)
-- kit used: none | tavern-mmd <command>
+- kit used: none | sandbox kit (modes, preset) | imported (source)
 - layouts: (area shape, layout, where the choices appear)
 - render plan: card render, then the play page at 390x844, a short landscape
   phone, a square-ish unfolded screen (about 900x640), 1280px desktop

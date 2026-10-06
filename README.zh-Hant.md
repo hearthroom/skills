@@ -57,9 +57,11 @@ codex plugin add hearthroom@hearthroom-skills
 - 卡片類型：玩法工程、劇情架構、日常架構、生成器架構、群像導演、系列架構。
 - 素材與包裝：素材蒸餾、原創改編、樣本校準、資料包裝、視覺識別、邊界設計、
   語言風格、設定工程、token 架構、指令護欄。
-- 呈現：呈現導演、渲染審查。狀態欄、全域主題與整頁自訂介面
-  交給開源的 [tavern-mmd](https://github.com/yofengi/tavern-mmd) 技能；Hearthroom
-  的沙盒頁跟 MMD 新版沙盒是同一套作者 API，`hearthroom card import` 讀得懂它的產出。
+- 呈現：呈現導演、沙盒套件、渲染審查。`assets/sandbox-kit/` 是這個工具包自己的沙盒頁套件：
+  模型寫的狀態區塊畫成氣泡內面板、深淺兩套的主題 preset、設定抽屜、釘選列、選項鈕，
+  由 `build.mjs` 編成顯示規則。`scripts/check-card.mjs` 用 `scripts/sandbox-contract.json`
+  （從聊天頁原始碼生成的作者 API 清單）檢查整個卡片資料夾。Hearthroom 的沙盒頁跟 MMD
+  新版沙盒同形，`hearthroom card import` 也讀得懂那個格式；差異列在平台事實頁。
 - 組裝與迴圈：卡片藍圖、卡片作者、欄位定稿、品質稽核、卡片醫生、協作導演、
   對話模擬、迭代導演、送審就緒。
 - `references/` 是共用的手藝指南；`examples/` 是合成的簡報與樣本形狀。
@@ -81,5 +83,7 @@ npm test          # 驗證器的單元測試
 npm run validate  # 結構、引用、清單、禁用詞
 ```
 
-`scripts/manifest.json` 列出所有技能與參考文件；樹跟清單不一致、技能引用了不存在的
-參考、或者混進了來源平台的詞彙，驗證器就會紅。部分內容源自一套 MIT 授權的前身工具包，出處寫在 `LICENSE`。
+`scripts/manifest.json` 列出所有技能、參考文件、資產與腳本；樹跟清單不一致、技能引用了不存在的
+參考、套件腳本不能解析或 JSON 無效、或者混進了來源平台的詞彙，驗證器就會紅。`tests/` 也涵蓋套件的
+解析器與建置，以及卡片檢查器。部分內容源自一套 MIT 授權的前身工具包，套件的方法參考了 MIT 授權的
+tavern-mmd 專案，出處都寫在 `LICENSE`。

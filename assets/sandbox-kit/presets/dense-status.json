@@ -1,0 +1,22 @@
+{
+  "name": "dense-status",
+  "intent": "Many fields on screen: tight rhythm, clear tone colours, small radius. For RPG, survival and simulator cards.",
+  "dark": {
+    "bg": "#121417", "surface": "#1a1e24", "surface-2": "#252b33", "text": "#eef1f5", "muted": "#9aa4b1",
+    "border": "#5c6672", "accent": "#5aa9e6", "on-accent": "#0b1118",
+    "hp": "#e0605a", "mp": "#5b8def", "sp": "#4fbf7a", "xp": "#e3b341", "good": "#4fbf7a", "warn": "#e3b341", "bad": "#e0605a",
+    "gap": "calc(8 * var(--rpx))", "pad": "calc(12 * var(--rpx))", "radius": "calc(6 * var(--rpx))",
+    "shadow": "0 1px 4px rgba(0, 0, 0, .35)", "glow": "0", "font-size": "15px", "line-height": "1.55"
+  },
+  "light": {
+    "bg": "#f4f6f8", "surface": "#ffffff", "surface-2": "#e9edf2", "text": "#1f242b", "muted": "#5b6670",
+    "border": "#6f7b87", "accent": "#1f6fb2", "on-accent": "#ffffff",
+    "hp": "#b7322c", "mp": "#2a57b7", "sp": "#237a46", "xp": "#8f6a12", "good": "#237a46", "warn": "#8f6a12", "bad": "#b7322c",
+    "gap": "calc(8 * var(--rpx))", "pad": "calc(12 * var(--rpx))", "radius": "calc(6 * var(--rpx))",
+    "shadow": "0 1px 4px rgba(0, 0, 0, .12)", "glow": "0", "font-size": "15px", "line-height": "1.55"
+  },
+  "chat": {
+    "dark": { "bg": "bg", "surface": "surface", "text": "text", "text-muted": "muted", "border": "border", "accent": "accent", "bubble-user-bg": "surface-2", "bubble-ai-bg": "surface", "bubble-text": "text", "input-bg": "surface", "input-text": "text", "input-border": "border", "composer-bg": "bg", "composer-text": "text" },
+    "light": { "bg": "bg", "surface": "surface", "text": "text", "text-muted": "muted", "border": "border", "accent": "accent", "bubble-user-bg": "surface-2", "bubble-ai-bg": "surface", "bubble-text": "text", "input-bg": "surface", "input-text": "text", "input-border": "border", "composer-bg": "bg", "composer-text": "text" }
+  }
+}

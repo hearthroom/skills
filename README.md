@@ -65,11 +65,15 @@ your agreement, `play --allow-spend`.
 - Sources and framing: material distiller, originality adapter, sample
   calibrator, profile packager, visual identity director, boundary designer,
   language stylist, detail engineer, token architect, instruction guardrail.
-- Presentation: presentation director, render review.
-  Status bars, themes and full custom pages are routed to the open-source
-  [tavern-mmd](https://github.com/yofengi/tavern-mmd) skill; Hearthroom's
-  sandbox page runs the same author API as MMD's new-style sandbox, and
-  `hearthroom card import` reads its output.
+- Presentation: presentation director, sandbox kit, render review.
+  `assets/sandbox-kit/` is the toolkit's own kit for the sandbox page: a
+  status panel drawn from a block the model writes, a dark-and-light preset,
+  a settings drawer, a pinned bar and choice buttons, built into display
+  rules by `build.mjs`. `scripts/check-card.mjs` checks a card folder against
+  `scripts/sandbox-contract.json`, the inventory of the sandbox author API
+  generated from the chat page's source. Hearthroom's sandbox page has the
+  same shape as MMD's new-style sandbox, so `hearthroom card import` reads
+  that format too; the facts sheet lists the differences.
 - Assembly and loops: card blueprint, card author, field finalizer, quality
   auditor, card doctor, collaboration director, chat simulation, iteration
   director, publish readiness.
@@ -100,7 +104,11 @@ npm test          # validator unit tests
 npm run validate  # structure, citations, manifest, forbidden tokens
 ```
 
-`scripts/manifest.json` is the list of skills and references; the validator
-fails when the tree and the manifest disagree, when a skill cites a missing
-reference, or when vocabulary from the platform this toolkit was distilled
-from leaks in. Portions are derived from an MIT-licensed predecessor toolkit; `LICENSE` carries the attribution.
+`scripts/manifest.json` is the list of skills, references, assets and
+scripts; the validator fails when the tree and the manifest disagree, when a
+skill cites a missing reference, when a kit script does not parse or a JSON
+file is invalid, or when vocabulary from the platform this toolkit was
+distilled from leaks in. `tests/` also cover the kit's parser and build and
+the card checker. Portions are derived from an MIT-licensed predecessor
+toolkit and the kit follows the method of the MIT-licensed tavern-mmd
+project; `LICENSE` carries the attributions.

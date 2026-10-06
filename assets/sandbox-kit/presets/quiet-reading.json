@@ -1,0 +1,22 @@
+{
+  "name": "quiet-reading",
+  "intent": "Long prose first: low saturation, loose rhythm, no glow. For text-led story and companion cards.",
+  "dark": {
+    "bg": "#16181c", "surface": "#1f2228", "surface-2": "#2b2f36", "text": "#e8e6e1", "muted": "#a8a49c",
+    "border": "#6b7280", "accent": "#9fb8ad", "on-accent": "#14181a",
+    "hp": "#c4736f", "mp": "#7d95b8", "sp": "#87a37f", "xp": "#c0a468", "good": "#87a37f", "warn": "#c0a468", "bad": "#c4736f",
+    "gap": "calc(16 * var(--rpx))", "pad": "calc(20 * var(--rpx))", "radius": "calc(8 * var(--rpx))",
+    "shadow": "0 1px 6px rgba(0, 0, 0, .28)", "glow": "0", "font-size": "16px", "line-height": "1.8"
+  },
+  "light": {
+    "bg": "#f7f5f0", "surface": "#fffefb", "surface-2": "#eceae3", "text": "#2d2b28", "muted": "#5e5b55",
+    "border": "#8d8880", "accent": "#4a6b5d", "on-accent": "#ffffff",
+    "hp": "#a3403c", "mp": "#3d5c85", "sp": "#4a6b42", "xp": "#8a6d28", "good": "#4a6b42", "warn": "#8a6d28", "bad": "#a3403c",
+    "gap": "calc(16 * var(--rpx))", "pad": "calc(20 * var(--rpx))", "radius": "calc(8 * var(--rpx))",
+    "shadow": "0 1px 6px rgba(0, 0, 0, .1)", "glow": "0", "font-size": "16px", "line-height": "1.8"
+  },
+  "chat": {
+    "dark": { "bg": "bg", "surface": "surface", "text": "text", "text-muted": "muted", "border": "border", "accent": "accent", "bubble-user-bg": "surface-2", "bubble-ai-bg": "surface", "bubble-text": "text", "input-bg": "surface", "input-text": "text", "input-border": "border", "composer-bg": "bg", "composer-text": "text" },
+    "light": { "bg": "bg", "surface": "surface", "text": "text", "text-muted": "muted", "border": "border", "accent": "accent", "bubble-user-bg": "surface-2", "bubble-ai-bg": "surface", "bubble-text": "text", "input-bg": "surface", "input-text": "text", "input-border": "border", "composer-bg": "bg", "composer-text": "text" }
+  }
+}

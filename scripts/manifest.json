@@ -1,99 +1,403 @@
 {
   "skills": {
-    "using-hearthroom": {"source": "using-moonloom", "batch": 0},
-    "hearthroom-cli-operator": {"source": "lunatalk-mcp-operator", "batch": 0},
-    "hearthroom-presentation-director": {"source": "lunatalk-presentation-director", "batch": 0},
-    "hearthroom-render-review": {"source": "lunatalk-render-review", "batch": 0},
-    "hearthroom-card-author": {"source": "lunatalk-card-author", "batch": "A"},
-    "hearthroom-card-blueprint": {"source": "lunatalk-card-blueprint", "batch": "A"},
-    "hearthroom-field-finalizer": {"source": "lunatalk-field-finalizer", "batch": "A"},
-    "hearthroom-creation-conductor": {"source": "lunatalk-creation-conductor", "batch": "A"},
-    "hearthroom-detail-engineer": {"source": "lunatalk-detail-engineer", "batch": "A"},
-    "hearthroom-token-architect": {"source": "lunatalk-token-architect", "batch": "A"},
-    "hearthroom-premise-workshop": {"source": "lunatalk-premise-workshop", "batch": "B"},
-    "hearthroom-character-core": {"source": "lunatalk-character-core", "batch": "B"},
-    "hearthroom-relationship-architect": {"source": "lunatalk-relationship-architect", "batch": "B"},
-    "hearthroom-world-engineer": {"source": "lunatalk-world-engineer", "batch": "B"},
-    "hearthroom-tension-weaver": {"source": "lunatalk-tension-weaver", "batch": "B"},
-    "hearthroom-archetype-director": {"source": "lunatalk-archetype-director", "batch": "B"},
-    "hearthroom-opening-director": {"source": "lunatalk-opening-director", "batch": "C"},
-    "hearthroom-voice-director": {"source": "lunatalk-voice-director", "batch": "C"},
-    "hearthroom-talk-example-curator": {"source": "lunatalk-talk-example-curator", "batch": "C"},
-    "hearthroom-state-economist": {"source": "lunatalk-state-economist", "batch": "C"},
-    "hearthroom-language-stylist": {"source": "lunatalk-language-stylist", "batch": "C"},
-    "hearthroom-agency-designer": {"source": "lunatalk-agency-designer", "batch": "C"},
-    "hearthroom-longplay-architect": {"source": "lunatalk-longplay-architect", "batch": "C"},
-    "hearthroom-play-engineer": {"source": "lunatalk-play-engineer", "batch": "D"},
-    "hearthroom-scenario-architect": {"source": "lunatalk-scenario-architect", "batch": "D"},
-    "hearthroom-daily-life-architect": {"source": "lunatalk-daily-life-architect", "batch": "D"},
-    "hearthroom-generator-architect": {"source": "lunatalk-generator-architect", "batch": "D"},
-    "hearthroom-ensemble-director": {"source": "lunatalk-ensemble-director", "batch": "D"},
-    "hearthroom-series-architect": {"source": "lunatalk-series-architect", "batch": "D"},
-    "hearthroom-material-distiller": {"source": "lunatalk-material-distiller", "batch": "E"},
-    "hearthroom-originality-adapter": {"source": "lunatalk-originality-adapter", "batch": "E"},
-    "hearthroom-sample-calibrator": {"source": "lunatalk-sample-calibrator", "batch": "E"},
-    "hearthroom-profile-packager": {"source": "lunatalk-profile-packager", "batch": "E"},
-    "hearthroom-visual-identity-director": {"source": "lunatalk-visual-identity-director", "batch": "E"},
-    "hearthroom-boundary-designer": {"source": "lunatalk-boundary-designer", "batch": "E"},
-    "hearthroom-instruction-guardrail": {"source": "lunatalk-instruction-guardrail", "batch": "E"},
-    "hearthroom-quality-auditor": {"source": "lunatalk-quality-auditor", "batch": "F"},
-    "hearthroom-card-doctor": {"source": "lunatalk-card-doctor", "batch": "F"},
-    "hearthroom-iteration-director": {"source": "lunatalk-iteration-director", "batch": "F"},
-    "hearthroom-collaboration-director": {"source": "lunatalk-collaboration-director", "batch": "F"},
-    "hearthroom-chat-simulation": {"source": "lunatalk-chat-simulation", "batch": "F"},
-    "hearthroom-publish-readiness": {"source": "lunatalk-publish-readiness", "batch": "F"}
+    "using-hearthroom": {
+      "source": "using-moonloom",
+      "batch": 0
+    },
+    "hearthroom-cli-operator": {
+      "source": "lunatalk-mcp-operator",
+      "batch": 0
+    },
+    "hearthroom-presentation-director": {
+      "source": "lunatalk-presentation-director",
+      "batch": 0
+    },
+    "hearthroom-render-review": {
+      "source": "lunatalk-render-review",
+      "batch": 0
+    },
+    "hearthroom-card-author": {
+      "source": "lunatalk-card-author",
+      "batch": "A"
+    },
+    "hearthroom-card-blueprint": {
+      "source": "lunatalk-card-blueprint",
+      "batch": "A"
+    },
+    "hearthroom-field-finalizer": {
+      "source": "lunatalk-field-finalizer",
+      "batch": "A"
+    },
+    "hearthroom-creation-conductor": {
+      "source": "lunatalk-creation-conductor",
+      "batch": "A"
+    },
+    "hearthroom-detail-engineer": {
+      "source": "lunatalk-detail-engineer",
+      "batch": "A"
+    },
+    "hearthroom-token-architect": {
+      "source": "lunatalk-token-architect",
+      "batch": "A"
+    },
+    "hearthroom-premise-workshop": {
+      "source": "lunatalk-premise-workshop",
+      "batch": "B"
+    },
+    "hearthroom-character-core": {
+      "source": "lunatalk-character-core",
+      "batch": "B"
+    },
+    "hearthroom-relationship-architect": {
+      "source": "lunatalk-relationship-architect",
+      "batch": "B"
+    },
+    "hearthroom-world-engineer": {
+      "source": "lunatalk-world-engineer",
+      "batch": "B"
+    },
+    "hearthroom-tension-weaver": {
+      "source": "lunatalk-tension-weaver",
+      "batch": "B"
+    },
+    "hearthroom-archetype-director": {
+      "source": "lunatalk-archetype-director",
+      "batch": "B"
+    },
+    "hearthroom-opening-director": {
+      "source": "lunatalk-opening-director",
+      "batch": "C"
+    },
+    "hearthroom-voice-director": {
+      "source": "lunatalk-voice-director",
+      "batch": "C"
+    },
+    "hearthroom-talk-example-curator": {
+      "source": "lunatalk-talk-example-curator",
+      "batch": "C"
+    },
+    "hearthroom-state-economist": {
+      "source": "lunatalk-state-economist",
+      "batch": "C"
+    },
+    "hearthroom-language-stylist": {
+      "source": "lunatalk-language-stylist",
+      "batch": "C"
+    },
+    "hearthroom-agency-designer": {
+      "source": "lunatalk-agency-designer",
+      "batch": "C"
+    },
+    "hearthroom-longplay-architect": {
+      "source": "lunatalk-longplay-architect",
+      "batch": "C"
+    },
+    "hearthroom-play-engineer": {
+      "source": "lunatalk-play-engineer",
+      "batch": "D"
+    },
+    "hearthroom-scenario-architect": {
+      "source": "lunatalk-scenario-architect",
+      "batch": "D"
+    },
+    "hearthroom-daily-life-architect": {
+      "source": "lunatalk-daily-life-architect",
+      "batch": "D"
+    },
+    "hearthroom-generator-architect": {
+      "source": "lunatalk-generator-architect",
+      "batch": "D"
+    },
+    "hearthroom-ensemble-director": {
+      "source": "lunatalk-ensemble-director",
+      "batch": "D"
+    },
+    "hearthroom-series-architect": {
+      "source": "lunatalk-series-architect",
+      "batch": "D"
+    },
+    "hearthroom-material-distiller": {
+      "source": "lunatalk-material-distiller",
+      "batch": "E"
+    },
+    "hearthroom-originality-adapter": {
+      "source": "lunatalk-originality-adapter",
+      "batch": "E"
+    },
+    "hearthroom-sample-calibrator": {
+      "source": "lunatalk-sample-calibrator",
+      "batch": "E"
+    },
+    "hearthroom-profile-packager": {
+      "source": "lunatalk-profile-packager",
+      "batch": "E"
+    },
+    "hearthroom-visual-identity-director": {
+      "source": "lunatalk-visual-identity-director",
+      "batch": "E"
+    },
+    "hearthroom-boundary-designer": {
+      "source": "lunatalk-boundary-designer",
+      "batch": "E"
+    },
+    "hearthroom-instruction-guardrail": {
+      "source": "lunatalk-instruction-guardrail",
+      "batch": "E"
+    },
+    "hearthroom-quality-auditor": {
+      "source": "lunatalk-quality-auditor",
+      "batch": "F"
+    },
+    "hearthroom-card-doctor": {
+      "source": "lunatalk-card-doctor",
+      "batch": "F"
+    },
+    "hearthroom-iteration-director": {
+      "source": "lunatalk-iteration-director",
+      "batch": "F"
+    },
+    "hearthroom-collaboration-director": {
+      "source": "lunatalk-collaboration-director",
+      "batch": "F"
+    },
+    "hearthroom-chat-simulation": {
+      "source": "lunatalk-chat-simulation",
+      "batch": "F"
+    },
+    "hearthroom-publish-readiness": {
+      "source": "lunatalk-publish-readiness",
+      "batch": "F"
+    },
+    "hearthroom-sandbox-kit": {
+      "source": null,
+      "batch": "G"
+    }
   },
   "references": {
-    "platform-facts.md": {"batch": 0, "source": null},
-    "cli-workflow.md": {"batch": 0, "source": "mcp-client-workflow.md"},
-    "presentation-design.md": {"batch": 0, "source": "presentation-design.md"},
-    "card-authoring-templates.md": {"batch": "A", "source": "card-authoring-templates.md"},
-    "role-card-writing-framework.md": {"batch": "A", "source": "role-card-writing-framework.md"},
-    "field-finalization.md": {"batch": "A", "source": "field-finalization.md"},
-    "creation-workflow.md": {"batch": "A", "source": "creation-workflow.md"},
-    "role-detail-engine.md": {"batch": "A", "source": "role-detail-engine.md"},
-    "token-economy.md": {"batch": "A", "source": "token-economy.md"},
-    "prompt-attention-architecture.md": {"batch": "A", "source": "prompt-attention-architecture.md"},
-    "premise-workshop.md": {"batch": "B", "source": "premise-workshop.md"},
-    "character-core-design.md": {"batch": "B", "source": "character-core-design.md"},
-    "relationship-engine.md": {"batch": "B", "source": "relationship-engine.md"},
-    "world-engine-design.md": {"batch": "B", "source": "world-engine-design.md"},
-    "tension-triangle.md": {"batch": "B", "source": "tension-triangle.md"},
-    "archetype-contracts.md": {"batch": "B", "source": "archetype-contracts.md"},
-    "opening-design.md": {"batch": "C", "source": "opening-design.md"},
-    "voice-calibration.md": {"batch": "C", "source": "voice-calibration.md"},
-    "talk-example-design.md": {"batch": "C", "source": "talk-example-design.md"},
-    "state-economy-design.md": {"batch": "C", "source": "state-economy-design.md"},
-    "language-style.md": {"batch": "C", "source": "language-style.md"},
-    "prose-texture.md": {"batch": "C", "source": null},
-    "agency-design.md": {"batch": "C", "source": "agency-design.md"},
-    "longplay-design.md": {"batch": "C", "source": "longplay-design.md"},
-    "play-engine-design.md": {"batch": "D", "source": "play-engine-design.md"},
-    "system-intake-card-design.md": {"batch": "D", "source": "system-intake-card-design.md"},
-    "scenario-design.md": {"batch": "D", "source": "scenario-design.md"},
-    "daily-life-design.md": {"batch": "D", "source": "daily-life-design.md"},
-    "generator-design.md": {"batch": "D", "source": "generator-design.md"},
-    "ensemble-card-design.md": {"batch": "D", "source": "ensemble-card-design.md"},
-    "card-series-design.md": {"batch": "D", "source": "card-series-design.md"},
-    "material-distillation.md": {"batch": "E", "source": "material-distillation.md"},
-    "originality-adaptation.md": {"batch": "E", "source": "originality-adaptation.md"},
-    "sample-driven-calibration.md": {"batch": "E", "source": "sample-driven-calibration.md"},
-    "profile-packaging.md": {"batch": "E", "source": "profile-packaging.md"},
-    "visual-identity.md": {"batch": "E", "source": "visual-identity.md"},
-    "boundary-design.md": {"batch": "E", "source": "boundary-design.md"},
-    "cost-and-boundaries.md": {"batch": "E", "source": "safety-and-cost.md"},
-    "instruction-guardrails.md": {"batch": "E", "source": "instruction-guardrails.md"},
-    "quality-rubric.md": {"batch": "F", "source": "quality-rubric.md"},
-    "quality-scorecard.md": {"batch": "F", "source": "quality-scorecard.md"},
-    "card-diagnosis.md": {"batch": "F", "source": "card-diagnosis.md"},
-    "iteration-loop.md": {"batch": "F", "source": "iteration-loop.md"},
-    "author-collaboration.md": {"batch": "F", "source": "author-collaboration.md"},
-    "playtest-loop.md": {"batch": "F", "source": "playtest-loop.md"}
+    "platform-facts.md": {
+      "batch": 0,
+      "source": null
+    },
+    "cli-workflow.md": {
+      "batch": 0,
+      "source": "mcp-client-workflow.md"
+    },
+    "presentation-design.md": {
+      "batch": 0,
+      "source": "presentation-design.md"
+    },
+    "card-authoring-templates.md": {
+      "batch": "A",
+      "source": "card-authoring-templates.md"
+    },
+    "role-card-writing-framework.md": {
+      "batch": "A",
+      "source": "role-card-writing-framework.md"
+    },
+    "field-finalization.md": {
+      "batch": "A",
+      "source": "field-finalization.md"
+    },
+    "creation-workflow.md": {
+      "batch": "A",
+      "source": "creation-workflow.md"
+    },
+    "role-detail-engine.md": {
+      "batch": "A",
+      "source": "role-detail-engine.md"
+    },
+    "token-economy.md": {
+      "batch": "A",
+      "source": "token-economy.md"
+    },
+    "prompt-attention-architecture.md": {
+      "batch": "A",
+      "source": "prompt-attention-architecture.md"
+    },
+    "premise-workshop.md": {
+      "batch": "B",
+      "source": "premise-workshop.md"
+    },
+    "character-core-design.md": {
+      "batch": "B",
+      "source": "character-core-design.md"
+    },
+    "relationship-engine.md": {
+      "batch": "B",
+      "source": "relationship-engine.md"
+    },
+    "world-engine-design.md": {
+      "batch": "B",
+      "source": "world-engine-design.md"
+    },
+    "tension-triangle.md": {
+      "batch": "B",
+      "source": "tension-triangle.md"
+    },
+    "archetype-contracts.md": {
+      "batch": "B",
+      "source": "archetype-contracts.md"
+    },
+    "opening-design.md": {
+      "batch": "C",
+      "source": "opening-design.md"
+    },
+    "voice-calibration.md": {
+      "batch": "C",
+      "source": "voice-calibration.md"
+    },
+    "talk-example-design.md": {
+      "batch": "C",
+      "source": "talk-example-design.md"
+    },
+    "state-economy-design.md": {
+      "batch": "C",
+      "source": "state-economy-design.md"
+    },
+    "language-style.md": {
+      "batch": "C",
+      "source": "language-style.md"
+    },
+    "prose-texture.md": {
+      "batch": "C",
+      "source": null
+    },
+    "agency-design.md": {
+      "batch": "C",
+      "source": "agency-design.md"
+    },
+    "longplay-design.md": {
+      "batch": "C",
+      "source": "longplay-design.md"
+    },
+    "play-engine-design.md": {
+      "batch": "D",
+      "source": "play-engine-design.md"
+    },
+    "system-intake-card-design.md": {
+      "batch": "D",
+      "source": "system-intake-card-design.md"
+    },
+    "scenario-design.md": {
+      "batch": "D",
+      "source": "scenario-design.md"
+    },
+    "daily-life-design.md": {
+      "batch": "D",
+      "source": "daily-life-design.md"
+    },
+    "generator-design.md": {
+      "batch": "D",
+      "source": "generator-design.md"
+    },
+    "ensemble-card-design.md": {
+      "batch": "D",
+      "source": "ensemble-card-design.md"
+    },
+    "card-series-design.md": {
+      "batch": "D",
+      "source": "card-series-design.md"
+    },
+    "material-distillation.md": {
+      "batch": "E",
+      "source": "material-distillation.md"
+    },
+    "originality-adaptation.md": {
+      "batch": "E",
+      "source": "originality-adaptation.md"
+    },
+    "sample-driven-calibration.md": {
+      "batch": "E",
+      "source": "sample-driven-calibration.md"
+    },
+    "profile-packaging.md": {
+      "batch": "E",
+      "source": "profile-packaging.md"
+    },
+    "visual-identity.md": {
+      "batch": "E",
+      "source": "visual-identity.md"
+    },
+    "boundary-design.md": {
+      "batch": "E",
+      "source": "boundary-design.md"
+    },
+    "cost-and-boundaries.md": {
+      "batch": "E",
+      "source": "safety-and-cost.md"
+    },
+    "instruction-guardrails.md": {
+      "batch": "E",
+      "source": "instruction-guardrails.md"
+    },
+    "quality-rubric.md": {
+      "batch": "F",
+      "source": "quality-rubric.md"
+    },
+    "quality-scorecard.md": {
+      "batch": "F",
+      "source": "quality-scorecard.md"
+    },
+    "card-diagnosis.md": {
+      "batch": "F",
+      "source": "card-diagnosis.md"
+    },
+    "iteration-loop.md": {
+      "batch": "F",
+      "source": "iteration-loop.md"
+    },
+    "author-collaboration.md": {
+      "batch": "F",
+      "source": "author-collaboration.md"
+    },
+    "playtest-loop.md": {
+      "batch": "F",
+      "source": "playtest-loop.md"
+    },
+    "sandbox-kit.md": {
+      "batch": "G",
+      "source": null
+    }
   },
   "examples": {
-    "sample-card-packets.md": {"batch": "E"},
-    "synthetic-card-briefs.md": {"batch": "E"}
+    "sample-card-packets.md": {
+      "batch": "E"
+    },
+    "synthetic-card-briefs.md": {
+      "batch": "E"
+    }
   },
-  "dropped": ["lunatalk-mcp-operator (replaced by hearthroom-cli-operator)", "lunatalk-preview-page-designer", "lunatalk-benchmark-runner", "lunatalk-mod-author",
-    "card-writer-mcp.md", "mcp-client-workflow.md (folded into cli-workflow.md)", "oauth-client-lifecycle.md", "theme-v3-rendering.md", "preview-page-authoring.md", "creator-analytics.md", "benchmark-pattern-calibration.md", "agent-mode-runtime.md (folded into platform-facts.md)", "one-shot-prompt-runtime.md", "mod-authoring.md", "end-to-end-acceptance.md", "safety-and-cost.md (rewritten as cost-and-boundaries.md)"]
+  "dropped": [
+    "lunatalk-mcp-operator (replaced by hearthroom-cli-operator)",
+    "lunatalk-preview-page-designer",
+    "lunatalk-benchmark-runner",
+    "lunatalk-mod-author",
+    "card-writer-mcp.md",
+    "mcp-client-workflow.md (folded into cli-workflow.md)",
+    "oauth-client-lifecycle.md",
+    "theme-v3-rendering.md",
+    "preview-page-authoring.md",
+    "creator-analytics.md",
+    "benchmark-pattern-calibration.md",
+    "agent-mode-runtime.md (folded into platform-facts.md)",
+    "one-shot-prompt-runtime.md",
+    "mod-authoring.md",
+    "end-to-end-acceptance.md",
+    "safety-and-cost.md (rewritten as cost-and-boundaries.md)"
+  ],
+  "assets": {
+    "sandbox-kit": {
+      "batch": "G",
+      "source": "Hearthroom-native kit; method informed by tavern-mmd's sandbox kit (MIT)"
+    }
+  },
+  "scripts": {
+    "check-card.mjs": {
+      "batch": "G"
+    },
+    "sandbox-contract.json": {
+      "batch": "G",
+      "source": "hearthroom/stage contract/sandbox-contract.json (generated)"
+    }
+  }
 }

@@ -115,6 +115,12 @@ test('README declarations and the replay health report', async () => {
   assert.ok(h.keys.hp.count === 2 && h.keys.mood.count === 2);
   assert.deepEqual(h.requiredKeysBelow90, ['hp', 'mood', 'time']);
   assert.ok(h.overhead > 0 && h.overhead < 1);
+  // a kit card's rules consume [status]: the block must still be tallied per key, and its characters counted once
+  const k = replayHealth(replies, { threshold: 0.15, requiredKeys: ['hp', 'mood'], markers: [{ name: 'status' }, { name: 'choices' }] });
+  assert.equal(k.withBlock, 2);
+  assert.equal(k.missingClose, 1);
+  assert.ok(k.keys.hp.count === 2 && k.keys.mood.count === 2);
+  assert.ok(Math.abs(k.overhead - h.overhead) < 0.02, `overhead ${k.overhead} vs ${h.overhead}`);
   const fromJsonl = repliesFrom('{"role":"user","content":"hi"}\n{"role":"ai","content":"[status]\\nhp: 1\\n[/status]"}\n');
   assert.deepEqual(fromJsonl, ['[status]\nhp: 1\n[/status]']);
   const dir = await card({ 'README.md': 'uiRole: core\n', 'rules.json': { pageMode: 'sandbox', rules: [] } });

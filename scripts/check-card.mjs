@@ -113,8 +113,8 @@ export function replayHealth(replies, { block = 'status', threshold = 0.15, requ
       st.chars += Array.from(text.matchAll(re)).reduce((a, m) => a + m[0].length, 0);
     }
     for (const m of text.matchAll(STATUS_BLOCK)) {
-      if (markerRes.some((x) => x.name === m[1])) continue; // already counted above
-      chars += m[0].length;
+      // a block a rule consumes (every kit card) is already in chars from the marker pass; still tally its keys
+      if (!markerRes.some((x) => x.name === m[1])) chars += m[0].length;
       if (m[1] === 'choices') { choicesBlocks++; continue; }
       found++;
       if (!m[0].includes(`[/${m[1]}]`)) missingClose++;

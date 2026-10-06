@@ -5,13 +5,15 @@ description: Use when Hearthroom card work focuses on the talkExample field, inc
 
 # Hearthroom Talk Example Curator
 
-Use this skill when the open question is whether `talkExample` is needed and
-what a compact sample should teach. The output is a talk-example packet.
+Use this skill when the open question is what the `talkExample` sample must
+teach and what it must never show. Examples beat rules for weak models: one
+ordinary-turn sample by default (`talk-example-design.md`). The output is a
+talk-example packet.
 
 ## Required references
 
-- `../../references/talk-example-design.md`: decision set, sample jobs, token
-  payment, quality checks.
+- `../../references/talk-example-design.md`: examples beat rules, decision,
+  sample jobs, token payment, quality checks.
 - `../../references/platform-facts.md`: `talkExample` in `card.json` is a list
   of `{roleType: user|ai, content}` pairs.
 - `../../references/voice-calibration.md`, `../../references/generator-design.md`
@@ -22,27 +24,34 @@ what a compact sample should teach. The output is a talk-example packet.
 
 1. Confirm prerequisites. Unresolved voice, relationship, play, generator,
    ensemble or language rules go to their skill before any sample.
-2. Choose `omit`, `micro-samples` or `full examples`.
-3. Give each sample one job: voice under pressure, ensemble contrast,
-   generator format, play protocol, or relationship repair.
-4. Draft the minimal shape: one `user` line, one `ai` reply.
+2. Choose `one ordinary turn` (default), `a second sample` for a pressure
+   case the rules keep getting wrong, or `omit` only when both a weak-model
+   and a strong-model playtest hold format and voice without it.
+3. Give each sample one job: format floor, voice, ensemble contrast,
+   generator format, play protocol, or relationship texture (an ordinary
+   exchange; never the rupture or the repair).
+4. Draft the shape: one plain `user` line, one `ai` reply at the length and
+   format every reply should have, ending with the status block when the
+   card has one, in a different situation from the opening's first step.
 5. State what the sample must not decide for the player.
 6. Name the token payment: what is cut, moved to `definition.md` or a Lorebook
-   entry, or compressed. No separate limit for the field is documented; keep samples
-   short and check `tokenBudget` in `hearthroom card push --validate --json`.
+   entry, or compressed. No limit or per-field count for `talkExample` is
+   documented, and `tokenBudget` does not report it; count the characters
+   yourself and keep the total below the opening's.
 
 ## Output
 
 ```text
 Talk-example packet:
 - current request / prerequisite packets:
-- decision: omit | micro-samples | full examples, and why
+- decision: one ordinary turn | second sample (pressure case) | omit, and why
 - samples: job, user content, ai content, what it teaches, what it must not
   decide for the player
 - token payment: cut / move / compress
 - placement: talkExample | definition.md | welcome.md
-- self-review: each sample has a job, decision minimal, nothing copied, no
-  repeat of the opening, player agency kept, register matches the card's language
+- self-review: each sample has a job, the sample is an ordinary turn (not a
+  climax), nothing copied, not the opening's situation, player agency kept,
+  register matches the card's language
 ```
 
 ## Hand-off
@@ -57,8 +66,8 @@ Talk-example packet:
 
 ## Do not
 
-- Do not add examples when compact rules are enough.
-- Do not use full examples outside generator, helper or system formats.
+- Do not show a rare event (rupture, confession, reward, ending) as the
+  sample; a weak model plays it every turn.
 - Do not replay the opening or teach one route.
 - Do not write the player's inner state or commitments in the `ai` reply.
 - Do not copy source dialogue.

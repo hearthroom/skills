@@ -10,15 +10,21 @@ not card content to copy. Each run should produce a fresh original card.
    the matching `type` in `card.json`.
 2. Author the files with the toolkit and run its self-review against the
    quality checks below.
-3. `hearthroom card push <dir> --validate --json`; fix `blockers`, read
+3. `node <toolkit>/scripts/check-card.mjs <dir>`; fix errors, read
+   warnings.
+4. `hearthroom card push <dir> --validate --json`; fix `blockers`, read
    `warnings` and `suggestedFixes`.
-4. `hearthroom card render <dir> --json`; fix rolled-back rules and check the
-   play page link when a browser is available.
-5. If play cost is acceptable, run the probes with
-   `hearthroom play <dir> -m "…" --allow-spend --json`.
-6. A pass means: self-review passes, validation has no blockers, render shows no
-   rolled-back rules, the probes behave as the checks expect, and the field
-   character counts stay reasonable for the archetype.
+5. `hearthroom card render <dir> --json`; fix rolled-back rules and look at
+   the screen in the offline preview when the chat page's repository is
+   available, or at the play page link when a browser is.
+6. If play cost is acceptable, run the probes as 10–20-turn conversations on
+   a weak model and a strong model, each started with
+   `hearthroom play <dir> --new-session -m "…" --allow-spend --json`.
+7. A pass means: self-review passes, check-card has no errors, validation has
+   no blockers, render shows no rolled-back rules, the probes behave as the
+   checks expect on both models, the result is compared with the previous
+   version on the same probes, and the field character counts stay
+   reasonable for the archetype.
 
 ## Brief 0: premise workshop
 
@@ -192,9 +198,10 @@ and the opening is much longer than the definition.
 ```
 
 Checks: a diagnosis packet before any rewrite; each symptom mapped to a file,
-a missing layer, a narrow skill, and a patch target; validation and render
-polish are not treated as enough; another play run waits until structural
-patches are defined and cost is accepted.
+a missing layer, a narrow skill, and a patch target; one shortcoming fixed
+per version, the same probes rerun against the previous version; validation
+and render polish are not treated as enough; another play run waits until
+structural patches are defined and cost is accepted.
 
 Probes: "I follow the opening hook but add one unexpected condition." "I ignore
 the suggested choice and try a plausible alternative." "I stay quiet and wait
@@ -296,3 +303,42 @@ accidental mixing.
 Probes: "Could the same character produce both the opening and the examples?"
 "Does the address matrix explain every shift?" "Did any cleanup change a route,
 boundary, or the player's agency?"
+
+## Brief 16: uiRole core
+
+```text
+Make a compact survival card where a hunger meter, a supply count and a
+weather line are the game. I want them drawn as a panel in every reply and
+two or three choices under each turn, and the game must still make sense if
+the panel ever fails to draw.
+```
+
+Checks: `README.md` declares `uiRole: core` and a status overhead threshold
+with a reason; the canonical `[status]` block (one `key: value` per line, at
+the end) and a `[choices]` block are in the output contract's ordinary-turn
+example and at the end of the opening; the kit build and check-card are
+clean; preview screenshots show one panel per bubble and none in the
+function bar, in both widths; the block and the choices are present at turn
+15 on a weak model; the overhead ratio from `check-card.mjs --replay` is
+under the declared threshold; with the rules disabled the replies still say
+what the hunger, the supplies and the weather are.
+
+Probes: "We eat half the ration and keep walking." "Show me what the storm
+did to the supplies." "What happens if I ignore the meter for three turns?"
+
+## Brief 17: uiRole assist
+
+```text
+Make a quiet two-person drama on a night train. I want a small panel that
+shows where we are and the mood, nothing more, and the text must carry
+everything on its own.
+```
+
+Checks: `README.md` declares `uiRole: assist`; the block has at most two
+fields and appears at the end of the opening; the overhead ratio is under
+15%; with every display rule disabled the opening and three play replies read
+as a complete story; no choices block unless the reply offers real options;
+the second turn is better than the first.
+
+Probes: "I pretend to sleep and watch the window." "Why did you get on this
+train?" "I say nothing for two stops."

@@ -1,5 +1,6 @@
 {
   "$comment": "Input for build.mjs. Copy next to a card folder as kit.config.json, edit, then: node <toolkit>/assets/sandbox-kit/build.mjs --config kit.config.json --card <dir>. Keys starting with $ are ignored.",
+  "uiRole": "assist",
   "block": "status",
   "preset": "quiet-reading",
   "overrides": {
@@ -16,7 +17,8 @@
       { "key": "stamina", "label": "Stamina", "type": "bar", "tone": "sp" },
       { "section": "Scene", "key": "location", "label": "Where", "type": "path" },
       { "key": "time", "label": "When" },
-      { "key": "mood", "label": "Mood" },
+      { "key": "mood", "label": "Mood", "values": ["calm", "wary", "amused", "angry"], "rule": "one word; changes only when the scene gives a reason" },
+      { "key": "danger", "label": "Danger", "type": "bar", "tone": "bad", "volatile": true },
       { "section": "People", "key": "trust", "label": "Trust", "type": "entities" },
       { "key": "tags", "label": "Tags", "type": "tags" },
       { "key": "secret", "hidden": true }
@@ -26,7 +28,7 @@
     "status": true,
     "pinned": [],
     "dock": { "side": "right", "icon": "☰", "label": "Menu", "settings": true },
-    "choices": true
+    "choices": "draft"
   },
   "extra": {
     "$comment": "Card-specific CSS and JS appended after the kit. The JS can use window.HR.",

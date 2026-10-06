@@ -9,11 +9,20 @@ material.
 
 Each sample lists what goes in `definition.md`, `welcome.md`, and example
 conversations (`talkExample` in `card.json`), one opening proof, play hooks,
-and probes for `hearthroom play -m`.
+and probes for `hearthroom play -m`. Each also declares its `uiRole`
+(`assist`: the replies read well with every display rule disabled; `core`:
+the mechanics are bound to the screen) as the card's `README.md` would.
+
+Probes seed a 10–20-turn run, not a single reply: add one meta probe (an
+out-of-character question) and one ending probe to each set, run it on a
+weak model and a strong model with `--new-session`, and compare versions on
+the same set (`playtest-loop.md`). The `talkExample` for every sample shows
+the most ordinary turn in the card's format, never a rare event.
 
 ## Sample 1: relationship
 
 Card shape: slow-burn companion.
+uiRole: assist; no status block.
 
 ```text
 name: Mei, Waiting Under the Awning
@@ -52,6 +61,7 @@ Change for a real card: the history, the pressure object, the weather, the place
 ## Sample 2: daily-life
 
 Card shape: quiet routine.
+uiRole: assist; no status block.
 
 ```text
 name: Nao at the Rooftop Faucet
@@ -89,6 +99,7 @@ Change for a real card: the routine, the shared object, the hour, the pressure.
 ## Sample 3: story / scenario
 
 Card shape: branchable mystery.
+uiRole: assist; an optional `[status]` block of two fields (panic, access).
 
 ```text
 name: The Lantern Witness
@@ -128,6 +139,7 @@ Change for a real card: the incident, the clue medium, the setting, the costs.
 ## Sample 4: game
 
 Card shape: compact expedition engine.
+uiRole: core; threshold 20%, because the block is the turn ledger the game runs on.
 
 ```text
 name: Under-Ice Gate Expedition
@@ -145,20 +157,34 @@ tags: game, expedition, compact-state, resource-risk, crew-trust, failure-forwar
   renewing choice.
 
 ```text
-[STATE] Heat 4/6 | Time: Dusk | Crew Trust: Uneasy | Risk: Frost-sound nearby
-
 The buried gate exhales blue vapor through the ice. Your scout kneels beside
 three possible entries: a cracked service stair, a sealed tram tunnel, and a
 half-flooded shrine door.
 
 "One route saves heat," she says. "One saves time. One might tell us why the
 city froze."
+
+[status]
+heat: 4/6
+time: dusk
+crew trust: uneasy
+risk: frost-sound nearby
+[/status]
+
+[choices]
+- Take the service stair and save heat
+- Force the tram tunnel and save time
+- Try the shrine door
+[/choices]
 ```
 
 Hooks: resources are heat, time, trust, risk; turn protocol resolves, updates,
 shows consequence, offers a renewed choice; failure-forward (lost heat opens a
-shortcut, injured trust reveals a secret, delay moves the enemy). A display rule
-can turn the `[STATE]` line into a status bar.
+shortcut, injured trust reveals a secret, delay moves the enemy). The output
+contract shows this block on an ordinary turn and the sandbox kit draws it as
+a panel inside the bubble (heat as a bar) and the choices as buttons; free
+text always works, and the block is the turn ledger the game runs on, which
+is why this card is `core`.
 
 Probes: "We spend extra heat to force the tram tunnel open." "I send the scout
 ahead but keep the medic beside me." "Show the updated state after the crew
@@ -169,6 +195,7 @@ Change for a real card: resources, setting, crew roles, route labels.
 ## Sample 5: generator
 
 Card shape: creator helper with an artifact loop.
+uiRole: assist; the artifact schema is the format, not a panel.
 
 ```text
 name: Ritualwright of Small Towns
@@ -209,6 +236,7 @@ Change for a real card: the artifact domain, schema labels, defaults, revisions.
 ## Sample 6: boundary-sensitive romance
 
 Card shape: charged companion with refusal routes.
+uiRole: assist; no status block.
 
 ```text
 name: Vale After the Apology Tour
@@ -245,6 +273,7 @@ Change for a real card: the public mistake, the crisis, the history, the routes.
 ## Sample 7: light fantasy
 
 Card shape: one-rule world with a relationship overlay.
+uiRole: assist; no status block.
 
 ```text
 name: Iri of the One-Rule Bookshop
@@ -257,7 +286,9 @@ tags: light-fantasy, bookshop, one-rule, memory-choice, gentle-mystery, agency
 - Definition: one rule, one location, one dynamic, one consequence path; Iri
   uses the rule through actions, not lectures.
 - Opening: the rule happening in a concrete object or room behavior.
-- Examples: usually omitted unless the voice or the rule needs calibration.
+- Examples: one ordinary turn in Iri's register (a plain question, a plain
+  answer that uses the rule), so a weak model copies the register and not a
+  climax.
 
 ```text
 The bookshop sign turns itself around as rain gathers on the glass: SECOND
@@ -281,6 +312,7 @@ Change for a real card: the rule, the location, the job, the cost.
 ## Sample 8: heavy-setting
 
 Card shape: lore-rich courier scenario.
+uiRole: assist; an optional `[status]` block of seal, risk and window.
 
 ```text
 name: Clock-District Courier
@@ -297,7 +329,8 @@ tags: heavy-setting, courier, time-districts, faction-route, modular-world
   ("Harbor calendar and toll law"), with the district and faction names as
   keywords; no constant entries beyond the one core time rule.
 - Opening: the sealed message already expiring in conflicting time systems.
-- Examples: only if narrator or faction style needs calibration.
+- Examples: one ordinary turn of the narrator's register with the optional
+  block at the end, so the format floor holds.
 
 ```text
 The message seal warms against your palm as the west clock strikes midnight, the
@@ -322,6 +355,7 @@ route pressures.
 ## Sample 9: ensemble
 
 Card shape: multi-character repair crisis.
+uiRole: assist; a pinned bar of trust and oxygen at most.
 
 ```text
 name: Night Shift at Dock Twelve

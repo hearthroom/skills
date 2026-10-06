@@ -24,35 +24,33 @@ chosen.
    existing folder, closed-loop iteration, or publish readiness.
 2. Build the creation runway packet before narrower work when the request is
    broad, ambiguous, or "from idea to card".
-3. Choose the first bottleneck, not every possible skill:
-   - vague mood or trope: `hearthroom-premise-workshop`
-   - mixed card type: `hearthroom-archetype-director`
-   - source files or world bible: `hearthroom-material-distiller`
-   - recognizable inspiration or copy risk: `hearthroom-originality-adapter`
-   - sensitive premise: `hearthroom-boundary-designer`
-   - weak engine: character core, relationship, world, daily-life, scenario, play, generator or ensemble skill
-   - weak interaction: `hearthroom-tension-weaver`, `hearthroom-agency-designer`, `hearthroom-opening-director`, `hearthroom-longplay-architect`
-   - weak voice, examples or language: `hearthroom-voice-director`, `hearthroom-talk-example-curator`, `hearthroom-language-stylist`
-   - state, budget or presentation: `hearthroom-state-economist`, `hearthroom-token-architect`, `hearthroom-presentation-director`
-   - profile or media: `hearthroom-profile-packager`, `hearthroom-visual-identity-director`
-   - "is this good enough": `hearthroom-quality-auditor`
-   - existing card with mixed symptoms: `hearthroom-card-doctor`
-   - evidence from validate, render, play or author feedback: `hearthroom-iteration-director`
-4. For a trial card require `hearthroom-cli-operator` readiness (login,
+3. Choose the first bottleneck, not every possible skill: name the weakest
+   conversion layer and route it with the table in `using-hearthroom`.
+4. Decide the UI role with the author and record it in the card's
+   `README.md`: `assist` (the story is the product; the card must read well
+   with display rules off) or `core` (mechanics are bound to the interface:
+   each mechanic is legible in text, the UI degrades to text, and every UI
+   element changes a choice or consequence). `presentation-design.md`, Story
+   first.
+5. For a trial card require `hearthroom-cli-operator` readiness (login,
    folder, flags) and `hearthroom-card-author` plus
    `hearthroom-field-finalizer` for the files.
-5. Require media readiness for a complete card: files under `assets/`
-   referenced from `card.json`. Prompt-only art is a hand-off, not completion.
-6. Run the stage gates in order: `hearthroom card push <dir> --validate --json`
-   and clear blockers; `hearthroom card render <dir> --json` with
-   `hearthroom-render-review`; then
-   `hearthroom play <dir> -m "…" --allow-spend --json` with
-   `hearthroom-chat-simulation` only after the author accepts the credit cost.
-   Skip render only when the author explicitly wants behavior after a
+6. Require media readiness for a complete card: files under `assets/`
+   referenced from `card.json`, and the portrait and title pass the L0 test
+   (would a stranger scrolling the board stop on them?). Prompt-only art is a
+   hand-off, not completion.
+7. Run the stage gates in order: `node <toolkit>/scripts/check-card.mjs <dir>`
+   with no errors; `hearthroom card push <dir> --validate --json` and clear
+   blockers; `hearthroom card render <dir> --json` with
+   `hearthroom-render-review`, plus the offline preview when the chat page's
+   repository is available; then `hearthroom play <dir> --new-session -m "…"
+   --allow-spend --json` with `hearthroom-chat-simulation` (a weak and a
+   strong model, 10–20 turns) only after the author accepts the credit cost.
+   Skip render only when the author explicitly wants behaviour after a
    known-good render.
-7. Treat each evidence loop as one repair at a time through
-   `hearthroom-iteration-director`.
-8. Stop at publish readiness. `card push --create` and review submission are
+8. Treat each evidence loop as one repair per version through
+   `hearthroom-iteration-director`, compared with the previous version.
+9. Stop at publish readiness. `card push --create` and review submission are
    the author's actions; describe them, do not perform them unasked.
 
 ## Hand-off
@@ -66,7 +64,8 @@ Route:
 Creation runway packet: (shape in creation-workflow.md)
 
 Self-review:
-- route starts at the first bottleneck:
+- route starts at the weakest conversion layer:
+- uiRole declared in README.md:
 - no premature push:
 - media requirement handled:
 - play cost handled:

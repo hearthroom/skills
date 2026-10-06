@@ -62,7 +62,7 @@ function scanScript(code, where, out) {
     for (const m of code.matchAll(/\bsave\.set\(\s*['"`]([^'"`]*)['"`]/g)) if (!new RegExp(CONTRACT.save.keyPattern).test(m[1])) out.error(where, `save key "${m[1]}" is not valid (${CONTRACT.save.keyPattern})`);
   }
   if (/\bawait\b[\s\S]{0,200}\bsdk\.message\.send\(/.test(code)) out.warn(where, 'an await before sdk.message.send leaves the click gesture: the player will be asked to confirm');
-  if (/document\.currentScript/.test(code)) out.warn(where, 'document.currentScript is null for rule scripts');
+  if (/document\.currentScript/.test(code)) out.info(where, 'document.currentScript is the running element for inline rule scripts but null in the wrapped fallback; do not depend on it');
   if (/\bimport\s+[\w{*]/.test(code) || /\bexport\s+(default|const|function)/.test(code)) out.error(where, 'ES module syntax: rule scripts run as classic scripts');
   for (const m of code.matchAll(/<script[^>]+src=["']http:\/\//g)) out.warn(where, `${m[0]}…: http:// external scripts are skipped; use https://`);
 }
@@ -78,6 +78,69 @@ function scanHtml(html, where, out, { isRule = false } = {}) {
   if (isRule) {
     for (const m of html.matchAll(/(["'])(assets\/[^"'\s]+\.[a-zA-Z0-9]+)\1/g)) out.asset(m[2], where);
   }
+}
+
+/** The card's working notes (README.md, never sent) carry two declarations the checker reads. */
+export function readDeclarations(readme) {
+  const text = String(readme ?? '');
+  const role = /^\s*uiRole:\s*(assist|core)\b/mi.exec(text);
+  const thr = /^\s*statusOverheadThreshold:\s*(\d+(?:\.\d+)?)\s*%?/mi.exec(text);
+  return { uiRole: role ? role[1].toLowerCase() : null, threshold: thr ? Number(thr[1]) / (thr[0].includes('%') || Number(thr[1]) > 1 ? 100 : 1) : null };
+}
+
+const STATUS_BLOCK = /\[(status|choices)\]([\s\S]*?)(?:\[\/\1\]|$)/g;
+
+/** Replies → protocol health: how often each key is written, how the block drifts, what it costs. */
+export function replayHealth(replies, { block = 'status', threshold = 0.15, requiredKeys = [], volatileKeys = [] } = {}) {
+  const keyHits = {};
+  let withBlock = 0, missingClose = 0, blockChars = 0, replyChars = 0, skippedLines = 0, fullWidth = 0, choicesBlocks = 0;
+  const per = [];
+  for (const reply of replies) {
+    const text = String(reply ?? '');
+    replyChars += text.length;
+    let found = 0, chars = 0;
+    for (const m of text.matchAll(STATUS_BLOCK)) {
+      chars += m[0].length;
+      if (m[1] === 'choices') { choicesBlocks++; continue; }
+      found++;
+      if (!m[0].includes(`[/${m[1]}]`)) missingClose++;
+      for (const line of m[2].split(/\r?\n|;;/)) {
+        let t = line.trim();
+        if (!t) continue;
+        if (/[：，＝／％｜]/.test(t)) { fullWidth++; t = t.replace(/：/g, ':'); }
+        const i = t.replace(/^[-*+•]\s+/, '').indexOf(':');
+        if (i <= 0) { skippedLines++; continue; }
+        const key = t.replace(/^[-*+•]\s+/, '').slice(0, i).replace(/^[*_`#]+|[*_`#]+$/g, '').trim().toLowerCase();
+        keyHits[key] = (keyHits[key] || 0) + 1;
+      }
+    }
+    if (found) withBlock++;
+    blockChars += chars;
+    per.push({ chars: text.length, blockChars: chars, ratio: text.length ? chars / text.length : 0, hasBlock: found > 0 });
+  }
+  const n = replies.length || 1;
+  const overhead = replyChars ? blockChars / replyChars : 0;
+  const keys = Object.fromEntries(Object.entries(keyHits).sort((a, b) => b[1] - a[1]).map(([k, v]) => [k, { count: v, rate: v / n }]));
+  const missing = requiredKeys.filter((k) => !(keyHits[k.toLowerCase()] >= Math.ceil(n * 0.9)));
+  return {
+    replies: replies.length, withBlock, blockRate: withBlock / n, missingClose, skippedLines, fullWidthLines: fullWidth, choicesBlocks,
+    overhead: Math.round(overhead * 1000) / 1000, threshold, overThreshold: overhead > threshold,
+    worstReply: Math.max(0, ...per.map((p) => p.ratio)), keys, requiredKeysBelow90: missing, volatileKeys,
+  };
+}
+
+/** Pull reply texts out of `hearthroom play --history --json` output (one JSON object per line or an array) or a plain transcript split by blank lines. */
+export function repliesFrom(text) {
+  const out = [];
+  const t = String(text ?? '').trim();
+  const take = (o) => { if (o && typeof o === 'object') { const role = o.role || o.roleType || o.from; const content = o.content ?? o.text ?? o.message; if (typeof content === 'string' && (role == null || /^(ai|assistant|char|character)$/i.test(String(role)))) out.push(content); } };
+  try { const j = JSON.parse(t); if (Array.isArray(j)) j.forEach(take); else if (j && Array.isArray(j.messages)) j.messages.forEach(take); else take(j); if (out.length) return out; } catch { /* not one JSON document */ }
+  let any = false;
+  for (const line of t.split(/\n/)) { const l = line.trim(); if (!l.startsWith('{')) continue; try { take(JSON.parse(l)); any = true; } catch { /* skip */ } }
+  if (any && out.length) return out;
+  // preview/replies.md style: one reply per `## ` heading; otherwise blank-line paragraphs.
+  if (/^## /m.test(t)) return t.split(/^## .*$/m).map((s) => s.trim()).filter(Boolean);
+  return t.split(/\n\s*\n(?=\S)/).filter((s) => STATUS_BLOCK.test(s) || s.length > 40).map((s) => { STATUS_BLOCK.lastIndex = 0; return s; });
 }
 
 export function checkCard(dir) {
@@ -101,6 +164,9 @@ export function checkCard(dir) {
   const lorebook = (() => { try { return JSON.parse(read('lorebook.json') || '{"entries":[]}'); } catch { out.error('lorebook.json', 'not valid JSON'); return { entries: [] }; } })();
   const openings = existsSync(path.join(dir, 'openings')) ? readdirSync(path.join(dir, 'openings')).filter((f) => f.endsWith('.md')).map((f) => readFileSync(path.join(dir, 'openings', f), 'utf8')) : [];
 
+  const decl = readDeclarations(read('README.md'));
+  if (!decl.uiRole) out.info('README.md', 'no `uiRole: assist | core` declared; the checker assumes assist (the replies must read well with display rules off)');
+  if (decl.uiRole === 'core' && decl.threshold == null) out.warn('README.md', 'a core card declares its own `statusOverheadThreshold:` with a reason; none found');
   const modelFacing = [definition, String(card.outputContract || ''), String(card.customInstructions || ''), ...(lorebook.entries || []).filter((e) => e && e.constant && !e.disabled).map((e) => String(e.content || ''))].join('\n');
   const playerFacing = [welcome, ...openings].join('\n');
 
@@ -175,8 +241,22 @@ export function checkCard(dir) {
 
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
   const dir = process.argv[2];
-  if (!dir || !existsSync(dir)) { console.error('usage: check-card.mjs <card-dir> [--json]'); process.exit(2); }
+  if (!dir || !existsSync(dir)) { console.error('usage: check-card.mjs <card-dir> [--json] [--replay <history.json|transcript.md>…]'); process.exit(2); }
   const findings = checkCard(path.resolve(dir));
+  const at = process.argv.indexOf('--replay');
+  if (at > 0) {
+    const files = process.argv.slice(at + 1).filter((a) => !a.startsWith('--'));
+    const replies = files.flatMap((f) => repliesFrom(readFileSync(path.resolve(f), 'utf8')));
+    const decl = readDeclarations(existsSync(path.join(dir, 'README.md')) ? readFileSync(path.join(dir, 'README.md'), 'utf8') : '');
+    let config = null;
+    try { config = JSON.parse(readFileSync(path.join(dir, 'kit.config.json'), 'utf8')); } catch { /* no kit */ }
+    const fields = (config && config.schema && config.schema.fields) || [];
+    const health = replayHealth(replies, { threshold: decl.threshold ?? 0.15, requiredKeys: fields.filter((f) => f.key && !f.volatile && !f.hidden).map((f) => f.key), volatileKeys: fields.filter((f) => f.volatile).map((f) => f.key) });
+    findings.push({ level: health.overThreshold ? 'warning' : 'info', where: 'replay', msg: `status overhead ${(health.overhead * 100).toFixed(1)}% of ${health.replies} replies (threshold ${(health.threshold * 100).toFixed(0)}%, worst reply ${(health.worstReply * 100).toFixed(0)}%)` });
+    findings.push({ level: health.blockRate < 0.9 ? 'warning' : 'info', where: 'replay', msg: `block present in ${health.withBlock}/${health.replies} replies; missing closer ${health.missingClose}; skipped lines ${health.skippedLines}; full-width punctuation lines ${health.fullWidthLines}; choices blocks ${health.choicesBlocks}` });
+    if (health.requiredKeysBelow90.length) findings.push({ level: 'warning', where: 'replay', msg: `keys written in fewer than 90% of replies: ${health.requiredKeysBelow90.join(', ')} (the model forgets them; move them to the recency checklist or drop them)` });
+    findings.push({ level: 'info', where: 'replay', msg: 'per key: ' + Object.entries(health.keys).map(([k, v]) => `${k} ${(v.rate * 100).toFixed(0)}%`).join(', ') });
+  }
   const errors = findings.filter((f) => f.level === 'error').length;
   if (process.argv.includes('--json')) console.log(JSON.stringify({ status: errors ? 'error' : 'ok', findings }, null, 2));
   else {

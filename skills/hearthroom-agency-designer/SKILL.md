@@ -10,8 +10,9 @@ is an agency packet with patch targets, not a full card.
 
 ## Required references
 
-- `../../references/agency-design.md`: insertion space, hooks, reply-path
-  matrix, authority opposition axis, guardrails, consequence checks.
+- `../../references/agency-design.md`: insertion space, hooks, the reply-path
+  matrix (the toolkit's only copy), authority opposition axis, guardrails,
+  choices as drafts, consequence checks.
 - `../../references/opening-design.md` when the failure starts on the first
   screen; `../../references/longplay-design.md` when choices stop mattering
   after it.
@@ -36,7 +37,10 @@ is an agency packet with patch targets, not a full card.
    needs at least one comply path and one resist path.
 6. Add passive-player and boundary-setting behaviour without making the
    character wait forever or seize the player's actions.
-7. Name patch targets: scene in `welcome.md`, behaviour rules in
+7. Keep choices drafts, not rails: free text always works, a choice can be
+   rewritten before it is sent, the first action may be a button but never
+   only a button, and choices in every reply cost tokens every turn.
+8. Name patch targets: scene in `welcome.md`, behaviour rules in
    `definition.md`, suggested first lines in `prologue` (player side only).
 
 ## Output
@@ -53,6 +57,8 @@ Agency packet:
 - passive-player behaviour / boundary handling:
 - consequence checks:
 - patch targets: definition.md | welcome.md | prologue
+- attention: which rule from this packet joins the top iron rules, and the
+  matching line in the final recency checklist (`prompt-attention-architecture.md`):
 - self-review: player can act before lore expands, three or more paths differ
   in outcome, pressure without deciding for the player, refusal keeps play
   alive, passive input gets a new hook
@@ -64,8 +70,9 @@ Agency packet:
 - `hearthroom-longplay-architect` when choices need memory and route costs.
 - `hearthroom-card-author` to apply patch targets, then
   `hearthroom card push --validate --json`.
-- `hearthroom-chat-simulation` to test takeover or ignored choices with
-  `hearthroom play -m "…" --allow-spend --json`.
+- `hearthroom-chat-simulation` to test takeover or ignored choices. Playtest:
+  10–20 turns, a weak and a strong model, `--new-session`, one shortcoming
+  per version, compared with the previous version (`playtest-loop.md`).
 
 ## Do not
 

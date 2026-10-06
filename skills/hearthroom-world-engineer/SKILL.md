@@ -41,9 +41,13 @@ notes or an imported draft.
 7. Split the world. Always-on rules, the player position and the state model
    go in `definition.md`. Facts needed only when a place, faction, name or
    topic comes up become entries in `lorebook.json`: a descriptive name, the
-   content, the keywords a player or the character would actually type,
-   secondary keywords only to veto a common word, and `constant` only for the
-   few short facts that must always be present.
+   content, the keywords a player or the character would actually type
+   (staggered so one sentence does not fire several entries; both Chinese
+   forms for a Chinese card), `matchOptions` where a short keyword needs
+   whole-word matching, secondary keywords only to veto a common word, and
+   `constant` only for the few short facts that must always be present plus,
+   for a long card, the status-block protocol. Pass every kept line through
+   the four questions in the reference.
 8. State opening, longplay and presentation implications, the length
    tradeoff, and the next skill.
 
@@ -65,11 +69,13 @@ World-engine packet:
 - state model:
 - route seeds:
 - exposition policy:
-- Lorebook plan (per entry: name, keywords, secondary keywords, constant yes/no, one-line content):
+- Lorebook plan (per entry: name, keywords, matchOptions, secondary keywords, constant yes/no, one-line content; which entries one ordinary sentence fires together):
 - opening and longplay implications:
 - state visibility (route to presentation / state economist):
 - field targets (definition.md / lorebook.json / welcome.md / card.json summary):
 - length tradeoff:
+- attention: which rule from this packet joins the top iron rules, and the
+  matching line in the final recency checklist (`prompt-attention-architecture.md`):
 - next skill:
 ```
 
@@ -90,6 +96,6 @@ transcripts show lore dumping or missing facts.
 - Do not design entries around insertion depth, prompt role, outlets, sticky
   or cooldown timers, probability, recursion, group scoring, macros or
   scripts. Hearthroom does not support them.
-- Do not let lore decide the player's feelings, loyalties, consent or actions.
+- Agency guardrails: `agency-design.md`.
 - Do not edit the card folder or run `hearthroom card push` or `hearthroom play`
   here.

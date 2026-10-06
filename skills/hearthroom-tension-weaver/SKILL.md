@@ -24,16 +24,19 @@ packet points at.
    pressure, why-now, consequence or renewal.
 2. Route away if this is not the weak layer: no direction yet goes to
    `hearthroom-premise-workshop`; a weak character core, player agency,
-   opening or one specialized engine goes there instead.
-3. Pick one or two tension sources from the reference.
+   opening or one specialised engine goes there instead.
+3. Pick one or two tension sources from the table in `premise-workshop.md`
+   ("Pressure test").
 4. Build the triangle: desire that creates action, leverage that changes
    consequence, external pressure with a visible first-scene form.
 5. Write one first-scene hook and one why-now statement a single opening beat
    can prove.
-6. Define what changes if the player accepts, questions, refuses or redirects,
-   and what happens if they do nothing. Each path leads to a different state,
-   route, access, risk, relationship, clue or boundary outcome.
-7. State field placement and hand off.
+6. Fill the reply-path matrix in `agency-design.md` with the rows accepts,
+   questions, refuses or sets terms, redirects or exploits, does nothing.
+   Each path leads to a different state, route, access, risk, relationship,
+   clue or boundary outcome.
+7. Say how the pressure escalates or changes form by turn three.
+8. State field placement (`role-card-writing-framework.md`) and hand off.
 
 ## Hand-off
 
@@ -49,8 +52,9 @@ Tension packet:
 - why now:
 - consequence if the player does nothing:
 - first-scene hook:
-- reply paths (accept / question / refuse or set terms / redirect or exploit):
+- reply-path rows (filled in agency-design.md):
 - state or route changed:
+- escalation by turn three:
 - field placement (summary / definition / opening / examples):
 - delayed routes:
 - next skill:
@@ -67,7 +71,7 @@ generator, ensemble) when that engine should carry the pressure.
 
 - Do not fix inertness with prettier mood prose, a larger lore dump or forced
   player feelings. Build pressure the player can answer.
-- Do not let the character decide the player's inner state or commitments.
+- Agency guardrails: `agency-design.md`.
 - Do not prefer abstract destiny over concrete objects, deadlines, debts,
   secrets, rules, social risks or care costs.
 - Do not edit the card folder or run `hearthroom card push` or `hearthroom play`

@@ -22,27 +22,45 @@ opening and voice rules; it never becomes a plot rewrite.
 ## Platform notes
 
 - `card.json` `language` names the card's language. Field limits are larger
-  only when it is exactly `en`. Read them from `tokenBudget.limits` in
+  only if it is exactly `en`. Read them from `tokenBudget.limits` in
   `hearthroom card push --validate --json`.
 - `playerName` is what the card calls the player; placeholder values such as
   你, user, you or player are ignored. `nickname` is what `{{char}}` expands
   to when it differs from `name`. Prefer these over hard-coded names.
+- Script conversion is the platform's job. Write the card in one Chinese
+  script. A Traditional-language player sees a Simplified card converted at
+  display time, and the reverse; stored text, and the text the model reads,
+  stay as written (`platform-facts.md`, Chinese script). Do not make a second
+  card or a second set of files for the other script.
+- The converter does not touch attributes such as `title`, CSS `content`,
+  `<script>` and `<style>`, anything marked `translate="no"` or
+  `notranslate`, text a card script creates, or short and mixed strings whose
+  script it cannot tell. Those strings need `sdk.text.convert` or a
+  per-script variant; hand them to `hearthroom-presentation-director`.
 - In display rules, Chinese characters in `find` match both Traditional and
-  Simplified forms. Script mismatch in a pattern does not break matching, but
-  it shows in any visible text the replacement inserts.
+  Simplified forms. Whether Lorebook keywords do is not documented: list both
+  forms of a noun the player might type.
+- The converter changes characters, not word choice. Write Taiwan-facing
+  vocabulary yourself when that is the audience.
 
-## Traditional Chinese cleanup
+## One script across the card
 
-- One script across `name`, `summary`, `definition.md`, `welcome.md`,
-  alternate openings, `talkExample`, Lorebook entries and player-facing tags.
-- Convert Simplified residue while preserving names, intentional dialect,
-  JSON keys, code and rule patterns.
+- One script across every file the model reads: `name`, `summary`,
+  `definition.md`, `welcome.md`, alternate openings, `talkExample`, Lorebook
+  entries and player-facing tags. Mixed text teaches the model to mix, and a
+  half-and-half string defeats the display converter, which will not convert
+  it back.
+- Convert residue while preserving names, intentional dialect, JSON keys,
+  code and rule patterns. In `rules.json`, check the strings the converter
+  skips (attributes, CSS `content`, labels a script draws), not ordinary text
+  nodes.
 - Prefer natural Taiwan-facing phrasing when the author asks for zh-Hant or
   zh-TW or writes in Traditional Chinese.
 - Full-width punctuation in prose; code punctuation inside JSON, commands and
   markup.
-- Remove machine-translation cadence: repeated 並且, 進行, 使得, 通過, 於是他將會
-  patterns that make dialogue read like a report.
+- Remove report-like cadence. Rewrite one ordinary line of dialogue in the
+  target register and use it as the model for the rest; a list of banned
+  connectors does not move a strong model, a rewritten line does.
 - Keep genre diction. A court fantasy, a neighbour, a game system and a
   contemporary romance should not share one neutral register.
 - Do not over-localise proper nouns, invented terms, faction names or
@@ -90,8 +108,9 @@ without a relationship-state reason.
 6. `tags`: translate player-facing tags; keep intentional in-world labels.
 7. `lorebook.json`: content and names in the same script; keywords in the
    forms players actually type.
-8. `rules.json`: rewrite only visible text inside replacements; never touch
-   patterns, `$name` keys or JSON keys.
+8. `rules.json`: rewrite only the strings the converter skips (`title`
+   attributes, CSS `content`, labels a script draws); ordinary text nodes are
+   converted by the page. Never touch patterns, `$name` keys or JSON keys.
 
 ## Rewrite rules
 
@@ -115,6 +134,9 @@ without a relationship-state reason.
 - `welcome.md` still has a first action path
 - boundary posture preserved or routed
 - rule patterns, keys and platform terms untouched
+- a rule script that matches or hashes reply text normalises to the card's
+  script first (`platform-facts.md`, Chinese script); route to the
+  presentation director if not
 - no plot, engine, boundary or voice-rule change slipped in
 
 A broken voice card goes to `hearthroom-voice-director`; missing posture to

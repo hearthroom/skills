@@ -49,8 +49,8 @@ When the intake is a visible console, read
 
 The schema is the card's promise. Put it in `outputContract` in `card.json` so
 every reply follows the same shape, within the limit that
-`card validate --json` reports under `tokenBudget.limits`. Use 4-8
-sections, each adding utility, action, constraint, conflict or replay value,
+`card validate --json` reports under `tokenBudget.limits`. Use as many
+sections as the artifact needs and no more, usually four to eight, each adding utility, action, constraint, conflict or replay value,
 with names specific to the artifact type, prose compact enough to revise, and
 one field that turns easily into a scene, hook or next artifact.
 
@@ -78,26 +78,33 @@ producing usable sections. Flavor never hides the artifact.
 The opening starts production quickly: one sentence naming what the card makes,
 2-4 intake fields or choices that matter, a default-start option, one example
 preset, and a promise that the next reply produces one finished artifact.
-Choices can be `prologue` lines in `card.json` or plain HTML choice buttons
-in a display rule. A bare "What would you like to create?" is not an opening.
+Prefer `prologue` lines in `card.json` for first-turn choices: they are the
+player's own editable lines. A bare "What would you like to create?" is not
+an opening; the free demo (L2 of the funnel) shows one small artifact or
+preset in the creator's voice before it asks anything.
 
 ## Field allocation
 
 - summary (`card.json`): the artifact and the collaboration loop in one
   promise.
 - `definition.md`: intake rules, defaults, revision operations, quality rubric,
-  constraint handling, diegetic behavior.
+  constraint handling, diegetic behaviour.
 - `outputContract` (`card.json`): the section schema and formatting rules.
 - `welcome.md`: minimal intake and defaults, not a manual.
-- `talkExample` (`card.json`): only when it teaches the schema or a revision.
+- `talkExample` (`card.json`): examples beat rules for weak models: one
+  ordinary-turn sample by default (`talk-example-design.md`): one
+  plain request and one finished artifact in the schema, never an edge case.
 - `lorebook.json`: reference material the artifact draws on (symbol tables,
   place names, house styles) as named entries.
-- presentation: plain HTML setup inputs or choice buttons only when they make
-  intake clearer; send buttons live in a display rule.
+- presentation: only if it does one of UI's five jobs
+  (`presentation-design.md`); otherwise none. Choices are drafts: a tap fills the composer
+  (`sdk.input.set` then `focus`), and only a one-tap default start sends.
 
 ## Play probes
 
-Run each as one turn of `hearthroom play <dir> -m "…" --allow-spend --json`:
+Playtest: 10–20 turns, a weak and a strong model, `--new-session`, one
+shortcoming per version, compared with the previous version
+(`playtest-loop.md`). Seed the runs with:
 "Make one with these constraints and choose sensible defaults"; "I only give
 one vague line; produce the artifact anyway"; "Revise the previous artifact
 darker, same sections"; "Turn the previous artifact into a scene prompt"; "I

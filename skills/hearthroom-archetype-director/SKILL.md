@@ -38,7 +38,12 @@ first when the task is deciding which variants to keep. Read
    proof, and which field carries the durable engine.
 6. Allocate summary, definition, opening, alternate openings, example
    conversations, Lorebook, output contract and presentation according to the
-   primary contract.
+   primary contract. Declare `uiRole`: `assist` (the story is the product;
+   the card must read well with display rules off) or `core` (mechanics
+   bound to UI: each mechanic legible in text, degrades to text, changes a
+   choice or consequence), and `pageMode` (`sandbox` unless an imported card
+   misbehaves there). Story first, `uiRole`, the five jobs of UI and the
+   overhead ratio: `presentation-design.md`.
 7. List the design packets this card needs and the order to run them:
    character core, relationship, world, play engine, generator, scenario, daily
    life, ensemble, agency, voice, opening, longplay, boundary, token.
@@ -71,8 +76,11 @@ Archetype packet:
   - opening and alternate openings:
   - example conversations:
   - Lorebook:
-  - output contract and custom instructions:
-  - presentation (opening HTML, display rules):
+  - output contract and custom instructions (`customInstructions` replaces
+    one undocumented default block; keep it short or empty):
+  - presentation (status block, display rules):
+- uiRole: assist | core
+- pageMode: sandbox | classic
 - required packets and order:
 - hybrid failure modes:
 - repair rules:
@@ -112,7 +120,6 @@ Route the packet to:
 - Do not classify by atmosphere or trope. Classify by what the player does.
 - Do not write `type` as a shape. Daily life, light setting, heavy setting and
   ensemble are shapes inside one of the four types.
-- Do not assign the player's feelings, memories, consent, actions or
-  commitments. The card may offer, tempt, pressure, warn or refuse.
+- Agency guardrails: `agency-design.md`.
 - Do not edit the card folder or run `hearthroom card push` or `hearthroom play`
   from this skill.

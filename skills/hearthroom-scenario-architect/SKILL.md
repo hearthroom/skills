@@ -20,7 +20,9 @@ opening incident; `../../references/longplay-design.md` when the scenario must
 sustain several scenes; `../../references/archetype-contracts.md` when the
 contract may be a hybrid; `../../references/voice-calibration.md` for
 narrator or suspect voices; `../../references/token-economy.md` when branch
-notes or the opening are bloated.
+notes or the opening are bloated; `../../references/talk-example-design.md`
+for the ordinary-turn sample; `../../references/presentation-design.md` for the
+UI role.
 
 Use `hearthroom-play-engineer` instead when mechanics are the blocker, and
 `hearthroom-world-engineer` when lore rather than one incident is the blocker.
@@ -33,8 +35,8 @@ Use `hearthroom-play-engineer` instead when mechanics are the blocker, and
 4. Build the clue ladder: visible clue, contradiction, false lead, partial reveal, reversal, final pressure.
 5. Define 2-5 suspect or pressure nodes with want, leverage, secret, pressure move and player effect; plan one named Lorebook entry per node.
 6. Define compact consequence state and route-funnel guardrails: what the card must not force, solve, reveal or decide.
-7. Design the opening incident, the second-turn reveal, passive-player behavior and recoverable false-lead handling.
-8. Set field allocation and token plan, write play probes, run the self-review from `scenario-design.md`.
+7. Design the opening incident (the free demo: voice heard, one low-friction first action, a pull to turn two), the second-turn reveal that beats the first, passive-player behaviour and recoverable false-lead handling.
+8. Set field allocation and token plan, declare the UI role, say which branch rule joins the iron rules and the recency checklist, write play probes, run the self-review from `scenario-design.md`.
 
 ## Hand-off
 
@@ -55,12 +57,14 @@ Scenario packet:
 - opening incident:
 - expected first player message:
 - second-turn reveal:
-- passive-player behavior:
+- passive-player behaviour:
 - false-lead handling:
 - route-funnel guardrails:
+- ui role: assist | core
+- attention: which rule from this packet joins the top iron rules, and the matching line in the final recency checklist (they must agree; `prompt-attention-architecture.md`)
 - field allocation:
 - token plan:
-- play probes:
+- play probes (Playtest: 10–20 turns, a weak and a strong model, `--new-session`, one shortcoming per version, compared with the previous version (`playtest-loop.md`).):
 - self-review:
 - next skill:
 ```

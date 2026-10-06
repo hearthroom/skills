@@ -322,6 +322,16 @@
       "item": ".prologue-content"
     }
   },
+  "functionBar": {
+    "source": "hand-maintained from src/sandbox/shell.ts (statusbar branch) and rules.ts",
+    "field": "mountTrigger",
+    "renderedOnceAtLoad": true,
+    "rulesRunOver": "the function bar text itself, never a reply",
+    "scriptsInsideDropped": "two paths: when the shell renders the bar itself (previews, offline harness) a <script> in the bar text is dropped by the sanitizer; when the play page host renders it (statusbarHtml) its scripts run once after mount; <img onerror> boots run on both; scripts belong in a rule",
+    "imgOnerrorBootRuns": true,
+    "slotExistsOnlyWhenNonEmpty": true,
+    "dynamicContentNeedsScript": true
+  },
   "css": {
     "themes": [
       "dark",
@@ -725,7 +735,7 @@
     },
     "messageBodyScripts": "run once per distinct code string after the message is done; code already run at install does not run again",
     "moduleScripts": "run as classic scripts",
-    "documentCurrentScript": null,
+    "documentCurrentScript": "the running <script> element for an inline rule script (they run as real script elements); null only for the wrapped-function fallback",
     "previewRerunsScripts": "the card editor preview re-runs scripts on every edit: boot must be idempotent",
     "gestureRequired": [
       "message.send outside a trusted click asks the player",

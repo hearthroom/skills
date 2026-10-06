@@ -105,6 +105,57 @@ export function compileCss(tokens, { retheme = true } = {}) {
   return css;
 }
 
+/** modes.choices: false | 'draft' (tap fills the composer; the default for an assist card) | 'send' (tap sends).
+ *  `true` keeps the old meaning: draft for assist, send for core. */
+export function choicesModeOf(config) {
+  const m = config.modes || {};
+  if (m.choices === false) return null;
+  if (m.choices === 'draft' || m.choices === 'send') return m.choices;
+  return (config.uiRole === 'core') ? 'send' : 'draft';
+}
+
+/** The model-side protocol paragraph, generated from the same schema the kit draws from, so the
+ *  render rule and the generation rule cannot disagree. Paste it into card.json outputContract
+ *  (or the definition); for a long card repeat it in one constant Lorebook entry. */
+export function emitContract(config) {
+  const block = config.block || status.DEFAULT_BLOCK;
+  const fields = ((config.schema && config.schema.fields) || []).filter((f) => f && f.key);
+  const always = fields.filter((f) => !f.volatile);
+  const volatile = fields.filter((f) => f.volatile);
+  const shape = (f) => {
+    const t = f.type || 'text';
+    if (t === 'bar') return `${f.key}: <current>/<max>`;
+    if (t === 'num') return `${f.key}: <number>`;
+    if (t === 'level') return `${f.key}: <name>|<current>/<max>`;
+    if (t === 'tags') return `${f.key}: <a>, <b>`;
+    if (t === 'entities') return `${f.key}: <name>=<number>, <name>=<number>`;
+    if (t === 'stats') return `${f.key}: <k>:<v> <k>:<v>`;
+    if (t === 'kvlist') return `${f.key}: <k>:<v>|<k>:<v>`;
+    if (t === 'path') return `${f.key}: <a> > <b>`;
+    return `${f.key}: ${f.values ? f.values.join(' | ') : '<short text>'}`;
+  };
+  const lines = [];
+  lines.push(`End every reply with one [${block}] block, after the prose, one key per line, nothing else inside it:`);
+  lines.push(`[${block}]`);
+  for (const f of always) lines.push(shape(f));
+  lines.push(`[/${block}]`);
+  if (volatile.length) lines.push(`Add these lines only while they apply to the scene and drop them when they stop applying: ${volatile.map(shape).join('; ')}.`);
+  const rulesText = fields.filter((f) => f.rule).map((f) => `${f.key}: ${f.rule}`);
+  if (rulesText.length) lines.push(`How each value moves: ${rulesText.join('. ')}.`);
+  const mode = choicesModeOf(config);
+  if (mode) lines.push(`When the player has a decision to make, add a [choices] block after it with two to four short options, one per line; the player may also type anything else.`);
+  lines.push(`Example of an ordinary turn's block (values are illustrative):`);
+  lines.push(`[${block}]`);
+  for (const f of always) lines.push(`${f.key}: ${f.example != null ? f.example : exampleFor(f)}`);
+  lines.push(`[/${block}]`);
+  const text = lines.join('\n');
+  return { text, chars: text.length, keys: always.map((f) => f.key), volatileKeys: volatile.map((f) => f.key) };
+}
+function exampleFor(f) {
+  const t = f.type || 'text';
+  return { bar: '72/100', num: '12', level: 'Adept|120/300', tags: 'cold, watched', entities: 'Mara=61, Tove=25', stats: 'atk:12 def:8', kvlist: 'head:hood|body:cloak', path: 'Harbor > North pier' }[t] || (f.values ? f.values[0] : 'steady');
+}
+
 export function bootScript(config) {
   const modes = config.modes || {};
   const lines = ['(function(){', 'var HR=window.HR; if(!HR||!HR.status){return;}'];
@@ -136,6 +187,8 @@ export function buildRules(config, root = HERE) {
     { id: 'hr-kit', name: 'hr kit script', find: '{{hr-kit}}', replace: `<script>\n${js}\n</script>`, enabled: true },
     status.rule(config.block || status.DEFAULT_BLOCK),
   ];
+  const choicesMode = choicesModeOf(config);
+  if (choicesMode) rules.push(status.choicesRule('choices', choicesMode));
   const pinned = Array.isArray(config.modes && config.modes.pinned) && config.modes.pinned.length > 0;
   if (pinned) rules.push({ id: 'hr-pinned', name: 'hr pinned bar host', find: '[[hr-pinned]]', replace: '', enabled: true });
   const problems = [];
@@ -147,6 +200,7 @@ export function buildRules(config, root = HERE) {
   for (const c of report) if (!c.ok) problems.push(`${c.side}: ${c.fg} on ${c.bg} is ${c.ratio ?? c.note}, needs ${c.min}:1`);
   if (pinned && config.modes.pinned.length > 3) problems.push('modes.pinned: at most three fields');
   for (const f of (config.schema && config.schema.fields) || []) if (f.type && !['num', 'text', 'bar', 'level', 'tags', 'entities', 'stats', 'kvlist', 'path'].includes(f.type)) problems.push(`schema field ${f.key}: unknown type ${f.type}`);
+  if (config.uiRole && !['assist', 'core'].includes(config.uiRole)) problems.push(`uiRole must be assist or core`);
   return { rules, report, problems, pinned, sizes: Object.fromEntries(rules.map((r) => [r.id, bytes(r.replace)])) };
 }
 
@@ -183,6 +237,12 @@ if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.me
   const hard = built.problems.filter((p) => !p.includes('close to'));
   console.log(`rules: ${built.rules.map((r) => `${r.id} (${built.sizes[r.id]} B)`).join(', ')}`);
   if (hard.length && !args.force) { console.log(`✖ ${hard.length} problem(s); fix them or pass --force`); process.exit(1); }
+  if (args['emit-contract']) {
+    const c = emitContract(config);
+    process.stdout.write(c.text + '\n');
+    console.error(`${c.chars} characters; keys: ${c.keys.join(', ')}${c.volatileKeys.length ? `; volatile: ${c.volatileKeys.join(', ')}` : ''}`);
+    process.exit(0);
+  }
   if (args.check) process.exit(0);
   if (args.card) {
     const file = path.join(path.resolve(args.card), 'rules.json');

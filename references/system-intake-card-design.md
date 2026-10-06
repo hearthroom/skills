@@ -9,7 +9,7 @@ resources or simulator consequences, and
 `../../references/generator-design.md` when it produces an artifact. Route to
 `hearthroom-presentation-director` when the open question is what the console
 should show, and read `../../references/presentation-design.md` for where the
-HTML and the display rules live.
+HTML and the display rules live and for the UI role a console card declares.
 
 ## Core rule
 
@@ -28,27 +28,30 @@ or a habit of asking many questions before doing anything. Route away when the
 first screen is a relationship scene, a daily-life moment or a story incident
 without setup controls.
 
+The opening is still the free demo (L2 of the funnel): run one default beat of
+the system first, a result or a consequence in the system's voice, then offer
+setup. A console with no beat shows no voice.
+
 ## Field allocation
 
 - summary (`card.json`): one promise naming the system and the player's
   control over it.
 - `definition.md`: the durable engine: modes, defaults, state schema, turn
-  protocol, failure-forward behavior, event pool, progression, revision
-  commands.
-- `outputContract` (`card.json`): the response shape and the compact state
-  line every reply carries.
+  protocol, failure-forward behaviour, event pool, progression, revision
+  commands. Spend most of it on state, the turn protocol and failure
+  handling; keep premise and voice short.
+- `outputContract` (`card.json`): the response shape and the status block
+  every reply ends with (`state-economy-design.md`).
 - `welcome.md`: a compact setup wizard or intake console showing only the
-  controls the next step needs.
-- `openings/alt-NN.md`: one alternate opening per preset when presets differ
-  enough to deserve their own start.
-- `talkExample` (`card.json`): only when it teaches the response schema, the
-  state update or a revision command.
-- `rules.json`: display rules that turn the state line into bars or panels.
-
-Spend the definition roughly as: 10-15% premise and promise; 20-25% state
-model and update rules; 20-25% turn protocol, failure-forward behavior and
-agency rules; 15-20% event pool and progression; 10-15% output schema and
-revision commands; 5-10% voice and format.
+  controls the next step needs, ending with the first status block.
+- `openings/alt-NN.md`: one alternate opening per preset when presets are
+  different starting situations, not the same console reworded.
+- `talkExample` (`card.json`): examples beat rules for weak models: one
+  ordinary-turn sample by default (`talk-example-design.md`), showing the
+  response schema and the status block.
+- `rules.json`: the sandbox kit draws the status block (`sandbox-kit.md`);
+  any other display rule only if it does one of UI's five jobs
+  (`presentation-design.md`).
 
 ## Console pattern
 
@@ -58,20 +61,25 @@ blocks. Repeated chrome and anything with a script go in a display rule in
 
 1. Scene beat first, in plain prose: one concrete situation and one line that
    makes the next action obvious.
-2. Current state: one panel naming what the player is about to run, with a
-   bar or a fact row for the one or two meters that matter now.
+2. Current state: the status block, drawn by the kit as one panel naming what
+   the player is about to run, with a bar or a fact row for the one or two
+   meters that matter now.
 3. Setup: one setup block whose inputs and option lists already hold the
    defaults, so starting without changes is a valid start.
-4. Actions: 2-4 short choices as send buttons. On the sandbox page each is a
-   plain `<button>` in a display rule whose script calls
-   `sdk.message.send(text)`, reading the setup inputs into the line it sends.
-   The first is the default start. Each sends text the definition handles.
+4. Actions: 2-4 short choices. They are drafts, not a menu. On the sandbox
+   page a tap puts the line into the composer (`sdk.input.set(text)` then
+   `sdk.input.focus()`) so the player can edit before sending, reading the
+   setup inputs into the line it fills. Only the one-tap default start may
+   send directly, inside the click handler with no `await`. Typed free text
+   must always be handled as well as any button.
 5. Nothing else. Rules, event pools and hidden state stay in the definition and
    the output contract.
 
-After `hearthroom card push --validate --json`, run
-`hearthroom card render --json` and check `rendered`, `report.tags` and every
-rule's status; open the printed play link to see layout and contrast.
+After `node <toolkit>/scripts/check-card.mjs <dir>` and
+`hearthroom card push --validate --json`, run
+`hearthroom card render --json` and check `rendered` and every rule's status;
+then the offline preview or the printed play link for layout and contrast
+(`platform-facts.md`, Offline preview).
 
 The scene comes before the controls, as sibling structure rather than a
 wrapper. Every control changes the next reply; cut a panel that only
@@ -84,17 +92,21 @@ a run. One speaker; a console card does not need a cast.
 System intake packet:
 - current seed or failure:
 - primary contract: system/simulator | generator | hybrid
+- ui role: assist | core (presentation-design.md); overhead threshold
 - player role:
 - system promise:
 - setup wizard: required inputs, optional inputs, defaults, default-start action
-- state model: visible, hidden, definition-only, update cadence
+- state model: visible, hidden, volatile, definition-only, update cadence; one owner per value
 - run loop: start, continue, inspect, revise / reroll, commit
 - event pool / scenario reservoir:
 - progression loop:
-- failure-forward behavior:
+- failure-forward behaviour:
 - output schema or response format:
 - player-agency guardrails:
 - console plan: which HTML block or display rule carries which control
+- attention: which rule from this packet joins the top iron rules, and the
+  matching line in the final recency checklist (they must agree;
+  `prompt-attention-architecture.md`)
 - field allocation:
 - play probes:
 - hand-off:
@@ -102,12 +114,13 @@ System intake packet:
 
 ## Play probes
 
-Run each as one turn of `hearthroom play <dir> -m "…" --allow-spend --json`:
-minimal input proceeds with defaults and starts a run; changing one intake
-field changes the next output; the player can inspect state before acting;
-risky input costs something without ending play; the next turn preserves state
-and advances the loop; revise or reroll keeps constraints; a short reply still
-receives a concrete next path. Patch the card if it asks another setup
-question instead of running, forgets state, gives generic advice, leaves a
-button sending text nothing handles, or explains rules without changing the
-next action.
+Playtest: 10–20 turns, a weak and a strong model, `--new-session`, one
+shortcoming per version, compared with the previous version
+(`playtest-loop.md`). Seed the runs with: minimal input proceeds with defaults
+and starts a run; changing one intake field changes the next output; the
+player can inspect state before acting; risky input costs something without
+ending play; the next turn preserves state and advances the loop; revise or
+reroll keeps constraints; a short reply still receives a concrete next path.
+Patch the card if it asks another setup question instead of running, forgets
+state, drops the status block, gives generic advice, leaves a button filling
+text nothing handles, or explains rules without changing the next action.

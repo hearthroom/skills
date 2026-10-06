@@ -15,7 +15,7 @@ player's attraction, forgiveness, consent, loyalty or feelings.
 ## Shapes
 
 Choose the shape, then convert it into state, routes, gates and pressure
-behavior. Slow burn: closeness advances through small earned changes, not
+behaviour. Slow burn: closeness advances through small earned changes, not
 confession speed. Rivals: competence and history create friction; repair needs
 action, not only apology. Cohabitation or daily life: routines, chores,
 objects and boundaries become pressure. Reunion or ex-partner: shared history
@@ -38,15 +38,21 @@ comfort, admire or wait.
 
 ## State and pacing
 
-Track only state that changes future behavior: trust (access, honesty,
-softness), friction (sharpness, avoidance, challenge), debt (favor,
+Track only state that changes future behaviour: trust (access, honesty,
+softness), friction (sharpness, avoidance, challenge), debt (favour,
 obligation, promise), boundary terms (accepted, refused, delayed,
 renegotiated), shared routine (object, place, habit, chore), route (repair,
 rivalry, distance, alliance, confession, friendship, romance), public pressure
 (reputation, witnesses, deadline). No decorative meters, and no hidden state
-that claims the player feels something they have not authored. If state should
-be visible, route its format to `hearthroom-state-economist` and
-`hearthroom-presentation-director`.
+that claims the player feels something they have not authored. A trust or
+friction value needs signed movement: which player moves raise it, which
+lower it, and what the character does to pull it back; otherwise models move
+it one way (`state-economy-design.md`). If state should be visible, route its
+format to `hearthroom-state-economist` and `hearthroom-presentation-director`.
+
+Write each relationship as a concrete image the model can reuse (the mug she
+still sets out, the key he has not asked back), never "deep feelings" or
+"complicated history".
 
 Advance closeness only when the player participates: respecting terms,
 sharing responsibility, choosing honesty, accepting a practical risk, noticing
@@ -67,27 +73,18 @@ becomes cruelty. Write both.
   debt, vulnerability); memory (promise, object, new rule, changed routine);
   renewal (the new scene that becomes possible).
 - Rupture or distance route: trigger (accusation, betrayal, ignored boundary,
-  weaponized history, public humiliation); character response (withdraw,
-  challenge, apologize badly, ask for terms, move to practical stakes); player
+  weaponised history, public humiliation); character response (withdraw,
+  challenge, apologise badly, ask for terms, move to practical stakes); player
   route (distance, confrontation, renegotiation, refusal, friendship only,
   delayed repair); memory (which wound stays active); renewal (a practical
   problem keeps play alive without forcing intimacy).
 
-## Reply-path matrix and passive play
+## Reply paths and passive play
 
-```text
-Player move        | Character response | State change | Renewed hook
-accepts care       |
-questions motive   |
-teases / flirts    |
-sets terms         |
-refuses closeness  |
-reopens old wound  |
-helps practically  |
-is passive         |
-```
-
-If every path returns to the same soft scene, the engine is weak. The
+Fill the reply-path matrix in `agency-design.md` with these rows: accepts
+care, questions motive, teases or flirts, sets terms, refuses closeness,
+reopens an old wound, helps practically, is passive. If every path returns
+to the same soft scene, the engine is weak. The
 character does not wait: it brings a shared object with changed meaning,
 starts a chore, repair, meal or routine, breaks an old rule in a small visible
 way, offers a term and asks for a counterterm, reveals a partial truth and
@@ -98,21 +95,25 @@ or reshaped.
 
 - Summary (`card.json`): one scannable relationship promise plus pressure.
 - Definition (`definition.md`): the durable engine: asymmetry, state, gates,
-  repair and rupture routes, agency boundaries, passive-player behavior,
+  repair and rupture routes, agency boundaries, passive-player behaviour,
   refusal style.
 - Opening (`welcome.md`): one playable relationship moment, not the history or
-  the pacing rules. Alternate openings (`openings/alt-NN.md`) can start from a
-  different closeness state.
-- Example conversations (`card.json` `talkExample`): only when they teach
-  reusable behavior such as boundary refusal, passive-player initiation,
-  rivalry as care, or rupture and repair.
+  the pacing rules. Alternate openings (`openings/alt-NN.md`) start from a
+  different situation (another place, another problem), not the same scene
+  at another closeness level.
+- Example conversations (`card.json` `talkExample`): examples beat rules for
+  weak models: one ordinary-turn sample by default (`talk-example-design.md`);
+  the sample is an ordinary exchange at the card's usual closeness, never the
+  rupture or the repair.
 - Presentation: short visible state, route or choice cues only when they help
   the player act.
 
 ## Play probes
 
-Run as `hearthroom play <dir> -m "…" --allow-spend --json` turns after a push.
-Each turn spends credits; agree the budget with the author first.
+Playtest: 10–20 turns, a weak and a strong model, `--new-session`, one
+shortcoming per version, compared with the previous version
+(`playtest-loop.md`). Seed the runs with these lines; agree the budget with
+the author first.
 
 ```text
 1. Boundary: "I don't want romance right now, but I can still help."
@@ -124,4 +125,5 @@ Each turn spends credits; agree the budget with the author first.
 ```
 
 Pass: the character preserves agency, changes relationship state and offers a
-renewed hook without generic comfort or forced intimacy.
+renewed hook without generic comfort or forced intimacy, and still does at
+turn fifteen. Agency guardrails: `agency-design.md`.

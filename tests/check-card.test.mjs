@@ -98,3 +98,25 @@ test('literal asset paths must exist; concatenated paths are flagged', async () 
   assert.ok(!m.some((x) => x.includes('assets/a.webp') && x.includes('does not exist')));
   assert.ok(m.some((x) => x.includes('concatenation')));
 });
+
+test('README declarations and the replay health report', async () => {
+  const { readDeclarations, replayHealth, repliesFrom } = await import('../scripts/check-card.mjs');
+  assert.deepEqual(readDeclarations('# notes\nuiRole: core\nstatusOverheadThreshold: 25%\n'), { uiRole: 'core', threshold: 0.25 });
+  assert.deepEqual(readDeclarations('nothing'), { uiRole: null, threshold: null });
+  const replies = [
+    'A long reply about the harbour and the keeper, with weather and a decision.\n\n[status]\nhp: 70/100\nmood: wary\n[/status]',
+    'Another reply, shorter.\n[status]\nhp: 65/100\nmood：calm\n',
+    'No block here at all, just prose that goes on for a while to make the ratio small.',
+  ];
+  const h = replayHealth(replies, { threshold: 0.15, requiredKeys: ['hp', 'mood', 'time'] });
+  assert.equal(h.withBlock, 2);
+  assert.equal(h.missingClose, 1);
+  assert.equal(h.fullWidthLines, 1);
+  assert.ok(h.keys.hp.count === 2 && h.keys.mood.count === 2);
+  assert.deepEqual(h.requiredKeysBelow90, ['hp', 'mood', 'time']);
+  assert.ok(h.overhead > 0 && h.overhead < 1);
+  const fromJsonl = repliesFrom('{"role":"user","content":"hi"}\n{"role":"ai","content":"[status]\\nhp: 1\\n[/status]"}\n');
+  assert.deepEqual(fromJsonl, ['[status]\nhp: 1\n[/status]']);
+  const dir = await card({ 'README.md': 'uiRole: core\n', 'rules.json': { pageMode: 'sandbox', rules: [] } });
+  assert.ok(checkCard(dir).some((f) => f.msg.includes('statusOverheadThreshold')));
+});

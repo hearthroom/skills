@@ -28,9 +28,13 @@ types and the field names the packet points at.
 4. Name three to five taste axes that will shape the directions.
 5. Propose exactly three directions that differ by primary contract, player
    position, first scene, core loop and risk, not only by aesthetics: the
-   safest, the boldest, and the most unusual that is still controllable.
+   safest, the boldest, and the most unusual whose first reply still passes
+   the five-second test.
 6. Pressure-test each: first reply clarity, player leverage, what changes after
-   the first reply, likely failure mode, best next skill.
+   the first reply, likely failure mode, best next skill, and the funnel
+   check (L0 cover and title, L1 summary, L2 opening as a free demo, L3 turn
+   two better than turn one). Recommend the direction whose weakest layer is
+   strongest.
 7. Run the five-second gate from the reference on each direction. Repair any
    direction that fails before recommending it.
 8. Recommend one direction and say why it is more playable than the generic or
@@ -59,8 +63,9 @@ Premise packet:
   - involvement ladder:
   - tradeoff / risk:
   - best next skill:
-- recommendation and why it wins:
-- rejected or delayed ideas:
+- recommendation and why it wins (weakest funnel layer of each direction):
+- rejected or delayed ideas (kept in the card's README.md so a later session
+  does not reopen them):
 - risk flags:
 - next decisions to lock:
 - next skill:

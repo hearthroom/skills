@@ -32,7 +32,8 @@ codex plugin add hearthroom@hearthroom-skills
 寫、審或測 Hearthroom 角色卡時，先讀 <路徑>/skills/using-hearthroom/SKILL.md，照裡面的路由表走。
 ```
 
-另外要裝 CLI：`curl -fsSL https://raw.githubusercontent.com/hearthroom/cli/main/install.sh | sh`，
+另外要裝 CLI：macOS 用 `brew install hearthroom/tap/hearthroom`，或
+`curl -fsSL https://raw.githubusercontent.com/hearthroom/cli/main/install.sh | sh`，
 然後 `hearthroom auth login`。
 
 ## 可以跟助手怎麼說
@@ -41,12 +42,13 @@ codex plugin add hearthroom@hearthroom-skills
 
 > 這張卡聊三輪就沒東西了，查一下為什麼，然後修掉。
 
-> 把開場白渲染出來，告訴我狀態欄那條規則到底有沒有套上。
+> 把開場白渲染出來，截圖給我看狀態面板到底有沒有畫出來。
 
 > 用第二個開場白玩兩輪，告訴我玩家會在哪裡失去興趣。
 
-助手會從 `using-hearthroom` 出發，挑最窄的技能，改卡片資料夾裡的檔案，然後跑
-`card push --validate`、`card render`；只有你同意花點數時才跑 `play --allow-spend`。
+助手會從 `using-hearthroom` 出發，挑最窄的技能，改卡片資料夾裡的檔案，跑本機檢查器
+（`scripts/check-card.mjs`）、`card push --validate`、`card render`，有聊天頁的倉庫時用離線預覽
+看畫面；只有你同意花點數時才跑 `play --allow-spend`。
 
 ## 裡面有什麼
 
@@ -57,7 +59,8 @@ codex plugin add hearthroom@hearthroom-skills
 - 卡片類型：玩法工程、劇情架構、日常架構、生成器架構、群像導演、系列架構。
 - 素材與包裝：素材蒸餾、原創改編、樣本校準、資料包裝、視覺識別、邊界設計、
   語言風格、設定工程、token 架構、指令護欄。
-- 呈現：呈現導演、沙盒套件、渲染審查。`assets/sandbox-kit/` 是這個工具包自己的沙盒頁套件：
+- 呈現：呈現導演、沙盒套件、渲染審查。劇情為核：每張卡都宣告它的 UI 是輔助劇情還是玩法的一部分，
+  工具包會量狀態區塊吃掉每則回覆的多少。`assets/sandbox-kit/` 是這個工具包自己的沙盒頁套件：
   模型寫的狀態區塊畫成氣泡內面板、深淺兩套的主題 preset、設定抽屜、釘選列、選項鈕，
   由 `build.mjs` 編成顯示規則。`scripts/check-card.mjs` 用 `scripts/sandbox-contract.json`
   （從聊天頁原始碼生成的作者 API 清單）檢查整個卡片資料夾。Hearthroom 的沙盒頁跟 MMD

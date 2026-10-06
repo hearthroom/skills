@@ -20,7 +20,7 @@ another, demoted to a background mention or delayed.
 
 Most ensemble cards use 2-5 active core speakers: 2 when the player is caught
 between a pair; 3 as the default for mystery, crew, roommates or party cards;
-4-5 only when every speaker has a different function; 6+ only for explicit
+4-5 only if every speaker has a different function; 6+ only for explicit
 simulator or large-system cards. Keep a speaker with a unique function,
 pressure move, player leverage and voice. Merge two who want the same thing
 and press the player the same way. Cut or demote one who cannot change choice,
@@ -29,12 +29,14 @@ route, risk, clue access, relationship, faction stance or boundary.
 ## Cast decision matrix
 
 ```text
-Speaker | Function | Wants | Fears / cost | Speech cue | Pressure move | Player leverage | Keep / merge / cut
+Speaker | Function | Wants | Fears / cost | Relation to the player as one image | Speech cue | Pressure move | Player leverage | Keep / merge / cut
 ```
 
 Useful functions: accuser, protector (safety at a cost), witness (partial
 truth), rival, broker (shortcut with debt), skeptic, dependent (stakes without
-removing agency), wildcard (changes the group state when ignored).
+removing agency), wildcard (changes the group state when ignored). "Relation
+as one image" is a concrete thing the model can reuse (she still has his key;
+he sits in the player's old chair), never "deep feelings".
 
 ## Turn ownership
 
@@ -43,7 +45,7 @@ monologues. Define the opening focus (one speaker, one demand, one crisis),
 the first speaker, the interrupter and why they may cut in, the holder-back
 and their trigger, secondary entry rules, max active speakers per turn
 (usually 1-2), and the address rule: after cast conflict, a speaker turns the
-pressure back to the player. A speaker may interrupt only when it creates a
+pressure back to the player. A speaker may interrupt only if it creates a
 clue, cost, risk, route or relationship shift for the player. Put these rules
 in the definition and, if replies must mark who is speaking, that format in
 the output contract.
@@ -79,10 +81,11 @@ consequence of the player's first action.
 Voice contrast starts from motive and pressure, not punctuation. For each core
 speaker define private motive, fear or cost, sentence rhythm, vocabulary or
 address style, action beat while speaking, pressure move, and refusal style.
-Add `talkExample` pairs in `card.json` only when compact rules cannot hold a
-speaker's voice or turn style: one micro-sample per easily blurred speaker,
-showing how that speaker handles pressure and how they differ. Cut repeated
-lore or decorative banter to pay for them.
+Examples beat rules for weak models: one ordinary-turn sample by default
+(`talk-example-design.md`). For an ensemble that sample is one ordinary group
+turn in which two core speakers speak and the pressure returns to the player,
+in the output contract's speaker-marking format; never a showdown. Cut
+repeated lore or decorative banter to pay for it.
 
 ## Field allocation
 
@@ -91,17 +94,21 @@ lore or decorative banter to pay for them.
   state, voice contrast, agency boundaries, route rules.
 - `welcome.md`: one focal crisis, not the cast manual.
 - `lorebook.json`: one entry per secondary speaker or faction, named by who
-  they are, so they enter consistently when their keywords appear.
-- `talkExample` (`card.json`): micro-samples only for weak voices or turn
-  format.
-- presentation: current speaker, state, clue or choice through plain HTML
-  blocks only when it helps the player act.
+  they are, so they enter consistently when their keywords appear. Stagger
+  the keywords so one sentence does not summon three speakers
+  (`world-engine-design.md`).
+- `talkExample` (`card.json`): examples beat rules for weak models: one
+  ordinary-turn sample by default (`talk-example-design.md`): an
+  ordinary group turn, not a showdown.
+- presentation: only if it does one of UI's five jobs
+  (`presentation-design.md`); otherwise none.
 
 ## Testing
 
-Probe manually first. Then run each probe as one turn of
-`hearthroom play <dir> -m "…" --allow-spend --json` once the card validates
-and the author accepts the cost: side with the least trusted speaker; refuse
+Probe manually first. Then: Playtest: 10–20 turns, a weak and a strong model, `--new-session`, one
+shortcoming per version, compared with the previous version
+(`playtest-loop.md`). Seed the runs with,
+once the card validates and the author accepts the cost: side with the least trusted speaker; refuse
 the obvious group demand; accuse the focal speaker; ask the quiet speaker
 directly; stay passive; set a boundary or leave the room. Pass: the cast does
 not debate while ignoring the player; the card does not decide the player's

@@ -14,6 +14,20 @@ Hook -> Agency -> Consequence -> Memory -> Progression -> New Hook
 The opening should be easy to answer. The definition should keep the character
 consistent. The loop should give the player a reason to continue.
 
+## Funnel
+
+A card is judged by deep-play conversion: L0, the cover and the title alone
+make a stranger stop (Promise); L1, the summary makes them open the opening
+(Promise); L2, the opening is the free demo that earns the first paid message
+— the voice is heard, there is one low-friction first action, and a pull to
+answer (Play's first scene); L3, turn two is better than turn one, choices
+accumulate and have consequences, and there is a reason to return (Engine and
+longplay). The layers multiply, so the weakest one caps the card: find it
+first and repair it before polishing a layer that already works. A card's
+tier cannot exceed the tier of its weakest layer. This is the only statement
+of the funnel in the toolkit; the router, the scorecard and the iteration
+loop point here.
+
 ## The four-layer model
 
 ### 1. Promise
@@ -22,27 +36,27 @@ What the player understands in three seconds: name, summary, tags, portrait.
 It answers: what fantasy does this card offer, who is the player in relation to
 it, and what can happen here that cannot happen in a generic chat.
 
-Keep the summary tight: usually 80-260 characters, up to about 500 for systems,
-games or generators with many modes. If the premise cannot be stated briefly,
-the card is not ready to write. Use `profile-packaging.md` when the engine
+Keep the summary to about 260 characters for every card shape, with the hook
+in the first sentence (`profile-packaging.md`). If the premise cannot be
+stated briefly, the card is not ready to write. Use `profile-packaging.md` when the engine
 exists but the public package is weak; `visual-identity.md` when portrait or
 background is the weak first impression; `language-style.md` when the engine
 works but script, register or address terms drift.
 
 ### 2. Engine
 
-The character's durable behavior and world logic. It belongs in the
+The character's durable behaviour and world logic. It belongs in the
 definition, with sometimes-needed facts in Lorebook entries.
 
 Include identity and relationship to the player, personality drivers and
 contradictions, boundaries and pacing, speech style and tells, world rules and
-routes, proactive behavior for a passive player, and what must stay stable
+routes, proactive behaviour for a passive player, and what must stay stable
 across long sessions.
 
-Length is language-aware. A non-English card near its definition limit and an
-English card with far more characters can hold the same engine depth. Use the
-character count as a limit signal and module coverage as the quality signal.
-Use `role-detail-engine.md` or `hearthroom-detail-engineer` when the definition
+Length follows modules, never a count: a module earns its place when play
+shows the model getting it wrong without it, and non-English limits keep at
+least about 500 characters free (`token-economy.md`). Use
+`role-detail-engine.md` or `hearthroom-detail-engineer` when the definition
 is a thin biography or misses the modules that make later turns work.
 
 ### 3. Play
@@ -58,26 +72,30 @@ Avoid "Hello, I am X, what do you want to do?", lore before the player can act,
 instructions that make the character play the player, menu screens with no
 scene, and visual markup that costs tokens but adds no affordance.
 
-Opening targets: companion 80-700 characters, story 200-1,200, game or system
-300-2,000 with choices or setup, HTML openings only as long as the first action
-needs.
+Opening lengths are soft starting points in `token-economy.md`; an HTML
+opening is only as long as the first action needs.
 
 ### 4. Presentation
 
-How the card feels without corrupting the story logic. On Hearthroom this is
-plain text or plain HTML and CSS in the opening and replies, plus
-display rules in `rules.json` that turn reply text into layout, status bars
-and buttons. Styling should reveal state, mood or choice structure; it must
-never hide critical instructions inside decoration. Route presentation
-decisions to `hearthroom-presentation-director` and verify with
-`hearthroom card render --json`.
+How the card feels without corrupting the story logic. Story first: a card
+declares `uiRole: assist` (the replies read well with display rules off) or
+`core` (mechanics bound to the interface, legible in text, degrading to
+text), and UI earns its place only by memory, making choices legible,
+pacing, showing the world reacting, or orientation; choices are drafts, not
+rails, and free input stays first-class (`presentation-design.md`, Story
+first). On Hearthroom this is plain text or plain HTML and CSS in the
+opening and replies, plus display rules in `rules.json` and the sandbox kit
+that turn a `[status]` block into a panel and a `[choices]` block into
+buttons. Route presentation decisions to `hearthroom-presentation-director`
+and verify with `check-card.mjs`, `hearthroom card render --json` and the
+offline preview.
 
 ## The PACT loop
 
 - Playable: the player knows what to do next. Can the first reply be written in
   ten seconds? Does the scene invite action, choice, confession, conflict,
   exploration or setup? Is the player role clear?
-- Anchored: the character has stable identity and behavior. Does the definition
+- Anchored: the character has stable identity and behaviour. Does the definition
   say what they want, how they talk, what changes slowly and what can change
   fast?
 - Consequential: player actions matter. Do relationship, resources, trust,
@@ -122,11 +140,11 @@ longer prose.
    missing one side goes passive or becomes a lore dump. Use
    `tension-triangle.md` when a chosen premise is attractive but inert.
 2. Character core. Appeal promise, desire, contradiction, boundary, mask or
-   wound, player leverage, relationship asymmetry, pressure behavior. "Cold but
+   wound, player leverage, relationship asymmetry, pressure behaviour. "Cold but
    soft" or "a powerful X" is a label to repair with `character-core-design.md`.
 3. Relationship engine. Promise, asymmetry, closeness and friction states,
    pacing gates, repair and rupture routes, a reply-path matrix, and
-   passive-player behavior. If the card only improves by prettier affection, it
+   passive-player behaviour. If the card only improves by prettier affection, it
    is not repaired. Use `relationship-engine.md`.
 4. Daily-life engine. Ordinary routine, small playable desire, tiny disruption,
    shared object or place, habit state, reply paths, romance posture,
@@ -137,7 +155,7 @@ longer prose.
    or proper nouns needs `world-engine-design.md`. Facts needed only sometimes
    go into Lorebook entries.
 6. Play engine. Play promise, controls, compact state, resource rules, quest
-   and risk model, turn protocol, failure-forward behavior. An opening that
+   and risk model, turn protocol, failure-forward behaviour. An opening that
    reads like a manual needs `play-engine-design.md`.
 7. Player agency. Room to decide identity, emotion, intention, method,
    boundary and route. Reply-path matrix with distinct responses, consequence
@@ -187,7 +205,7 @@ Aim above these before pushing a card for render or play.
 2. The definition is an engine, not a label: identity, desire, contradiction,
    boundaries, speech style, progression rules.
 3. Speech style is executable: sentence length, rhythm, vocabulary, address
-   terms, tells, restraint, avoided phrasing.
+   terms, tells, restraint, and "says instead" for any tic to remove.
 4. Progression is explicit: what choices change, which state moves, how the
    next hook renews.
 5. Role initiative is explicit: what the character asks, reveals, escalates or
@@ -198,7 +216,7 @@ Aim above these before pushing a card for render or play.
 7. The author can name one likely first reply and one second-turn move that
    changes state, relationship, risk, route or information.
 8. Long-session cards can name a continuity spine, state model, route seeds,
-   memory threads and return-later behavior.
+   memory threads and return-later behaviour.
 9. Related sets can name the shared core and each variant's distinct contract.
 10. Script, register, pronouns and address terms are consistent across
     summary, definition, opening and examples.
@@ -207,12 +225,10 @@ These are writing checks. Validation does not enforce them.
 
 ## Repair order
 
-Repair in this order during self-review: promise; anchor; character core;
-engine (world, play, relationship, daily-life, scenario, generator); voice
-texture; consequence; role initiative; first reply path; agency design;
-opening scene; longplay; player agency (remove rules that decide the player's
-actions, feelings, consent or commitments); language style; archetype fit;
-budget; material distillation; boundary design; card series.
+Repair the weakest funnel layer first; within a layer, agency and boundary
+before polish. The full order (technical blockers → agency and boundary →
+the weakest conversion layer → everything else, one primary repair per
+version) is owned by `card-diagnosis.md`.
 
 A polished, valid card with weak agency or weak consequence still needs repair.
 
@@ -253,7 +269,7 @@ proceed.
 Character creation inputs, location and quest loop, stats, inventory,
 factions, time, risk, rewards, consequences for travel, combat, social choices
 and resource use, state update rules. Long definitions are justified only when
-modular: core rules, map, progression, NPC behavior, combat, economy, output
+modular: core rules, map, progression, NPC behaviour, combat, economy, output
 format. Checks: meaningful choices under pressure; state small enough to update
 every turn; failure changes the world without ending the session; NPCs have
 motives and limits; rewards unlock choices.
@@ -293,7 +309,7 @@ enough anchors to prevent drift.
 ### Heavy-setting / lore-rich
 
 Compact summary before deep lore; modules for rules, factions, places, routes,
-history and output behavior; a clear player position; state that decides which
+history and output behaviour; a clear player position; state that decides which
 lore matters next; named entities only when they affect play. Move rarely
 needed modules into Lorebook entries with keywords and descriptive names.
 Checks: the first scene works if the player ignores most lore; each faction or
@@ -314,10 +330,11 @@ speakers.
 
 - Summary: the pitch. `[Player role] enters [situation] with [character or
   system], where [central tension] creates [play loop].`
-- Definition: the engine, in compact sections: core premise, player position,
-  role identity, personality and contradictions, speech style, world or
-  relationship rules, progression and consequence, memory and state rules,
-  do / avoid.
+- Definition: the engine, ordered by `prompt-attention-architecture.md`:
+  iron laws, card contract, player position, role identity, personality and
+  contradictions, speech style with "says instead", world or relationship
+  rules, progression and consequence, memory and state rules, final recency
+  checklist.
 - Lorebook: sometimes-needed facts with keywords. Few, short constant entries.
   Name entries by what they contain so an agent-mode character can find them.
 - Opening: `[sensory opening] + [role action] + [pressure] + [player
@@ -326,11 +343,11 @@ speakers.
   `openings/alt-NN.md` each change the situation, not just the mood.
 - Suggested first lines (`prologue`): player-side reply paths offered as
   choices; never the character's line.
-- Example conversations: only when they teach voice or format the definition
-  cannot. Compact micro-samples over one long scene. Use
-  `talk-example-design.md`.
-- Output contract: the reply shape, short, with one format exemplar when the
-  shape must survive weak models.
+- Example conversations: one ordinary-turn sample by default; examples beat
+  rules for weak models, which copy the sample every turn
+  (`talk-example-design.md`).
+- Output contract: the reply shape, short, with one ordinary-turn example of
+  the `[status]` block with concrete values (`state-economy-design.md`).
 - Custom instructions: rarely. They replace one default instruction block.
   Read `instruction-guardrails.md` first; never use them to patch a weak core,
   missing voice, bad opening or unsafe boundaries.
@@ -354,16 +371,5 @@ speakers.
 
 ## Evaluation probes
 
-Run through `hearthroom play <dir> -m "…" --allow-spend --json` once the author
-accepts the cost:
-
-1. Hook: a normal first reply that accepts the scene.
-2. Agency: an unexpected but plausible reply.
-3. Continuity: continue after a state or relationship change.
-4. Boundary: push against a stated rule or taboo.
-5. Token: does the reply spend on progress rather than repeated setup?
-
-Triage each reply on presence (empty, short, generic), agency (no concrete next
-move), progression (nothing changed), and frame (system artifacts or broken
-in-world voice). Patch the files when play exposes a missing anchor, unclear
-player role, weak consequence loop or repetition.
+The probe matrix, the two-model 10–20-turn standard and the triage table are
+in `playtest-loop.md`; use them once the author accepts the cost.

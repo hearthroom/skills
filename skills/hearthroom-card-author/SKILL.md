@@ -17,74 +17,27 @@ before final field drafts, `../../references/role-card-writing-framework.md`
 for self-review, `../../references/field-finalization.md` before writing
 files, and `../../references/cli-workflow.md` before any push.
 
-Load the narrow reference only when that layer is the current blocker:
-`../../references/premise-workshop.md`, `../../references/tension-triangle.md`,
-`../../references/character-core-design.md`,
-`../../references/relationship-engine.md`,
-`../../references/world-engine-design.md`,
-`../../references/scenario-design.md`, `../../references/daily-life-design.md`,
-`../../references/play-engine-design.md`,
-`../../references/generator-design.md`,
-`../../references/system-intake-card-design.md`,
-`../../references/ensemble-card-design.md`,
-`../../references/archetype-contracts.md`, `../../references/agency-design.md`,
-`../../references/voice-calibration.md`,
-`../../references/talk-example-design.md`,
-`../../references/language-style.md`, `../../references/opening-design.md`,
-`../../references/prose-texture.md`,
-`../../references/longplay-design.md`,
-`../../references/state-economy-design.md`,
-`../../references/role-detail-engine.md`, `../../references/token-economy.md`,
-`../../references/presentation-design.md`,
-`../../references/boundary-design.md`,
-`../../references/instruction-guardrails.md`,
-`../../references/material-distillation.md`,
-`../../references/originality-adaptation.md`,
-`../../references/profile-packaging.md`, `../../references/visual-identity.md`,
-`../../references/card-series-design.md`, `../../references/quality-rubric.md`,
-`../../references/quality-scorecard.md`, `../../references/card-diagnosis.md`,
-`../../references/playtest-loop.md`, `../../references/cost-and-boundaries.md`.
+Load the narrow reference only when that layer is the current blocker; the
+routing table in `using-hearthroom` names the skill, and each skill names its
+reference. Two are always relevant to this skill:
+`../../references/talk-example-design.md` (examples beat rules for weak
+models: one ordinary-turn sample by default) and
+`../../references/prose-texture.md` (the opening and every sample are the
+reply the model copies).
 
 ## Workflow
 
 1. Capture the goal and the mode: draft-only field assembly, a new trial card,
    or a patch to an existing card folder. Capture premise, relationship
    dynamic, play loop, tone, language, content rating intent and success
-   criteria. For an existing folder run `hearthroom card pull <dir>` first so
-   the files match the provider's copy.
-2. Route the first blocker to its narrow skill before assembling fields, unless
-   that packet already exists:
-   - loose mood, trope or aesthetic: `hearthroom-premise-workshop`
-   - unclear or hybrid card type: `hearthroom-archetype-director`
-   - notes, files or a world bible: `hearthroom-material-distiller`
-   - canon, fan premise, copied draft, "like X but original": `hearthroom-originality-adapter`
-   - mature, intense or consent-sensitive goals: `hearthroom-boundary-designer`
-   - trope-only or passive character: `hearthroom-character-core`
-   - generic flirting, comfort loops, instant intimacy: `hearthroom-relationship-architect`
-   - lore digest, factions, locations: `hearthroom-world-engineer`
-   - mystery, investigation, event, betrayal: `hearthroom-scenario-architect`
-   - quiet routine, roommate, cafe, school: `hearthroom-daily-life-architect`
-   - stats, resources, quests, combat, turn protocol: `hearthroom-play-engineer`
-   - artifact output, intake defaults, revision commands: `hearthroom-generator-architect`
-   - several active speakers, cast size, spotlight: `hearthroom-ensemble-director`
-   - stakes, why-now, player leverage: `hearthroom-tension-weaver`
-   - spectator play, decorative choices, narrated player feelings: `hearthroom-agency-designer`
-   - speaking style, blurred voices, refusal voice: `hearthroom-voice-director`
-   - example conversations, omit or keep: `hearthroom-talk-example-curator`
-   - script mixing, register, pronouns, translated cadence: `hearthroom-language-stylist`
-   - opening at full volume, trembling ellipses, stacked adjectives, template register: `hearthroom-opening-director` with `prose-texture.md`
-   - opening repair, first reply path: `hearthroom-opening-director`
-   - dead third turn, memory, progression: `hearthroom-longplay-architect`
-   - which state to track, show or hide: `hearthroom-state-economist`
-   - thin definition, less-empty settings: `hearthroom-detail-engineer`
-   - overlong fields, allocation, compression: `hearthroom-token-architect`
-   - plain vs HTML, display rules, status line: `hearthroom-presentation-director`
-   - name, summary, tags, first impression: `hearthroom-profile-packager`
-   - portrait, background, art prompts: `hearthroom-visual-identity-director`
-   - related cards, variants, keep or merge: `hearthroom-series-architect`
-   - "is this good enough": `hearthroom-quality-auditor`
-   - existing-card mixed symptoms: `hearthroom-card-doctor`
-   - comparative or taste-level feedback: `hearthroom-collaboration-director`
+   criteria. For an existing folder run `hearthroom card status <dir>` first;
+   pull (`hearthroom card pull <roleId> <dir> --force`) only when the card
+   was edited on the site and the local files have no unpushed work, because
+   `--force` overwrites them. Read the card's `README.md` (the dossier:
+   `uiRole`, decisions, rejected directions, evidence by version) before
+   changing anything.
+2. Route the first blocker to its narrow skill before assembling fields,
+   unless that packet already exists, with the table in `using-hearthroom`.
 3. Choose or preserve the archetype and set `card.json` `type` (`companion`,
    `story`, `game`, `generator`). Daily-life, light-setting, heavy-setting and
    ensemble are overlays.
@@ -97,18 +50,23 @@ Load the narrow reference only when that layer is the current blocker:
      player leverage, first-scene pressure and a repeatable loop;
    - make the character's engine legible: what they want, what blocks it, what
      they will not do, what changes when the player pushes closer or away;
-   - write speech as rhythm, vocabulary, address terms, tells and avoided
-     phrasing, never as "natural", "gentle" or "like a real person";
+   - write speech as rhythm, vocabulary, address terms and tells, plus one
+     ordinary-turn line in the character's voice; for a tic you want gone,
+     show what they say instead; never "natural", "gentle" or "like a real
+     person";
    - treat the opening and every sample as the reply the model will copy:
      open below the climax, objects before feelings, whole sentences with an
      ellipsis budget, one line that refuses the mood; do not add a style
-     rule the opening already contradicts (`prose-texture.md`);
+     rule the opening already contradicts (`prose-texture.md`). Weak models
+     copy the opening, the samples and the output-contract example every
+     turn, so at least one of them shows an ordinary mid-story turn, never
+     the climax (`talk-example-design.md`);
    - write proactive rules: what the character asks, reveals, escalates or
      offers when the player is passive or stalls;
    - repair the chosen type directly: a companion needs relationship pressure
      and pacing, a story needs stakes, branches and consequence state, a game
      needs compact state, resource rules, a turn protocol and failure-forward
-     behavior, a generator needs an artifact contract, defaults and named
+     behaviour, a generator needs an artifact contract, defaults and named
      revision operations, an ensemble needs distinct wants, voices and turn
      ownership;
    - for ensembles run a contrast check: each core speaker has a different
@@ -125,14 +83,14 @@ Load the narrow reference only when that layer is the current blocker:
 5. Self-review against the framework and `quality-rubric.md`, then run
    `hearthroom-field-finalizer`. In draft-only mode stop here and return the
    final field-authoring packet.
-6. Write the files. `card.json` holds name, summary, tags, type, language,
-   `playerName`, `prologue`, `talkExample`, `outputContract`,
-   `customInstructions` and `media`. The definition goes in `definition.md`,
+6. Write the files. `card.json` holds the short fields listed under The card
+   folder in `platform-facts.md`. The definition goes in `definition.md`,
    the opening in `welcome.md`, alternates in `openings/alt-NN.md`, entries in
    `lorebook.json`, display rules and page mode in `rules.json`, media files
    under `assets/` (named and grouped as Media library in `platform-facts.md`
-   says), and working notes only in `README.md`. When patching, edit
-   only the fields that change.
+   says), and working notes only in `README.md` (the dossier template in
+   `card-authoring-templates.md`). When patching, edit only the fields that
+   change.
 7. Keep the definition an engine. If it is a thin biography or under budget
    for its language and ambition, use `hearthroom-detail-engineer` before
    pushing. If the opening carries rules, lore or repeated monologue, use
@@ -146,7 +104,12 @@ Load the narrow reference only when that layer is the current blocker:
    Keep example conversations as short calibration samples, never session
    summaries. Keep the output contract short and label the format exemplar as
    an example.
-9. Presentation: plain text is the default. Write ordinary HTML and CSS when
+9. Presentation: declare `uiRole` (`assist` | `core`) and the status overhead
+   threshold in `README.md` (`presentation-design.md`, Story first). For
+   `assist`, read the opening and three play replies with rules off; they
+   must still read as story. Status lines take tokens from the story: if the
+   status and choices blocks are more than the declared share of a typical
+   reply, cut fields. Plain text is the default. Write ordinary HTML and CSS when
    a bar, fact row, panel or set of choices carries play value; no custom
    elements the page does not register. Reusable layout, status bars and
    buttons belong in `rules.json` display rules, which the model never sees;
@@ -164,15 +127,19 @@ Load the narrow reference only when that layer is the current blocker:
     blockers in the files and push again. Validation proves technical
     readiness only; it does not judge writing.
 12. Render: `hearthroom card render <dir> --json`, then review with
-    `hearthroom-render-review`. Repair render failures before another render.
+    `hearthroom-render-review`. When the chat page's repository is available,
+    run the offline preview (`platform-facts.md`, Offline preview) with play
+    replies pasted into `preview/replies.md`; it is the free check of reply
+    layout. Repair render failures before another render.
 13. Play, when the author accepts the credit cost:
-    `hearthroom play <dir> -m "…" --allow-spend --json` with
-    `hearthroom-chat-simulation`. Use `--greeting N` for alternates,
-    `--agent on|off` for agent mode, `--model` for a second model, `--history`
-    to read back. Repair play failures before another play pass.
-14. Summarize the card, validation, render and play results, remaining risks
-    and the next action. Remind the author that a trial card expires three
-    days after its last push and that `card push --create` keeps it.
+    `hearthroom play <dir> --new-session -m "…" --allow-spend --json` with
+    `hearthroom-chat-simulation`: 10–20 turns, a weak and a strong model,
+    `--new-session --greeting N` for an alternate opening, `--agent on|off`
+    for agent mode, `--history` to read back (`playtest-loop.md`). Repair
+    one shortcoming per version and compare with the previous version.
+14. Summarise the card, validation, render and play results, remaining risks
+    and the next action in the dossier and to the author
+    (`cost-and-boundaries.md` for trial-card expiry and `--create`).
 
 ## Hand-off
 

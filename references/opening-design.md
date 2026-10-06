@@ -22,11 +22,19 @@ chooses how to respond and never has to invent the main objective.
 ## Where it lives
 
 - `welcome.md`: the opening. `openings/alt-NN.md`: alternate openings, in
-  file-name order; `hearthroom play --greeting N` starts from alternate N.
+  file-name order; `hearthroom play --new-session --greeting N` starts a
+  conversation from alternate N. Each alternate is a different situation
+  (place, problem, time); a rewrite of the main opening in another tone is
+  not an alternate.
 - `prologue` in `card.json`: suggested first lines for the player, offered as
   choices. Player side only; never the character's first message.
-- Plain text or HTML. Plain HTML and CSS render on the play page;
-  `hearthroom card render --json` shows the opening after display rules.
+- Plain text, or plain HTML with inline `style` attributes. Stylesheets and
+  scripts belong in display rules: `<style>` and `<script>` inside
+  `welcome.md` are dropped on the sandbox page, and author `data-*`
+  attributes are removed. `hearthroom card render --json` shows the text
+  before the sanitizer and runs no scripts, so check the play page or the
+  offline preview (`platform-facts.md`). When the card has a status block,
+  the opening ends with it (`state-economy-design.md`).
 - The opening limit depends on the card's language; read it from
   `tokenBudget.limits` in `hearthroom card push --validate --json`.
 
@@ -40,15 +48,20 @@ and sounds rather than adjectives, budget the ellipses, and make every
 speaker on the screen distinguishable; `prose-texture.md` has the checks and
 the repairs.
 
-## The five beats
+## The beats
 
+0. Promise: the first screen pays off what the summary sold.
 1. Place and time: where and when the player is.
 2. Character action: what the character is already doing.
 3. Pressure: why this moment starts now.
 4. Player implication: why the player matters.
-5. Reply path: what the player can do next.
+5. Reply path: one low-friction first action the player can take in under
+   ten seconds.
+6. Voice: at least one line of the character's own speech in their register.
 
 A missing beat turns the opening into a prompt, a menu or a lore paragraph.
+The opening is the free demo that earns the first paid message (L2); funnel
+L0–L3 and "weakest layer first": `role-card-writing-framework.md`.
 
 ## Legibility gate
 
@@ -73,17 +86,21 @@ authority figure, the first option set carries an authority opposition axis:
 at least one comply path and at least one resist path. Jokes and chaos are
 tone, not resistance, unless they actually oppose the authority.
 
-Choices can be plain lines in the opening, `prologue` entries, or plain HTML
-choice buttons in a display rule; `hearthroom-presentation-director` decides
-which.
+Choices are drafts, not rails: free text must always work, a choice can be
+rewritten before it is sent, and the first action may be a button but never
+only a button. Choices can be plain lines in the opening, `prologue` entries
+(the player's own editable lines; prefer them for the first turn), or the
+kit's `[choices]` block; `hearthroom-presentation-director` decides which.
 
 ## Second-turn engine
 
 Write one likely first player message and the character's next move. The
 second turn must react to the choice, reveal a specific truth, complicate the
 situation, update relationship, risk, route, resource or trust, offer a new
-route, ask a sharper question, or move a practical problem forward. If it
-can only restate the premise, the opening is weak.
+route, ask a sharper question, or move a practical problem forward. Turn two
+must be better than turn one: it pays off something the first screen planted
+(an object, a half-said line), not just a change. If it can only restate the
+premise, the opening is weak.
 
 ## Mode recipes
 
@@ -129,8 +146,11 @@ can only restate the premise, the opening is weak.
 - Do at least two reply paths lead somewhere different?
 - Does the second turn change state, relationship, risk, route or
   information?
-- Is the opening shorter than the definition, unless it is an interactive
-  setup?
-- Are the player's feelings, actions and consent left to the player?
+- Is the opening shorter than the definition (`welcomeToDetailRatio` in
+  `card push --validate --json`), unless it is an interactive setup?
+- Agency guardrails: `agency-design.md`.
+- Attention: which rule from this packet joins the top iron rules, and the
+  matching line in the final recency checklist (they must agree;
+  `prompt-attention-architecture.md`).
 - Is the first screen below the card's climax, with at most two ellipses and
   one line that refuses the mood?

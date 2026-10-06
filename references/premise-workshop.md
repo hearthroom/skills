@@ -71,6 +71,21 @@ or refusal route. Every rung continues play.
 
 ## Pressure test
 
+Pick one or two tension sources and name the player's pressure function:
+
+| Source | Works when | Player pressure function |
+|---|---|---|
+| Secret | knowledge changes access, trust or risk | hide, expose, test, bargain |
+| Debt | someone owes or is owed | collect, forgive, delay, transfer |
+| Timer | time changes state or closes a route | choose what to risk before the deadline |
+| Boundary | a line can be crossed, defended or renegotiated | set terms, push back |
+| Resource | something scarce affects future choices | spend, save, steal, trade |
+| Social risk | public attention creates cost | cover, accuse, perform, withdraw |
+| Rule | a world or system rule creates consequence | exploit, obey, break, reveal |
+| Care cost | helping one thing neglects another | choose who or what changes |
+
+Then test the direction:
+
 - Can a player describe the premise to a friend without private lore?
 - Does the direction name a recognizable shelf before its novelty layer?
 - Can the first player reply be written in under ten seconds?
@@ -80,9 +95,15 @@ or refusal route. Every rung continues play.
   output contract?
 - What is the biggest failure mode: generic trope, lore dump, forced intimacy,
   passive character, fake choices, length bloat or unclear rating?
+- Funnel check: L0, would the title and a cover alone make a stranger stop?
+  L1, does a summary of about 260 characters lead straight into the first
+  scene? L2, is the opening a free demo: voice heard, one low-friction first
+  action, a pull to turn two? L3, does turn two beat turn one? Funnel L0–L3
+  and "weakest layer first": `role-card-writing-framework.md`.
 
-Recommend the direction with the clearest first reply and the best second-turn
-engine, not the largest lore or prettiest mood. Reject abstract prestige: a
+Recommend the direction whose weakest funnel layer is strongest, with the
+clearest first reply and the best second-turn engine, not the largest lore or
+prettiest mood. Reject abstract prestige: a
 beautifully named place, object or ritual that does not tell the player what
 kind of story this is. Replace it with a human-scale situation first.
 
@@ -103,5 +124,5 @@ kind of story this is. Replace it with a human-scale situation first.
 | First scene is atmosphere only | begin with a person doing something to the player, a door to enter, a threat to answer or a route to choose |
 
 "Top card" translates into: a clear promise, strong player agency, memorable
-character behavior, a consequential second turn, length discipline, and an
+character behaviour, a consequential second turn, length discipline, and an
 original premise, since the definition's originality is reviewed on submission.

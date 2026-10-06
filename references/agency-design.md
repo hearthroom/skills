@@ -26,8 +26,8 @@ agency before writing more prose.
 
 Fix a player identity only when the card type requires it, and still leave
 room for stance, method and consent. `playerName` in `card.json` is what the
-card calls the player; placeholder values are ignored, so do not depend on a
-fixed name in prose.
+card calls the player; placeholder values are ignored, so address the player
+as `{{user}}` and never depend on a fixed name in prose.
 
 ## Interaction hooks
 
@@ -54,7 +54,15 @@ leaves      |                    |              |
 A strong card supports at least three moves with different outcomes.
 "Different wording, same result" fails. Show paths as the scene in
 `welcome.md`, suggested first lines in `prologue` (player side only), and
-behaviour rules in `definition.md`.
+behaviour rules in `definition.md`. This matrix is the toolkit's only copy:
+other references fill it with their own rows (closeness states, route gates,
+turn protocol) instead of drawing a second table.
+
+Choices are drafts, not rails. Free text must always work; a choice can be
+rewritten before it is sent (on the sandbox page the kit's draft mode fills
+the input box instead of sending); the opening's first action may be a button
+but never only a button. Choices printed in every reply cost tokens every
+turn: offer them only where the next move is not obvious from the scene.
 
 ## Authority opposition axis
 
@@ -93,8 +101,16 @@ renegotiated). No change means the path is decorative.
 4. Rewrite choices into reply paths with consequences.
 5. Add passive-player and boundary-setting behaviour.
 6. Add compact state only for values that change behaviour.
-7. Probe with `hearthroom play -m "…" --allow-spend --json`: hook, refusal,
-   passive, route change, boundary.
+7. Probe hook, refusal, passive, route change and boundary. Playtest: 10–20
+   turns, a weak and a strong model, `--new-session`, one shortcoming per
+   version, compared with the previous version (`playtest-loop.md`).
+
+## Attention
+
+Which rule from this packet joins the top iron rules, and the matching line
+in the final recency checklist (they must agree;
+`prompt-attention-architecture.md`). "The character never writes the player's
+decision" is the usual candidate.
 
 ## Token discipline
 

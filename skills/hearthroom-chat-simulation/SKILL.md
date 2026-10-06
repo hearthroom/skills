@@ -1,15 +1,17 @@
 ---
 name: hearthroom-chat-simulation
-description: Use when a Hearthroom trial or private card needs a playtest through hearthroom play, realistic probe design, agent-mode coverage, transcript triage, behavior repair mapping, or a decision on whether another paid turn is worth its credits after validation passes.
+description: Use when a Hearthroom trial or private card needs a playtest through hearthroom play, realistic probe design, agent-mode coverage, transcript triage, behaviour repair mapping, or a decision on whether another paid turn is worth its credits after validation passes.
 ---
 
 # Chat simulation
 
-Use this skill to test a card's behavior through real turns. A simulation is
-`hearthroom play <dir> -m "…" --allow-spend --json`, one turn at a time. The
-loop: design realistic probes, get consent for the cost, run the turns, judge
-the replies with the rubric, patch from evidence, decide whether another turn
-is worth it.
+Use this skill to test a card's behaviour through real turns. A simulation is
+`hearthroom play <dir> --new-session -m "…" --allow-spend --json`, one turn
+at a time, 10–20 turns per probe set, on a weak model (the format floor) and a
+strong model (emergence). The loop: design realistic probes, get consent for
+the cost, run the turns, judge the replies with the rubric, patch one
+shortcoming, compare with the previous version, decide whether another turn
+is worth it (`playtest-loop.md` is the standard).
 
 There is no report command. The agent is the judge.
 
@@ -32,13 +34,15 @@ blur, `../../references/opening-design.md` for the first reply path,
 `../../references/longplay-design.md` for continuation failures,
 `../../references/agency-design.md` for spectator play or agency takeover,
 `../../references/boundary-design.md` for mature or consent-sensitive
-behavior, and `../../references/token-economy.md` for repeated setup.
+behaviour, and `../../references/token-economy.md` for repeated setup.
 
 ## Workflow
 
 1. Confirm the folder was pushed recently: `hearthroom card push <dir>
-   --validate --json` with no `blockers`. A trial card expires three days
-   after its last push. If blockers exist, patch and push before spending.
+   --validate --json` with no `blockers` (`cost-and-boundaries.md` for
+   trial-card expiry). Confirm `card.json` has `language`: turns carry it,
+   and without it the provider replies in English (`play --language`
+   overrides). If blockers exist, patch and push before spending.
 2. State the cost stance. Every `play -m` turn spends the author's credits at
    the model's rate; agent mode turns bill on actual usage, including failed
    or stopped turns. If the author has not already asked for a playtest,
@@ -50,28 +54,34 @@ behavior, and `../../references/token-economy.md` for repeated setup.
    Playtest plan:
    - card folder:
    - target risks: opening hook | agency | continuity | longplay | boundary | state | Lorebook reachability | format stability
-   - probe scope: narrow spot-check | behavior-complete
+   - probe scope: narrow spot-check | behaviour-complete
    - probes: numbered, real player wording
    - agent mode: which probes run with --agent on, which with --agent off, which in both
-   - alternate opening: --greeting N if one is under test
-   - expected healthy behavior:
+   - alternate opening: --new-session --greeting N if one is under test
+   - turns per probe set: 10–20
+   - expected healthy behaviour:
    - patch triggers: what reply evidence changes the definition, opening, Lorebook, rules or custom instructions
-   - model: chosen with the author from hearthroom models
+   - models: a weak model (format floor: do the status block and choices survive?) and a strong model (emergence: is turn two better, does the story accumulate?), both from hearthroom models
+   - previous version's probe set reused: yes | first run
    - cost stance: accepted | wait for confirmation | plan only
    ```
 
-   Behavior-complete acceptance runs the eight-probe matrix from
-   `playtest-loop.md`. A spot-check is labeled as not behavior-complete.
-4. Run one turn: `hearthroom play <dir> -m "<probe>" --allow-spend --json`
-   with `--model`, and `--agent on` or `--greeting N` when the plan says so.
-   Read the reply before sending the next probe. Use `--history` when the
-   conversation is long and `--stop` when the author stops waiting.
+   Behaviour-complete acceptance runs the probe matrix from
+   `playtest-loop.md`. A spot-check is labelled as not behaviour-complete.
+4. Start each independent probe set and each retest with `--new-session`
+   (`--greeting N` only takes effect with it; without it the turns pile into
+   the old conversation). Run one turn: `hearthroom play <dir> -m "<probe>"
+   --allow-spend --json` with `--model`, and `--agent on` when the plan says
+   so. Read the reply before sending the next probe. Use `--history` when
+   the conversation is long and `--stop` when the author stops waiting.
 5. Judge each reply against the playtest checks: in character; desire,
    contradiction and boundary visible under trust, resistance, passivity and
-   refusal; the scene moves; the last visible block gives the player a
-   concrete next move; the player's feelings, consent and actions are never
+   refusal; the scene moves; the player can tell what they could do next and
+   has a reason to; the player's feelings, consent and actions are never
    narrated; refusal, questioning and cooperation produce distinct responses;
-   tone matches the rating; no system leak.
+   tone matches the rating; no system leak. Turn one: would a real player
+   send this first paid message? Turn two: is it better than turn one? Did
+   something accumulate (memory, object, state, consequence)?
 6. Apply closure as a gate. One reviewed reply with no next move fails the
    run even when later turns pass. Patch the definition and opening so sparse,
    normal, off-path and boundary replies all close with a playable move.
@@ -83,17 +93,19 @@ behavior, and `../../references/token-economy.md` for repeated setup.
    player; a world-heavy card that answers lore questions through objects,
    demands, witnesses or route offers instead of a dump; a mature card whose
    pressure stays tied to player choice, pacing and stop conditions.
-7. For the long arc (8 to 12 turns, 10 or more when structure matters),
-   check macro-progression and format stability: did location, route, clue,
-   risk or obligation move, and do later replies still contain the markers
-   `rules.json` needs? Choices usually drop first.
+7. For the long arc (10–20 turns), check macro-progression and format
+   stability: did location, route, clue, risk or obligation move, and do
+   later replies still contain the markers `rules.json` needs? Choices
+   usually drop first. Measure the status overhead ratio on the replies
+   against the dossier's threshold (`check-card.mjs --replay`).
 8. When the card depends on Lorebook material, run at least one
    Lorebook-dependent probe in both `--agent` modes on the same card and
    compare what each reached. A keyword gap needs keywords or `constant`; a
    naming gap needs descriptive entry names.
-9. Reply layout is only visible on the play page. Open the link the CLI
-   prints when layout is part of acceptance, or record "reply display not
-   checked".
+9. Turns sent with `play` do not pass through the play page. Paste replies
+   from the transcript into `preview/replies.md` and run the offline preview
+   (`platform-facts.md`, Offline preview); otherwise open the play link the
+   CLI prints. Record which.
 10. Map each failure to a patch target with the triage table. Several
     failures at once: hand off to `hearthroom-card-doctor` before choosing
     patches.
@@ -104,9 +116,13 @@ behavior, and `../../references/token-economy.md` for repeated setup.
     `welcome.md`, sometimes `lorebook.json`, `rules.json` or custom
     instructions (which replace one default block, not append). Push with
     `--validate --json` after structural patches.
-13. Replay only when the patch changes behavior, boundaries, state, voice or
-    first-turn flow, and the author accepts the cost. Stop after two failed
-    loops on one symptom and ask for a design direction.
+13. Replay only when the patch changes behaviour, boundaries, state, voice or
+    first-turn flow, after the pre-check (check-card, validate, render,
+    offline preview with the failing reply), on `--new-session`, with the
+    same probes and models as the previous version, and the author accepts
+    the cost. Compare layer by layer; one reply cannot separate improvement
+    from noise. Stop after two failed loops on one symptom and ask for a
+    design direction.
 
 ## Hand-off
 
@@ -134,11 +150,13 @@ Give the next skill the repair packet, not the transcript.
 - Do not send the next probe before reading the current reply.
 - Do not write probes as evaluator instructions; write what a player would
   type.
-- Do not claim behavior-complete status from a spot-check.
+- Do not claim behaviour-complete status from a spot-check.
 - Do not report a Lorebook-dependent card as fully tested after one `--agent`
   mode; say which mode is untested.
 - Do not accept a run on the strength of later turns when one reviewed reply
-  had no next move.
+  left the player unable to tell what they could do next.
+- Do not run two probe sets in one conversation; every independent probe
+  starts with `--new-session`.
 - Do not hard-code a model; choose from `hearthroom models` with the author.
 - Do not paste raw transcripts into packets or shared files; paraphrase the
   evidence that justifies the weakest layer.

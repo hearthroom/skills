@@ -77,3 +77,26 @@ test('render follows the schema: sections, labels, forced types, hidden fields; 
   assert.doesNotMatch(status.render(parsed, { ...schema, strict: true }), /extra/);
   assert.doesNotMatch(html, /data-|onclick/, 'classes only: author data-* is stripped by the sanitizer');
 });
+
+test('the display rule tolerates a missing closer, and the choices block parses to options', () => {
+  const rule = status.rule('status');
+  const re = new RegExp(/^\/(.+)\/g$/.exec(rule.find)[1], 'g');
+  assert.equal('x [status]hp: 1'.replace(re, rule.replace), 'x <div class="hr-status hr-status--raw">hp: 1</div>');
+  assert.equal('[status]hp: 1[/status] tail'.replace(re, rule.replace), '<div class="hr-status hr-status--raw">hp: 1</div> tail');
+  assert.equal(re.test(''), false);
+  assert.deepEqual(status.parseChoices('- Ask about the keeper\n2. Say nothing\n\n③ Light the lamp'), ['Ask about the keeper', 'Say nothing', 'Light the lamp']);
+  const c = status.choicesRule('choices', 'draft');
+  assert.match(c.replace, /hr-choices--draft hr-choices--raw/);
+  assert.match(status.choicesRule('choices', 'send').replace, /hr-choices--send/);
+});
+
+test('a status block without a closer stops before a following [choices] block, and vice versa', () => {
+  const sr = status.rule('status'), cr = status.choicesRule('choices', 'draft');
+  const sre = new RegExp(/^\/(.+)\/g$/.exec(sr.find)[1], 'g'), cre = new RegExp(/^\/(.+)\/g$/.exec(cr.find)[1], 'g');
+  const text = 'Prose.\n[status]\nhp: 1\n[choices]\n- Go\n- Stay\n[/choices]';
+  const out = text.replace(sre, sr.replace).replace(cre, cr.replace);
+  assert.match(out, /hr-status--raw">\nhp: 1\n<\/div><div class="hr-choices hr-choices--draft hr-choices--raw">\n- Go\n- Stay\n<\/div>/);
+  const text2 = '[choices]\n- Go\n[status]\nhp: 2\n[/status]';
+  const out2 = text2.replace(sre, sr.replace).replace(cre, cr.replace);
+  assert.match(out2, /hr-choices--raw">\n- Go\n<\/div><div class="hr-status hr-status--raw">\nhp: 2\n<\/div>/);
+});

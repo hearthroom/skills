@@ -3,10 +3,13 @@
 Use this when the card's engine is coherent but the public surface is weak:
 `name`, `summary`, `tags`, or the reason a player should open the card.
 
-Packaging is the promise layer, not publish readiness:
+Packaging is the promise layer, not publish readiness. It is also the first
+two layers of the funnel (`role-card-writing-framework.md`): L0, the cover
+and the title make a stranger stop; L1, the summary makes them open the
+opening.
 
 ```text
-engine -> promise angle -> name / summary / tags -> first-impression check
+engine -> promise angle -> title + cover as a pair -> summary -> tags -> first-impression check
 ```
 
 A new player should grasp the fantasy, their relation to the character, and the
@@ -22,58 +25,71 @@ first-screen proof
 
 Do not fake an unknown item; mark it and hand off to the skill that defines it.
 
-## Name patterns
+## Title
 
-| Pattern | Use when |
-|---|---|
-| `[Name], [specific pressure role]` | persona-led cards |
-| `[Place/Object/System] of [playable rule]` | world, mystery, or system cards |
-| `[Role] Who [contradiction or action]` | trope repair or strong hook |
-| `[Group/Event] at [pressure point]` | ensemble or scenario cards |
+A title earns the click with one of these:
 
-Avoid generic archetypes ("Vampire Boyfriend"), mood-only names, joke names on
-non-comedic cards, and stacked subtitles. Return three candidates with different
-angles, then choose.
+- a gap: a statement that begs "why?"
+- a local or topical anchor the target players recognise
+- a contrast between two words that should not meet
 
-## Summary patterns
+Check: would someone who sees only the cover and the title want to know one
+specific thing? Write three candidates, each using a different one of the
+three devices, then pick. Avoid generic archetypes ("Vampire Boyfriend"),
+mood-only names, joke names on non-comedic cards, and stacked subtitles.
 
-One compact sentence. Aim for 80 to 260 characters; go longer only for systems,
-games, generators, or complex ensembles. The provider limit is 500 characters,
-or 2500 only when `language` is exactly `en`; read it from `tokenBudget.limits`
-in `card validate --json` (`platform-facts.md`).
+Then check the pair: does the cover raise the same question as the title? If
+not, route the hook sentence to `hearthroom-visual-identity-director`; do not
+fix a cover by lengthening the title.
+
+## Summary
+
+At most about 260 characters, for every card shape. The first sentence is the
+hook and must work alone, because the board may cut the rest. Within the
+summary, say who I am, what I am up against, why it is fun, and what I can
+change. A system card puts its rules in the opening, not the summary. The
+provider limit (500 characters, or 2500 only if `language` is exactly `en`,
+read from `tokenBudget.limits` in `card validate --json`) is a ceiling, not a
+target.
+
+Pattern: a hook sentence (a contrast, a question, or a stake the player feels)
+followed by a "you are / you face / you can change" sentence.
 
 ```text
-[Player role] enters [situation] with [character/system], where [tension] creates [loop].
-[Character/system] needs [player leverage] before [pressure] breaks [relationship, secret, mission, or rule].
-You keep meeting [character] during [routine], where [small pressure] slowly changes [relationship, habit, or route].
-Lead [position] through [world/system], managing [resource/risk] as choices change [state or route].
+The lighthouse has been dark for three nights and the keeper swears it is lit.
+You are the inspector with one boat back to shore; what you report decides
+whether she keeps the island.
 ```
 
 Cut: backstory that belongs in the definition; several proper nouns before the
 player knows what they do; mood stacks (beautiful, dark, mysterious, immersive);
-performance claims (popular, top, viral, best); policy disclaimers.
+performance claims (popular, top, viral, best, trending); policy disclaimers.
+
+## From summary to opening
+
+The opening must deliver the summary's hook within its first screen, as a
+playable moment rather than a recap (L2: the opening is the free demo that
+earns the first paid message). If it does not, route to
+`hearthroom-opening-director`; do not lengthen the summary to cover for it.
 
 ## Tags
 
-Tags show the card's contract; they are not a ranking strategy. Draw from:
-
-1. card shape: companion, scenario, mystery, game, generator, daily-life,
-   heavy-setting, ensemble, system
-2. relationship or role axis: mentor, rival, neighbor, partner, crew, suspect,
-   patron, witness, caretaker
-3. action loop: investigation, negotiation, survival, cohabitation,
-   exploration, management, repair, confession, route-choice
-4. tone: cozy, eerie, slow-burn, comedic, intense, horror, boundary-aware
-5. mechanic or format: compact-state, status-bar, inventory, clue-route,
-   memory-thread, multi-speaker
-
-Prefer concrete tags over synonyms. No product, origin, or audience-size claims.
+Tags must be ones players actually browse. Pick from the community list: the
+card author runs `hearthroom tags --zone <language zone> --q <word> --json`
+(`platform-facts.md`, CLI loop) and passes the results to this skill. Choose
+tags for card shape, setting, and the relationship or loop. Do not coin new
+tags, and do not tag mechanics unless the community list already has them.
+Prefer concrete tags over synonyms. No product, origin, or audience-size
+claims.
 
 ## First-impression check
 
-- Can a new player say who they are in this card?
-- Can they name the pressure or desire that starts play?
-- Does name plus summary promise something the opening proves?
+- Does the first sentence alone make a stranger want to know what happens
+  next?
+- Do the summary's sentences say who I am, what I fight, why it is fun, and
+  what I can change?
+- Do the cover and the title ask the same question?
+- Does the opening prove the promise on its first screen?
 - Do tags distinguish the card from nearby archetypes?
 - Did packaging leave the engine unchanged and invent no claims?
 
@@ -81,9 +97,11 @@ Prefer concrete tags over synonyms. No product, origin, or audience-size claims.
 
 | Failure | Repair |
 |---|---|
-| Name is only a trope | add a specific pressure role or contradiction |
-| Summary is a synopsis | keep one relation, one tension, one loop |
-| Tags are mood-only | add card shape and action loop |
+| Title is only a trope | rewrite with a gap, an anchor or a contrast |
+| Summary is a synopsis | keep one relation, one tension, one loop; hook first |
+| Summary over 260 characters | cut rules and lore; a system card explains itself in the opening |
+| Tags are mood-only or coined | pick from `hearthroom tags` by shape, setting and loop |
 | First impression overpromises | align the summary with the opening |
+| Cover and title disagree | route the hook to visual identity |
 | Packaging changed the card | preserve the engine; change profile fields only |
 | Author asks for "top" phrasing | translate to clarity, specificity, agency, hook |

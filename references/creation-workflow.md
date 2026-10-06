@@ -7,9 +7,14 @@ for the whole journey. Narrow craft skills own each layer.
 
 ```text
 author seed -> runway packet -> narrow skill queue -> field files
--> card push --validate -> card render -> play (optional, paid) -> card pull
--> iteration -> author decides on --create and review
+-> check-card -> card push --validate -> card render -> offline preview
+-> play (paid; a weak and a strong model, --new-session)
+-> one-shortcoming iteration, compared with the previous version
+-> author decides on --create and review
 ```
+
+A card is judged by deep-play conversion (`role-card-writing-framework.md`,
+Funnel): find the weakest of L0–L3 and repair it first.
 
 ## Runway principle
 
@@ -29,24 +34,27 @@ validation passes and the author accepts the credit cost. Do not run
 | Intake | author goal, language, rating intent, materials, output mode | `using-hearthroom` or the conductor packet | the goal is not a card task |
 | Premise | turn mood or trope into a playable direction | `hearthroom-premise-workshop` | no role, player or tension choice exists |
 | Contract | choose the primary card type and overlays | `hearthroom-archetype-director` | a hybrid has no primary contract |
+| UI role | declare `uiRole: assist \| core` and the status overhead threshold in `README.md` | the conductor with the author (`presentation-design.md`, Story first) | the role is undeclared |
 | Source and originality | convert files or inspiration safely | `hearthroom-material-distiller`, `hearthroom-originality-adapter` | the source is raw or copy risk is open |
-| Engine | build the behavior loop | character, relationship, world, daily-life, scenario, play, generator, ensemble skills | the engine packet is generic or contradictory |
+| Engine | build the behaviour loop | character, relationship, world, daily-life, scenario, play, generator, ensemble skills | the engine packet is generic or contradictory |
 | Interaction | make the player matter | `hearthroom-tension-weaver`, `hearthroom-agency-designer`, `hearthroom-opening-director`, `hearthroom-longplay-architect` | the first reply or second-turn move is unclear |
-| Voice and examples | make behavior executable | `hearthroom-voice-director`, `hearthroom-talk-example-curator`, `hearthroom-language-stylist` | the voice cannot survive pressure |
+| Voice and examples | make behaviour executable | `hearthroom-voice-director`, `hearthroom-talk-example-curator`, `hearthroom-language-stylist` | the voice cannot survive pressure |
 | State, budget, presentation | control memory, budget and reply shape | `hearthroom-state-economist`, `hearthroom-token-architect`, `hearthroom-presentation-director` | durable rules sit in the wrong file |
 | Profile and visual | package the first impression and media | `hearthroom-profile-packager`, `hearthroom-visual-identity-director` | the summary is vague or media exist only as prompts |
 | Quality gate | decide whether to author | `hearthroom-quality-auditor` | the first three repairs are unresolved |
 | Field assembly | write or patch the folder files | `hearthroom-card-author`, then `hearthroom-field-finalizer` | a required packet is missing |
 | CLI readiness | login, folder, flags | `hearthroom-cli-operator` | auth or the folder is not ready |
+| Local checks | `node <toolkit>/scripts/check-card.mjs <dir>`; the offline preview after render | `hearthroom-field-finalizer`, `hearthroom-render-review` | errors remain |
 | Trial card | `hearthroom card push <dir> --validate --json` | the CLI | the push fails |
 | Validation | read `status`, `blockers`, `warnings`, `suggestedFixes`, `tokenBudget` | the report | blockers remain |
 | Render review | `hearthroom card render <dir> --json` | `hearthroom-render-review` | the action path or readability fails |
-| Play test | `hearthroom play <dir> -m "…" --allow-spend --json` | `hearthroom-chat-simulation` | the author has not accepted the cost |
+| Play test | `hearthroom play <dir> --new-session -m "…" --allow-spend --json`, 10–20 turns, a weak and a strong model | `hearthroom-chat-simulation` | the author has not accepted the cost |
 | Iteration | choose exactly one next repair | `hearthroom-iteration-director` | evidence is missing or mixed |
 | Publish readiness | decide whether the card is worth keeping | `hearthroom-publish-readiness` | the author has not asked |
 
 Publishing itself belongs to the author: `card push --create` makes a real
-private card in their inventory, and review submission happens on the site.
+private card in their inventory, and review submission happens on the site,
+where the version is frozen.
 
 ## Creation runway packet
 
@@ -86,15 +94,15 @@ Creation runway packet:
 ## Guardrails
 
 - Limits are ceilings read from `tokenBudget.limits`; expand only
-  behavior-bearing detail.
+  behaviour-bearing detail.
 - Source material becomes a source-to-play map, never pasted lore.
 - Author feedback stays in the conversation; no review ledgers.
 - Media are files under `assets/` referenced from `card.json` `media`. A
   prompt is a hand-off, not completion.
 - `play -m` spends credits; run it only with `--allow-spend` after the author
   accepts the cost.
-- Trial cards expire three days after the last push; tell the author before
-  `--evict`. Never publish or submit on the author's behalf.
+- Trial-card expiry and slots: `cost-and-boundaries.md`. Never publish or
+  submit on the author's behalf.
 
 ## Completion check
 

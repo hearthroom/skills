@@ -32,22 +32,28 @@ the opening contains HTML.
    `card validate --json` when a report exists; otherwise use the table in
    the facts sheet, remembering that the English column applies only when
    `language` is exactly `en`. Limits are ceilings. Leave buffer, and add
-   detail only when it changes future behavior, route, state, voice or
+   detail only when it changes future behaviour, route, state, voice or
    boundary handling.
 5. Prepare a compact fallback for any field near its limit.
-6. Check format: one H1 and no skipped levels in `definition.md`; valid JSON
-   in `card.json`, `lorebook.json` and `rules.json`; `{{char}}` and `{{user}}`
-   spelled exactly; opening HTML is plain HTML and CSS with no custom elements
-   the page does not register; the status line
-   shape, if any, declared in the output contract with a matching display
-   rule (`node <toolkit>/scripts/check-card.mjs <dir>` reports a rule whose
-   marker the model is never told to write). Unsettled layout goes to
+6. Run `node <toolkit>/scripts/check-card.mjs <dir>` first: errors block,
+   warnings are read. Then check format: one H1 and no skipped levels in
+   `definition.md`; valid JSON in `card.json`, `lorebook.json` and
+   `rules.json`; `{{char}}` and `{{user}}` spelled exactly; opening HTML is
+   plain HTML and CSS with no custom elements the page does not register; the
+   status block, if any, is declared with its keys and allowed values in the
+   output contract or the definition and appears in the opening, with a
+   matching display rule (render rules are not generation rules;
+   `sandbox-kit.md`); every value has one owner (the model, in the block, or a
+   script, in `sdk.save`; never both). Unsettled layout goes to
    `hearthroom-presentation-director` or `hearthroom-render-review`, not into
    a guess.
-7. Map every field to its file and list what changes: `card.json` keys,
-   `definition.md`, `welcome.md`, `openings/alt-NN.md`, `lorebook.json`,
-   `rules.json`, `assets/`. Media referenced from `card.json` `media` must
-   exist as files; a prompt is not a file.
+7. Map every field to its file and list what changes: `card.json` keys
+   (including `sex`, `nickname`, `cardMeta`, `media.backgroundLandscape`,
+   `media.folder`), `definition.md`, `welcome.md`, `openings/alt-NN.md`,
+   `lorebook.json`, `rules.json` (including `mountLayer` and `cardFormat`;
+   `mmd`, the default, locks the card to the dark theme), `assets/`, and the
+   `README.md` dossier (`uiRole`, threshold). Media referenced from
+   `card.json` `media` must exist as files; a prompt is not a file.
 8. Return the field finalization packet with status
    `ready | needs narrow repair | missing media | cost-gated`.
 

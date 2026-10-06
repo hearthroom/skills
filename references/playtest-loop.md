@@ -6,45 +6,70 @@ into a character that reacts, remembers, creates pressure and preserves player
 agency.
 
 Platform facts (commands, flags, costs) are in `platform-facts.md`. The
-matching skill is `hearthroom-chat-simulation`.
+matching skill is `hearthroom-chat-simulation`. This file owns the playtest
+standard; other files point here.
+
+## The standard
+
+A probe is a conversation, not a reply. Run each probe set as a 10–20-turn
+conversation on a weak model (the format floor: the status block, the
+choices and the voice are intact at the last turn) and on a strong model
+(emergence: turn two is better than turn one, something accumulates, the
+world reacts), chosen with `hearthroom play --model` from `hearthroom models`.
+Every independent probe set and every retest starts with
+`hearthroom play <dir> --new-session` (an alternate opening needs
+`--new-session --greeting N`; without it the turns pile into the old
+conversation and `--greeting` does nothing). Cover compliance, off-script,
+passive, meta (an out-of-character question) and ending/goodbye. Fix one
+shortcoming per version; before a paid retest run the pre-check
+(`check-card.mjs`, `card push --validate`, `card render`, the offline preview
+with the failing reply in `preview/replies.md`); rerun the same probes on the
+same models and compare with the previous version layer by layer (better /
+same / worse, with the line that shows it). One reply cannot separate
+improvement from noise. Agree the credit stance first (`hearthroom wallet`);
+stopped turns are still charged.
 
 ## When to playtest
 
 Play when the card is new and the author wants confidence before creating
 it, when the opening, voice, boundaries or game loop changed, when the author
 reports it feels boring, passive, inconsistent, unsafe, verbose or
-controlling, or when render passed but behavior is unchecked. Do not spend
+controlling, or when render passed but behaviour is unchecked. Do not spend
 credits on a draft that still fails self-review or has `blockers` in
 `card validate --json`.
 
 ## Before the first turn
 
-- Push the folder: `hearthroom card push <dir> --validate --json`. A trial
-  card expires three days after its last push, so push again if the last push
-  is old.
+- Run `node <toolkit>/scripts/check-card.mjs <dir>` and push the folder:
+  `hearthroom card push <dir> --validate --json` (trial-card expiry is in
+  `cost-and-boundaries.md`). Confirm `card.json` has `language`; without it
+  the provider replies in English.
 - Every `play -m` turn spends the author's credits at the model's rate. Agent
   mode turns are billed on actual usage, including turns that fail or are
-  stopped. State the cost stance and get the author's consent before the first
-  turn. A request for a test plan alone means no turn is sent.
-- Pick the model with the author from `hearthroom models` and pass it with
-  `--model`. Record it in the packet.
+  stopped. State the cost stance for the whole run (turns, both models) and
+  get the author's consent before the first turn. A request for a test plan
+  alone means no turn is sent.
+- Pick the weak and the strong model with the author from `hearthroom models`
+  and pass each with `--model`. Record them in the packet.
 - Write the plan: target risk, probe scope, which probes run with
-  `--agent on`, probe text, expected healthy behavior, patch triggers, cost
-  stance.
+  `--agent on`, probe text, expected healthy behaviour, patch triggers, the
+  previous version's probe set when there is one, cost stance.
 
 ## The command
 
 ```text
-hearthroom play <dir> -m "<probe text>" --allow-spend --json
+hearthroom play <dir> --new-session --model <weak> -m "<probe text>" --allow-spend --json
+hearthroom play <dir> -m "<next probe>" --allow-spend --json          # same conversation
 hearthroom play <dir> -m "<probe text>" --allow-spend --json --agent on
-hearthroom play <dir> -m "<probe text>" --allow-spend --json --greeting 2
-hearthroom play <dir> --history
+hearthroom play <dir> --new-session --greeting 2 -m "<probe text>" --allow-spend --json
+hearthroom play <dir> --history --limit 20
 ```
 
 One call is one real turn. Send the next probe only after reading the reply.
-`--history` shows the recent messages when the transcript is long.
-`--greeting N` starts from an alternate opening. `--stop` cancels a reply the
-author does not want to wait for.
+Each independent probe set and every retest starts with `--new-session`;
+`--greeting N` takes effect only with it. `--history` shows the recent
+messages when the transcript is long. `--stop` cancels a reply the author
+does not want to wait for.
 
 There is no report command. The agent judges the reply text itself against
 the checks below and `quality-rubric.md`.
@@ -55,10 +80,14 @@ Probes are what a real player would write, short enough that the character
 has to carry part of the scene. They are never evaluator instructions.
 
 A narrow spot-check uses the few probes that target the suspected risk. Label
-it as a spot-check, not behavior-complete.
+it as a spot-check, not behaviour-complete.
 
-Behavior-complete acceptance runs the eight-probe matrix:
+Behaviour-complete acceptance runs the probe matrix, each as a 10–20-turn
+conversation on both models:
 
+0. L2, read as a stranger: would you pay for a first message after this
+   opening? Is the voice heard, is there one easy first action, a pull to
+   reply?
 1. normal interaction: accepts the opening and gives a normal first turn
 2. short reply: minimal input; can the character carry motion?
 3. off-path reply: plausible but unscripted action
@@ -67,9 +96,10 @@ Behavior-complete acceptance runs the eight-probe matrix:
 6. secret exploration: explores hidden information or a locked route without
    demanding exposition
 7. boundary test: presses a stated limit, refusal, pacing rule or safety line
-8. long-arc macro-progression: 8 to 12 turns in one conversation with passive,
-   short and off-path moves, then a check that route, scene, location, clue,
-   risk or obligation actually moved
+8. long-arc macro-progression: 10–20 turns in one conversation with passive,
+   short, off-path, meta and ending moves, then a check that route, scene,
+   location, clue, risk or obligation actually moved, that turn two beat turn
+   one, and that something accumulated
 
 The long-arc probe exists because a lively turn can still leave the
 conversation in the same place. Same location, repeated opening beats, or no
@@ -87,29 +117,32 @@ is left to admire it. The last block must be one of:
 - a concrete affordance: what can be kept, compared, asked, opened, refused,
   delayed, risked or carried into the next location
 
-One reviewed reply without a next move fails the run even when later turns
-pass. Repair it in the definition and opening by teaching the engine which
-moments need choices and which need a sharper question. Do not force buttons
-onto every reply.
+A reviewed reply fails when the player cannot tell what they could do next
+or has no reason to; a reply that ends on a held moment the player wants to
+answer passes. Repair failures in the definition and opening by teaching the
+engine which moments need choices and which need a sharper question. Do not
+force buttons onto every reply; choices are drafts, not rails, and free text
+must always work.
 
 ## Format stability under display rules
 
-If `rules.json` depends on markers in the reply text (a status line, a bracket
-tag, a choice block), check that later replies still contain what the rules
-`find`. Weak models imitate their own recent plain-text turns, so structure
-that survives turn three can be gone by turn ten. Choices usually drop first.
-When the marker is missing at a decision point, the run is not accepted; patch
-the definition's format rule and the output contract, then rerun a focused
-probe.
+If `rules.json` depends on markers in the reply text (the `[status]` block,
+a `[choices]` block, a bracket tag), check that later replies still contain
+what the rules `find`. Weak models imitate their own recent plain-text turns,
+so structure that survives turn three can be gone by turn ten. Choices
+usually drop first. When the marker is missing at a decision point, the run
+is not accepted; patch the output contract's ordinary-turn example and the
+recency checklist, then rerun a focused probe. Measure the status overhead
+ratio on the replies (`check-card.mjs --replay`) against the dossier's
+threshold.
 
-Reply layout is visible only on the play page. `card render` renders the
-opening, not replies. Open the play link the CLI prints when layout is part
-of acceptance, or record "reply display not checked".
-
-Turns sent with `hearthroom play` reach the model but never pass through the
-play page, so anything a card script builds from the page (page caches,
-counters, unlocks, ending detection) does not see them. Test script-driven
-features by playing in the browser.
+`card render` renders the opening, not replies, and runs no scripts. Turns
+sent with `hearthroom play` do not pass through the play page, so anything a
+card script builds from the page (caches, counters, unlocks, ending
+detection) does not see them. Paste replies from the transcript into
+`preview/replies.md` and run the offline preview (`platform-facts.md`,
+Offline preview) when the chat page's repository is available; otherwise
+open the play link the CLI prints, or record "reply display not checked".
 
 Say which evidence you have. A layout checked in a desktop browser with an
 emulated viewport, or with a device API faked by an injected script, is
@@ -149,7 +182,7 @@ affordance. If the character repeats the opening, asks another generic
 question or changes nothing, patch the opening before spending more. If the
 first screen makes the player decode invented terms before who, where, when,
 why and a concrete action are visible, patch the opening before judging
-deeper behavior.
+deeper behaviour.
 
 The longplay probe is short enough that the character must carry the scene.
 If it waits, restarts the premise, ignores the chosen route or changes no
@@ -182,7 +215,7 @@ RPG or open-world:
 
 - Hook: "I choose the risky path and spend one resource to move faster."
 - Agency: "I split the party against your advice."
-- State: "Continue and show the updated state before my next choice."
+- State: "I rest for the night and check my supplies before deciding."
 
 Generator or assistant:
 
@@ -208,12 +241,12 @@ Read the transcript first. Map the observed problem to a patch.
 
 | Symptom | Likely missing layer | Patch target |
 |---|---|---|
-| Reply is generic, short or repeats setup | anchor, voice fingerprint | definition voice and behavior rules |
+| Reply is generic, short or repeats setup | anchor, voice fingerprint | definition voice and behaviour rules |
 | Reply gives no next action | agency, opening affordance | opening reply path and definition initiative |
 | One reviewed reply lacks closure although later ones pass | agency, route reply protocol | definition and opening next-move rules |
 | Reply restates the opening or asks another generic question | second-turn engine | opening second-turn move |
 | Reply ignores the player's choice | consequence loop | definition state and route rules |
-| Reply forgets the route or restarts the premise | longplay engine | continuity spine, memory threads, return-later behavior |
+| Reply forgets the route or restarts the premise | longplay engine | continuity spine, memory threads, return-later behaviour |
 | Reply decides the player's feelings or actions | agency boundary | definition do/avoid and opening phrasing |
 | Reply escalates sensitive content too fast | boundary design | explicitness ceiling, escalation ladder, pacing, stop conditions |
 | Reply treats refusal as the end of play | boundary design | refusal route and safer fallback |
@@ -228,27 +261,35 @@ Read the transcript first. Map the observed problem to a patch.
 
 ## Patch loop
 
-1. Summarize the failure in one transcript-backed sentence.
-2. Name the weakest dimension: promise, anchor, voice, consequence, initiative,
-   agency, opening, boundary, archetype fit, generator engine, Lorebook
-   reachability or token efficiency.
-3. Write the repair packet before editing any file.
-4. Patch the smallest file that fixes the failure.
-5. Push with `--validate --json` after structural patches; render again if
-   the opening or rules changed.
-6. Replay only when the patch changes behavior, boundaries, state, voice or
-   first-turn flow, and the author accepts the cost.
-7. Stop after two failed loops on one symptom and ask the author for a design
-   direction. Repeated failure usually means the premise or player role is
-   underdefined.
+1. Summarise the failure in one transcript-backed sentence.
+2. Name the weakest dimension: the weakest conversion layer (L0–L3), then
+   promise, anchor, voice, consequence, initiative, agency, opening,
+   boundary, archetype fit, generator engine, Lorebook reachability, token
+   efficiency or status overhead.
+3. Write the repair packet before editing any file; record the shortcoming in
+   the dossier (`README.md`).
+4. Patch the smallest file that fixes the failure: one shortcoming per
+   version, committed with the shortcoming in the message.
+5. Pre-check before a paid retest: `check-card.mjs`, `card push --validate
+   --json`, `card render --json` if the opening or rules changed, the offline
+   preview with the failing reply in `preview/replies.md`.
+6. Retest on `--new-session`, on the same models with the same probes as the
+   previous version, only when the patch changes behaviour, boundaries,
+   state, voice or first-turn flow and the author accepts the cost. Compare
+   layer by layer: better / same / worse, with the line that shows it.
+7. Stop after two failed loops on one symptom (`iteration-loop.md`) and ask
+   the author for a design direction. Repeated failure usually means the
+   premise or player role is underdefined.
 
 ## Repair packet
 
 ```text
 Playtest repair packet:
 - card folder:
-- model and agent mode used:
-- probes run:
+- models (weak / strong) and agent mode used:
+- probes run (turns per set; previous version's set reused?):
+- comparison with the previous version (per layer):
+- status overhead ratio vs threshold:
 - transcript-backed failures:
 - closure check:
 - format stability:
@@ -278,7 +319,8 @@ cost is not already accepted, and before `card push --create`.
 ## Pass standard
 
 - the character reacts to the player rather than replaying the description
-- every reviewed reply gives a clear next move
+- every reviewed reply leaves the player able to tell what they could do next, with a reason to
+- turn two is better than turn one, and something accumulates over the run
 - at least one relationship, state, route, risk, artifact or mood beat changes
 - boundaries and rating intent stay in character; agency is never seized
 - nothing leaks system or implementation artifacts

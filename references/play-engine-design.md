@@ -18,7 +18,7 @@ the next choices within a few turns, cut it, merge it or turn it into a cost.
 
 Choose the smallest playable scope:
 
-- light adventure: one mission; one pressure, 2-3 routes, 3-5 state fields
+- light adventure: one mission; one pressure, 2-3 routes, a few state fields
 - investigation / case: clue state, risk clock, access rules, cost of accusation
 - RPG / open-world: compact state, resource costs, failure-forward rules, route rewards
 - survival / horror: visible risk, limited resources, retreat routes, pacing and boundaries
@@ -29,19 +29,38 @@ routes, state and progression do.
 
 ## Compact state
 
-Track only what changes future behavior: 5-9 fields drawn from place and
-time, pressure, resources, condition, route and relationship. Update state
-after every reply that changed the situation, including refusals, retreats and
-partial successes. Show only state the player can use now or soon. Prefer
-named flags and simple levels over many numbers. Never hide state that
-contradicts the player's visible options.
+Track only what changes future behaviour. `hearthroom-state-economist` sets
+the number: two to six visible fields drawn from place and time, pressure,
+resources, condition, route and relationship; a game may keep a few more
+hidden flags in the definition. Update state after every reply that changed
+the situation, including refusals, retreats and partial successes. Show only
+state the player can use now or soon. Prefer named flags and simple levels
+over many numbers. Never hide state that contradicts the player's visible
+options.
 
-The model can only update state it writes into the reply. Put the update format
-in the output contract (`outputContract` in `card.json`) so every reply carries
-the same compact state line. A display rule in `rules.json` can turn that line
-into a bar or panel on the play page; the model never sees the rendered result.
-Read `../../references/platform-facts.md` for what rules can do and
-`../../references/presentation-design.md` for what deserves to be visible.
+The model updates only what it writes. The output contract tells it to end
+every reply with one `[status]` block; the canonical form and where it lives
+are in `state-economy-design.md`. Put the same block in `welcome.md` so the
+first screen shows it. A display rule plus the sandbox kit (`sandbox-kit.md`)
+draws the block inside the bubble; never draw a second copy in the function
+bar, and a pinned bar carries one to three values at most. The output
+contract's example shows an ordinary turn, not a climax.
+
+Give every value one owner. The model owns it if it appears in the block. A
+script owns it if it lives in `sdk.save` (achievements, unlocks across
+conversations), and then the model never states it. Never both: the model's
+copy rewinds with the conversation and the script's does not. A scene-only
+value is `volatile`: no fallback, it disappears when the model stops writing
+it.
+
+## UI role
+
+Story first, `uiRole`, the five jobs of UI and the overhead ratio:
+`presentation-design.md`. The play-specific sentence: a game card is the one
+shape that is often `uiRole: core`, where a meter, map or deck is the game;
+even then every mechanic stays legible in the reply text, the interface
+degrades to readable text when a rule fails, and each UI mechanic can say
+which choice or consequence it changes.
 
 ## Resource economy
 
@@ -69,17 +88,25 @@ but the choice must feel authored by the player, not by a hidden punishment.
 ```text
 1. Read the player's last action and intent.
 2. Resolve the consequence without writing the player's next action.
-3. Update compact state.
-4. Narrate the immediate result inside the current scene.
-5. Present the next pressure.
-6. Offer 2-4 paths with visible cost, risk or route meaning.
+3. Narrate the immediate result inside the current scene.
+4. Present the next pressure.
+5. Offer 2-4 paths with visible cost, risk or route meaning.
+6. End with the status block.
 ```
 
 The card may infer reasonable consequences. It must not decide the player's
 feelings, courage, loyalty, consent, memories or future action. Avoid a bare
 "what do you do?" unless the scene already shows obvious options.
 
-## Failure-forward behavior
+Choices are drafts, not a menu. On the sandbox page a tap puts the line into
+the composer (`sdk.input.set(text)` then `sdk.input.focus()`,
+`platform-facts.md`) so the player can edit before sending; only a one-tap
+default start may send directly, inside the click handler with no `await`.
+Typed free text must always be handled as well as any button. For first-turn
+choices prefer `prologue` lines in `card.json`: they are the player's own
+editable lines, not the character's.
+
+## Failure-forward behaviour
 
 Failure changes play; it neither ends it nor vanishes: wounds, debt, damaged
 items, lost time, raised clocks, exposed secrets, faction suspicion, blocked
@@ -91,7 +118,7 @@ was decorative.
 
 ## Progression phases
 
-Phases are behavior modes, not chapters: setup under pressure, first route,
+Phases are behaviour modes, not chapters: setup under pressure, first route,
 entanglement, reversal, mastery or endgame, renewal from remembered state. For
 each, name trigger, system pressure, player leverage, unlocks and risk. Do not
 force a fixed order unless the card is a linear scenario.
@@ -99,39 +126,45 @@ force a fixed order unless the card is a linear scenario.
 ## Opening contract
 
 The first screen combines setup and action: one place and its pressure, one
-visible state panel or compact setup, one concrete object, threat, demand or
+visible state block or compact setup, one concrete object, threat, demand or
 resource decision, 2-4 choices tied to risk, resource, route or state, and
 defaults for minimal input. Do not open on a rulebook, faction list or
-inventory catalog. Durable rules live in `definition.md`; `welcome.md` proves
-the system is playable. When the setup needs controls, read
-`../../references/system-intake-card-design.md`. Different starting modes can
-be alternate openings in `openings/alt-NN.md`; `play --greeting N` tests each.
+inventory catalogue. Durable rules live in `definition.md`; `welcome.md`
+proves the system is playable. When the setup needs controls, read
+`../../references/system-intake-card-design.md`. An alternate opening is a
+different starting situation, never the main opening reworded; put each in
+`openings/alt-NN.md` and test it with `play --new-session --greeting N`.
 
 ## Field allocation
 
 - summary (`card.json`): player position, world or system, core pressure.
 - `definition.md`: core loop, compact state, resources, turn protocol, quest
-  routes, failure-forward behavior, progression, agency guardrails, narrator
-  style.
-- `welcome.md`: one playable setup or crisis with visible state and choices.
-- `outputContract` (`card.json`): the reply shape and the state line.
-- `talkExample` (`card.json`): only when it teaches the turn protocol or state
-  update better than rules alone.
+  routes, failure-forward behaviour, progression, agency guardrails, narrator
+  style. Order it by `prompt-attention-architecture.md`: iron rules at the
+  top, the turn protocol and the status block format at the end as the recency
+  checklist; the two must say the same thing.
+- `welcome.md`: one playable setup or crisis with the first status block and
+  choices.
+- `outputContract` (`card.json`): the reply shape and the status block.
+- `talkExample` (`card.json`): examples beat rules for weak models: one
+  ordinary-turn sample by default (`talk-example-design.md`), with its status
+  block, never a climax.
 - `lorebook.json`: locations, factions, item tables and route notes as
   keyword-triggered entries named by content. Constant entries only for rules
   needed every turn; keep them few and short.
-- presentation: plain HTML and CSS in the opening and display rules in
-  `rules.json`, only where they help the player act.
+- presentation: only if it does one of UI's five jobs
+  (`presentation-design.md`); otherwise none.
 
 Spend tokens on the loop, state, turn protocol and routes before opening,
 style and samples. Cut first: inactive factions, unused stats, equipment
-catalogs, lore history. Read counts and limits from
+catalogues, lore history. Read counts and limits from
 `hearthroom card validate --json` under `tokenBudget`.
 
 ## Play probes
 
-Run each as one turn of `hearthroom play <dir> -m "…" --allow-spend --json`
-once the author accepts the cost; `--history` shows recent messages.
+Playtest: 10–20 turns, a weak and a strong model, `--new-session`, one
+shortcoming per version, compared with the previous version
+(`playtest-loop.md`). Seed the runs with:
 
 1. Resource probe: spend or refuse to spend a key resource.
 2. Route-change probe: take the less obvious approach.
@@ -139,6 +172,6 @@ once the author accepts the cost; `--history` shows recent messages.
 4. Continuity probe: refer back to an earlier state change.
 5. Passive probe: send a minimal or vague message.
 
-Pass means the card resolves the action, updates the state line, changes
-resource, risk, route, access or relationship, preserves player agency and
-offers a renewed hook.
+Pass means the card resolves the action, keeps the status block intact and
+updated at the last turn, changes resource, risk, route, access or
+relationship, preserves player agency and offers a renewed hook.

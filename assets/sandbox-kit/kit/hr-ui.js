@@ -155,6 +155,9 @@
     var box = btn.closest('.hr-choices');
     if (!box || box.classList.contains('hr-choices--old') || btn.classList.contains('hr-choice--spent')) return;
     ev.preventDefault();
+    var own = btn.classList.contains('hr-choice--own');
+    if (own) { draftInto(''); return; }
+    if (box.classList.contains('hr-choices--draft')) { draftInto(btn.getAttribute('title') || btn.textContent.trim()); return; }
     if (HR.busy()) { ui.toast(HR.t('Still writing…')); return; }
     if (box.classList.contains('hr-choices--confirm') && !btn.classList.contains('hr-choice--armed')) {
       var armed = box.querySelectorAll('.hr-choice--armed');
@@ -170,14 +173,50 @@
       btn.classList.add('hr-choice--picked');
     });
   }
+  /* A raw choices block (the display rule's shell) becomes buttons. Draft mode: a tap puts the
+     line into the composer and focuses it, the player edits or sends; send mode: a tap sends on
+     the trusted click. Every set ends with "✎ write your own", which only focuses the composer. */
+  function hydrateChoices(root) {
+    var nodes = (root || D).querySelectorAll('.hr-choices--raw'), i, box, lines, j, btn;
+    for (i = 0; i < nodes.length; i++) {
+      box = nodes[i];
+      if (/\bhr-choices--done\b/.test(box.className)) continue;
+      lines = HR.status && HR.status.parseChoices ? HR.status.parseChoices(HR.status.textOf ? HR.status.textOf(box) : box.textContent) : [];
+      HR.dom.empty(box);
+      for (j = 0; j < lines.length; j++) {
+        btn = h('button', { 'class': 'hr-choice', type: 'button', text: HR.t(lines[j]) });
+        box.appendChild(btn);
+      }
+      box.appendChild(h('button', { 'class': 'hr-choice hr-choice--own', type: 'button', text: '✎ ' + HR.t('Write your own') }));
+      box.className = box.className.replace('hr-choices--raw', 'hr-choices--done');
+    }
+    return nodes.length;
+  }
+  function draftInto(text) {
+    try { W.sdk.input.set(text); W.sdk.input.focus(); W.sdk.input.setCursor(text.length); } catch (e) { HR.warn('draft failed', e && e.code ? e.code : e); }
+  }
   var choicesBound = false;
   ui.choices = function () {
     if (choicesBound) return ui;
     choicesBound = true;
     D.addEventListener('click', onChoiceClick);
     HR._disposers.push(function () { D.removeEventListener('click', onChoiceClick); choicesBound = false; });
+    /* The block's body may arrive after mount/done (see hr-status): hydrate then and on changes. */
+    var watching = typeof W.MutationObserver === 'function' ? new W.WeakMap() : null;
+    var watch = function (bubble) {
+      if (!bubble) return;
+      hydrateChoices(bubble);
+      if (!watching || watching.get(bubble)) return;
+      var mo = new W.MutationObserver(function () { if (bubble.querySelector('.hr-choices--raw')) hydrateChoices(bubble); });
+      mo.observe(bubble, { childList: true, subtree: true });
+      watching.set(bubble, mo);
+      W.setTimeout(function () { mo.disconnect(); watching.delete(bubble); }, 8000);
+    };
+    HR.on('message:mount', function (p, bubble) { watch(bubble); });
+    HR.on('message:done', function (p, bubble) { watch(bubble); });
     return ui;
   };
+  ui.hydrateChoices = hydrateChoices;
   /* Old choice sets go quiet once a newer AI reply exists. */
   HR.on('message:done', function (p, bubble) {
     if (!p || p.role !== 'ai' || !bubble) return;

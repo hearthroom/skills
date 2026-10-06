@@ -1,67 +1,98 @@
 # Visual Identity
 
 Use this when a card needs portrait, background, or art-brief direction. The
-images are the first visual proof of the promise. They do not replace profile
+images are the first visual proof of the promise and, with the title, the
+whole of the card's first impression on the board. They do not replace profile
 packaging, presentation planning, or render review.
 
 ```text
-card promise -> visual proof -> portrait and background briefs -> asset readiness -> hand-off
+card promise -> cover and title as a pair -> portrait and background briefs -> asset readiness -> hand-off
 ```
 
-An image that could fit any nearby trope is too generic.
+An image that could fit any nearby trope is too generic. Cover the name: the
+portrait alone must still say who this is and what they are up against.
 
 ## Where images live
 
 Images sit under `assets/` in the card folder and are referenced from
-`card.json` as `media.portrait`, `media.background` (portrait 9:16) and `media.backgroundLandscape` (landscape 16:9, optional but expected for a finished card) by relative path;
-`card push` uploads them. The platform does not generate images. The brief is
-for the author or the author's own tools; the card is not complete while a
-referenced file is missing. See `platform-facts.md`.
+`card.json` as `media.portrait`, `media.background` (9:16) and
+`media.backgroundLandscape` (16:9, optional) by relative path; `card push`
+uploads them into the card's media-library folder. Images come from the
+author or the author's own image tool; this skill writes the prompt. The card
+is not complete while a referenced file is missing. Paths and naming follow
+Media library in `platform-facts.md`: group by job (`assets/art/portrait.webp`,
+`assets/art/bg/<place>.webp`, `assets/art/bg/<place>-wide.webp`), readable
+names, no dates or version numbers, `media.folder` for art a series shares.
+Upload the final size and format; replacing a file at the same path changes
+it for every card that uses it.
+
+## One portrait, three crops
+
+The portrait is one file with three jobs (`platform-facts.md`, card folder).
+Generate it at 9:16. The board card crops it to about 3:4 and the chat avatar
+crops it to a 1:1 circle; when no background is set it also fills the chat
+screen, cropped to cover. Put the subject in the centre: the head and face sit
+inside the central circle, the silhouette and the key object inside the
+middle 3:4 band, and everything that matters inside the central 75%. Check
+all three crops before calling the image ready.
+
+The background is optional and separate: `media.background` (9:16) and
+`media.backgroundLandscape` (16:9, preferred on wide screens). It shows the
+place and the pressure behind the text. Keep busy detail out of the central
+reading column.
+
+## The cover and the title are read together
+
+On the board a stranger sees the cover and the title for under a second (L0 of
+the funnel, `role-card-writing-framework.md`). The image must raise a question
+the title does not answer: a contrast (a soft subject in a hard place), a
+local detail the target players recognise, or an object that should not be
+there. `hearthroom-profile-packager` owns the title; this skill makes the
+cover ask the same question. If the pair does not work, change one of them,
+not both.
 
 ## Visual proof
 
-The direction must answer: who or what anchors the card; where the player stands
-relative to it; what pressure starts the scene now; which detail could not
-belong to a generic version of the trope; which mood, palette, and framing
+The direction must answer: who or what anchors the card; where the player
+stands relative to it; what pressure starts the scene now; which detail could
+not belong to a generic version of the trope; which mood, palette, and framing
 support the promise without hiding play.
 
 Prefer one charged object, glance, rule, or route clue over a collage of mood
 markers.
 
-## Asset jobs
+## Writing the prompt
 
-| Asset | Job | Avoid |
-|---|---|---|
-| Portrait | recognizable at small size on the board | full-body scene with no readable face, object, or silhouette |
-| Background | proves the tension and player relation behind the chat | poster-only atmosphere with no pressure; busy detail that fights the text |
-| Brief | gives an artist or image tool a clear target | copied art, living artists, vague style stacks |
-| Negative notes | reduce concrete failures | banning the mood or the card's key signal |
+Write each image prompt as three to five plain sentences an image model can
+follow: who or what is shown and doing what, where, and in what light. Then
+one sentence on composition: "Vertical 9:16 frame; the face is centred in the
+upper-middle third so a square crop and a 3:4 crop both keep the whole head;
+nothing important near the edges." End with "No text, letters, logos or
+watermarks anywhere in the image." Only name a failure to avoid when an
+earlier generation actually showed it (an unreadable face, extra limbs,
+clutter, text artefacts, washed-out contrast, a wrong age impression).
 
-## Brief rules
-
-- Do not copy unprovided art, protected designs, exact outfits, compositions, or
-  image text. Do not name living artists or private references.
-- Use traits that serve the card: silhouette, expression, camera distance,
-  lighting, palette, key object, setting pressure, player-relative framing.
-- Keep text out of images.
-- Negative notes only for concrete risks: unreadable face, extra limbs, clutter,
-  text artifacts, washed-out contrast, wrong age impression.
+Do not copy unprovided art, protected designs, exact outfits, compositions, or
+image text. Do not name living artists or private references. Use traits that
+serve the card: silhouette, expression, camera distance, lighting, palette,
+key object, setting pressure, player-relative framing.
 
 ## Layers
 
-Profile packaging decides the promise in words. Visual identity turns it into
-briefs. Presentation decides display rules, opening HTML, and first-screen
-hierarchy. Render review checks actual output. If a visual idea changes the
-engine, route back to the writing skill.
+Profile packaging decides the promise in words and owns the title. Visual
+identity turns it into prompts and owns the cover. Presentation decides display
+rules, opening HTML, and first-screen hierarchy. Render review checks actual
+output. If a visual idea changes the engine, route back to the writing skill.
 
 ## Common repairs
 
 | Failure | Repair |
 |---|---|
 | Pretty but generic | add player relation, pressure, or a card-specific object |
-| Portrait unreadable small | simplify silhouette, crop closer, raise contrast |
-| Background contradicts the summary | keep the engine, rewrite the brief |
-| Brief copies a reference | replace with original traits and composition goals |
+| Portrait unreadable small or cut by a crop | simplify the silhouette, centre the head, raise contrast; check the 3:4 and the circle |
+| Cover and title ask different questions | rewrite the prompt around the title's hook, or route the title back to the packager |
+| Background contradicts the summary | keep the engine, rewrite the prompt |
+| Prompt copies a reference | replace with original traits and composition goals |
 | Visual idea changes the card | route back to premise or archetype |
 | Display rules and background clash | hand off to presentation after the brief is stable |
-| Card pushed without images | add files under `assets/`, reference them in `card.json`, push again |
+| Card pushed without images | add files under `assets/art/`, reference them in `card.json`, push again |

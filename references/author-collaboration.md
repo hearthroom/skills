@@ -13,25 +13,29 @@ author signal -> evidence -> preference axis -> options -> decision -> patch pac
 
 1. Restate what the author is reacting to.
 2. Separate taste, evidence, constraints and unresolved decisions.
-3. Translate vague words into observable card behavior.
+3. Translate vague words into observable card behaviour.
 4. Offer two or three concrete choices, one recommended.
-5. Record what to preserve, change, reject and delay.
+5. Record what to preserve, change, reject and delay; rejected directions go
+   into the card's `README.md` dossier with the reason, so a later session
+   does not reopen them.
 6. Hand off to the narrow skill that performs the patch.
 
 The feedback surface is the conversation. Do not invent comment tables,
 review storage or approval records. When a final action needs consent, such
 as `card push --create`, quote the author's words in the hand-off.
 
-## Translate taste into behavior
+## Translate taste into behaviour
 
 | Feedback | Translate into |
 |---|---|
 | "Boring" | no pressure, no consequence, weak initiative, flat second turn |
-| "Not like them" | voice fingerprint, behavior rule, contradiction or pressure response mismatch |
+| "Not like them" | voice fingerprint, behaviour rule, contradiction or pressure response mismatch |
 | "Too much" | token bloat, over-explained lore, excessive intensity, pacing mismatch |
 | "Too generic" | weak character core, profile promise, voice texture or opening affordance |
 | "I want it softer" | rating posture, emotional distance, refusal route, lower-pressure opening |
 | "More playable" | agency, reply paths, state changes, route consequences, longplay hooks |
+| "Too busy" / "I can't follow the story" | status overhead over the threshold, `uiRole` undeclared, a HUD where a diegetic object would do, choices covering unread text (`presentation-design.md`) |
+| "The panel is wrong" | render evidence (screenshots, not DOM counts), then `hearthroom-sandbox-kit` |
 | "Feels off" | ask for the exact line, beat, route or file that triggered it |
 
 A taste label is not a patch. Convert it into a file target and a
@@ -62,7 +66,7 @@ Author collaboration packet:
 - evidence available:
 - inferred preference axes:
 - non-negotiables:
-- preserve / change / reject / delay:
+- preserve / change / reject (to the dossier) / delay:
 - decision frame:
 - recommended next move:
 - patch target:
@@ -74,10 +78,20 @@ Author collaboration packet:
 ## Co-review after evidence
 
 After a render review or playtest: show the probe or rendered opening being
-judged, summarize the evidence that matters in plain language, name what
+judged, summarise the evidence that matters in plain language, name what
 passed and failed, suggest one patch path, and ask whether it matches the
 author's taste before spending more credits or creating the real card. Never
 ask the author to decide from raw output.
+
+## Comparing versions
+
+When the author weighs a draft against the previous one, show v(N-1) and
+v(N) on the same probes and the same model, side by side, layer by layer
+(L0–L3 and the dimensions in `quality-scorecard.md`): better, same or worse,
+with the line that shows it. Say when the difference is within the noise of
+one run, and propose more turns before deciding; one reply cannot separate
+improvement from noise. Record the comparison in the dossier's evidence
+table.
 
 ## Hand-off map
 
@@ -86,9 +100,13 @@ ask the author to decide from raw output.
 - Packets need final fields: `hearthroom-card-author`.
 - Public profile does not match the promise: `hearthroom-profile-packager`.
 - Language only: `hearthroom-language-stylist`.
+- Presentation plan, `uiRole`, what the screen should show:
+  `hearthroom-presentation-director`.
+- Kit build or repair (panel, theme, choices, script, save):
+  `hearthroom-sandbox-kit`.
 - Render evidence: `hearthroom-render-review`.
-- Play evidence: `hearthroom-chat-simulation`, then the narrow skill the
-  transcript names.
+- Play evidence: `hearthroom-chat-simulation` with the previous version's
+  probe set, then the narrow skill the transcript names.
 - The author wants the card kept: `hearthroom-publish-readiness`.
 
 ## Guardrails

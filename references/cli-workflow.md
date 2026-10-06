@@ -44,13 +44,14 @@ naming rules are under Media library in the facts sheet.
 
 | Step | Command | Costs credits |
 |---|---|---|
-| Check the folder locally | `node <toolkit>/scripts/check-card.mjs <dir>` | no |
+| Check the folder locally | `hearthroom card check <dir> --json` (or `node <toolkit>/scripts/check-card.mjs <dir>`); `--replay <history>` for protocol health | no |
 | See what is linked and what changed | `hearthroom card status <dir> --json` | no |
 | See what would be sent | `hearthroom card push <dir> --dry-run --json` | no |
 | Sync to a private trial card | `hearthroom card push <dir> --validate --json` | no |
 | Re-push and fail on warnings too | `hearthroom card validate <dir> --push --strict --json` | no |
 | See one opening after the display rules | `hearthroom card render <dir> --push --opening N --json` (`--html file` writes the raw string) | no |
-| See the real chat shell draw it | the offline preview (`platform-facts.md`, Offline preview), when the chat page's repository is available | no |
+| See the real chat shell draw it | `hearthroom card preview <dir> --open` (the shell is fetched from the site and cached; `platform-facts.md`, Offline preview) | no |
+| Build `lorebook.json` from `worldbook/*.md`; find keyword collisions | `hearthroom lorebook build <dir>` / `hearthroom lorebook check <dir>` | no |
 | Play one turn in a fresh conversation | `hearthroom play <dir> --new-session -m "…" --allow-spend --json` | yes |
 | Read the conversation so far | `hearthroom play <dir> --history --limit 20` | no |
 | Bring the provider's copy back to files | `hearthroom card pull <roleId> [dir] --force` (overwrites local files) | no |

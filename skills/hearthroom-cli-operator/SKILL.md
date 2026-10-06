@@ -50,6 +50,13 @@ manual page (`https://cli.hearthroom.club/manual/<command>.md` or
 6. Hand off to the writing or review skill that owns the next decision with
    the report attached.
 
+## Free local commands
+
+`card check` (the local checks, `--replay` for protocol health), `card preview`
+(the real shell offline; one download from the site, then cached) and
+`lorebook build` / `lorebook check` (source files to `lorebook.json`;
+keyword collisions) cost nothing and spend nothing.
+
 ## Reading errors
 
 Errors are one JSON object `{ "error", "detail" }` with a non-zero exit code;

@@ -348,6 +348,18 @@ prose.
   re-entrant (remove what the previous run mounted). Actions that spend
   credits (send, continue, regenerate, assist, favourite) ignore synthetic
   clicks: only a trusted click counts.
+- Native blocks (arrives with the chat page build that carries it; until that
+  build is deployed, a kit rule is the only way to draw the block): when no
+  display rule consumed them, the chat page itself
+  draws a `[status]…[/status]` block in an AI reply as `.lt-status` (one
+  `.lt-status__row` per `key: value` line; numbers, `a/b` and `n%` as a bar,
+  the other shapes as text, chips, a list or a path) and a
+  `[choices]…[/choices]` block as `.lt-choices` buttons (`.lt-choice`, plus
+  `.lt-choice--own` to write one's own); the closing marker is optional; a tap
+  puts the option into the composer, it never sends. Both render paths draw
+  them, before Markdown, for AI replies only, in `@layer lt-base` so author
+  CSS overrides them. A card with its own rule for the block (the toolkit's
+  kit) is unaffected, because the rule consumes the marker first.
 - The body of a bubble may not be final when `message:mount` or `message:done`
   fires: rules run in a worker and the finished HTML is swapped in a moment
   later. A script that draws into a bubble draws again when the bubble's
@@ -437,8 +449,11 @@ finds under `report.components` so imported classic-page cards can be spotted.
 
 ## Offline preview
 
-The chat page's repository (`hearthroom/stage`, the `stage` submodule of the
-community site) carries a harness that runs the real sandbox shell against a
+`hearthroom card preview <dir>` fetches the real sandbox shell from the site
+(`c<roleId>.<site>/sandbox/`), caches it, and serves the harness below with
+the folder, so no repository checkout is needed. The chat page's repository
+(`hearthroom/stage`, the `stage` submodule of the community site) carries
+the same harness that runs the real sandbox shell against a
 card folder with a fake host: `npm run build:sandbox`, then
 `node scripts/serve-card-preview.mjs <card-dir>` and open the printed URL
 (`bench/card-preview`). It loads `rules.json`, `welcome.md` and
@@ -455,7 +470,9 @@ check.
 
 ## Local checks
 
-`node <toolkit>/scripts/check-card.mjs <card-dir>` reads `rules.json`,
+`hearthroom card check <dir>` (or the toolkit's `node <toolkit>/scripts/check-card.mjs <dir>`,
+the same checks; the CLI reports lookaround and backreferences as unverified
+locally) reads `rules.json`,
 `definition.md`, `card.json`, `lorebook.json` and the openings and reports,
 against `scripts/sandbox-contract.json`: invalid patterns and flags, patterns
 that match the empty string, replacements over 128 KiB (UTF-8 bytes) and rule
@@ -479,7 +496,9 @@ with a non-zero exit code (no other error identifiers are documented: read
 ```
 hearthroom auth login --no-wait --json            # one-time code; then auth login --resume; HEARTHROOM_TOKEN for unattended runs
 hearthroom card init <dir> | card import <file…>   # SillyTavern PNG/JSON/CHARX, MMD three-file set; both write AGENTS.md (never sent)
-node <toolkit>/scripts/check-card.mjs <dir>        # local, free: rules, markers, sdk use (see Local checks)
+hearthroom card check <dir> [--replay f…] --json   # local, free: rules, markers, sdk use, protocol health (CLI release that carries it; the toolkit's check-card.mjs does the same today)
+hearthroom card preview <dir> [--open]             # offline preview with the real chat shell (fetched from the site and cached; same CLI release; shows the deployed shell's behaviour)
+hearthroom lorebook build <dir> | lorebook check <dir>   # worldbook/*.md sources → lorebook.json; drift, keyword collisions (same CLI release)
 hearthroom card status <dir> --json                # what the folder is linked to, which sections changed
 hearthroom card push <dir> --dry-run --json        # what would be sent, without sending
 hearthroom card push <dir> --validate --json       # private trial card + validation report

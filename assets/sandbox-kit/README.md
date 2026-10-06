@@ -163,10 +163,13 @@ from extra markers.
 
 `node <toolkit>/scripts/check-card.mjs <dir>` for the rule set and the markers;
 `--replay` with `hearthroom play --history --json` output for protocol health;
-`hearthroom card render` for the opening after rules; the offline preview in the chat page's
-repository (`bench/card-preview`, see the facts sheet) to see the real shell draw it with
-streaming, late hydration, a conversation switch, both choices modes and the dock; and the
-same preview with rules off, which an `assist` card must survive.
+`hearthroom card render` for the opening after rules; `hearthroom card preview --check` to
+drive the real shell in headless Chrome and get screenshots of every state, a captioned
+contact sheet and `findings.json` (late hydration, a block never drawn, overflow, console
+errors, story and UI share), with `--from-history` to stream real replies; `card preview
+--open` to see it yourself, switch conversation, tap a choice in its mode and open the
+dock; and rules off (`?rules=off`, included in `--check`), which an `assist` card must
+survive.
 
 Parts of the method here follow the sandbox-kit approach of the tavern-mmd project (MIT);
 the code is written for Hearthroom.

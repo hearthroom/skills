@@ -520,7 +520,8 @@ with a non-zero exit code (no other error identifiers are documented: read
 ```
 hearthroom auth login --no-wait --json            # one-time code; then auth login --resume; HEARTHROOM_TOKEN for unattended runs
 hearthroom card init <dir> | card import <file…>   # SillyTavern PNG/JSON/CHARX, MMD three-file set; both write AGENTS.md (never sent)
-hearthroom card check <dir> [--replay f…] --json   # local, free: rules, markers, sdk use, protocol health (CLI release that carries it; the toolkit's check-card.mjs does the same today)
+hearthroom card check <dir> [--replay f…] --json   # local, free: rules, markers, sdk use, protocol health per marker (same numbers as the toolkit's check-card.mjs)
+hearthroom card preview --check <dir> [--from-history f…] [--json]   # local, free, needs Chrome: screenshots of every state, contact.png, findings.json under preview/shots/
 hearthroom card preview <dir> [--open]             # offline preview with the real chat shell (fetched from the site and cached; same CLI release; shows the deployed shell's behaviour)
 hearthroom lorebook build <dir> | lorebook check <dir>   # worldbook/*.md sources → lorebook.json; drift, keyword collisions (same CLI release)
 hearthroom card status <dir> --json                # what the folder is linked to, which sections changed

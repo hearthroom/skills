@@ -1,0 +1,22 @@
+{
+  "name": "expressive",
+  "intent": "A little glow and a saturated accent, still readable. For sci-fi, cyber and show-off cards; the light side mutes the glow.",
+  "dark": {
+    "bg": "#0e1016", "surface": "#161a24", "surface-2": "#20263a", "text": "#e6ecff", "muted": "#9aa6c8",
+    "border": "#5a6690", "accent": "#7ad7ff", "on-accent": "#06101a",
+    "hp": "#ff6b7a", "mp": "#6fa2ff", "sp": "#5de0a0", "xp": "#ffc857", "good": "#5de0a0", "warn": "#ffc857", "bad": "#ff6b7a",
+    "gap": "calc(12 * var(--rpx))", "pad": "calc(16 * var(--rpx))", "radius": "calc(14 * var(--rpx))",
+    "shadow": "0 6px 24px rgba(0, 0, 0, .45)", "glow": "1", "font-size": "15px", "line-height": "1.65"
+  },
+  "light": {
+    "bg": "#f3f5fb", "surface": "#ffffff", "surface-2": "#e6eaf6", "text": "#1a2033", "muted": "#58627f",
+    "border": "#6d779a", "accent": "#1769aa", "on-accent": "#ffffff",
+    "hp": "#c0313f", "mp": "#2d5bbf", "sp": "#1f8a5f", "xp": "#9a6b00", "good": "#1f8a5f", "warn": "#9a6b00", "bad": "#c0313f",
+    "gap": "calc(12 * var(--rpx))", "pad": "calc(16 * var(--rpx))", "radius": "calc(14 * var(--rpx))",
+    "shadow": "0 6px 24px rgba(20, 30, 60, .12)", "glow": "0", "font-size": "15px", "line-height": "1.65"
+  },
+  "chat": {
+    "dark": { "bg": "bg", "surface": "surface", "text": "text", "text-muted": "muted", "border": "border", "accent": "accent", "bubble-user-bg": "surface-2", "bubble-ai-bg": "surface", "bubble-text": "text", "input-bg": "surface", "input-text": "text", "input-border": "accent", "composer-bg": "bg", "composer-text": "text" },
+    "light": { "bg": "bg", "surface": "surface", "text": "text", "text-muted": "muted", "border": "border", "accent": "accent", "bubble-user-bg": "surface-2", "bubble-ai-bg": "surface", "bubble-text": "text", "input-bg": "surface", "input-text": "text", "input-border": "accent", "composer-bg": "bg", "composer-text": "text" }
+  }
+}

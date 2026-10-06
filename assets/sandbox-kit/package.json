@@ -1,0 +1,5 @@
+{
+  "type": "commonjs",
+  "private": true,
+  "description": "The kit modules are classic scripts inlined into display rules; this file only makes them require()-able for the tests."
+}

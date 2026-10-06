@@ -28,6 +28,16 @@ async function listFiles(dir, ext) {
   return (await readdir(dir)).filter(n => n.endsWith(ext)).sort();
 }
 
+async function walk(dir) {
+  const out = [];
+  for (const e of await readdir(dir, { withFileTypes: true })) {
+    const p = path.join(dir, e.name);
+    if (e.isDirectory()) { if (e.name !== 'node_modules') out.push(...(await walk(p))); }
+    else out.push(p);
+  }
+  return out.sort();
+}
+
 function frontmatter(text) {
   const m = /^---\n([\s\S]*?)\n---\n/.exec(text);
   if (!m) return null;
@@ -73,10 +83,39 @@ export async function validateRepo(root) {
     }
   }
 
+  // Assets and scripts: every kit listed in the manifest exists, its JavaScript parses, its JSON
+  // is valid. The kit runs as classic scripts inside display rules, so a syntax error would only
+  // show up as "nothing happens" on the play page.
+  const { execFileSync } = await import('node:child_process');
+  for (const name of Object.keys(manifest.assets ?? {})) {
+    const dir = path.join(root, 'assets', name);
+    if (!(await exists(dir))) { findings.push(`assets/${name}: listed in the manifest but missing`); continue; }
+    for (const file of await walk(dir)) {
+      const rel = path.relative(root, file);
+      if (file.endsWith('.js') || file.endsWith('.mjs')) {
+        try { execFileSync(process.execPath, ['--check', file], { stdio: 'pipe' }); } catch (e) { findings.push(`${rel}: does not parse (${String(e.stderr || e.message).split('\n')[0]})`); }
+      } else if (file.endsWith('.json')) {
+        try { JSON.parse(await readFile(file, 'utf8')); } catch (e) { findings.push(`${rel}: invalid JSON (${e.message})`); }
+      }
+    }
+  }
+  for (const name of Object.keys(manifest.scripts ?? {})) {
+    if (!(await exists(path.join(root, 'scripts', name)))) findings.push(`scripts/${name}: listed in the manifest but missing`);
+  }
+  for (const name of await listDirs(path.join(root, 'assets'))) {
+    if (!(manifest.assets ?? {})[name]) findings.push(`assets/${name}: not in the manifest`);
+  }
+
+  const assetDocs = [];
+  for (const name of Object.keys(manifest.assets ?? {})) {
+    const dir = path.join(root, 'assets', name);
+    if (await exists(dir)) for (const file of await walk(dir)) if (file.endsWith('.md')) assetDocs.push(path.relative(root, file));
+  }
   const scan = [
     ...skillDirs.map(d => path.join('skills', d, 'SKILL.md')),
     ...refFiles.map(f => path.join('references', f)),
     ...(await listFiles(path.join(root, 'examples'), '.md')).map(f => path.join('examples', f)),
+    ...assetDocs,
     'README.md',
   ];
   for (const rel of scan) {

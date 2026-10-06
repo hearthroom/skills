@@ -152,8 +152,10 @@ Load the narrow reference only when that layer is the current blocker:
    buttons belong in `rules.json` display rules, which the model never sees;
    a button that sends a player line is a plain `<button>` in a display rule
    calling `sdk.message.send(text)` on the sandbox page. A card that uses the
-   sandbox author API needs `pageMode` `sandbox`. Route unresolved layout to
-   `hearthroom-presentation-director`.
+   sandbox author API needs `pageMode` `sandbox`. A status panel, theme,
+   drawer or choice set is built by `hearthroom-sandbox-kit`, not by hand.
+   Route unresolved layout to `hearthroom-presentation-director`. Before the
+   first push run `node <toolkit>/scripts/check-card.mjs <dir>`.
 10. Edit `customInstructions` only through `hearthroom-instruction-guardrail`
     with play evidence. It replaces one default instruction block; it is not a
     shortcut for a weak core, voice, opening or boundary.

@@ -1,0 +1,837 @@
+{
+  "name": "hearthroom-sandbox-contract",
+  "protocolVersion": 1,
+  "sdkVersion": "1",
+  "generatedBy": "src/sandbox/__tests__/contract.spec.ts (UPDATE_CONTRACT=1)",
+  "sources": [
+    "src/sandbox/sdk/create-sdk.ts",
+    "src/sandbox/sdk/events.ts",
+    "src/sandbox/sdk/errors.ts",
+    "src/sandbox/sanitize.ts",
+    "src/sandbox/render/shell-dom.ts",
+    "src/sandbox/shell.css",
+    "src/sandbox/shell.ts",
+    "src/sandbox/author-scripts.ts",
+    "src/sandbox/rules.ts",
+    "src/utils/display-rule-engine.js",
+    "src/common/author-style-policy.ts",
+    "src/pages/canvas/canvas-platform-defaults.ts",
+    "docs/sandbox-chat-page.md"
+  ],
+  "sdk": {
+    "keys": [
+      "cache",
+      "composer",
+      "debug",
+      "input",
+      "message",
+      "on",
+      "role",
+      "save",
+      "stage",
+      "text",
+      "user",
+      "version"
+    ],
+    "capabilities": [
+      "cache.get",
+      "cache.remove",
+      "cache.set",
+      "composer.hide",
+      "composer.show",
+      "composer.visible",
+      "debug.log",
+      "input.add",
+      "input.blur",
+      "input.clear",
+      "input.focus",
+      "input.get",
+      "input.getCursor",
+      "input.insert",
+      "input.set",
+      "input.setCursor",
+      "message.edit",
+      "message.send",
+      "on",
+      "role.get",
+      "save.get",
+      "save.keys",
+      "save.remove",
+      "save.set",
+      "stage.close",
+      "stage.el",
+      "stage.open",
+      "stage.visible",
+      "text.convert",
+      "text.ready",
+      "user.get",
+      "version"
+    ],
+    "async": [
+      "message.send",
+      "message.edit",
+      "save.set",
+      "save.remove",
+      "text.ready"
+    ],
+    "notProvided": [
+      "sdk.off",
+      "sdk.once",
+      "sdk.vars",
+      "vars:change",
+      "<abc_vars>"
+    ],
+    "role": {
+      "get": [
+        "name",
+        "avatarUrl"
+      ]
+    },
+    "user": {
+      "get": [
+        "nickname",
+        "avatarUrl",
+        "locale"
+      ]
+    },
+    "stage": {
+      "modes": [
+        "content",
+        "full"
+      ],
+      "unknownModeBecomes": "content",
+      "elReturnsNodeWhenClosed": true,
+      "ownCloseDoesNotEmitStageClose": true
+    },
+    "input": {
+      "writesThrowWhileComposing": "INVALID_ARGS"
+    },
+    "message": {
+      "sendBusy": "BUSY",
+      "sendWithoutCapability": "NOT_SUPPORTED",
+      "editWithoutCapability": "HOST_DENIED",
+      "confirmOutsideGesture": true,
+      "declinedCode": "UNAUTHORIZED",
+      "editIdIs": "serverId (data-msg-id)"
+    }
+  },
+  "save": {
+    "keyPattern": "^[A-Za-z0-9_-]{1,64}$",
+    "maxKeys": 10,
+    "maxValueBytes": 65536,
+    "valueMeasuredAs": "UTF-8 bytes of JSON.stringify(value)",
+    "syncReadBeforeLoad": "HOST_DENIED",
+    "crossDevice": true
+  },
+  "cache": {
+    "quotaBytes": 1048576,
+    "overQuota": "INVALID_ARGS",
+    "lifetime": "page load"
+  },
+  "rateLimits": {
+    "save.set": {
+      "count": 20,
+      "windowMs": 60000
+    },
+    "message.send.gesture": {
+      "count": 3,
+      "windowMs": 60000
+    },
+    "message.send.auto": {
+      "count": 3,
+      "windowMs": 60000
+    },
+    "message.edit": {
+      "count": 10,
+      "windowMs": 60000
+    }
+  },
+  "errorCodes": [
+    "UNAUTHORIZED",
+    "RATE_LIMITED",
+    "INVALID_ARGS",
+    "HOST_DENIED",
+    "NETWORK",
+    "NOT_SUPPORTED",
+    "BUSY",
+    "UNKNOWN_CAPABILITY"
+  ],
+  "events": {
+    "names": [
+      "ready",
+      "message:new",
+      "message:done",
+      "message:stream",
+      "message:mount",
+      "message:unmount",
+      "input:change",
+      "conversation:switch",
+      "theme:change",
+      "back",
+      "stage:close",
+      "dispose"
+    ],
+    "replayedToLateSubscribers": [
+      "message:mount",
+      "message:done"
+    ],
+    "readyReplayed": false,
+    "coldStartOrder": [
+      "message:new",
+      "message:mount",
+      "message:done",
+      "…",
+      "ready"
+    ],
+    "payload": {
+      "message:new": [
+        "content",
+        "id",
+        "role",
+        "serverId"
+      ],
+      "message:mount": [
+        "content",
+        "id",
+        "role",
+        "serverId"
+      ],
+      "message:done": [
+        "content",
+        "id",
+        "role",
+        "serverId"
+      ],
+      "message:stream": [
+        "content",
+        "id",
+        "role"
+      ],
+      "message:unmount": [
+        "content",
+        "id",
+        "role",
+        "serverId"
+      ],
+      "input:change": "string",
+      "theme:change": "none",
+      "others": "none"
+    },
+    "roles": [
+      "user",
+      "ai"
+    ],
+    "systemRowsEmitNoEvents": true,
+    "handlerArity": 1,
+    "unknownEventNeverFires": true,
+    "handlerErrorsIsolated": true,
+    "doneOncePerMessage": true,
+    "virtualisation": "bubbles about two screen heights away are destroyed (message:unmount) and rebuilt (message:mount again); done is not repeated; streaming and the last two stay mounted",
+    "querySelectorScope": "inside a handler and inside user-event handlers, document.querySelector* and getElementById search the current bubble first and never other bubbles; outside handlers the whole document (Element.querySelector is not patched)",
+    "idStability": "id is a host-local id (l1, l2…) that changes across reloads; serverId is null for user messages and the greeting; persist on serverId or on content"
+  },
+  "nodes": {
+    "dataChat": [
+      "author-css",
+      "author-script",
+      "author-stage",
+      "composer",
+      "composer-row",
+      "header",
+      "header-actions",
+      "header-back",
+      "header-title",
+      "input",
+      "list",
+      "list-spacer",
+      "message",
+      "message-avatar",
+      "message-body",
+      "message-frame",
+      "messages",
+      "more",
+      "panels",
+      "root",
+      "sdk-debug",
+      "send"
+    ],
+    "dataSlot": [
+      "header-extra",
+      "left",
+      "right",
+      "statusbar",
+      "toolbar"
+    ],
+    "root": {
+      "attributes": [
+        "data-theme",
+        "data-composer",
+        "data-chrome",
+        "data-busy"
+      ],
+      "classes": [
+        "canvas-root",
+        "chat",
+        "lt-format-mmd"
+      ]
+    },
+    "message": {
+      "attributes": [
+        "data-from",
+        "data-state",
+        "data-msg-id"
+      ],
+      "from": [
+        "ai",
+        "user",
+        "system"
+      ],
+      "state": [
+        "pending",
+        "streaming",
+        "done"
+      ],
+      "body": {
+        "generatingAttribute": "data-generating"
+      }
+    },
+    "statusbarSlotOnlyWhenFunctionBarNonEmpty": true,
+    "stage": {
+      "attribute": "data-stage",
+      "states": [
+        "closed",
+        "content",
+        "full"
+      ]
+    },
+    "chrome": [
+      "standard",
+      "host",
+      "shell"
+    ],
+    "legacySelectorsAlsoPresent": [
+      ".mes",
+      ".mes_text",
+      "#msglistview",
+      "#scrollview",
+      ".chat-scope-box",
+      "#chat"
+    ],
+    "prologue": {
+      "scope": ".prologue-scope[data-lt=\"prologue\"]",
+      "item": ".prologue-content"
+    }
+  },
+  "css": {
+    "themes": [
+      "dark",
+      "light"
+    ],
+    "chatVars": [
+      "--chat-bg",
+      "--chat-surface",
+      "--chat-text",
+      "--chat-text-muted",
+      "--chat-border",
+      "--chat-accent",
+      "--chat-bubble-user-bg",
+      "--chat-bubble-ai-bg",
+      "--chat-bubble-text",
+      "--chat-share-pick-bg",
+      "--chat-composer-bg",
+      "--chat-composer-text",
+      "--chat-shortcut-bg",
+      "--chat-shortcut-text",
+      "--chat-input-bg",
+      "--chat-input-text",
+      "--chat-input-placeholder",
+      "--chat-input-border",
+      "--chat-modal-bg",
+      "--chat-modal-surface",
+      "--chat-modal-text",
+      "--chat-modal-muted",
+      "--chat-modal-accent",
+      "--chat-modal-input-bg",
+      "--chat-modal-input-text",
+      "--chat-modal-cancel-bg",
+      "--chat-modal-btn-bg",
+      "--chat-modal-btn-border",
+      "--chat-more-item-bg"
+    ],
+    "chatVarAliases": [
+      "--chat-bubble-user-bg",
+      "--chat-bubble-ai-bg",
+      "--chat-bubble-text",
+      "--chat-more-item-bg"
+    ],
+    "chatVarsInline": [
+      "--chat-viewport-height"
+    ],
+    "rpx": {
+      "base": "calc(100vw / 750)",
+      "desktopMinWidth": 961,
+      "desktop": "calc(375px / 750)"
+    },
+    "layer": "lt-base",
+    "zIndex": {
+      "platformNodes": "auto",
+      "stageContent": 2000,
+      "stageFull": 3000,
+      "shellAlert": 9000,
+      "authorBand": [
+        3500,
+        7999
+      ]
+    }
+  },
+  "cardFormat": {
+    "default": "mmd",
+    "mmd": {
+      "styleScope": null,
+      "theme": "dark",
+      "fencedDocument": "inline",
+      "note": "locked to dark: theme:change never fires for this format"
+    },
+    "tavern": {
+      "styleScope": ".mes_text",
+      "theme": "host",
+      "fencedDocument": "iframe",
+      "note": "<style> selectors are prefixed with \".mes_text \""
+    }
+  },
+  "rules": {
+    "findForms": [
+      "literal (all occurrences)",
+      "/pattern/flags"
+    ],
+    "flags": "gimsuy",
+    "gAlwaysAdded": true,
+    "replaceTokens": {
+      "captures": "$1…$99 (missing group stays literal)",
+      "fieldTable": "$name reads capture 1 shaped key::value;;key::value",
+      "random": "{{random:a::b}}",
+      "macros": [
+        "{{user}}",
+        "{{char}}"
+      ]
+    },
+    "fieldTable": {
+      "pairSeparator": "::",
+      "entrySeparator": ";;",
+      "requiresBoth": true
+    },
+    "budget": {
+      "min": 262144,
+      "inputMultiplier": 4
+    },
+    "rollbackReasons": [
+      "bad_regex",
+      "empty_match",
+      "replacement_alone",
+      "volume",
+      "timeout"
+    ],
+    "timeoutOnlyOnProvider": true,
+    "relativeMediaSrcNeutralisedTo": "data:,",
+    "chineseVariantClasses": true,
+    "userMessagesAlsoPassThroughRules": true,
+    "streaming": "rules run on the streamed text too; a half-open trailing tag is hidden until the result settles"
+  },
+  "sanitizer": {
+    "shellPath": {
+      "appliesWhen": "the shell renders a body itself (no host-provided view: standalone shell, function bar, previews)",
+      "allowedTags": [
+        "a",
+        "audio",
+        "b",
+        "blockquote",
+        "br",
+        "button",
+        "canvas",
+        "caption",
+        "circle",
+        "clipPath",
+        "code",
+        "defs",
+        "del",
+        "details",
+        "div",
+        "ellipse",
+        "em",
+        "font",
+        "g",
+        "h1",
+        "h2",
+        "h3",
+        "h4",
+        "h5",
+        "h6",
+        "hr",
+        "i",
+        "img",
+        "input",
+        "label",
+        "li",
+        "line",
+        "linearGradient",
+        "mark",
+        "meter",
+        "ol",
+        "option",
+        "p",
+        "path",
+        "polygon",
+        "polyline",
+        "pre",
+        "progress",
+        "radialGradient",
+        "rect",
+        "s",
+        "script",
+        "select",
+        "small",
+        "source",
+        "span",
+        "stop",
+        "strong",
+        "style",
+        "sub",
+        "summary",
+        "sup",
+        "svg",
+        "table",
+        "tbody",
+        "td",
+        "text",
+        "textarea",
+        "tfoot",
+        "th",
+        "thead",
+        "title",
+        "tr",
+        "tspan",
+        "u",
+        "ul",
+        "use",
+        "user",
+        "video"
+      ],
+      "unwrapTags": [
+        "base",
+        "embed",
+        "form",
+        "iframe",
+        "link",
+        "meta",
+        "noscript",
+        "object",
+        "template"
+      ],
+      "dropTags": [
+        "script",
+        "style"
+      ],
+      "unknownTagsStrippedKeepText": true,
+      "cjkAngleTagsStripped": true,
+      "backtickRegionsProtected": true,
+      "removedAttributes": [
+        "data-*",
+        "aria-*",
+        "role"
+      ],
+      "inlineHandlersKeptOnHtml": true,
+      "inlineHandlersRemovedInsideSvg": true,
+      "urlAttributes": [
+        "href",
+        "src",
+        "xlink:href",
+        "action",
+        "formaction",
+        "poster"
+      ],
+      "blockedUrlSchemes": [
+        "javascript:",
+        "vbscript:",
+        "data:text/html"
+      ],
+      "unsafeAttributeValueDropsWholeAttribute": [
+        "--!?>",
+        "]>",
+        "</style",
+        "</script",
+        "</title",
+        "</xmp",
+        "</textarea",
+        "</noscript",
+        "</iframe",
+        "</noembed",
+        "</noframes"
+      ]
+    },
+    "hostPath": {
+      "source": "hand-maintained from src/utils/rich-text-renderer.js and canvas-platform-defaults.ts; not derived by this spec",
+      "appliesWhen": "the host computes message HTML with the ordinary card pipeline and sends it as view.html (the normal play page)",
+      "standardHtmlTagsKept": [
+        "a",
+        "abbr",
+        "address",
+        "area",
+        "article",
+        "aside",
+        "audio",
+        "b",
+        "base",
+        "bdi",
+        "bdo",
+        "blockquote",
+        "body",
+        "br",
+        "button",
+        "canvas",
+        "caption",
+        "center",
+        "cite",
+        "code",
+        "col",
+        "colgroup",
+        "custom-style",
+        "data",
+        "datalist",
+        "dd",
+        "del",
+        "details",
+        "dfn",
+        "dialog",
+        "div",
+        "dl",
+        "dt",
+        "em",
+        "embed",
+        "fieldset",
+        "figcaption",
+        "figure",
+        "font",
+        "footer",
+        "form",
+        "h1",
+        "h2",
+        "h3",
+        "h4",
+        "h5",
+        "h6",
+        "head",
+        "header",
+        "hgroup",
+        "hr",
+        "html",
+        "i",
+        "iframe",
+        "img",
+        "input",
+        "ins",
+        "kbd",
+        "label",
+        "legend",
+        "li",
+        "link",
+        "main",
+        "map",
+        "mark",
+        "marquee",
+        "math",
+        "menu",
+        "meta",
+        "meter",
+        "nav",
+        "noscript",
+        "object",
+        "ol",
+        "optgroup",
+        "option",
+        "output",
+        "p",
+        "param",
+        "picture",
+        "pre",
+        "progress",
+        "q",
+        "rp",
+        "rt",
+        "ruby",
+        "s",
+        "samp",
+        "script",
+        "search",
+        "section",
+        "select",
+        "slot",
+        "small",
+        "source",
+        "span",
+        "strike",
+        "strong",
+        "style",
+        "sub",
+        "summary",
+        "sup",
+        "svg",
+        "table",
+        "tbody",
+        "td",
+        "template",
+        "textarea",
+        "tfoot",
+        "th",
+        "thead",
+        "time",
+        "title",
+        "tr",
+        "track",
+        "tt",
+        "u",
+        "ul",
+        "user",
+        "var",
+        "video",
+        "wbr"
+      ],
+      "hyphenatedCustomElementsKept": true,
+      "nonStandardTagsStrippedKeepText": true,
+      "dataAttributesStripped": null,
+      "dataAttributesNote": "not established from source; observed stripped on the play page; treat author data-* as stripped on every path",
+      "dialogueQuotesWrapped": "<font color=\"#DC8333\">"
+    },
+    "order": [
+      "macros",
+      "display rules",
+      "strip unknown tags",
+      "markdown (html:true, breaks:true, indented code off)",
+      "sanitize",
+      "dialogue quotes",
+      "chinese script conversion of text nodes"
+    ]
+  },
+  "scripts": {
+    "source": "hand-maintained from src/sandbox/author-scripts.ts, rules.ts, shell.ts and index.html; the sdk.spec and shell.spec cover the testable parts",
+    "extractedAtInstall": "every <style> and <script> in every enabled rule, matched or not; fenced code blocks protected",
+    "runsOncePerCard": true,
+    "runsBeforeDom": true,
+    "runsAfterFunctionBarMounted": true,
+    "inlineScriptsRunAsScriptElements": "top-level declarations become globals; a SyntaxError (top-level return) is retried wrapped in a function",
+    "externalScripts": {
+      "httpsOnly": true,
+      "orderedNotAwaited": true,
+      "dedupedByUrl": true
+    },
+    "messageBodyScripts": "run once per distinct code string after the message is done; code already run at install does not run again",
+    "moduleScripts": "run as classic scripts",
+    "documentCurrentScript": null,
+    "previewRerunsScripts": "the card editor preview re-runs scripts on every edit: boot must be idempotent",
+    "gestureRequired": [
+      "message.send outside a trusted click asks the player",
+      "message.edit outside a trusted click asks the player",
+      "send/continue/assist/favorite/rewrite/system-card buttons ignore synthetic clicks"
+    ],
+    "csp": {
+      "connectSrc": "'self'",
+      "frameSrc": "'self' about: blob:",
+      "scriptSrc": "'self' 'unsafe-inline' 'unsafe-eval' https:",
+      "styleSrc": "'self' 'unsafe-inline' https:",
+      "imgSrc": "'self' data: blob: https:",
+      "fontSrc": "'self' data: https:",
+      "formAction": "'none'",
+      "baseUri": "'none'"
+    },
+    "links": "http(s) links in author HTML are intercepted and opened by the host in a new tab",
+    "localStorage": "available, scoped to the card subdomain; author rule output is cached in IndexedDB keyed by storageScope"
+  },
+  "provider": {
+    "source": "hand-maintained from HarperHarbor/server provider/internal/service/role/author_asset.go and display/scan.go",
+    "replaceMaxBytes": 131072,
+    "totalMaxBytes": 33554432,
+    "bytesAre": "UTF-8 (find + replace + name per rule)",
+    "findMustNotBeBlank": true,
+    "maxRuleCount": null,
+    "mountLayer": [
+      "under",
+      "over",
+      "cover"
+    ],
+    "pageMode": [
+      "classic",
+      "immersive",
+      "sandbox"
+    ],
+    "pageModeDefaultWhenEmpty": "classic",
+    "cardFormat": [
+      "",
+      "mmd",
+      "tavern"
+    ],
+    "render": {
+      "endpoint": "GET /open/v1/role/render",
+      "executesScripts": false,
+      "runsSanitizer": false,
+      "runsMarkdown": false,
+      "ruleStatuses": [
+        "applied",
+        "unmatched",
+        "disabled",
+        "empty",
+        "rolled_back"
+      ],
+      "unsupportedScan": {
+        "classicOnly": [
+          "sdk.save",
+          "sdk.cache",
+          "sdk.stage",
+          "sdk.message",
+          "sdk.input",
+          "sdk.composer",
+          "sdk.role",
+          "sdk.user",
+          "sdk.on(",
+          "sdk.debug",
+          "[data-chat",
+          "[data-slot",
+          "--chat-"
+        ],
+        "everywhere": [
+          "sdk.vars",
+          "<abc_vars"
+        ]
+      }
+    }
+  },
+  "import": {
+    "source": "hand-maintained from hearthroom/cli internal/importer/mmd.go",
+    "mmdSixKey": {
+      "keys": [
+        "chatVersion",
+        "pageDepth",
+        "statusbar",
+        "beginning",
+        "personality",
+        "regex_scripts"
+      ],
+      "chatVersion1": "pageMode: sandbox",
+      "pageDepth": {
+        "1|0|under|below": "mountLayer under",
+        "2|missing": "mountLayer over"
+      },
+      "statusbar": "mountTrigger",
+      "beginning": "welcome.md",
+      "personality": "not read by the CLI importer (persona comes from the separate TXT)",
+      "droppedRegexFields": [
+        "trimStrings",
+        "markdownOnly",
+        "promptOnly",
+        "runOnEdit",
+        "substituteRegex",
+        "minDepth",
+        "maxDepth",
+        "id"
+      ]
+    }
+  }
+}

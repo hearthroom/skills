@@ -192,7 +192,15 @@ model never sees the result.
 - `mountLayer`: `under`, `over` or `cover`. `cardFormat`: `mmd` or `tavern`
   (how `<style>` in rules is scoped).
 
-On the sandbox page the result then passes a sanitizer before display:
+On the sandbox page the result then passes a sanitizer before display. There
+are two render paths: on the play page the host computes each reply's HTML
+with the ordinary card pipeline (standard HTML tags and hyphenated custom
+elements kept, non-standard tag names stripped with the text kept) and sends
+it to the shell; the shell's own path below applies when it renders a body
+itself (the function bar, previews, the offline harness, a reply with no host
+view). Whether the host path removes author `data-*` is not established from
+its source; authors have seen it removed on the play page. Write for the
+stricter path everywhere, and select your own elements by class:
 
 - Tags outside an allowlist are removed and their text kept. The allowlist is
   ordinary HTML (`div`, `span`, `p`, headings, lists, `table`, `img`, `a`,
@@ -216,8 +224,11 @@ and `report`: a static scan (`chars`, `estimatedTokens`, `tags`, `components`,
 `scripts`, `styles`, `inlineHandlers`, `externalUrls`, `crossLineRules`) plus
 `report.unsupported[]`: author-API identifiers the card's chat page does not
 provide, each with `api`, `count`, `where` and a `hint`. `warnings[]` repeats
-the important ones in prose and `previewUrl` is the play page link. Markdown, layout and contrast are
-only visible on the play page; the command prints that link.
+the important ones in prose and `previewUrl` is the play page link. The
+provider runs only the rule engine: it does not execute scripts, simulate
+`sdk` events, or run the sanitizer or Markdown, so `applied` means the rule
+matched, not that the screen is right. Markdown, layout and contrast are only
+visible on the play page or in the offline preview below.
 
 ## Chat pages
 
@@ -227,37 +238,118 @@ cannot read the player's login state or make requests to external URLs
 (external `<script src>`, images and fonts load). Actions that spend credits
 respond only to the player's own clicks.
 
-The sandbox author API is identical to the new-style sandbox on Meimo Island
-(MMD), so the same script runs on both:
+The sandbox author API has the same shape as the new-style sandbox on Meimo
+Island (MMD), so a script written for that page runs here; the differences are
+listed at the end of this section. The complete, generated inventory (every
+capability, event, node, variable, limit and sanitizer rule, produced from the
+chat page's source) is `../scripts/sandbox-contract.json`; this section is its
+prose.
 
-- Nodes: `[data-chat="root"]` (`data-theme` dark|light, `data-composer`),
-  `[data-chat="message"]` (`data-from` ai|user, `data-state`
-  pending|streaming|done, `data-msg-id`), `[data-chat="message-body"]`,
-  `[data-slot="statusbar"]`, `[data-slot="left"]` / `[data-slot="right"]`
-  (docked sidebars), `[data-chat="author-stage"]`, `[data-chat="input"]`,
-  `[data-chat="composer"]`. Select by these attributes, not by class names.
-- Theme: `--chat-*` CSS variables (`--chat-bg`, `--chat-text`, `--chat-accent`,
-  `--chat-bubble-ai-bg`, …) on the root node.
-- `sdk.input.get/set/add/insert/clear/focus/blur/getCursor/setCursor`,
-  `sdk.composer.show/hide/visible`, `sdk.message.send(text)` and
-  `sdk.message.edit(id, text)` (confirmation unless from the player's own
-  click), `sdk.save.get/set/remove/keys` (at most 10 keys per card per player,
-  64 KB each, kept across devices), `sdk.cache.*` (this page load only),
-  `sdk.stage.open('content'|'full')/close/el/visible`, `sdk.role.get()`,
-  `sdk.user.get()` (name, avatar and `locale`, the player's interface
-  language such as `zh-Hans`), `sdk.text.convert(text)` and
-  `sdk.text.ready()` (see Chinese script below), `sdk.on(event, handler)`,
-  `sdk.debug.log(...)`
-  (`?sdkDebug=1` shows the panel).
+- Nodes: `[data-chat="root"]` (`data-theme` dark|light, `data-composer`,
+  `data-chrome` standard|host|shell, `data-busy` 1 while a reply generates),
+  `[data-chat="message"]` (`data-from` ai|user|system, `data-state`
+  pending|streaming|done, `data-msg-id`), `[data-chat="message-body"]`
+  (`data-generating="1"` while the body is a placeholder, so never read it as
+  reply text), `[data-chat="author-stage"]` (`data-stage` closed|content|full),
+  `[data-chat="header"]`, `[data-chat="composer"]`, `[data-chat="input"]`.
+  Slots: `[data-slot="statusbar"]` (exists only when the function bar is
+  non-empty), `left` / `right` (zero-width positioned columns beside the
+  message area; content placed there is a docked sidebar and the message
+  column makes room), `header-extra`, `toolbar`. There is no per-message slot.
+  Select by these attributes, not by class names; the legacy selectors `.mes`,
+  `.mes_text`, `#msglistview`, `#scrollview`, `.chat-scope-box`, `#chat` are
+  also present. `role: system` rows (platform notices) are drawn but emit no
+  author events.
+- Theme: 29 `--chat-*` variables, defined on `[data-theme="dark"]` and
+  `[data-theme="light"]` (not on `:root`): `bg`, `surface`, `text`,
+  `text-muted`, `border`, `accent`, `bubble-user-bg`, `bubble-ai-bg`,
+  `bubble-text`, `share-pick-bg`, `composer-bg`, `composer-text`,
+  `shortcut-bg`, `shortcut-text`, `input-bg`, `input-text`,
+  `input-placeholder`, `input-border`, `modal-bg`, `modal-surface`,
+  `modal-text`, `modal-muted`, `modal-accent`, `modal-input-bg`,
+  `modal-input-text`, `modal-cancel-bg`, `modal-btn-bg`, `modal-btn-border`,
+  `more-item-bg`; the four `bubble-*` / `more-item-bg` ones are aliases of
+  others. `--chat-viewport-height` is set inline by the host. Override on
+  `[data-chat="root"][data-theme="…"]` (specificity 0,2,0) and no
+  `!important` is needed; the shell's own CSS sits in `@layer lt-base`, so an
+  unlayered author stylesheet always wins. `--rpx` is `calc(100vw / 750)`
+  and `calc(375px / 750)` from 961 px wide: size layout in `--rpx`, text in px.
+  z-index: platform nodes `auto`, stage content 2000, stage full 3000, the
+  shell's own dialog 9000; use 3500–7999 for your overlays.
+- **Theme is the platform's.** A card in MMD format (`cardFormat` empty or
+  `mmd`, the default) is locked to dark: `data-theme` is always `dark` and
+  `theme:change` never fires for it. A card in tavern format follows the
+  player's light or dark setting. Write both sides anyway and read
+  `data-theme`; never set it.
+- `sdk.input.get/set/add/insert/clear/focus/blur/getCursor/setCursor`
+  (writes throw `INVALID_ARGS` during an IME composition),
+  `sdk.composer.show/hide/visible`, `sdk.message.send(text)` (no argument
+  sends the input box; `BUSY` while a reply generates, never queued;
+  confirmation dialog unless called inside the player's own click, declined =
+  `UNAUTHORIZED`; the call must be in the same task as the click, so no
+  `await` before it) and `sdk.message.edit(id, text)` (`id` is the bubble's
+  `data-msg-id`, the server id; same confirmation rule),
+  `sdk.save.get/set/remove/keys` (keys `[A-Za-z0-9_-]{1,64}`, at most 10 keys
+  per card per player, 64 KiB each as the UTF-8 bytes of the JSON value, kept
+  across devices; `get` and `keys` throw `HOST_DENIED` synchronously until the
+  saves have loaded, so wrap them in `try`), `sdk.cache.*` (this page load
+  only, 1 MiB in all), `sdk.stage.open('content'|'full')/close/el/visible`
+  (`el()` returns the node even when closed, so decide by `visible()`; your
+  own `close()` does not emit `stage:close`), `sdk.role.get()` → `{name,
+  avatarUrl}`, `sdk.user.get()` → `{nickname, avatarUrl, locale}` (the key is
+  `nickname`, not `name`), `sdk.text.convert(text)` and `sdk.text.ready()`
+  (see Chinese script below), `sdk.on(event, handler)` (there is no `off` and
+  no `once`; a misspelled event or capability never fires and never errors),
+  `sdk.debug.log(...)` (`?sdkDebug=1` shows the panel). `sdk.version` is the
+  string `'1'`. Rate limits per minute: `save.set` 20, `message.send` 3 by
+  gesture and 3 automatic, `message.edit` 10 → `RATE_LIMITED`.
 - Events: `ready`, `message:new`, `message:mount`, `message:stream`,
   `message:done`, `message:unmount`, `input:change`, `conversation:switch`,
-  `theme:change`, `back`, `stage:close`, `dispose`. Existing messages replay
-  `message:new` / `mount` / `done` on open, then `ready`. Inside a handler,
-  `document.querySelector` searches only that message.
+  `theme:change`, `back`, `stage:close`, `dispose`. Handlers get one argument:
+  `{id, role, content, serverId}` for `message:*` (`message:stream` has no
+  `serverId`; `serverId` is `null` for player messages and the greeting), a
+  string for `input:change`, nothing for the rest. On a cold start every
+  existing message fires `new` → `mount` → `done`, and `ready` comes last;
+  `mount` and `done` are replayed to late subscribers for every bubble still
+  on screen, `ready` is never replayed, and each message gets exactly one
+  `done`. The list is virtualised: a bubble about two screen heights away is
+  destroyed (`message:unmount`) and rebuilt (`message:mount` again) when it
+  scrolls back; long-lived panels belong on the stage. Inside a handler, and
+  inside any click/input/change/keydown handler, `document.querySelector`,
+  `querySelectorAll`, `getElementById`, `getElementsByClassName` and
+  `getElementsByTagName` search the current bubble first and never another
+  bubble; after an `await` or a timeout the scope is gone, so capture the
+  bubble's elements synchronously. `Element.querySelector` (for example from
+  `document.body`) is not scoped.
+- Scripts: every `<style>` and `<script>` in every enabled rule is extracted
+  when the card loads, matched or not (fenced code blocks are left alone);
+  styles merge into one stylesheet, scripts run once per card, in rule order,
+  before any message is in the DOM and after the function bar is mounted.
+  Inline scripts run as real `<script>` elements (top-level declarations are
+  globals); a `SyntaxError` such as a top-level `return` is retried wrapped in
+  a function. `type="module"` runs as a classic script; `document.currentScript`
+  is null. External `<script src>` must be `https:` and is not awaited. A
+  `<script>` inside a reply runs once per distinct code string after the
+  message is done; code already run at load does not run again. The card
+  editor's preview re-runs the scripts on every edit, so a boot must be
+  re-entrant (remove what the previous run mounted). Actions that spend
+  credits (send, continue, regenerate, assist, favourite) ignore synthetic
+  clicks: only a trusted click counts.
+- The body of a bubble may not be final when `message:mount` or `message:done`
+  fires: rules run in a worker and the finished HTML is swapped in a moment
+  later. A script that draws into a bubble draws again when the bubble's
+  children change (a `MutationObserver` for a few seconds), and binds buttons
+  by delegation on `document`, not on the container.
 - Error codes: `UNAUTHORIZED`, `RATE_LIMITED`, `INVALID_ARGS`, `HOST_DENIED`,
-  `BUSY`, `NOT_SUPPORTED`.
-- Not provided anywhere: MMD's platform state variables (`sdk.vars`,
-  `<abc_vars>`).
+  `NETWORK`, `NOT_SUPPORTED`, `BUSY`, `UNKNOWN_CAPABILITY`. Synchronous
+  capabilities throw an `SdkError` with `.code`; asynchronous ones reject.
+- Differences from MMD's page: no platform state variables (`sdk.vars`,
+  `vars:change`, `<abc_vars>`; `card render` reports them under
+  `unsupported`); no `message-extra` slot; `user.get()` returns `nickname`;
+  `sdk.text.*` exists; no empty `message:done` before streaming; `send`
+  during generation is `BUSY`; header, composer and panels are the site's
+  standard components drawn inside the shell (`data-chrome="standard"`), so
+  author CSS reaches them and their buttons report to the host.
 - `data-msg-id` is not stable across a reload: during a session a new message
   carries a local id (a millisecond timestamp), after a reload the same
   message carries the server id (a UUIDv7, whose first 48 bits are also
@@ -326,8 +418,43 @@ does not, so there an `<hc-btn>` renders as an unknown empty element. Do not
 write `hc-*` markup for new cards. For a button that sends a player line on
 the sandbox page, use a display rule with a plain `<button>` and
 `sdk.message.send(text)`; for bars, facts and panels, use plain HTML and CSS
-in the rule's replacement. `card render --json` still lists `hc-*` classes it
+in the rule's replacement, or the toolkit's sandbox kit
+(`assets/sandbox-kit`, see `sandbox-kit.md`). `card render --json` still lists `hc-*` classes it
 finds under `report.components` so imported classic-page cards can be spotted.
+
+## Offline preview
+
+The chat page's repository (`hearthroom/stage`, the `stage` submodule of the
+community site) carries a harness that runs the real sandbox shell against a
+card folder with a fake host: `npm run build:sandbox`, then
+`node scripts/serve-card-preview.mjs <card-dir>` and open the printed URL
+(`bench/card-preview`). It loads `rules.json`, `welcome.md` and
+`preview/replies.md` (sample replies separated by `## ` headings), streams a
+sample, switches conversation, re-runs scripts, and offers phone, landscape,
+unfolded, tablet and desktop sizes and both themes; assets resolve to the
+folder. `node scripts/preview-shots.mjs --url … --out <dir> [--interact]`
+drives it headless with the system Chrome: screenshots per size, a
+`snapshot.json` (bubbles, panels, debug log) and, with `--interact`, a real
+tap on a choice and on the dock. It is the real `sdk`, sanitizer, Markdown and
+event order; it is not the host's rendering path, the real model or a device.
+Without that repository, the render report's `previewUrl` in a browser is the
+check.
+
+## Local checks
+
+`node <toolkit>/scripts/check-card.mjs <card-dir>` reads `rules.json`,
+`definition.md`, `card.json`, `lorebook.json` and the openings and reports,
+against `scripts/sandbox-contract.json`: invalid patterns and flags, patterns
+that match the empty string, replacements over 128 KiB (UTF-8 bytes) and rule
+sets over 32 MiB, blank `find`, duplicate ids, unknown `sdk` capabilities and
+event names, `sdk.off`/`once`, `sdk.vars`, module syntax, `await` before a
+send, invalid save keys, `data-*`/`aria-*`/`role` on author elements, `on*`
+inside `<svg>`, CJK angle-bracket tags, `hc-*` components, `{{random}}` with
+the wrong separator, concatenated asset paths and missing asset files, the
+sandbox API on a classic-page card, and a marker a rule consumes that the
+definition, output contract, a constant Lorebook entry or an opening never
+mentions (the panel would show once and never update). Errors fail the run;
+warnings do not.
 
 ## The CLI loop
 
@@ -368,7 +495,13 @@ hearthroom card push <dir> --create          # keep it: a real private card on t
   first call opens it, later calls resume it, and the folder's sync state
   remembers it. `--greeting N` applies when a new conversation is created.
 - An MMD rules file marked `chatVersion: 1` imports as `pageMode: sandbox`;
-  trial cards keep `pageMode` and `cardFormat`.
+  trial cards keep `pageMode` and `cardFormat`. Its `pageDepth` 1/0/under
+  becomes `mountLayer: under`, otherwise `over`; `statusbar` becomes
+  `mountTrigger`; `beginning` becomes the opening. The six-key file's
+  `personality` is not read (the persona comes from the separate text file),
+  and the regex scripts' SillyTavern-only fields (`trimStrings`,
+  `markdownOnly`, `promptOnly`, `runOnEdit`, `substituteRegex`, depth limits)
+  are dropped without a note.
 
 ## Publishing
 

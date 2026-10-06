@@ -1,0 +1,187 @@
+#!/usr/bin/env node
+// Local checks for a Hearthroom card folder before push: rules.json against the sandbox
+// contract, markers against the definition, and the things the provider's validate and render
+// cannot see (a regex that compiles here but matches the empty string, an attribute the
+// sanitizer will strip, a save key that is not a key, a marker the model is never told to emit).
+//
+//   node check-card.mjs <card-dir> [--json]
+//
+// Exit 0 when there are no errors; warnings do not fail. Every fact used here comes from
+// scripts/sandbox-contract.json, generated from the chat page's source.
+import { readFileSync, existsSync, readdirSync } from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const HERE = path.dirname(fileURLToPath(import.meta.url));
+export const CONTRACT = JSON.parse(readFileSync(path.join(HERE, 'sandbox-contract.json'), 'utf8'));
+
+const bytes = (s) => Buffer.byteLength(String(s ?? ''), 'utf8');
+
+/** `/pattern/flags` → { source, flags }; a literal → null. */
+export function slashForm(find) {
+  const m = /^\/([\s\S]+)\/([a-zA-Z]*)$/.exec(String(find ?? '').replace(/^`+|`+$/g, ''));
+  return m ? { source: m[1], flags: m[2] } : null;
+}
+
+function compile(find) {
+  const sf = slashForm(find);
+  if (!sf) return { regex: null, literal: String(find ?? '') };
+  const bad = sf.flags.split('').filter((f) => !CONTRACT.rules.flags.includes(f));
+  if (bad.length) return { error: `flags "${bad.join('')}" are not allowed (only ${CONTRACT.rules.flags})` };
+  const flags = sf.flags.includes('g') ? sf.flags : sf.flags + 'g';
+  try { return { regex: new RegExp(sf.source, flags) }; } catch (e) { return { error: `invalid pattern: ${e.message}` }; }
+}
+
+const SDK_CAP = /\bsdk\.([a-zA-Z]+)(?:\.([a-zA-Z]+))?/g;
+const SDK_ON = /\bsdk\.on\(\s*(['"`])([^'"`]+)\1/g;
+const HR_ON = /\bHR\.on\(\s*(['"`])([^'"`]+)\1/g;
+
+function scanScript(code, where, out) {
+  const caps = new Set(CONTRACT.sdk.capabilities);
+  const keys = new Set(CONTRACT.sdk.keys);
+  for (const m of code.matchAll(SDK_CAP)) {
+    const key = m[1], method = m[2];
+    if (key === 'on' || key === 'version') continue;
+    if (!keys.has(key)) { out.error(where, `sdk.${key} does not exist on the sandbox page (keys: ${CONTRACT.sdk.keys.join(', ')})`); continue; }
+    if (method && !caps.has(`${key}.${method}`)) out.error(where, `sdk.${key}.${method} does not exist; a misspelled capability never runs and never errors`);
+  }
+  for (const m of code.matchAll(SDK_ON)) {
+    if (!CONTRACT.events.names.includes(m[2])) out.error(where, `sdk.on("${m[2]}") is not an event; it never fires (events: ${CONTRACT.events.names.join(', ')})`);
+  }
+  for (const m of code.matchAll(HR_ON)) {
+    if (m[2].includes(':') && !CONTRACT.events.names.includes(m[2]) && !['send:busy', 'dock:open', 'dock:close', 'stage:closed'].includes(m[2])) out.warn(where, `HR.on("${m[2]}") is not a platform event or a kit event`);
+  }
+  if (/\bsdk\.(off|once)\b/.test(code)) out.error(where, 'sdk.off / sdk.once do not exist; keep your own registry (the kit\'s HR.on returns an unsubscribe)');
+  for (const api of ['sdk.vars', 'vars:change', '<abc_vars']) if (code.includes(api)) out.error(where, `${api} is not provided by any Hearthroom chat page`);
+  // sdk.on inside a message:mount handler multiplies subscriptions on every mount.
+  const mountHandler = /sdk\.on\(\s*['"`]message:mount['"`]\s*,\s*function[^{]*\{([\s\S]*?)\n\s*\}\s*\)/g;
+  for (const m of code.matchAll(mountHandler)) if (/\bsdk\.on\(/.test(m[1])) out.warn(where, 'sdk.on inside a message:mount handler subscribes again on every mount');
+  const doneHandler = /sdk\.on\(\s*['"`]message:done['"`]\s*,\s*function[^{]*\{([\s\S]*?)\n\s*\}\s*\)/g;
+  for (const m of code.matchAll(doneHandler)) if (/\bsdk\.message\.send\(/.test(m[1]) && !/if\s*\(/.test(m[1])) out.warn(where, 'sdk.message.send inside a message:done handler with no condition loops the conversation');
+  if (/\bsave\.set\(\s*['"`]([^'"`]*)['"`]/.test(code)) {
+    for (const m of code.matchAll(/\bsave\.set\(\s*['"`]([^'"`]*)['"`]/g)) if (!new RegExp(CONTRACT.save.keyPattern).test(m[1])) out.error(where, `save key "${m[1]}" is not valid (${CONTRACT.save.keyPattern})`);
+  }
+  if (/\bawait\b[\s\S]{0,200}\bsdk\.message\.send\(/.test(code)) out.warn(where, 'an await before sdk.message.send leaves the click gesture: the player will be asked to confirm');
+  if (/document\.currentScript/.test(code)) out.warn(where, 'document.currentScript is null for rule scripts');
+  if (/\bimport\s+[\w{*]/.test(code) || /\bexport\s+(default|const|function)/.test(code)) out.error(where, 'ES module syntax: rule scripts run as classic scripts');
+  for (const m of code.matchAll(/<script[^>]+src=["']http:\/\//g)) out.warn(where, `${m[0]}…: http:// external scripts are skipped; use https://`);
+}
+
+function scanHtml(html, where, out, { isRule = false } = {}) {
+  const noScripts = html.replace(/<script\b[\s\S]*?<\/script\s*>/gi, '').replace(/<style\b[\s\S]*?<\/style\s*>/gi, '');
+  for (const m of noScripts.matchAll(/<[a-zA-Z][^>]*\s(data-[\w-]+|aria-[\w-]+|role)=/g)) out.warn(where, `attribute ${m[1]} is removed by the sanitizer on the shell render path; use a class instead`);
+  for (const m of noScripts.matchAll(/<svg\b[\s\S]*?<\/svg>/gi)) if (/\son[a-z]+=/i.test(m[0])) out.warn(where, 'on* handlers inside <svg> are removed');
+  for (const m of noScripts.matchAll(/<\/?([一-龥][^\s>/]*)\s*\/?>/g)) out.warn(where, `<${m[1]}> is stripped by the sanitizer (text kept); use [${m[1]}] square brackets for model markers`);
+  for (const m of noScripts.matchAll(/\bhc-[a-z][a-z0-9-]*/g)) { out.warn(where, `${m[0]} is a classic-page component; the sandbox page does not register it`); break; }
+  if (/\{\{random:[^}]*\|[^}]*\}\}/.test(html)) out.warn(where, '{{random:a|b}} uses the wrong separator; the engine expects {{random:a::b}}');
+  if (/["'`]assets\/[^"'`]*["'`]\s*\+|\+\s*["'`][^"'`]*assets\//.test(html)) out.warn(where, 'an assets/ path built by concatenation is not uploaded on push; write every path as one literal');
+  if (isRule) {
+    for (const m of html.matchAll(/(["'])(assets\/[^"'\s]+\.[a-zA-Z0-9]+)\1/g)) out.asset(m[2], where);
+  }
+}
+
+export function checkCard(dir) {
+  const findings = [];
+  const out = {
+    error: (where, msg) => findings.push({ level: 'error', where, msg }),
+    warn: (where, msg) => findings.push({ level: 'warning', where, msg }),
+    info: (where, msg) => findings.push({ level: 'info', where, msg }),
+    assets: [],
+    asset: (p, where) => out.assets.push({ p, where }),
+  };
+  const read = (name) => (existsSync(path.join(dir, name)) ? readFileSync(path.join(dir, name), 'utf8') : null);
+  const rulesText = read('rules.json');
+  let rules = null;
+  if (rulesText != null) {
+    try { rules = JSON.parse(rulesText); } catch (e) { out.error('rules.json', `not valid JSON: ${e.message}`); }
+  }
+  const definition = read('definition.md') || '';
+  const welcome = read('welcome.md') || '';
+  const card = (() => { try { return JSON.parse(read('card.json') || '{}'); } catch { out.error('card.json', 'not valid JSON'); return {}; } })();
+  const lorebook = (() => { try { return JSON.parse(read('lorebook.json') || '{"entries":[]}'); } catch { out.error('lorebook.json', 'not valid JSON'); return { entries: [] }; } })();
+  const openings = existsSync(path.join(dir, 'openings')) ? readdirSync(path.join(dir, 'openings')).filter((f) => f.endsWith('.md')).map((f) => readFileSync(path.join(dir, 'openings', f), 'utf8')) : [];
+
+  const modelFacing = [definition, String(card.outputContract || ''), String(card.customInstructions || ''), ...(lorebook.entries || []).filter((e) => e && e.constant && !e.disabled).map((e) => String(e.content || ''))].join('\n');
+  const playerFacing = [welcome, ...openings].join('\n');
+
+  if (rules && typeof rules === 'object') {
+    const list = Array.isArray(rules.rules) ? rules.rules : (out.error('rules.json', '"rules" must be an array'), []);
+    if (rules.pageMode && !CONTRACT.provider.pageMode.includes(rules.pageMode)) out.error('rules.json', `pageMode "${rules.pageMode}" is not one of ${CONTRACT.provider.pageMode.join(', ')}`);
+    if (rules.mountLayer && !CONTRACT.provider.mountLayer.includes(rules.mountLayer)) out.error('rules.json', `mountLayer "${rules.mountLayer}" is not one of ${CONTRACT.provider.mountLayer.join(', ')}`);
+    if (rules.cardFormat && !CONTRACT.provider.cardFormat.includes(rules.cardFormat)) out.error('rules.json', `cardFormat "${rules.cardFormat}" is not one of mmd, tavern`);
+    const sandbox = rules.pageMode === 'sandbox';
+    let total = 0, usesSdk = false;
+    const ids = new Set();
+    const consumedMarkers = [];
+    list.forEach((r, i) => {
+      const where = `rules.json#${r && r.id != null ? r.id : i}`;
+      if (!r || typeof r !== 'object') { out.error(where, 'rule is not an object'); return; }
+      if (r.id != null) { if (ids.has(String(r.id))) out.error(where, 'duplicate rule id'); ids.add(String(r.id)); }
+      if (!String(r.find ?? '').trim()) out.error(where, 'find is blank (the provider rejects the whole rule set)');
+      const rb = bytes(r.replace);
+      total += bytes(r.find) + rb + bytes(r.name);
+      if (rb > CONTRACT.provider.replaceMaxBytes) out.error(where, `replace is ${rb} bytes, over ${CONTRACT.provider.replaceMaxBytes} (UTF-8 bytes; strip comments or split script and style into two rules)`);
+      else if (rb > CONTRACT.provider.replaceMaxBytes * 0.85) out.warn(where, `replace is ${rb} bytes, close to the ${CONTRACT.provider.replaceMaxBytes} limit`);
+      if (r.enabled === false) return;
+      const c = compile(r.find);
+      if (c.error) out.error(where, `${c.error} (rolled back as bad_regex)`);
+      else if (c.regex) {
+        c.regex.lastIndex = 0;
+        if (c.regex.test('')) out.error(where, 'the pattern can match the empty string (rolled back as empty_match)');
+        c.regex.lastIndex = 0;
+        if (/\$[a-zA-Z_]/.test(String(r.replace)) && !/\(/.test(c.regex.source)) out.warn(where, '$name in the replacement needs a first capture group shaped key::value;;key::value');
+        const marker = /\\\[([a-zA-Z0-9_一-鿿-]+)\\\]/.exec(c.regex.source) || /<([a-zA-Z][a-zA-Z0-9_-]*)>/.exec(c.regex.source);
+        if (marker) consumedMarkers.push({ name: marker[1], angle: marker[0].startsWith('<'), where });
+      } else if (c.literal) {
+        const marker = /^\[([^\]]+)\]$/.exec(c.literal.trim()) || /^<([^>]+)>$/.exec(c.literal.trim());
+        if (marker) consumedMarkers.push({ name: marker[1], angle: c.literal.trim().startsWith('<'), where });
+      }
+      const replace = String(r.replace ?? '');
+      if (/\bsdk\.|\[data-chat|\[data-slot|--chat-/.test(replace)) usesSdk = true;
+      for (const m of replace.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script\s*>/gi)) {
+        if (/\bsrc\s*=/.test(m[1])) continue;
+        scanScript(m[2], where, out);
+      }
+      scanHtml(replace, where, out, { isRule: true });
+    });
+    if (total > CONTRACT.provider.totalMaxBytes) out.error('rules.json', `the rule set is ${total} bytes, over ${CONTRACT.provider.totalMaxBytes}`);
+    if (usesSdk && !sandbox) out.error('rules.json', 'rules use the sandbox author API (sdk / [data-chat] / --chat-*) but pageMode is not "sandbox"');
+    if (rules.mountTrigger && /\[data-chat|<script/.test(String(rules.mountTrigger))) out.warn('rules.json#mountTrigger', 'the function bar is rendered once at load and only the text goes through rules; put scripts in a rule');
+
+    // Render rules ≠ generation rules: a marker a rule consumes must be something the model is told to write.
+    for (const m of consumedMarkers) {
+      const name = m.name;
+      // Bracketed forms only: a bare word such as "status" or "scene" appears in almost any prose.
+      const told = modelFacing.includes(`[${name}]`) || modelFacing.includes(`<${name}>`) || modelFacing.includes(`[/${name}]`) || modelFacing.includes(`【${name}】`);
+      const shown = playerFacing.includes(`[${name}]`) || playerFacing.includes(`<${name}>`);
+      if (!told && !shown) out.warn(m.where, `the rule consumes the marker "${name}" but neither the definition, the output contract, a constant Lorebook entry nor an opening mentions it: the panel will never appear after the first message`);
+      else if (!told && shown) out.warn(m.where, `"${name}" appears in the opening but the model is never told to emit it: it shows once and never updates`);
+      if (m.angle && sandbox && /[一-鿿]/.test(name)) out.warn(m.where, `<${name}> works in a rule but is stripped before any script reads the bubble; prefer [${name}]`);
+    }
+    // The other direction: a marker the model is told to emit with no rule consuming it leaks as text.
+    for (const m of modelFacing.matchAll(/\[([a-zA-Z][a-zA-Z0-9_-]{1,30})\]/g)) {
+      const name = m[1];
+      if (['user', 'char', 'status', 'STATE', 'STATUS'].includes(name) && !list.length) continue;
+      if (/^(x|X| |ok)$/.test(name)) continue;
+      if (!consumedMarkers.some((c) => c.name === name) && list.length && !new RegExp(`\\[${name}\\]`).test(list.map((r) => r.find).join('\n'))) {
+        if (!['hr-pinned'].includes(name)) out.info('definition', `the model is told to write [${name}] but no rule consumes it; it will stay visible as text (fine if intended)`);
+      }
+    }
+    for (const a of out.assets) if (!existsSync(path.join(dir, a.p))) out.error(a.where, `${a.p} is referenced but the file does not exist in the card folder`);
+  }
+  scanHtml(playerFacing, 'welcome.md', out);
+  return findings;
+}
+
+if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+  const dir = process.argv[2];
+  if (!dir || !existsSync(dir)) { console.error('usage: check-card.mjs <card-dir> [--json]'); process.exit(2); }
+  const findings = checkCard(path.resolve(dir));
+  const errors = findings.filter((f) => f.level === 'error').length;
+  if (process.argv.includes('--json')) console.log(JSON.stringify({ status: errors ? 'error' : 'ok', findings }, null, 2));
+  else {
+    for (const f of findings) console.log(`${f.level === 'error' ? '✖' : f.level === 'warning' ? '△' : '·'} ${f.where}: ${f.msg}`);
+    console.log(errors ? `✖ ${errors} error(s)` : '✔ no errors');
+  }
+  process.exit(errors ? 1 : 0);
+}

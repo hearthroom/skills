@@ -40,8 +40,10 @@ the opening contains HTML.
    spelled exactly; opening HTML is plain HTML and CSS with no custom elements
    the page does not register; the status line
    shape, if any, declared in the output contract with a matching display
-   rule. Unsettled layout goes to `hearthroom-presentation-director` or
-   `hearthroom-render-review`, not into a guess.
+   rule (`node <toolkit>/scripts/check-card.mjs <dir>` reports a rule whose
+   marker the model is never told to write). Unsettled layout goes to
+   `hearthroom-presentation-director` or `hearthroom-render-review`, not into
+   a guess.
 7. Map every field to its file and list what changes: `card.json` keys,
    `definition.md`, `welcome.md`, `openings/alt-NN.md`, `lorebook.json`,
    `rules.json`, `assets/`. Media referenced from `card.json` `media` must

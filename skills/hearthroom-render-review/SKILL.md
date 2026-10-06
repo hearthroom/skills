@@ -18,6 +18,10 @@ Read the display rules and chat pages sections of
 
 ## Workflow
 
+0. Run `node <toolkit>/scripts/check-card.mjs <dir>` first. It catches what
+   the provider's render cannot (a pattern that matches the empty string, an
+   attribute the sanitizer strips, a marker nobody tells the model to write).
+   Fix errors before rendering.
 1. Run `hearthroom card render <dir> --json` (add `--opening N` for an
    alternate, `--push` if the folder changed). Read in this order:
    - `rules[]`: every enabled rule should be `applied` or deliberately
@@ -35,8 +39,12 @@ Read the display rules and chat pages sections of
      still uses legacy component markup the sandbox page does not render.
    - `rendered`: read it as the player would; check the marker the model
      emits was consumed and nothing leaked as raw text.
-2. If a browser is available, open `previewUrl` at a phone width (about
-   390 px) and a desktop width (about 1280 px); for a full-page layout also
+2. If the chat page's repository is available, use the offline preview
+   (facts sheet, "Offline preview"): stream a sample reply and tap a choice,
+   because `applied` in the render report says the rule matched, not that the
+   script drew anything. Otherwise, if a browser is available, open
+   `previewUrl` at a phone width (about 390 px) and a desktop width (about
+   1280 px); for a full-page layout also
    a short landscape phone and a square-ish unfolded screen (about 900x640),
    and scroll one reply to its end to see how the choices appear. Check overflow, clipped text,
    contrast against the theme, and that the first screen shows the player's

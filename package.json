@@ -1,6 +1,6 @@
 {
   "name": "hearthroom-skills",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Card-writing skills for AI agents working on Hearthroom with the hearthroom CLI.",
   "type": "module",
   "scripts": {

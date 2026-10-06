@@ -75,6 +75,7 @@ Route:
 | Over the limits, overlong opening, duplicated lore, token cost | `hearthroom-token-architect` |
 | Behaviour or format still drifts although the fields are coherent | `hearthroom-instruction-guardrail` |
 | Plain text vs HTML, what goes on screen, display rules, chat page, sandbox scripts, status bars, beautification | `hearthroom-presentation-director` |
+| Building the status panel, theme, settings drawer, pinned bar or choice buttons with the kit; running the local checker or the offline preview; a sandbox script, save or rule that misbehaves | `hearthroom-sandbox-kit` |
 | A `card render` report, the play page open, a screenshot, overflow or contrast | `hearthroom-render-review` |
 | Turning a direction into a card-ready plan | `hearthroom-card-blueprint` |
 | Writing the actual fields into the card folder | `hearthroom-card-author` |
@@ -89,8 +90,9 @@ Route:
 ## Order of work for a new card
 
 premise → archetype → character core / relationship / world → tension →
-opening → voice → state → blueprint → author → finalizer → push + validate →
-render → playtest → iterate → publish readiness. Skip stages the author has
+opening → voice → state → blueprint → author → finalizer → (sandbox kit) →
+check-card → push + validate → render → playtest → iterate → publish
+readiness. Skip stages the author has
 already settled; do not reopen a chosen direction unless asked.
 
 ## Feed lessons back into these skills

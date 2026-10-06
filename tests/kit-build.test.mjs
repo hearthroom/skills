@@ -102,6 +102,8 @@ test('page and intro are gated; a palette becomes a preset that passes the contr
   assert.deepEqual(ok.problems, []);
   assert.match(ok.rules[1].replace, /HR\.claim\('page'\)/);
   assert.match(bootScript({ modes: { intro: { line: 'x' } } }), /HR\.ui\.intro\(\{"line":"x"\}\)/);
+  assert.match(bootScript({ language: 'zh-Hant', modes: {} }), /"Write your own":"自己寫"/);
+  assert.doesNotMatch(bootScript({ language: 'en', modes: {} }), /自己寫/);
   assert.equal(OPTIONAL_MODULES.page, 'hr-page.js');
   const preset = presetFromPalette({ dark: { bg: '#101214', surface: '#1a1d21', text: '#e9ecef', accent: '#8ab4f8' }, light: { bg: '#fafafa', surface: '#ffffff', text: '#1f2328', accent: '#1a5fb4' } }, 'ink');
   assert.deepEqual(contrastReport(preset).filter((c) => !c.ok), []);

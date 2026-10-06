@@ -85,6 +85,7 @@ test('the display rule tolerates a missing closer, and the choices block parses 
   assert.equal('[status]hp: 1[/status] tail'.replace(re, rule.replace), '<div class="hr-status hr-status--raw">hp: 1</div> tail');
   assert.equal(re.test(''), false);
   assert.deepEqual(status.parseChoices('- Ask about the keeper\n2. Say nothing\n\n③ Light the lamp'), ['Ask about the keeper', 'Say nothing', 'Light the lamp']);
+  assert.deepEqual(status.parseChoices('- 不修，讓她吃完：先看看\n２．調紀錄、看回放'), ['不修，讓她吃完：先看看', '調紀錄、看回放']);
   const c = status.choicesRule('choices', 'draft');
   assert.match(c.replace, /hr-choices--draft hr-choices--raw/);
   assert.match(status.choicesRule('choices', 'send').replace, /hr-choices--send/);

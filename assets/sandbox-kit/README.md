@@ -41,8 +41,11 @@ hearthroom card push my-card --validate --json && hearthroom card render my-card
 128 KiB or a preset pair fails the contrast checks (`--force` overrides; `--check` only
 checks). `--emit-contract` prints the paragraph for `card.json` `outputContract` (or the
 definition): the required keys with their shapes, the volatile keys, how values move
-(`rule` per field), the choices instruction, and an example of an ordinary turn. Put the same
-block at the end of `welcome.md`.
+(`rule` per field), the choices instruction, and an example of an ordinary turn, in the
+card's language (`language` in the config: `en` or `zh-Hant`; a schema written in CJK is
+taken as zh-Hant when the key is missing). On a non-English card give every field an
+`example` in that language: a field without one gets a generic sample the model copies, and
+the emitter warns. Put the same block at the end of `welcome.md`.
 
 ## The status block
 

@@ -1,0 +1,48 @@
+{
+  "skill_name": "using-hearthroom",
+  "notes": "Draft-only prompts: no push, no play, no credits. Run each with the current toolkit and with the previous snapshot; compare the card drafts for story quality, variety and whether the agent reached for defaults (status panel, dock, five beats in order). Grade with agents/grader-style assertions below plus a human read.",
+  "evals": [
+    {
+      "id": 1,
+      "name": "quiet-companion-no-ui",
+      "prompt": "I want a card about a night-shift radio host in Kaohsiung who takes calls from people who can't sleep; the player is a regular caller she has started to recognise. Draft the whole card folder (card.json, definition.md, welcome.md, one alternate opening, a small lorebook) in zh-Hant. Don't push anything.",
+      "expected_output": "A companion card whose opening is a scene with her voice on air, no status panel or buttons (uiRole assist, no block), a definition that is an engine (what she wants, what she withholds, how she handles a passive caller), two openings that are different situations, a lorebook of a few named entries with keywords a caller would type, a README dossier line with uiRole. Nothing generic: no 'mysterious past', no affection meter.",
+      "assertions": [
+        "welcome.md contains dialogue in the character's own register and ends on a pull, not a menu",
+        "no [status] block and no hr-choices in a card whose premise does not need state",
+        "README.md declares uiRole: assist",
+        "openings/alt-01.md starts from a different situation than welcome.md, not a reworded version",
+        "lorebook entries have keywords a player would type and none that the host says every turn",
+        "the draft names what the obvious version of this card would have been and does something else"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "survival-game-with-state",
+      "prompt": "Make me a survival card: the player is the last ranger on a flooded mountain station in Alishan, supplies run out, a stranger shows up. I want visible state the player acts on. Draft the folder in zh-Hant with the sandbox kit config and the output contract; don't push.",
+      "expected_output": "A game card with uiRole core declared with a threshold and reason, a kit.config.json whose schema has two to six fields with sections/tones chosen for this story, an output contract pasted from --emit-contract (status block protocol with an ordinary-turn example), welcome.md ending with the block and a [choices] block, a definition with signed movement for the contested values, and a preset or skin named for the world rather than a generic one.",
+      "assertions": [
+        "card.json outputContract contains the [status] protocol with an example of an ordinary turn",
+        "welcome.md ends with a [status] block whose keys match the schema and a [choices] block",
+        "README.md declares uiRole: core and statusOverheadThreshold with a reason",
+        "kit.config.json has between two and six non-hidden fields and at least one field with a rule for how it moves",
+        "node scripts/check-card.mjs reports no errors on the folder",
+        "the definition says how each contested value moves both ways"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "diagnose-flat-card",
+      "prompt": "This card (folder at ./flat-card) runs out of things to say after three turns and every reply ends with the same three buttons. Tell me what's wrong and fix the one thing that matters most; don't push.",
+      "files": ["flat-card/"],
+      "expected_output": "A diagnosis that names the primary failure (likely a missing second-turn engine or choices as rails) and the weakest funnel layer, one repair applied to the folder (not a rewrite of everything), the dossier updated with the decision and the rejected alternatives, and a note on how to verify it (10–20 turn playtest on two models, --new-session).",
+      "assertions": [
+        "exactly one primary repair is applied; secondary findings are listed as a backlog",
+        "the repair touches definition.md or the output contract, not only rules.json",
+        "README.md gains a Decisions entry and a Rejected directions entry",
+        "the verification plan names --new-session and two models",
+        "the reply leads with the outcome, not a tour of the folder"
+      ]
+    }
+  ]
+}

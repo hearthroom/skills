@@ -1,69 +1,50 @@
 ---
 name: hearthroom-instruction-guardrail
-description: Use when Hearthroom card work needs an instruction-layer repair through customInstructions or outputContract in card.json, such as out-of-character assistant framing, repeated format or schema drift, state protocol drift, or transcript-backed behaviour constraints, after the normal fields are coherent.
+description: Use when a card's normal fields are coherent but behaviour still drifts in play (out-of-character assistant framing, repeated format or schema drift, state protocol drift) and the repair belongs in customInstructions or outputContract in card.json.
 ---
 
 # Hearthroom Instruction Guardrail
 
-Draft a narrow instruction-layer repair. The output is a guardrail packet with
-draft text, not a broad rewrite and not a quality gate.
+Draft a narrow instruction-layer repair backed by evidence. The output is
+a guardrail packet with draft text, not a broad rewrite and not a quality
+gate: the instruction layer cannot fix a boring, generic or passive card.
 
 ## Required references
 
-- `../../references/instruction-guardrails.md` first.
-- `../../references/platform-facts.md`: `customInstructions` replaces one default
-  instruction block (not appended, not the whole system prompt);
-  `outputContract` is the format the reply must follow; both have limits under
-  `tokenBudget.limits`.
-- `../../references/cli-workflow.md`: edit `card.json`, then
-  `card push --validate --json`.
-- `../../references/playtest-loop.md` when the need comes from play evidence.
-- `../../references/cost-and-boundaries.md` when the instruction touches refusal,
-  mature content, or play testing.
+Read `../../references/instruction-guardrails.md`. From
+`../../references/platform-facts.md`: `customInstructions` replaces one
+default instruction block (not appended, not the whole system prompt);
+`outputContract` is the format the reply must follow; both have limits under
+`tokenBudget.limits`. Read `../../references/playtest-loop.md` when the need
+comes from play evidence and `../../references/cost-and-boundaries.md` when
+the instruction touches refusal or mature content.
 
 ## Workflow
 
-1. Gather evidence: the request, current fields, validation status, play
-   transcript, and the exact behaviour that failed.
-2. Confirm the engine, opening, voice, agency, and boundary are coherent. If a
-   normal field can fix the issue, route to that field's skill instead.
-3. Classify the need. Format or schema drift goes to `outputContract`. Role
-   stance, refusal style, state protocol, and recovery from meta-assistant
+1. Gather evidence: the request, current fields, validation status, the
+   transcript and the exact behaviour that failed. If a normal field can fix
+   it, route to that field's skill instead.
+2. Classify the need: format or schema drift goes to `outputContract`; role
+   stance, refusal style, state protocol and recovery from meta-assistant
    drift go to `customInstructions`.
-4. Draft compact constraints, each with its reason (strong models generalise
-   from the reason); prefer what to do over what not to do. Keep story logic
-   in `definition.md`, visible action in `welcome.md`, examples in
-   `talkExample`. `platform-facts.md` does not say which default block
-   `customInstructions` replaces, so treat a non-empty value as removing
-   behaviour you cannot see: keep it short, run the same probe with it empty
-   and filled (each on `--new-session`), and keep it only if the transcript
-   improves.
-5. Set the stance: omit, draft-only, or push after confirmation.
-6. Hand off. The edit is followed by `hearthroom card push --validate --json`;
-   run `play -m` again only when behaviour changes and the author accepts the cost.
-
-## Hand-off
-
-```text
-Request; evidence; prerequisites checked
-Instruction-layer need; not fixed by
-Target: customInstructions | outputContract
-Constraints with reasons; draft text
-Stance: omit | draft-only | push after confirmation
-Validation / play plan
-Next skill
-```
-
-- `hearthroom-card-author` to apply the edit and push.
-- `hearthroom-card-doctor` when play shows several failures.
-- `hearthroom-boundary-designer` when the real gap is the agency contract.
+3. Draft compact constraints, each with its reason (models generalise from
+   the reason) and phrased as what to do. Story logic stays in
+   `definition.md`, visible action in `welcome.md`, examples in `talkExample`.
+   The facts sheet does not say which default block `customInstructions`
+   replaces, so a non-empty value removes behaviour you cannot see: keep it
+   short, run the same probe with it empty and filled (each on
+   `--new-session`), and keep it only if the transcript improves.
+4. Set the stance (omit, draft-only, push after confirmation), then continue
+   with `hearthroom-card-author` to apply the edit and
+   `card push --validate --json`; replay only when behaviour changes and the
+   author accepts the cost. Several failures at once go to
+   `hearthroom-card-doctor`; a missing agency contract to
+   `hearthroom-boundary-designer`.
 
 ## Do not
 
-- Do not use the instruction layer to fix boring, generic, passive, or
-  trope-only cards; those are writing problems.
-- Do not use it for safety, policy, or moderation bypasses or player-agency
-  takeover.
-- Do not duplicate lore, biography, world rules, or the full voice card.
-- Do not write "be high quality" or "never fail"; write short, testable behaviour.
-- Do not run CLI commands or edit the folder from this skill.
+- Do not use the instruction layer for safety, policy or moderation bypasses
+  or player-agency takeover.
+- Do not duplicate lore, biography, world rules or the full voice card here.
+- Do not write "be high quality" or "never fail"; write short, testable
+  behaviour.

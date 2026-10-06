@@ -77,6 +77,20 @@ test('choices mode follows uiRole unless set; the choices rule is emitted', asyn
   assert.match(c.text, /\[choices\]/);
   assert.ok(!c.keys.includes('danger') && c.volatileKeys.includes('danger'));
   assert.match(c.text, /Example of an ordinary turn/);
+  assert.deepEqual(c.warnings, []);
+  // a zh-Hant card gets zh-Hant framing, and a field without an example is flagged instead of getting an English sample
+  const zh = emitContract({ ...example, language: 'zh-Hant', schema: { fields: [{ key: 'hp', type: 'bar' }, { key: 'where', type: 'path', example: '港口 > 燈塔' }] } });
+  assert.equal(zh.language, 'zh-Hant');
+  assert.match(zh.text, /^每則回覆的正文之後/);
+  assert.match(zh.text, /hp: <目前值>\/<上限>/);
+  assert.match(zh.text, /where: 港口 > 燈塔/);
+  assert.ok(!/Harbor/.test(zh.text));
+  assert.equal(zh.warnings.length, 1);
+  assert.match(zh.warnings[0], /"hp" has no example/);
+  assert.equal(emitContract({ ...example, language: 'ja' }).language, 'en');
+  // no language declared: a CJK schema is treated as zh-Hant
+  assert.equal(emitContract({ schema: { fields: [{ key: 'hp', label: '體力', type: 'bar' }] } }).language, 'zh-Hant');
+  assert.equal(emitContract({ schema: { fields: [{ key: 'hp', label: 'HP', type: 'bar' }] } }).language, 'en');
 });
 
 test('page and intro are gated; a palette becomes a preset that passes the contrast checks', async () => {

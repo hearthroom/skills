@@ -18,8 +18,14 @@ changes. UI has five legitimate jobs: memory (what the reader cannot hold: a
 ledger, a recap), making choices legible (what is at stake), pacing (reading
 first, choices after), showing the world reacting (a struck-through line, a
 changed face), and orientation (where, when, with whom). An element that does
-none of these is decoration; cut it. Prefer a diegetic object (a letter, a
-stamp, a dossier) to a HUD. Choices are drafts, not rails: free input stays
+none of these is decoration; cut it. Build the screen however the story
+wants it; the only thing to watch is reaching for a default without noticing.
+The defaults are: a status panel at the top or bottom of every reply, a dock
+tab on the right edge with a settings drawer, HP-style bars for feelings or
+relationships, two to four buttons after every reply, a HUD where an object
+from the world (a letter, a stamp, a ledger line, a map the character is
+holding) would carry the same state. Each of these is right for some cards;
+when you find you used one, say in a sentence why this card wanted it. Choices are drafts, not rails: free input stays
 first-class, a choice can be rewritten before it is sent, and the opening's
 first action may be a button but never only a button. State tokens are taken
 from the story: the status overhead ratio (characters of the status and

@@ -105,6 +105,12 @@ set by `modes.choices` or by `uiRole` (`assist` → `draft`, `core` → `send`):
   writes, a tap shows a toast instead. A set in an older reply is disabled once a newer reply
   exists.
 
+## Gated extras (off unless the config says why)
+
+- `modes.intro: { title, line, begin, draft }` with `gates.intro: "<what the intro says that the opening does not>"`: a first-open screen on the full stage, shown once per card while the conversation has no player line (L2 only), one line and one button; never a restatement of the opening.
+- `modes.page: "on" | "auto"` with `gates.page: "<why this card reads better as pages>"`: a full-page reading mode over the chat list (`hr-page.js`): one page per AI reply, the choices unlock at the bottom of the page, a page strip, a "writing…" indicator, one tap back to the chat. An assist card must still read well with it off; verify text-only and reading-first in the preview before shipping it.
+- `node build.mjs --preset-from palette.json --name <name> [--out file]`: turns a flat palette (per side at least `bg`, `surface`, `text`, `accent`; `muted`, `border`, `on-accent` and the tones are derived) into a preset, refusing one that fails the contrast checks. Use it with a design system's export instead of hand-picking colours.
+
 ## Declarations the checker reads
 
 `README.md` in the card folder (never sent) carries `uiRole: assist | core` and, for a core

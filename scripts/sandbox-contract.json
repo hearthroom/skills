@@ -322,6 +322,48 @@
       "item": ".prologue-content"
     }
   },
+  "nativeBlocks": {
+    "source": "src/common/native-blocks.ts (drawNativeBlocks); applied in src/sandbox/rules.ts and src/pages/canvas/canvas.vue",
+    "blocks": [
+      "[status]…[/status]",
+      "[choices]…[/choices]"
+    ],
+    "closerOptional": true,
+    "stopsBeforeTheOtherBlock": true,
+    "appliesWhen": "the card's own display rules left the marker in an AI reply (a rule that consumes it wins); never for player lines",
+    "stage": "after display rules, before Markdown and the sanitizer, on both render paths (shell and host)",
+    "statusLine": "one key: value per line, ;; also separates; full-width punctuation normalised; a line without a colon is kept as text",
+    "valueLadder": [
+      "number",
+      "n% or a/b → bar",
+      "name|a/b → level",
+      "k:v|k:v → list",
+      "k:v k:v → stats",
+      "name=number,… → entity chips",
+      "a, b → tags",
+      "a > b → path",
+      "text"
+    ],
+    "drawnClasses": [
+      "lt-status",
+      "lt-status__row",
+      "lt-status__k",
+      "lt-status__v",
+      "lt-bar",
+      "lt-bar__fill",
+      "lt-chips",
+      "lt-chip",
+      "lt-kvlist",
+      "lt-stats",
+      "lt-path",
+      "lt-level",
+      "lt-choices",
+      "lt-choice",
+      "lt-choice--own"
+    ],
+    "choices": "drawn as buttons (at most 8) plus a ✎ button; a tap puts the option into the composer and focuses it, never sends",
+    "css": "canvas.css inside @layer lt-base, --chat-* variables only; an unlayered author stylesheet overrides it"
+  },
   "functionBar": {
     "source": "hand-maintained from src/sandbox/shell.ts (statusbar branch) and rules.ts",
     "field": "mountTrigger",

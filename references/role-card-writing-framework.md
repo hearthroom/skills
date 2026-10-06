@@ -1,5 +1,18 @@
 # Card writing framework
 
+## Questions, not a mould
+
+This toolkit exists to make cards that are unlike each other. Its packets list
+the decisions a card must make, never the answers; its templates show one
+shape, not the shape; its examples are there to be departed from. A card that
+could have been produced by filling the packets in is a failed card, however
+clean. Before settling any direction, name the obvious version of it and
+discard it; then the second-most obvious. Keep the device that serves this
+card's story, not the device the toolkit happens to have a section for (a
+status block, a dock, five beats, a reply-path matrix are tools, and most cards
+need only some of them). The checks here are to catch what does not work, not
+to make everything work the same way.
+
 Use this framework when writing, improving, reviewing or play-testing a
 Hearthroom card.
 

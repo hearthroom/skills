@@ -1,5 +1,11 @@
 # Premise Workshop
 
+Diverge before you converge. The first direction that fits the request is the
+one every other agent would also write; produce it, name it as the obvious
+one, and then find two that are unlike it in kind (a different player
+position, a different pressure, a different tone), not variations of it. The
+toolkit's card shapes and devices are options, never defaults.
+
 Use this reference when the author has no settled card premise: only a mood,
 trope, aesthetic, relationship fantasy, genre cluster, or a goal such as "make
 it popular". Premise work happens before blueprinting. It opens choices, then

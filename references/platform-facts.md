@@ -156,7 +156,7 @@ expression; lookaround and backreferences work but run under a timeout; an
 invalid pattern is not treated as literal text. Whether a plain keyword
 matches both Chinese scripts is not documented (display-rule `find` does):
 for Chinese cards list both forms of a noun the player might type. Entry
-length is limited per card language (set at `card init --language`; the
+length is limited per card language (`language` in `card.json`; the
 numbers are not documented, so read the validation warnings).
 
 How entries reach the model in a normal conversation:
@@ -570,9 +570,19 @@ hearthroom models | tags --zone zh | search | media ls|upload|mv|rm | upgrade --
 - `push --create` makes a real private card; on a folder already linked to an
   owned card (after `pull` or `push --to <id>`), plain `push` updates that
   card and `--create` would make a second one. `card status` shows the link.
-- `card init --language` sets the card language, which also selects the
-  Lorebook entry length limit (the value is not documented; read validation
-  warnings).
+- `card init` takes only `--name` (CLI 0.5.0): set `language` in `card.json`
+  yourself. It also selects the Lorebook entry length limit (the value is not
+  documented; read validation warnings).
+- `push --create` on a folder whose last sync was a trial card compares the
+  sections with that trial sync and may send none of them: the new private
+  card exists but is empty (`tokenBudget` all 0 in `card validate --json`,
+  no rules in `card render`). Follow it with `card push <dir> --force
+  --validate --json` and check the counts (seen with CLI 0.5.0).
+- `--greeting N` was observed not to select an alternate in CLI 0.5.0 (the
+  conversation started from the main opening with N = 1 and 2). Read the
+  first message back with `play --history` before judging an alternate; to
+  test one meanwhile, put its text in `welcome.md` on the trial card, push,
+  test, and put the main opening back.
 - An MMD rules file marked `chatVersion: 1` imports as `pageMode: sandbox`;
   trial cards keep `pageMode` and `cardFormat`. Its `pageDepth` 1/0/under
   becomes `mountLayer: under`, otherwise `over`; `statusbar` becomes

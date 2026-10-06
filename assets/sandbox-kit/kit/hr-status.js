@@ -64,11 +64,13 @@
       enabled: true,
     };
   }
-  /* Lines of a choices block → option texts (list prefixes and numbering stripped). */
+  /* Lines of a choices block → option texts (list prefixes and numbering stripped). The option
+     is shown and drafted as the model wrote it: status-value normalisation (，： → ,:) is not
+     applied, or a Chinese option reads with ASCII punctuation on the button and in the composer. */
   function parseChoices(body) {
     var raw = String(body == null ? '' : body).split(/\r?\n/), out = [], i, t;
     for (i = 0; i < raw.length; i++) {
-      t = norm(raw[i]).trim().replace(/^(?:[-*+•]|\d+[.)]|[①-⑳])\s*/, '').trim();
+      t = String(raw[i]).replace(/\u3000/g, ' ').trim().replace(/^(?:[-*+•・]|[0-9０-９]+[.)．、）]|[①-⑳])\s*/, '').trim();
       if (t) out.push(cut(t));
       if (out.length >= 8) break;
     }

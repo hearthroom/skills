@@ -99,6 +99,17 @@ contract. Without that, the panel appears once and never updates;
 `scripts/check-card.mjs` reports the mismatch. The example shows the most
 ordinary turn, not a rare event: weak models copy examples every turn.
 
+A field that records events (the last patch, the last clue, the last deal) is
+read as history: a concrete `example` there ("#1 armour patched") is treated
+as something that already happened and shows up in play. Give such fields a
+neutral example ("none yet") and a `rule` that says only events the player
+caused are written.
+
+Some models drift to half-width punctuation in Chinese prose. The text the
+model reads back stays as written; a display rule can still show `,` `:` `?`
+`!` between Chinese characters full-width (lookbehind and lookahead on
+both sides, no space allowed, so `key: value` status lines are untouched).
+
 ### One owner per value
 
 A number the model narrates and a number a script keeps in `sdk.save` drift

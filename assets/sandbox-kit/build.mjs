@@ -223,9 +223,18 @@ function exampleFor(f, T) {
   return T.samples[t] || T.samples.text;
 }
 
+/* The kit's own interface strings (the write-your-own button, the busy toast, the settings
+   pane) follow the card's language; HR.t still converts the player's Chinese script after. */
+const UI_TEXT = {
+  'zh-Hant': { 'Write your own': '自己寫', 'Still writing…': '還在寫…', Settings: '設定', 'Text size': '字級', 'Line height': '行距',
+    Motion: '動畫', 'Follow system': '跟隨系統', Reduced: '減少', Density: '密度', Comfortable: '寬鬆', Compact: '緊湊',
+    'Reset all': '全部恢復預設', Chat: '聊天', 'Writing…': '撰寫中…', Menu: '選單' },
+};
 export function bootScript(config) {
   const modes = config.modes || {};
   const lines = ['(function(){', 'var HR=window.HR; if(!HR||!HR.status){return;}'];
+  const ui = UI_TEXT[contractLanguage(config)];
+  if (ui) lines.push(`(function(){var Z=${JSON.stringify(ui)},t0=HR.t;HR.t=function(s){var k=String(s==null?'':s);return t0(Object.prototype.hasOwnProperty.call(Z,k)?Z[k]:k);};})();`);
   lines.push(`HR.status.config(${JSON.stringify({ block: config.block || status.DEFAULT_BLOCK, schema: config.schema || null })});`);
   if (modes.status !== false) lines.push('HR.status.auto();');
   if (modes.dock) {

@@ -1,6 +1,6 @@
 ---
 name: hearthroom-instruction-guardrail
-description: Use when Hearthroom card work needs an instruction-layer repair through customInstructions or outputContract in card.json, such as out-of-character assistant framing, repeated format or schema drift, state protocol drift, or transcript-backed behavior constraints, after the normal fields are coherent.
+description: Use when Hearthroom card work needs an instruction-layer repair through customInstructions or outputContract in card.json, such as out-of-character assistant framing, repeated format or schema drift, state protocol drift, or transcript-backed behaviour constraints, after the normal fields are coherent.
 ---
 
 # Hearthroom Instruction Guardrail
@@ -24,19 +24,23 @@ draft text, not a broad rewrite and not a quality gate.
 ## Workflow
 
 1. Gather evidence: the request, current fields, validation status, play
-   transcript, and the exact behavior that failed.
+   transcript, and the exact behaviour that failed.
 2. Confirm the engine, opening, voice, agency, and boundary are coherent. If a
    normal field can fix the issue, route to that field's skill instead.
 3. Classify the need. Format or schema drift goes to `outputContract`. Role
    stance, refusal style, state protocol, and recovery from meta-assistant
    drift go to `customInstructions`.
-4. Draft compact allowed and forbidden constraints. Keep story logic in
-   `definition.md`, visible action in `welcome.md`, examples in `talkExample`.
-   Because `customInstructions` replaces a default block, write it as complete
-   behavior guidance, not an addendum.
+4. Draft compact constraints, each with its reason (strong models generalise
+   from the reason); prefer what to do over what not to do. Keep story logic
+   in `definition.md`, visible action in `welcome.md`, examples in
+   `talkExample`. `platform-facts.md` does not say which default block
+   `customInstructions` replaces, so treat a non-empty value as removing
+   behaviour you cannot see: keep it short, run the same probe with it empty
+   and filled (each on `--new-session`), and keep it only if the transcript
+   improves.
 5. Set the stance: omit, draft-only, or push after confirmation.
 6. Hand off. The edit is followed by `hearthroom card push --validate --json`;
-   run `play -m` again only when behavior changes and the author accepts the cost.
+   run `play -m` again only when behaviour changes and the author accepts the cost.
 
 ## Hand-off
 
@@ -44,7 +48,7 @@ draft text, not a broad rewrite and not a quality gate.
 Request; evidence; prerequisites checked
 Instruction-layer need; not fixed by
 Target: customInstructions | outputContract
-Allowed constraints; forbidden constraints; draft text
+Constraints with reasons; draft text
 Stance: omit | draft-only | push after confirmation
 Validation / play plan
 Next skill
@@ -61,5 +65,5 @@ Next skill
 - Do not use it for safety, policy, or moderation bypasses or player-agency
   takeover.
 - Do not duplicate lore, biography, world rules, or the full voice card.
-- Do not write "be high quality" or "never fail"; write short, testable behavior.
+- Do not write "be high quality" or "never fail"; write short, testable behaviour.
 - Do not run CLI commands or edit the folder from this skill.

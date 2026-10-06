@@ -14,6 +14,12 @@ external pressure makes the scene start now rather than someday? What happens
 if the player does nothing? Do not solve an inert premise with prettier prose.
 Add a playable pressure system.
 
+The tension sources table (secret, debt, timer, boundary, resource, social
+risk, rule, care cost) lives in `premise-workshop.md`, "Pressure test"; pick
+one or two there. Reply paths and their consequences are the reply-path
+matrix in `agency-design.md`; field placement follows
+`role-card-writing-framework.md`.
+
 ## When to use
 
 The premise is pretty but passive; the card has a character and setting but no
@@ -22,33 +28,8 @@ player can watch but cannot change the pressure; the author asks for stakes,
 hook or urgency. Route away when the author has only taste signals (premise
 workshop), the character has no desire or boundary (character core), the
 player is overwritten (agency design), only the first screen is weak (opening
-director), or the issue belongs to a specialized engine such as clue pacing,
+director), or the issue belongs to a specialised engine such as clue pacing,
 game mechanics, relationship pacing or daily-life routine.
-
-## Tension sources
-
-Pick one or two.
-
-| Source | Works when | Player pressure function |
-|---|---|---|
-| Secret | knowledge changes access, trust or risk | hide, expose, test, bargain |
-| Debt | someone owes or is owed | collect, forgive, delay, transfer |
-| Timer | time changes state or closes a route | choose what to risk before the deadline |
-| Boundary | a line can be crossed, defended or renegotiated | set terms, push back |
-| Resource | something scarce affects future choices | spend, save, steal, trade |
-| Social risk | public attention creates cost | cover, accuse, perform, withdraw |
-| Rule | a world or system rule creates consequence | exploit, obey, break, reveal |
-| Care cost | helping one thing neglects another | choose who or what changes |
-
-## Field placement
-
-- Summary: the pressure in one line the player feels before opening the card.
-- Definition: desire, leverage, the pressure source, reply-path consequences,
-  and the character's move when the player is passive.
-- Opening: the first-scene hook and the why-now beat, with the character
-  acting first.
-- Example conversations: only if a reply path's behavior cannot survive as a
-  rule.
 
 ## Checks
 
@@ -56,10 +37,11 @@ Pick one or two.
   not only mood.
 - External pressure has a visible first-scene form and why-now is provable in
   one opening beat.
+- The pressure escalates or changes form by turn three; a tension that only
+  sits there is mood.
 - A passive player still gets a character move that preserves agency.
 - Reply paths lead to different state, route, access, risk, relationship,
-  clue or boundary outcomes.
-- The packet never decides the player's feelings, consent, loyalty, actions
-  or final route.
+  clue or boundary outcomes (`agency-design.md`).
+- Agency guardrails: `agency-design.md`.
 - Length is paid for by replacing vague setup with concrete pressure, not by
   adding a second lore layer.

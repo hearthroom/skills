@@ -1,9 +1,11 @@
 # Prompt attention architecture
 
-Use this reference when a definition is long enough that important rules start
-being ignored: 5,000-10,000 character non-English definitions, plot-heavy
+Use this reference for any definition: primacy and recency matter at every
+length, and the damage shows first in long non-English definitions, plot-heavy
 cards, cards with a strict reply shape, and cards that behave on one model but
-drift on another.
+drift on another. This file owns the definition's order (iron laws at the
+top, final recency checklist at the end, the two in agreement); other files
+point here.
 
 Markdown headings, semantic tags and repeated anchors make a prompt easier to
 parse and retrieve from. They do not guarantee attention. Treat them as
@@ -73,17 +75,17 @@ Use when the definition is large, strict, plot-driven or cross-model fragile.
 - Stalled-scene repair:
 - Route seeds:
 
-## 4. Character Voice and Behavior
+## 4. Character Voice and Behaviour
 - Voice card:
-- Pressure behavior:
-- Relationship or faction behavior:
-- Forbidden generic moves:
+- Pressure behaviour:
+- Relationship or faction behaviour:
+- What they do instead of the generic move:
 
 ## 5. State and Output Contract
-- Visible state (status line the reply must carry, if any):
+- Visible state (the `[status]` block the reply ends with, if any; keys and allowed values live in the output contract):
 - Hidden state (what the character tracks silently):
-- Reply cadence (prose, then status, then choices):
-- Fallback when the status line is omitted:
+- Reply cadence (prose, then the block, then choices):
+- Fallback when the block is omitted:
 
 ## 6. World / Scene Reservoir
 - Locations:
@@ -133,24 +135,26 @@ it.
 
 ## Cross-model compatibility
 
-Optimize for the least forgiving model that still matters.
+Structural rules (keep the block, keep the choices, keep the reply shape) are
+short imperative bullets, tested on a weak model. Behaviour and voice are
+prose with reasons, tested on a strong model; a strong model generalises
+from the reason, and a card flattened into must/must-not bullets loses its
+voice. Both models in every playtest round (`playtest-loop.md`).
 
-- Prefer short explicit bullets over implication-heavy prose.
-- Use "must", "must not" and "when X, do Y" for hard rules.
 - Avoid rules that require counting turns or scanning long history.
-- Repeat stable labels exactly: `next-station hook`, `status line`, `choices`.
+- Repeat stable labels exactly: `next-station hook`, `[status]`, `[choices]`.
 - Keep the middle modular so a weaker model can still recover the contract from
   the top and bottom.
-- Leave CJK character buffer. Do not spend the last 200 characters on lore when
-  state, progression or the output contract is still unclear.
-- Test with more than one model: `hearthroom play --model` with a model from
-  `hearthroom models`.
+- Keep at least about 500 characters free under each non-English limit; a
+  field at its limit cannot take the next repair.
+- Every packet names which of its rules joins the iron laws and the matching
+  line in the final recency checklist.
 
 ## Format dilution on weaker models
 
-Separate behavioral rules (what story move to make, who owns direction, how
+Separate behavioural rules (what story move to make, who owns direction, how
 refusal works) from structural rules (keep the status line, keep the choices,
-keep the reply shape). Primacy and recency anchors help behavioral rules; they
+keep the reply shape). Primacy and recency anchors help behavioural rules; they
 delay but do not cure structural drift.
 
 Once a long emotional turn drops the reply shape, the model's own recent plain
@@ -160,36 +164,49 @@ weaker models reduce the structural contract before adding rules:
 - keep required structure minimal and card-specific;
 - treat the choices block as the fragile first-drop control and protect it as
   the action-path closure surface;
-- prefer a visible status line over hidden-only state;
+- prefer a visible status block over hidden-only state;
 - do not demand a full status plus choices plus panel scaffold on every turn;
 - define a minimum viable reply: under pressure, cut prose before structure and
-  keep the current beat, the status line when the card uses one, and choices at
-  decision points;
-- test format stability over many turns, not two.
+  keep the current beat, the status block when the card uses one, and choices
+  at decision points;
+- test format stability over 10–20 turns on a weak model, not two.
 
 ## Format exemplar
 
 When the card needs a reply shape to survive weaker models, reserve a small
-budget for one positive example. It is a tiny anchor, not another scene.
+budget for one positive example of an unremarkable turn, with concrete
+values. Examples beat rules for weak models: they copy the example every
+turn, so the example must show the ordinary turn, never a climax, and never
+placeholders (a weak model emits a literal `[phase]`). The canonical block and
+its home are in `state-economy-design.md`.
 
 ```text
-[One current action or sensory beat.]
-"[One in-character line that reacts to the player.]"
-STATUS: phase::[phase];;risk::[risk]
-1. [concrete player action]
-2. [concrete player action]
-3. [resist or redirect]
-4. [ask or inspect]
+She slides the lamp across the table without looking up. "The keeper left
+this. You can read it or you can leave."
+
+[status]
+hp: 72/100
+mood: wary
+location: Harbor > North pier
+[/status]
+
+[choices]
+- Read the logbook
+- Ask about the keeper
+[/choices]
 ```
 
-A display rule in `rules.json` can turn the `STATUS:` line into a status bar and
-the numbered list into buttons. The model only writes the text.
+A display rule in `rules.json` draws the `[status]` block as a panel and the
+`[choices]` block as buttons (`sandbox-kit.md`); the model only writes the
+text. Render rules are not generation rules: the keys, their allowed values,
+the cadence and the instruction to end every reply with the block live in
+the output contract or the definition, and the block appears in the opening.
 
 Rules for the exemplar:
 
 - Keep it under about 150 words. If it is longer than the rule it teaches, it
   becomes competing content.
-- Use placeholders so the model copies the shape, not a plot beat or an emotion.
+- Label it as an example of an ordinary turn.
 - Show only required controls. A heavy example is copied for a few turns and
   then collapses.
 - Put it in the output contract (`card.json` `outputContract`) or next to the
@@ -205,7 +222,7 @@ Rules for the exemplar:
 - A final paragraph that introduces rules absent from the top, or early and
   late instructions that contradict.
 - A generic formatting manual pasted in place of the card-specific contract.
-- Treating structural rules as equally reachable as behavioral rules.
+- Treating structural rules as equally reachable as behavioural rules.
 - A long dramatic sample used as the format exemplar.
 
 ## Verification
@@ -215,9 +232,8 @@ Before pushing or a long play test, check:
 - the first 20 lines contain the highest-priority runtime rules;
 - the middle holds reference material, not the only copy of a hard rule;
 - the end repeats the brittle rules most likely to regress;
-- a long-arc probe of several turns through `hearthroom play` includes
-  passive, chaotic and oppositional player behavior;
-- a format probe runs many turns, not two, when a status line or choices
-  matter;
-- at least one probe uses a model that is not the strongest instruction
-  follower available.
+- a long-arc probe of 10–20 turns through `hearthroom play --new-session`
+  includes passive, chaotic and oppositional player behaviour;
+- a format probe runs on a weak model when a status block or choices matter,
+  and the same probes run on a strong model for emergence
+  (`playtest-loop.md`).

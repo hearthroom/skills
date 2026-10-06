@@ -5,6 +5,29 @@ player sees the situation, the state that matters and the next action. The
 model never sees the rendered result, so nothing the model must know may live
 only in a rule's replacement.
 
+## Story first
+
+Players stay for the story; the screen exists to serve it. Every card
+declares its UI role in its `README.md` (never sent): `uiRole: assist` when
+the story is the product and the replies must read well with every display
+rule disabled, or `uiRole: core` when the mechanics are bound to the
+interface (a meter that is the game, a map, a deck); a core card keeps every
+mechanic legible in the reply text, degrades to readable text when a rule or
+script fails, and can say for each UI mechanic which choice or consequence it
+changes. UI has five legitimate jobs: memory (what the reader cannot hold: a
+ledger, a recap), making choices legible (what is at stake), pacing (reading
+first, choices after), showing the world reacting (a struck-through line, a
+changed face), and orientation (where, when, with whom). An element that does
+none of these is decoration; cut it. Prefer a diegetic object (a letter, a
+stamp, a dossier) to a HUD. Choices are drafts, not rails: free input stays
+first-class, a choice can be rewritten before it is sent, and the opening's
+first action may be a button but never only a button. State tokens are taken
+from the story: the status overhead ratio (characters of the status and
+choices blocks over characters of the reply) is measured on real replies and
+kept under the card's declared threshold (`statusOverheadThreshold:` in
+`README.md`; 15% by default for an assist card; a core card declares its own
+with a reason).
+
 ## The three layers
 
 | Layer | Where it lives | Who sees it |
@@ -16,62 +39,58 @@ only in a rule's replacement.
 Prefer plain prose or Markdown for the opening. Write ordinary HTML and CSS
 when a bar, a fact row, a panel or a set of choices carries play value: a
 one-off layout sits in the opening itself; repeated chrome and anything with
-a script belong in a display rule in `rules.json`. A button that sends a
-player line is a plain `<button>` in a display rule whose script calls
-`sdk.message.send(text)` (sandbox page). The `hc-*` custom elements are a
-legacy of the classic chat page; the sandbox page does not register them, so
-do not write them for new cards.
-Add display rules when the same visual pattern repeats every turn (a status
-bar, a scene header, a panel that the model emits as a small marker such as
-`[status]hp::85;;mood::shy[/status]`; square brackets survive the sandbox sanitizer, unknown angle-bracket tags do not), or when the card needs a script.
+a script belong in a display rule in `rules.json`. The `hc-*` custom elements
+are a legacy of the classic chat page; the sandbox page does not register
+them, so do not write them for new cards.
+
+Add display rules when the same visual pattern repeats every turn, or when
+the card needs a script. The pattern the model repeats is a small
+`[status]…[/status]` block at the end of the reply (`sandbox-kit.md`;
+canonical form in `state-economy-design.md`). Square brackets, because a
+script that reads the bubble after the sanitizer would never see an unknown
+angle-bracket tag, and because the Markdown pass can join lines: a rule that
+consumes `<scene>` works, a script that looks for it later does not.
 
 ## Choosing the chat page
 
 - New cards default to the sandbox page. Use it whenever the card has scripts,
-  a status bar that reads message state, sidebars, saves across devices, or a
-  restyled screen. The author API (`sdk`, `[data-chat]` nodes, `--chat-*`
+  a status panel that reads message state, sidebars, saves across devices, or
+  a restyled screen. The author API (`sdk`, `[data-chat]` nodes, `--chat-*`
   variables, events) is in the facts sheet.
 - Use the classic page only for an existing card that misbehaves in the
   sandbox. On the classic page the sandbox API does not exist.
+- `cardFormat` matters for themes: `mmd` (the default) locks the card to the
+  dark theme and never receives `theme:change`; `tavern` follows the player's
+  light or dark setting (facts sheet).
 - `hearthroom card render --json` reports, under `report.unsupported`, every
   sandbox identifier a classic-page card uses, with the hint to switch. It also
   reports MMD's platform state variables, which no page provides.
 
-## Designing a status bar
+## What to show
 
-1. Decide the state with `hearthroom-state-economist` first: two to five
-   values the player acts on, not a dashboard.
-2. Make the model emit one compact marker at the end of each reply. Put that
-   instruction in the definition (or the output contract) and, if the card has
-   a Lorebook, in a constant entry so it survives long play.
-3. Write one rule: `find` matches the marker with a capture, `replace` renders
-   it with `$name` fields in plain HTML and CSS. Keep the rule under the size
-   limits in the facts sheet.
-4. Put the trigger words for pinned panels in the function bar
-   (`mountTrigger`) and let rules expand them.
-5. Run `hearthroom card render` and check every rule is `applied`, then open
-   the play page on a phone width and a desktop width.
+1. Two to five values the player acts on, decided with
+   `hearthroom-state-economist`; not a dashboard.
+2. Declare `uiRole` and the overhead threshold in `README.md`.
+3. Write the status contract into the output contract (or the definition) and
+   the first block into the opening; the model, not the rule, owns what the
+   block says (render rules are not generation rules).
+4. Build the panel, the theme, the pinned bar and the choices with
+   `hearthroom-sandbox-kit`; it draws the block inside the bubble, never a
+   second copy in the function bar.
 
 ## Status panels, themes and chrome: the sandbox kit
 
 For a status panel, a theme, a settings drawer, a pinned bar or choice
 buttons on the sandbox page, use the toolkit's own kit
 (`../assets/sandbox-kit/`, method in `sandbox-kit.md`, skill
-`hearthroom-sandbox-kit`). It draws a `[status]` block the model already
+`hearthroom-sandbox-kit`). It draws the `[status]` block the model already
 writes, inside the bubble, from a schema; it ships a preset with a dark and a
 light side that is contrast-checked at build time; it runs on the sandbox
-author API only. The build merges three rules into `rules.json`; the local
+author API only. The build merges its rules into `rules.json`; the local
 checker (`../scripts/check-card.mjs`) and the offline preview (facts sheet)
-show whether it works before a push.
-
-Kits written for other platforms still import: `card import` reads the MMD
-three-file set (`chatVersion: 1` becomes `pageMode: sandbox`) and SillyTavern
-cards, and a sandbox kit written for MMD's new-style page runs here with the
-differences the facts sheet lists; `card render` reports `sdk.vars` and
-`<abc_vars>` under `unsupported`, nothing else should appear there. An
-author who targets SillyTavern or MMD's older page as well can keep using the
-open-source `tavern-mmd` skill for those platforms; on Hearthroom the kit
-above is the route, and its output is checked with the same checker.
+show whether it works before a push. Kits written for other platforms still
+import; the differences and the checks are in `sandbox-kit.md` ("Importing a
+kit written for another platform").
 
 ## Derive the screen from what the model already writes
 
@@ -83,31 +102,6 @@ noticing the player hovering over a choice, idling, cancelling twice) can be
 written once in the script and labelled as outside the story. Every such
 effect must serve what the scene is about; a feature with no tie to the
 card's core loop is decoration, whatever it costs to build.
-
-## Full-page layouts: the chat list as transport
-
-A sandbox card may cover the whole chat page with its own layout (a book, a
-dossier, a stage) and leave the message list underneath as the transport.
-
-- A fixed overlay below the site header, sized to the visual viewport so the
-  keyboard does not hide it. The composer and the list keep working below.
-- One page per reply, built from the rendered message and cached per
-  conversation (see the facts on message ids and the virtualised list).
-  While a reply streams, draw it from `message:stream`; before the reply
-  mounts, show the player's line on a pending page so the tap visibly did
-  something.
-- A tap that sends a line spends credits: show what will be sent and let the
-  player confirm, rewrite or cancel. While the model writes, show that it is
-  writing inside the overlay, because the overlay hides the list's own
-  indicator.
-- Effects the site would draw on `author-stage` are drawn inside the overlay
-  when it covers the stage. Keep a switch back to the plain chat page.
-- A page built from a copy of the rendered message (or from a cached copy)
-  misses whatever the script adds to the message later, such as portraits
-  and badges. Run the same hydration on the page after drawing it.
-- Every component with a lookup (a portrait by name, art by chapter) needs a
-  designed fallback for the miss, and a playtest or preview sample that hits
-  it: the model will introduce minor characters that no table knows.
 
 ## Reading first, choosing second
 
@@ -132,119 +126,30 @@ A reply is read before it is answered. On every screen:
   indicator, in the page. A panel that reopens because the reply page is not
   in the reading state shows a second indicator and covers the text.
 
-## Screens, rotation and foldables
-
-Choose the layout from the available size and shape, never from a device
-name or from orientation alone.
-
-| Shape of the available area | Layout | Choices |
-|---|---|---|
-| wide and landscape (desktop, tablet, foldable opened sideways) | two pages, the control page narrower | always shown on large screens; on smaller ones on the control page at the end |
-| portrait, height under about 1.75 x width (A-series paper shapes, square-ish inner screens, small cover screens) | one page | side panel on request |
-| tall phone | one page, header collapses while reading | bottom sheet at the end |
-| short landscape (phone on its side, a foldable's cover screen sideways) | header in a side column, text at full height | side panel on request |
-| half-folded, hinge horizontal (tent or laptop pose) | text on the upper half | lower half, always shown |
-| half-folded, hinge vertical (book pose) | two pages, spine on the hinge | page after the hinge |
-
-Browser support for foldables:
-
-- Chrome and Chromium browsers on Android expose `window.viewport.segments`
-  (Chrome 138; an earlier trial used `visualViewport.segments`) and
-  `navigator.devicePosture` with `folded` and `continuous` (Chrome 131). CSS
-  has `device-posture`, `horizontal-viewport-segments`,
-  `vertical-viewport-segments` and `env(viewport-segment-*)`.
-- Safari has neither in release builds. On iPhone foldables the card can
-  only see the viewport size.
-- Inside the sandbox iframe the segments are often not reported even when
-  the posture is. The hinge direction then has to be inferred: on an
-  elongated screen (long side at least 1.3 x the short side) the hinge
-  halves the long side whatever the rotation; on a near-square screen the
-  hinge is vertical at the screen's natural rotation (0 or 180 degrees) and
-  horizontal at 90 or 270. A rule based on aspect ratio alone gets one family
-  of devices exactly backwards.
-- Offer a manual setting (automatic, top and bottom, left and right, off) and
-  print the detection result (viewport, rotation, posture, segment count,
-  chosen layout) in the card's settings, so a tester can report it from a
-  device you cannot emulate.
-
-Apple's guidance for its foldable iPhone (Human Interface Guidelines,
-"Designing for iPhone Duo", and the developer article "Preparing your app
-for iPhone Duo", both September 2026) applies to web layouts too:
-
-- Sizes: the outer display is 466 x 678 points and the inner display
-  669 x 951, both close to the A-paper ratio; half of the inner display is
-  roughly the outer one. Test those sizes, minus the browser's own bars.
-- The outer display is wider and shorter than other iPhones, so toolbars and
-  tab bars move to the trailing side to keep vertical space for content; they
-  stay on the side on the inner display in landscape, and only the inner
-  display in portrait keeps horizontal bars. On a short screen, move headers
-  and controls into a side column rather than stacking them above the text.
-- Do not build a layout per pose; let one compact and one regular layout
-  expand. Keep controls in similar relative positions across poses, keep
-  text and control sizes as constant as possible, and prefer small
-  adjustments over rearranging when the device folds.
-- When the device is partly folded, the fold is a reserved region that
-  divides the display; keep controls and text out of it. Split layouts move
-  their panes to equal widths on either side of the fold (a narrower leading
-  pane when fully open), and an overlay layout sends its primary view to the
-  trailing or bottom part of the fold and the secondary view to the leading
-  or top part.
-- Controls that belong to one pane stay with that pane; controls for the
-  main content go along the trailing edge.
-
-The guideline pages are rendered by script; their text is available as JSON
-at `https://developer.apple.com/tutorials/data/design/human-interface-guidelines/<page>.json`,
-and developer articles at `https://developer.apple.com/tutorials/data/documentation/<path>.json`.
-
-A two-page layout reads as a book only when both pages are the same width,
-open or half-folded; give the whole spread a maximum width instead of letting
-one page grow. With two pages, the header should look like a book's running
-head (chapter title centred, quiet tabs) and drop state that the pages
-already show.
-
-Small layout traps found on these screens:
-
-- `letter-spacing` adds space after the last character, so centred spaced
-  text sits left of centre; add an equal `text-indent`.
-- A column with `justify-content: center` clips its top when the content
-  overflows; use `safe center`.
-- A scrolling child of a flex column needs `min-height: 0`, or it pushes the
-  rows after it (page controls, a close button) off screen on short
-  viewports.
-- A state rule written for another mode (an "expanded" or "peek" class) can
-  reset the scroll container's `overflow` to `visible`; touch scrolling then
-  passes to the page behind. Check the computed `overflow-y` of every panel
-  list in every state, at a short height.
-- `flex-basis: 0` does not give equal columns when the columns have
-  different padding; give each page an explicit share of the width.
-- Full-screen live filters are the costliest thing a card can add on phones.
-  When a foldable opens, closes or rotates, the browser reallocates the whole
-  surface, and a full-viewport `filter: blur()` or a `drop-shadow` over a
-  scrolling area is recomputed at device pixel ratio each time; Android
-  Chrome in fullscreen can go black. Blur the background image at build time
-  (a small, pre-blurred copy scales up smoothly), darken it with a plain
-  overlay, use `box-shadow` for page shadows, and do not start a cross-fade
-  because the layout changed. Coalesce resize, visual-viewport, observer and
-  orientation events into one layout pass per frame, and pause animations
-  until the size has settled. Profile first: a small DOM and an idle main
-  thread point at the GPU, not at script.
+A card that covers the whole page (a book, a dossier, a stage) is planned
+with `full-page-layouts.md`, after it has passed these rules and the
+`uiRole: core` tests.
 
 ## Presentation packet
 
 ```text
 Presentation:
+- uiRole: assist | core (for core: each UI mechanic and the choice or consequence it changes)
 - what the player must see first:
 - opening format: prose | prose + html blocks | html
 - state shown: (field, why it matters, where it comes from)
 - state hidden or dropped:
+- status overhead: ratio on the sample replies / declared threshold
 - display rules: (rule name, marker it consumes, what it draws)
 - function bar:
-- page mode: sandbox | classic (reason)
+- page mode: sandbox | classic (reason); cardFormat: mmd (dark only) | tavern (both themes)
 - scripts and saves: none | (what they do; sandbox only)
 - kit used: none | sandbox kit (modes, preset) | imported (source)
+- choices: none | [choices] block → buttons, draft (tap fills the input) | send (tap sends)
 - layouts: (area shape, layout, where the choices appear)
-- render plan: card render, then the play page at 390x844, a short landscape
-  phone, a square-ish unfolded screen (about 900x640), 1280px desktop
+- render plan: check-card → card render → offline preview screenshots at
+  390x844 and 1280px (both themes when tavern), a short landscape phone and a
+  square-ish unfolded screen for a full-page card → the play page
 - hand-off:
 ```
 
@@ -256,3 +161,8 @@ Presentation:
   look full; the definition and the Lorebook carry them.
 - Do not use decorative meters for text states such as location or route;
   use a fact row or a tag.
+- Do not draw the status twice (in the bubble and in the function bar); a
+  pinned bar is one line of at most three values.
+- Do not write `hc-*` markup for new cards.
+- Do not build a full-page layout for an `assist` card whose replies do not
+  already read well as plain text.

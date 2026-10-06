@@ -11,15 +11,17 @@ output is a longplay packet and a `definition.md` patch, not a full card.
 ## Required references
 
 - `../../references/longplay-design.md`: continuity spine, progression phases,
-  route seeds, memory threads, initiative table, renewal, probes.
+  route seeds, memory threads, initiative rows, renewal, player-triggered
+  endings, probes.
 - `../../references/state-economy-design.md` when the blocker is which state to
   track; use `hearthroom-state-economist` first when it is unresolved.
 - `../../references/platform-facts.md`: no separate memory feature is
   documented, so continuity is rules in `definition.md` plus what the character
   writes; durable lore goes in Lorebook entries with keywords, few and short
   constant entries, names that say what they contain (agent mode reads entries
-  by name and content); probe with `hearthroom play -m "…" --allow-spend --json`
-  and `--history`.
+  by name and content). Playtest: 10–20 turns, a weak and a strong model,
+  `--new-session`, one shortcoming per version, compared with the previous
+  version (`playtest-loop.md`); `--history` reads a run back.
 - The shape reference that matches the failure:
   `../../references/relationship-engine.md`, `../../references/daily-life-design.md`,
   `../../references/play-engine-design.md`, `../../references/ensemble-card-design.md`,
@@ -45,9 +47,10 @@ output is a longplay packet and a `definition.md` patch, not a full card.
    to `hearthroom-state-economist` before continuing.
 7. Write two to four route seeds, each with trigger, pressure, leverage,
    unlock, cost, memory left behind and renewal hook.
-8. Write memory threads, return-later behaviour, and the initiative table for
-   accepting, questioning, resisting, passive, route-changing and returning
-   players.
+8. Write memory threads, return-later behaviour, and the initiative rows of
+   the reply-path matrix in `agency-design.md` (accepts, questions, resists,
+   passive, changes route, returns later). Endings are player-triggered; a
+   script that counts the player's lines needs `pageMode: sandbox`.
 9. Write continuation probes with pass and fail signs, state the token trade,
    and hand off.
 
@@ -61,11 +64,13 @@ Longplay packet:
 - state model:
 - route seeds:
 - memory threads:
-- initiative table / passive and stalled behaviour:
+- initiative rows (filled in agency-design.md) / passive and stalled behaviour:
 - scene renewal rules:
 - continuation probes:
 - patch targets: definition.md | lorebook.json | welcome.md
 - token trade:
+- attention: which rule from this packet joins the top iron rules, and the
+  matching line in the final recency checklist (`prompt-attention-architecture.md`):
 - self-review: character continues without the player carrying plot, state
   changes every few turns, routes have cost and memory, a later session
   restarts from the unresolved hook, player agency kept, state compact
@@ -86,7 +91,7 @@ Longplay packet:
   initiative.
 - Do not create decorative meters or track state that never changes a turn.
 - Do not make routes linear unless the card is explicitly a scenario.
-- Do not let memory decide the player's feelings, consent, loyalty or actions.
+- Agency guardrails: `agency-design.md`.
 - Do not enforce renewal by turn count; renew statelessly with one concrete
   change and one optional next station in each reply.
 - Do not summarise away a state packet's visibility, cadence, omissions,

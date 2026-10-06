@@ -27,11 +27,13 @@ reference for a weak layer before cutting it.
 
 1. Name the failure: overlong summary, thin definition, bloated opening, an
    opening longer than the definition, repeated lore, duplicated monologue,
-   visual bloat, misplaced durable rules, or excessive examples.
-2. Classify the archetype and state the target ranges.
-3. Read the signal: per-field character counts and `limits` from `tokenBudget`
-   in `card validate --json`. Counts compare revisions; they are not billing.
-   The English column applies only when `language` is exactly `en`.
+   visual bloat, misplaced durable rules, excessive examples, or status
+   overhead (the status and choices blocks eat the reply).
+2. Classify the archetype and state the target ranges (`token-economy.md`).
+3. Read the signal: per-field character counts, `limits` and
+   `welcomeToDetailRatio` from `tokenBudget` in `card validate --json`.
+   Counts compare revisions; they are not billing. The English column
+   applies only when `language` is exactly `en`.
 4. Triage each field: summary, definition, opening and alternates, Lorebook
    entries, HTML and display rules, example conversations, output contract,
    custom instructions.
@@ -46,9 +48,12 @@ reference for a weak layer before cutting it.
 7. Preserve or request the narrow packet before cutting a weak layer. For a
    generator keep the artifact contract, default-start path, output schema,
    revision operations and artifact memory executable.
-8. When a status line or choices are brittle, reserve a small structural
-   budget for the minimum viable reply and the format exemplar before cutting
-   lower-priority lore.
+8. When a status block or choices are brittle, reserve a small structural
+   budget for the minimum viable reply and the ordinary-turn example before
+   cutting lower-priority lore. Measure the status block against typical play
+   replies (`check-card.mjs --replay`, or by hand): drop fields that change
+   no choice or consequence, and mark scene-only fields `volatile`
+   (`state-economy-design.md`).
 9. Name the rerun checks: `card push --validate --json` for the new counts,
    `card render --json` for `rendered`, `report.tags` and rule statuses, play only
    when the draft is worth testing.
@@ -86,8 +91,8 @@ count evidence, `hearthroom-voice-director` for cheaper voice calibration,
 - Do not shrink a bad opening into a shorter bad opening; rebuild it.
 - Do not let HTML become a poster; every component must show state, action,
   route, mood or risk.
-- Do not add examples unless they teach voice, format, refusal or pressure
-  behavior more cheaply than rules.
+- Do not cut the one ordinary-turn sample to save characters; examples beat
+  rules for weak models (`talk-example-design.md`). Cut prose first.
 - Do not delete the format exemplar or minimum viable reply from a
   shape-dependent card to save characters; cut prose first.
 - Do not use a low count as proof of quality.

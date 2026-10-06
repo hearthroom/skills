@@ -31,9 +31,13 @@ The output is an adaptation packet, not final fields and not a legal review.
    central tension, interaction loop, voice function.
 4. List the protected surface to avoid: names, quotes, scene setup, outfits,
    visual motifs, lore terms, factions, unique mechanics.
-5. Write original substitutions on at least five axes: role identity, player
-   role, relationship history, pressure source, setting rule, symbolic object,
-   voice strategy, visual motif, state labels, opening proof.
+5. Write original substitutions on enough axes for the distance check to
+   pass, usually five or more: role identity, player role, relationship
+   history, pressure source, setting rule, symbolic object, voice strategy,
+   visual motif, state labels, opening proof. For a real person or a topical
+   premise: every side gets its strongest case; a real person says only
+   things based on their real public statements, rewritten; never invent
+   positions or private conduct (`originality-adaptation.md`, Real people).
 6. Run the distance check. If the card is still a renamed copy, change more axes
    before any field is drafted.
 7. For a canon or fan card with allowed use, keep only the facts the scene needs

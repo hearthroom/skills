@@ -32,30 +32,35 @@ manual page (`https://cli.hearthroom.club/manual/<command>.md` or
    author already owns and asked to update.
    Work in the card's one folder; never copy it to a new folder per draft.
    Before the first push with images, set `media.folder` when the card should
-   share a series folder, and check `mediaFolder` in the push report (Media
-   library in `platform-facts.md`).
+   share a series folder; the folder a card is linked to is in
+   `.hearthroom/state.json` and `hearthroom card status <dir> --json` shows it
+   (Media library in `platform-facts.md`).
 4. Run the smallest command for the stage and read the JSON, not the prose.
-   Treat a non-zero exit as a stop: read `error` and `detail`, fix the cause,
-   rerun the same command.
-5. Before `play -m`, state the cost stance and the exact command including
-   `--allow-spend`; run it only after the author agrees.
+   Before any push run `node <toolkit>/scripts/check-card.mjs <dir>` (local,
+   free) and `hearthroom card status <dir> --json`; to see the payload
+   without sending it, `card push <dir> --dry-run --json`;
+   `card validate <dir> --push --strict --json` fails on warnings too;
+   `card render <dir> --push --opening N --json` renders one opening after a
+   push. Treat a non-zero exit as a stop: read `error` and `detail`, fix the
+   cause, rerun the same command.
+5. Before `play -m`, show `hearthroom wallet --json`, state the cost stance
+   (turns, models) and the exact command including `--allow-spend` and
+   `--new-session` for a fresh conversation; run it only after the author
+   agrees.
 6. Hand off to the writing or review skill that owns the next decision with
    the report attached.
 
 ## Reading errors
 
-- `validation found blockers` (exit 2): open `card validate --json`, fix each
-  blocker in the folder, push again.
-- `trial_unsupported` or `trial_payload_too_large`: `detail` names the
-  section, field and limit; edit that file.
-- `image_in_use`: the media item is a portrait or background of a listed card;
-  detach it before deleting.
-- `this card's files were moved to the media folder …`: the author renamed
-  the folder in the library; set `media.folder` to the name the message gives.
-- `media folder … already holds files this card did not upload`: another
-  card uses that folder. Set `media.folder` to a new readable name, or to
-  that folder only when the author wants the cards to share it.
-- `not signed in`: run the sign-in step; do not retry the command in a loop.
+Errors are one JSON object `{ "error", "detail" }` with a non-zero exit code;
+no other error identifiers are documented. Read `detail` for the section,
+field or limit it names, fix that file, rerun the same command. Validation
+blockers are listed in `card validate --json`; fix each in the folder and
+push again. A media item that a card still uses as portrait or background
+cannot be removed with `media rm`; change the card's image first. A folder
+collision on `media.folder` is resolved by choosing a new readable name, or
+the shared name only when the cards should share it. When not signed in, run
+the sign-in step once; never retry a command in a loop.
 
 ## Hand-off
 

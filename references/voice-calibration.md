@@ -12,9 +12,9 @@ adding rules.
 
 If the voice problem comes from a weak motive or missing player leverage,
 repair the core first with `character-core-design.md`; voice rules cannot
-compensate for a character with no pressure behaviour. Use
-`talk-example-design.md` once rules exist and the question is whether
-`talkExample` is needed.
+compensate for a character with no pressure behaviour. Examples beat rules
+for weak models: one ordinary-turn sample by default
+(`talk-example-design.md`); the sample sets what rules cannot.
 
 ## Core rule
 
@@ -23,7 +23,11 @@ They describe a feeling; they do not tell the model what to write. Turn each
 voice into executable instructions:
 
 - rhythm: sentence length, pauses, fragments, formality, repetition
-- vocabulary: address terms, metaphors, technical words, slang, taboo words
+- vocabulary: address terms, technical words, slang, taboo words. Metaphor
+  density is set by the opening and the sample, not by a rule: DeepSeek V4
+  Flash over-uses metaphors whatever the definition says; write the samples
+  with zero or one simile per screen and never add a "fewer metaphors" rule
+  in place of fixing the sample
 - pressure behaviour: what the character says when cornered, refused,
   trusted or bored
 - action beat: what the character does while speaking
@@ -45,21 +49,24 @@ Voice card: [name]
 - action beats:
 - concealment:
 - refusal style:
-- never says:
+- says instead: (one line showing what replaces the tic)
 - when the player is passive:
 - when the player resists:
 - when the player trusts them:
 ```
 
-Keep it short enough to survive token pressure.
+Eight lines or fewer. One line of it joins the top iron rules and the final
+recency checklist (they must agree; `prompt-attention-architecture.md`).
 
 ## Catchphrase discipline
 
-A catchphrase can support a voice but cannot be the voice. Use one only when
-it changes with pressure: habit when calm, softer or more honest under trust,
-a deflection under resistance, gone or replaced by a clear refusal at a
-boundary, revised or corrected under stress. A phrase in every reply is noise;
-replace repetition with rhythm, vocabulary, action beats and decisions.
+A catchphrase can support a voice but cannot be the voice. It is rationed,
+not banned: say how often (once per scene; never in every line of the
+sample) and how it changes with pressure: habit when calm, softer or more
+honest under trust, a deflection under resistance, gone or replaced by a
+clear refusal at a boundary. Never use it as a Lorebook keyword: the
+character says it every turn and the entry becomes permanent
+(`world-engine-design.md`).
 
 ## Ensemble contrast matrix
 
@@ -84,38 +91,25 @@ Fail: every speaker sounds like the narrator, differences are only
 punctuation, accent or one repeated phrase, or the line could belong to any
 other speaker.
 
-## Response-mode grid
+## Response modes
 
-Use this to keep a voice stable when the player behaves unexpectedly:
-
-```text
-Player move     | Character response mode        | What changes
-accepts hook    | how the character advances     | state or relationship
-questions       | how it deflects or reveals     | new clue or risk
-resists         | how it respects agency         | cost or route shift
-is passive      | what it initiates              | new hook
-pushes boundary | refusal style                  | safe continuation
-```
+To keep a voice stable when the player behaves unexpectedly, fill the
+reply-path matrix in `agency-design.md` with these rows: accepts the hook
+(how the character advances), questions (how it deflects or reveals),
+resists (how it respects agency), is passive (what it initiates), pushes a
+boundary (refusal style).
 
 ## Calibration ladder
 
 1. Core repair: desire, contradiction, boundary, player leverage, pressure
    behaviour.
 2. Voice card.
-3. Response-mode grid, including betrayal when relevant.
+3. Response modes, including betrayal when relevant.
 4. Blind-line test.
-5. Micro-sample or `talkExample` through `talk-example-design.md`, only when
-   rules still do not hold the voice.
-6. A real turn with `hearthroom play -m "…" --allow-spend --json`, only after
-   the card is pushed as a trial and the author accepts the credit cost.
-
-## When `talkExample` helps
-
-Use it when a rhythm is unusual and rules will not preserve it, a generator
-card needs a stable output format, an ensemble needs one compact sample per
-speaker, or a play turn showed drift or generic replies. Avoid it when it
-repeats the opening, is worldbuilding disguised as dialogue, teaches the
-model to decide the player's feelings, or locks the card into one route.
+5. One ordinary-turn sample in the voice (`talk-example-design.md`).
+6. Playtest: 10–20 turns, a weak and a strong model, `--new-session`, one
+   shortcoming per version, compared with the previous version
+   (`playtest-loop.md`).
 
 ## Patch order
 
@@ -126,10 +120,12 @@ initiating, a comic character that becomes random, a mysterious character
 that withholds everything and creates no clue, or a refusal that breaks
 character or seizes the player's agency.
 
-1. Add or tighten the voice card in `definition.md`.
-2. Add response-mode rules for passive, resistant, trusting and
+One patch per version, retested on the same probes:
+
+1. Fix the sample first (the opening or `talkExample`): the model copies it.
+2. Add or tighten the voice card in `definition.md`.
+3. Add response-mode rows for passive, resistant, trusting and
    boundary-pushing players.
-3. Add one compact `talkExample` pair only if the voice still needs it.
 4. Remove duplicate adjectives, lore and repeated catchphrases to pay for the
    added tokens.
 

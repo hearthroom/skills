@@ -38,16 +38,41 @@
   function openerRegex(name) { return new RegExp('[<\\[【]\\s*' + esc(name) + '\\s*[>\\]】]', 'g'); }
 
   /* The display rule a card ships for this block: square-bracket form only, so the model-side
-     protocol and the rule agree on one spelling. */
+     protocol and the rule agree on one spelling. The closing marker is optional: a model that
+     drops `[/status]` still gets a panel (the block then runs to the end of the reply), and the
+     pattern can never match the empty string because the opener is required. */
   function rule(name) {
     var n = esc(name || DEFAULT_BLOCK);
     return {
       id: 'hr-status',
       name: 'hr status block',
-      find: '/\\[' + n + '\\]([\\s\\S]*?)\\[\\/' + n + '\\]/g',
+      find: '/\\[' + n + '\\]([\\s\\S]*?)(?:\\[\\/' + n + '\\]|(?=\\[choices\\])|$)/g',
       replace: '<div class="hr-status hr-status--raw">$1</div>',
       enabled: true,
     };
+  }
+  /* The choices block: one option per line, drawn as buttons by hr-ui. A draft set fills the
+     composer on tap; a send set sends on a trusted tap. The model writes the block, never HTML. */
+  function choicesRule(name, mode) {
+    var n = esc(name || 'choices');
+    var cls = 'hr-choices' + (mode === 'send' ? ' hr-choices--send' : ' hr-choices--draft');
+    return {
+      id: 'hr-choices',
+      name: 'hr choices block',
+      find: '/\\[' + n + '\\]([\\s\\S]*?)(?:\\[\\/' + n + '\\]|(?=\\[' + esc(DEFAULT_BLOCK) + '\\]|<div class="hr-status)|$)/g',
+      replace: '<div class="' + cls + ' hr-choices--raw">$1</div>',
+      enabled: true,
+    };
+  }
+  /* Lines of a choices block → option texts (list prefixes and numbering stripped). */
+  function parseChoices(body) {
+    var raw = String(body == null ? '' : body).split(/\r?\n/), out = [], i, t;
+    for (i = 0; i < raw.length; i++) {
+      t = norm(raw[i]).trim().replace(/^(?:[-*+•]|\d+[.)]|[①-⑳])\s*/, '').trim();
+      if (t) out.push(cut(t));
+      if (out.length >= 8) break;
+    }
+    return out;
   }
 
   /* ---------- normalisation: full-width punctuation and digits to ASCII ---------- */
@@ -343,7 +368,7 @@
     return s ? '<div class="hr-status hr-status--done"><div class="hr-panel">' + s + '</div></div>' : '';
   }
 
-  var api = { parse: parse, value: value, fit: fit, wrap: wrap, rule: rule, render: render, tree: tree, fieldsOf: fieldsOf, blockSource: blockSource, DEFAULT_BLOCK: DEFAULT_BLOCK };
+  var api = { parse: parse, value: value, fit: fit, wrap: wrap, rule: rule, choicesRule: choicesRule, parseChoices: parseChoices, render: render, tree: tree, fieldsOf: fieldsOf, blockSource: blockSource, DEFAULT_BLOCK: DEFAULT_BLOCK };
 
   /* ---------- browser side: hydrate shell elements the display rule produced ---------- */
   if (HR && HR.claim && HR.claim('status')) {
@@ -367,6 +392,7 @@
       box.innerHTML = html;
       return box.value;
     }
+    status.textOf = textOf;
     function hydrateOne(el) {
       if (!el || /\bhr-status--done\b/.test(el.className)) return false;
       var text = textOf(el), parsed = parse(text, current.block);

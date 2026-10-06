@@ -24,12 +24,14 @@ allocation, tension shape, first-screen proof, probe design, repair order.
 |---|---|
 | Card shape | Is the primary contract as clear as the sample's? |
 | Promise surface | Do name, summary, and tags explain the player position and loop? |
-| Durable engine | Does the definition carry reusable behavior, routes, state, boundaries? |
+| Durable engine | Does the definition carry reusable behaviour, routes, state, boundaries? |
 | Opening proof | Does the opening prove the promise through action, pressure, reply paths? |
-| Voice proof | Do examples show rhythm, motive, refusal style, pressure behavior? |
+| Voice proof | Do examples show rhythm, motive, refusal style, pressure behaviour? |
+| Ordinary turn | Does the sample's example show an ordinary turn the model can copy every turn, with the status block if the card has one, rather than a climax (`talk-example-design.md`)? |
 | Longplay proof | Are state, memory, route costs, or artifact continuity visible? |
 | Allocation | Are durable rules in the definition and immediate play in the opening? |
-| Test hooks | Are play probes tied to expected failures and repairs? |
+| Test hooks | Are play probes tied to expected failures and repairs, and planned as 10–20-turn runs on a weak and a strong model (`playtest-loop.md`)? |
+| UI role | Is `uiRole` declared and does the sample's screen do one of UI's five jobs (`presentation-design.md`)? |
 | Originality | Can you explain what structure was borrowed without reusing text? |
 
 ## Sample selection

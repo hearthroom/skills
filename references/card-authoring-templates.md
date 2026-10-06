@@ -14,12 +14,12 @@ content; do not summarize away their concrete decisions.
 | Premise workshop | `hearthroom-premise-workshop` | selected direction, involvement ladder, risk flags, next decisions |
 | Archetype | `hearthroom-archetype-director` | primary type, overlays, contract, field allocation, skill order |
 | Tension | `hearthroom-tension-weaver` | role desire, player leverage, external pressure, why now, first-scene hook |
-| Character core | `hearthroom-character-core` | identity, desire, contradiction, boundary, mask, leverage, pressure behavior |
+| Character core | `hearthroom-character-core` | identity, desire, contradiction, boundary, mask, leverage, pressure behaviour |
 | Relationship engine | `hearthroom-relationship-architect` | promise, asymmetry, closeness and friction states, pacing gates, repair and rupture routes |
 | Daily-life | `hearthroom-daily-life-architect` | routine, small desire, tiny disruption, shared object, habit state, second-turn change |
 | World engine | `hearthroom-world-engineer` | player position, core rule, faction and location functions, state model, route seeds, exposition policy |
 | Scenario | `hearthroom-scenario-architect` | incident, stakes, spine, route branches, clue ladder, suspect network, consequence state |
-| Play engine | `hearthroom-play-engineer` | compact state, resource rules, quest and risk model, turn protocol, failure-forward behavior |
+| Play engine | `hearthroom-play-engineer` | compact state, resource rules, quest and risk model, turn protocol, failure-forward behaviour |
 | Generator | `hearthroom-generator-architect` | artifact contract, intake defaults, output schema, revision operations, artifact memory |
 | Ensemble | `hearthroom-ensemble-director` | cast decisions, turn ownership, spotlight rules, group tension, voice contrast |
 | Agency | `hearthroom-agency-designer` | insertion space, controls, refusals, reply-path matrix, consequence checks |
@@ -62,14 +62,14 @@ Engine:
 - contradiction:
 - boundary:
 - player leverage:
-- pressure behavior:
+- pressure behaviour:
 - world rule:
 - world state:
 - compact state:
 - turn protocol (game / generator only):
 - route seeds:
 - voice fingerprint:
-- proactive behavior:
+- proactive behaviour:
 - consequence loop:
 
 Play:
@@ -79,11 +79,14 @@ Play:
 - expected second-turn move:
 
 Presentation:
+- uiRole: assist | core (presentation-design.md, Story first)
+- status overhead threshold (README.md):
 - opening mode: plain | HTML
-- status line the reply carries (if any):
-- display rules needed:
+- status block the reply ends with (if any; canonical form in state-economy-design.md):
+- display rules / kit modes needed:
 - function bar content (if any):
-- render review plan:
+- attention: which rule joins the iron laws, and its line in the final recency checklist
+- render review plan: check-card → render → offline preview
 
 Budget plan:
 - summary target:
@@ -99,191 +102,11 @@ Packets intentionally delayed:
 
 ## Core packet shapes
 
-Use the shape the owner skill defines. The most used ones are repeated here so
-an assembling agent can check completeness.
-
-```text
-Tension packet:
-- current inertness:
-- role desire:
-- player leverage:
-- external pressure:
-- why now:
-- consequence if the player does nothing:
-- first-scene hook:
-- reply paths: accept | question | refuse | redirect
-- field placement:
-- hand-off:
-
-Character-core packet:
-- current failure:
-- appeal promise:
-- identity:
-- desire:
-- contradiction:
-- boundary:
-- mask / wound:
-- player leverage:
-- relationship asymmetry:
-- pressure behavior (trust / resist / passive / boundary):
-- interaction hooks:
-- token tradeoff:
-
-Relationship-engine packet:
-- relationship promise:
-- asymmetry:
-- closeness and friction states:
-- pacing gates:
-- repair routes:
-- rupture / distance routes:
-- reply-path matrix:
-- passive-player behavior:
-- second-turn relationship move:
-- long-session renewal:
-- example-conversation decision:
-- field placement:
-
-World-engine packet:
-- world promise:
-- player position:
-- core world rule:
-- playable slice:
-- active pressure:
-- faction / relationship network:
-- locations:
-- resources / clocks / costs:
-- state model:
-- route seeds:
-- exposition policy:
-- Lorebook entries vs definition:
-
-Play-engine packet:
-- play promise:
-- player controls / card must not decide:
-- core loop:
-- compact state model:
-- resource rules:
-- quest / risk model:
-- turn protocol:
-- failure-forward behavior:
-- progression phases:
-- opening contract:
-- state visibility:
-- play probes:
-
-Generator packet:
-- artifact type and contract (must / may / must not include):
-- intake surface (required, optional, defaults, when to ask, when to proceed):
-- output schema (sections, ordering, length, formatting):
-- revision operations (trigger, effect, preserves):
-- quality rubric:
-- artifact memory:
-- refusal / constraint handling:
-- opening contract:
-
-Scenario packet:
-- ongoing incident and stakes:
-- core question:
-- story spine:
-- route branches:
-- clue / reveal ladder:
-- suspect / pressure network:
-- compact consequence state:
-- opening incident and second-turn reveal:
-- false-lead handling:
-- route-funnel guardrails:
-
-Daily-life packet:
-- ordinary routine:
-- small playable desire:
-- tiny disruption:
-- shared object / place:
-- habit state:
-- reply paths (help, ask, refuse, tease, notice, leave, stay silent, set terms):
-- passive-player behavior:
-- boundary and romance posture:
-- second-turn change:
-- return-next-time hook:
-
-Agency packet:
-- player insertion space:
-- player controls / can refuse / can change:
-- card must not decide:
-- interaction hooks:
-- reply-path matrix:
-- consequence checks:
-- passive-player behavior:
-- boundary handling:
-
-Voice-director packet:
-- social surface / private motive:
-- sentence rhythm:
-- vocabulary:
-- address terms:
-- emotional tells:
-- action beats:
-- concealment:
-- refusal style:
-- never says:
-- catchphrase policy:
-- response-mode grid (trust / question / resist / passive / boundary):
-- example-conversation decision:
-- blind-line test:
-
-Opening packet:
-- current failure:
-- place / time:
-- role action already happening:
-- pressure:
-- player implication:
-- reply paths:
-- expected first user message:
-- second-turn move:
-- what changes:
-- token tradeoff:
-
-Longplay packet:
-- continuity spine:
-- progression phases:
-- state model:
-- route seeds (trigger, cost, unlock, memory, renewed hook):
-- memory threads:
-- role initiative:
-- passive / stalled player behavior:
-- scene renewal rules:
-- continuation probes:
-
-State economy packet:
-- state need:
-- status line: fields shown (2-6 that change next action, risk, relationship, resource or scene)
-- generation and update rule:
-- state fields (key, visibility, allowed values, update trigger, what it changes):
-- omitted state and why:
-- placement: definition | output contract | display rule
-- agency guardrails:
-
-Presentation packet:
-- opening mode: plain | HTML
-- HTML blocks and why each earns its place:
-- status line shape and the display rule that draws it:
-- function bar content:
-- page mode: sandbox | classic
-- first-screen hierarchy:
-- mobile / readability risks:
-- render review plan:
-
-Boundary packet:
-- rating intent:
-- explicitness ceiling:
-- player agency contract:
-- allowed pressure tools / disallowed moves:
-- escalation ladder:
-- refusal and slowdown behavior:
-- stop conditions:
-- safer fallback:
-- first-scene guardrails:
-- play probes:
-```
+Use the shape the owner skill defines; each skill's SKILL.md and reference
+carry it. Copies are not repeated here, because copies drift. The agency
+reply-path matrix is in `agency-design.md`; the status block and the state
+packet are in `state-economy-design.md`; the playtest packet is in
+`playtest-loop.md`.
 
 ## Final field-authoring packet
 
@@ -302,28 +125,33 @@ Inputs preserved:
 
 card.json:
 - name:
-- summary:
-- tags:
+- summary (about 260 characters, hook first):
+- tags (from `hearthroom tags`):
 - type: companion | story | game | generator
-- language:
+- sex / language / cardMeta:
 - playerName / nickname (if used):
 - prologue (suggested first lines):
-- talkExample: omit | micro-samples | full, with samples
-- outputContract:
+- talkExample: one ordinary-turn sample (full length, full format) | more for a pressure case | omit only when both models hold without it
+- outputContract (with the ordinary-turn example of the status block):
 - customInstructions: omit | text (guardrail packet required)
-- media.portrait / media.background: file in assets/ | prompt only | missing
+- media.portrait / media.background / media.backgroundLandscape: file in assets/ | prompt only | missing
+- media.folder (series share):
 
-definition.md structure:
-- every-turn iron laws (long cards):
+README.md (dossier, never sent):
+- uiRole: assist | core; statusOverheadThreshold:
+
+definition.md structure (order from prompt-attention-architecture.md):
+- every-turn iron laws:
 - card contract:
 - player position and agency:
 - engine (relationship / daily-life / world / play / generator / scenario):
 - role identity, contradiction, boundary:
 - voice fingerprint:
-- proactive behavior:
+- proactive behaviour:
 - progression and consequence:
 - scene reservoir:
 - state and output meaning:
+- final recency checklist (agrees with the iron laws):
 
 welcome.md:
 - mode: plain | HTML
@@ -336,7 +164,7 @@ openings/alt-NN.md:
 lorebook.json:
 - entries (descriptive name, keywords, constant?):
 rules.json:
-- display rules, function bar, page mode:
+- display rules, function bar, page mode, mount layer, card format (mmd locks dark):
 
 Budget:
 - per-field estimate vs limit:
@@ -351,11 +179,33 @@ Validate / render / play hand-off:
 - play probes and cost stance:
 
 Self-review:
+- weakest conversion layer (L0–L3) and what was done about it:
 - promise / engine / play / presentation / agency / language / budget:
+- uiRole honoured (assist reads well with rules off; core legible in text, degrades to text):
 - remaining risks:
 ```
 
 The field finalization packet is defined in `field-finalization.md`.
+
+## Card dossier (README.md template)
+
+`README.md` is never sent to the provider. It is the card's resume point:
+`hearthroom-card-doctor`, `hearthroom-iteration-director` and
+`hearthroom-collaboration-director` read it first, and every version updates
+it.
+
+```text
+# <card name> — working notes (never sent)
+uiRole: assist | core
+statusOverheadThreshold: 15%   # core cards: your number and why
+## Decisions
+- <date> <decision> — because …
+## Rejected directions
+- <direction> — rejected because …; what it would have changed
+## Evidence by version
+| version | check-card | validate | render | protocol health (hit rate / overhead) | L0 | L1 | L2 | L3 | weakest |
+## Open shortcomings (one per version)
+```
 
 ## Source-to-play hand-off packet
 
@@ -390,11 +240,13 @@ Card-series packet:
 
 ## Summary patterns
 
-One compact sentence the player understands in three seconds.
+One compact promise the player understands in three seconds, hook first:
+a contrast, a question or a stake the player feels, then who I am, what I am
+up against, why it is fun and what I can change (`profile-packaging.md`).
 
 ```text
-[Player role] is pulled into [situation] with [character or system], where
-[tension] forces [play loop].
+[Hook sentence that begs "why?"] [Player role] is pulled into [situation]
+with [character or system], where [tension] forces [play loop].
 
 [Character] needs [player leverage] before [external pressure] breaks
 [relationship, secret, mission or world rule].
@@ -408,49 +260,11 @@ and [risk] as choices change [state or route].
 
 ## Definition section template
 
-Headings or compact labels. Durable rules live here, not in the opening. For
-long definitions follow `prompt-attention-architecture.md`.
-
-```text
-# Role Runtime Contract
-
-## 0. Every-Turn Iron Laws
-- [5-7 must-do rules: narrative progression, agency boundary, minimum viable
-  reply, action-path closure, one card-specific format or state rule.]
-
-## 1. Card Contract
-- player role / main pressure / external goal / opposing force / story direction owner
-
-## 2. State and Output Contract
-- status line source of truth (if any) / hidden state / choices rule
-- reply shape reference (see output contract)
-
-## 3. Core premise
-## 4. Player position
-- who the player is, what they control, what they do not control, what they
-  can enter, refuse, change, risk, spend, carry, reveal, hide or unlock
-
-## 5. Agency and interaction
-- insertion space / hooks / reply-path matrix / consequence checks /
-  passive-player behavior / boundary handling
-
-## 6. Engine (pick the shape's module)
-- relationship / daily-life / world / play / generator / scenario engine
-
-## 7. Role identity
-## 8. Contradiction and boundary
-## 9. Player leverage and pressure behavior
-- if the player trusts / questions / is passive / sets a boundary: [behavior]
-
-## 10. Voice fingerprint
-- rhythm / vocabulary / address terms / tells / avoided phrasing / refusal style
-
-## 11. Proactive behavior
-## 12. Progression and consequence
-## 13. Scene reservoir / turn recipes
-## 14. Do / Avoid
-## Final Recency Checklist
-```
+The definition's section order is owned by `prompt-attention-architecture.md`
+(iron laws → card contract → agency boundary → progression engine → voice and
+behaviour with "says instead" → state and output contract → scene reservoir
+→ reference material → final recency checklist). Do not keep a second
+template here; two orders drift apart.
 
 ## Opening scene template
 
@@ -464,15 +278,19 @@ earn their place.
 "[Dialogue that reveals pressure and invites a response.]"
 [Player implication: why the player matters now.]
 
-[Optional status line the reply shape uses, e.g. STATUS: tension::high;;trust::1]
-[Optional 2-4 concrete action options, or put them in prologue instead.]
+[Optional `[status]` block, one lowercase `key: value` per line, at the end,
+exactly as the output contract declares it; canonical form in
+state-economy-design.md.]
+[Optional `[choices]` block of 2-4 concrete actions, or put them in prologue instead.]
 ```
 
-Choices never replace the scene. The scene must already contain place,
-character action, pressure and player implication. Player-side first lines can
-go into `card.json` `prologue` so the opening stays a scene. A status line is
+Choices never replace the scene, and they are drafts, not rails: free text
+must always work. The scene must already contain place, character action,
+pressure and player implication, and at least one line in the character's
+own voice (L2: the opening is the free demo). Player-side first lines can go
+into `card.json` `prologue` so the opening stays a scene. The status block is
 declared in the output contract and drawn by a display rule; the model never
-sees the drawn result.
+sees the drawn result (render rules are not generation rules).
 
 ## Opening repair packet
 
@@ -494,7 +312,12 @@ first reply path and a second-turn move.
 
 ## Game and system opening template
 
+L2 still applies: run one default beat of the system first (a result, a
+consequence, in the card's voice) before offering setup; a bare menu shows no
+voice.
+
 ```text
+[One default beat already played out: a result and its consequence.]
 [One-sentence premise and immediate situation.]
 [What the player controls and what pressure is active.]
 [Setup fields the player may fill, with defaults stated.]
@@ -530,7 +353,7 @@ Current failure:
 Voice promise:
 Voice cards
 - [Name]: rhythm, vocabulary, address terms, tells, action beats,
-  concealment, refusal style, never says, if passive / resists / trusts
+  concealment, refusal style, says instead (one line replacing a tic), if passive / resists / trusts
 Response-mode grid: trust / question / resist / passive / boundary
 Catchphrase policy:
 Ensemble contrast
@@ -538,13 +361,13 @@ Ensemble contrast
 Blind-line test
 - three anonymous lines; can identify speakers: yes | no
 Example-conversation need
-- none because / micro-sample for / cut elsewhere to pay
+- one ordinary-turn sample by default (talk-example-design.md); a second for a pressure case
 Pressure probes: trust / question / resist / passive / boundary
 ```
 
-For three or more core speakers, add one compact micro-sample per core role
-unless voices are already unmistakable in the definition. Each sample teaches
-pressure behavior, not a catchphrase.
+For three or more core speakers, add one compact sample per core role. Each
+sample shows an ordinary exchange, not a rupture or a catchphrase; weak
+models copy the sample every turn.
 
 ## Boundary-sensitive template
 
@@ -569,25 +392,5 @@ playable.
 
 ## Self-review packet
 
-Before render or play, answer:
-
-```text
-Promise: pass | revise because ...
-Anchor: pass | revise because ...
-Engine (relationship / daily-life / world / play / generator / scenario): pass | revise
-Voice texture and calibration: pass | revise
-Consequence: pass | revise
-Role initiative: pass | revise
-Agency: pass | revise
-Opening scene: pass | revise
-Longplay: pass | revise
-Boundary design: pass | revise
-Archetype fit: pass | revise
-Budget: pass | revise
-
-Expected first user message:
-Expected second-turn move:
-Cut if too long:
-```
-
-Any `revise` means patch the files before pushing for render or play.
+Use the self-review minimums in `role-card-writing-framework.md` and name the
+weakest conversion layer; do not keep a third checklist here.

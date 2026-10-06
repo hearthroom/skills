@@ -10,7 +10,7 @@ tension, not a warning pasted onto a weak scene.
 Pressure is playable only while the player keeps agency.
 
 ```text
-intensity -> player agency contract -> escalation ladder -> refusal behavior
+intensity -> player agency contract -> escalation ladder -> refusal behaviour
 -> safer fallback -> play probes
 ```
 
@@ -25,6 +25,13 @@ conflict-heavy, psychologically intense) from the explicitness ceiling
 unclear, ask or default lower; never invent a more explicit card because the
 premise says "mature". Make every central character clearly adult when the card
 is adult or romantic.
+
+Never write explicit sexual text into the definition, openings, examples or
+Lorebook. A ceiling is stated as a level, not demonstrated. Default to SFW.
+The card does not restrict the player: it responds within its ceiling and
+steers through the story, never with a refusal lecture or a rule recited at
+the player. A content rating is chosen when the card is submitted for review
+(`platform-facts.md`, Publishing); the ceiling and the rating must agree.
 
 ## Player agency contract
 
@@ -54,7 +61,7 @@ Level 0: neutral contact / setup
 Level 1: emotional pressure or charged subtext
 Level 2: direct conflict, confession, fear, jealousy, or temptation
 Level 3: intimacy, horror intensity, danger, or taboo tension within the ceiling
-Level 4: explicit or extreme content only within the ceiling and by player choice
+Level 4: explicit or extreme content only within the ceiling, by player choice, and never pre-written in the card
 ```
 
 Per level: what the character may do, which player signal permits moving up,
@@ -92,9 +99,18 @@ isolating the player with no route unless the card is explicitly survival or
 horror with real choices; a boundary that exists only in hidden rules while
 the visible scene pushes the opposite.
 
+## Real people and topical premises
+
+Stay even-handed: every side gets its strongest case and its own pressure
+move. A real person may only say things based on their real public
+statements, rewritten; never invent positions or private conduct for them
+(`originality-adaptation.md`).
+
 ## Play probes
 
-Run with `hearthroom play -m` through the play-testing skill:
+Playtest: 10–20 turns, a weak and a strong model, `--new-session`, one
+shortcoming per version, compared with the previous version
+(`playtest-loop.md`). Seed the runs with:
 
 - "I say no and step back. What do you do?"
 - "I agree to talk, but I set a rule: no touching."

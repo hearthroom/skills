@@ -1,6 +1,6 @@
 ---
 name: hearthroom-character-core
-description: Use when a Hearthroom card's character feels thin, generic or trope-only and needs desire, contradiction, boundary, mask or wound, player leverage, relationship asymmetry, pressure behavior or interaction hooks before blueprinting, writing the definition, voice, opening, longplay or play testing.
+description: Use when a Hearthroom card's character feels thin, generic or trope-only and needs desire, contradiction, boundary, mask or wound, player leverage, relationship asymmetry, pressure behaviour or interaction hooks before blueprinting, writing the definition, voice, opening, longplay or play testing.
 ---
 
 # Character Core
@@ -24,24 +24,29 @@ fields the packet points at.
    interchangeable in an ensemble, no player leverage, no boundary, no
    contradiction, weak motive or an unplayable secret.
 2. Restate the seed in one sentence without adding fields.
-3. Choose one to three appeal axes and convert each into behavior with the
+3. Choose one to three appeal axes and convert each into behaviour with the
    transforms table. "Cold" becomes a refusal style, a soft spot and a
    pressure move.
 4. Build the chain: desire, contradiction, boundary, mask or wound, player
-   leverage, pressure behavior. A missing link is where the character drifts
+   leverage, pressure behaviour. A missing link is where the character drifts
    into generic friendliness or exposition.
 5. Define asymmetry: who knows, needs, owes, risks, controls, hides or can
    lose what, and how the player can question, refuse, test, protect or change
    it.
 6. Write interaction hooks that give the player something to do besides
    admire, comfort or wait.
-7. Fill the pressure table for a player who trusts, questions, resists, stays
-   passive, sets a boundary or breaks trust. Refusal opens an alternate route.
-8. Apply the matching repair from the reference, then state where each part
+7. Fill the reply-path matrix in `agency-design.md` with the rows trusts,
+   questions, resists, passive, sets a boundary, breaks trust. Refusal opens
+   an alternate route.
+8. Write only the appearance that deviates from the default picture (hide the
+   name: still recognisable?); delete any backstory line the character would
+   act the same without.
+9. Apply the matching repair from the reference, then state where each part
    lands: summary sells appeal and tension; definition keeps the chain, tells
-   and pressure table; opening starts where the core becomes actionable;
-   example conversations only if behavior cannot survive as rules.
-9. Check the packet against the reference's checks and name the next skill.
+   and pressure rows; opening starts where the core becomes actionable;
+   `talkExample` shows one ordinary turn in this voice (examples beat rules
+   for weak models: `talk-example-design.md`).
+10. Check the packet against the reference's checks and name the next skill.
 
 ## Hand-off
 
@@ -56,10 +61,12 @@ Character-core packet:
 - mask, wound or need:
 - player leverage:
 - relationship asymmetry:
-- pressure behavior (trust / question / resist / passive / boundary / betrayal):
+- pressure behaviour (trust / question / resist / passive / boundary / betrayal):
 - soft spots and hard limits:
-- behavioral tells:
+- behavioural tells; appearance that deviates from the default:
 - interaction hooks:
+- attention: which rule from this packet joins the top iron rules, and the
+  matching line in the final recency checklist (`prompt-attention-architecture.md`):
 - voice, opening and longplay implications:
 - field targets (definition.md / welcome.md / card.json summary, talkExample):
 - length tradeoff:
@@ -71,14 +78,13 @@ is still needed; `hearthroom-relationship-architect` when pacing, flirting or
 repair and rupture need design; `hearthroom-voice-director` when speaking
 style or ensemble contrast is the gap; `hearthroom-card-author` when the
 author wants the files written; `hearthroom-chat-simulation` when
-`hearthroom play` transcripts show generic behavior.
+`hearthroom play` transcripts show generic behaviour.
 
 ## Do not
 
 - Do not stop at labels such as shy, cold, gentle, chaotic, powerful or
-  mysterious. Turn each into behavior under pressure.
-- Do not decide the player's feelings, consent, attraction, loyalty or actions,
-  and do not leave the player as an audience.
+  mysterious. Turn each into behaviour under pressure.
+- Agency guardrails: `agency-design.md`.
 - Do not solve a thin character with more biography. Convert history into
   present pressure.
 - Do not edit the card folder or run `hearthroom card push` or `hearthroom play`

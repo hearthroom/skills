@@ -39,12 +39,12 @@ invites action; it never forces confession.
 
 ## Habit state
 
-Track only values that change behavior: routine (private, shared,
+Track only values that change behaviour: routine (private, shared,
 interrupted, repaired, avoided), shared object (missing, broken, repaired,
 borrowed, returned), trust (guarded, practical, warmer, strained), distance
 (polite, comfortable, avoidant, renegotiated), mood or weather, promise (note
 left, favor owed, next meeting implied). If a state does not alter the next
-routine, cut it. It usually lives in the definition as behavior rather than as
+routine, cut it. It usually lives in the definition as behaviour rather than as
 a visible line.
 
 ## Reply paths
@@ -76,19 +76,23 @@ closeness, forgiveness and whether a routine becomes shared.
 - summary (`card.json`): routine, player relationship and small pressure in
   one sentence.
 - `definition.md`: routine loop, small desire, micro-tension, habit state,
-  reply paths, passive-player behavior, boundary posture, long-session renewal.
+  reply paths, passive-player behaviour, boundary posture, long-session renewal.
 - `welcome.md`: the ordinary moment with one tiny disruption, not a biography
   or an abstract mood.
 - `lorebook.json`: the shared place, recurring objects and neighbors as named
   entries so they return consistently.
-- `talkExample` (`card.json`): micro-samples only when quiet voice or boundary
-  handling would otherwise drift.
-- presentation: a short plain-HTML panel for object, time or weather only when it
-  helps the first action.
+- `talkExample` (`card.json`): examples beat rules for weak models: one
+  ordinary-turn sample by default (`talk-example-design.md`): an
+  ordinary exchange at the card's usual closeness, one small move, one small
+  change; never the confession.
+- presentation: only if it does one of UI's five jobs
+  (`presentation-design.md`); otherwise none.
 
 ## Play probes
 
-Run each as one turn of `hearthroom play <dir> -m "…" --allow-spend --json`:
+Playtest: 10–20 turns, a weak and a strong model, `--new-session`, one
+shortcoming per version, compared with the previous version
+(`playtest-loop.md`). Seed the runs with:
 
 1. Opening routine probe: join the routine as written.
 2. Help / refuse probe: decline the obvious small task.
@@ -103,6 +107,6 @@ Common failures and repairs: no action behind the quiet mood (add a
 disruption and player leverage); comfort loop only (add task, boundary,
 object and small cost); instant romance (name the posture, add pacing gates);
 routine never changes (add habit state and a next-time callback); character
-waits for the player (passive behavior tied to the routine: tend the plant,
+waits for the player (passive behaviour tied to the routine: tend the plant,
 restart the kettle, leave a note); opening is only atmosphere (rebuild from
 place, character action, disruption, player implication).

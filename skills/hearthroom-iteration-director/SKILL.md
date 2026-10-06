@@ -31,30 +31,37 @@ Then load only the narrow reference for the selected repair.
 
 ## Workflow
 
-1. Gather the evidence stack: self-review, `card validate --json`, `card
-   render --json`, play probes and replies, author feedback, previous
-   patches.
+1. Read the card's `README.md` dossier first (decisions, rejected
+   directions, evidence by version, the open shortcoming), then gather the
+   evidence stack: self-review, `check-card.mjs` findings, `card validate
+   --json`, `card render --json`, offline-preview screenshots, play probes
+   and replies, author feedback, previous patches.
 2. Mark missing evidence explicitly. Never invent a validation, render, play
    or feedback result.
 3. Separate hard blockers from craft issues, taste tradeoffs and cost
    decisions.
 4. Name the loop stage: draft, post-validation, post-render, post-play, author
    co-review, regression repair, publish readiness or stop.
-5. Apply the decision ladder from `iteration-loop.md`.
-6. Choose exactly one primary repair. A technical blocker may pair with one
+5. Apply the decision ladder from `iteration-loop.md`: technical blockers,
+   then agency and boundary, then the weakest conversion layer
+   (`card-diagnosis.md` owns the repair order).
+6. Choose exactly one primary repair: one shortcoming per version, committed
+   with the shortcoming in the message. A technical blocker may pair with one
    small mechanical follow-up; otherwise stay narrow.
 7. List the rejected next moves so nobody rerenders, replays, publishes or
    rewrites prematurely.
 8. State the token stance. Never recommend filling a field toward
-   `tokenBudget.limits` unless the content changes behavior, routes, state,
+   `tokenBudget.limits` unless the content changes behaviour, routes, state,
    voice, boundaries or memory.
 9. State the cost stance for a replay: accepted, ask first, skip, or not
    worth another paid turn.
 10. State stop or continue criteria.
 11. Return the iteration packet from `iteration-loop.md`, followed by a short
-    self-review: no invented evidence, one repair, agency and boundary risk
-    checked, no max-length padding, taste separated from craft, next skill
-    named.
+    self-review: no invented evidence, one shortcoming this version, the
+    pre-check named before any paid retest, the same probes and models as
+    the previous version with the comparison column filled, agency and
+    boundary risk checked, no max-length padding, taste separated from
+    craft, next skill named, dossier updated.
 
 ## Hand-off
 
@@ -75,7 +82,7 @@ Then load only the narrow reference for the selected repair.
 
 - Do not edit files, run CLI commands or push from this skill.
 - Do not replay without a concrete hypothesis and accepted cost.
-- Do not add lore once the engine is coherent; add only durable behavior,
+- Do not add lore once the engine is coherent; add only durable behaviour,
   route cost, state updates, voice control, boundaries or memory.
 - Do not overwrite packets that passed.
 - Do not treat a clean `card validate` or `card render` as proof the card is

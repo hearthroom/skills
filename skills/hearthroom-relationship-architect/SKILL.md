@@ -31,20 +31,25 @@ overlay.
    character, refusal ending play, or the card deciding the player's feelings.
 2. Confirm the relationship shape from the reference and the asymmetry the
    player can affect.
-3. Build closeness states and friction states that change behavior, not
-   decorative meters.
+3. Build closeness states and friction states that change behaviour, not
+   decorative meters; give trust and friction signed movement both ways.
+   Write each relationship as one concrete image the model can reuse.
 4. Define pacing gates, slowdown triggers, repair routes and rupture or
    distance routes. Every route continues play.
 5. Fix agency boundaries: what the player controls, can refuse, can
    renegotiate, and what the card never decides.
-6. Fill the reply-path matrix. Each path gets a different response, a state
-   change and a renewed hook.
-7. Add passive-player behavior, the second-turn relationship move and
+6. Fill the reply-path matrix in `agency-design.md` with the relationship
+   rows. Each path gets a different response, a state change and a renewed
+   hook.
+7. Add passive-player behaviour, the second-turn relationship move and
    long-session renewal.
-8. Decide whether example conversations are needed to teach reusable pressure
-   behavior such as boundary refusal or rupture and repair.
-9. Allocate fields, write play probes for `hearthroom play`, and name the
-   next skill.
+8. Write one `talkExample` of an ordinary exchange at the card's usual
+   closeness, never the rupture or the repair (examples beat rules for weak
+   models: `talk-example-design.md`).
+9. Allocate fields; alternate openings are different situations, not the
+   same scene at another closeness level. Write play probes (10–20 turns, a
+   weak and a strong model, `--new-session`: `playtest-loop.md`) and name
+   the next skill.
 
 ## Hand-off
 
@@ -62,15 +67,18 @@ Relationship-engine packet:
 - repair routes / rupture or distance routes:
 - player agency boundaries:
 - interaction hooks:
-- reply-path matrix:
-- compact relationship state:
-- passive-player behavior:
+- reply-path matrix rows (filled in agency-design.md):
+- compact relationship state (signed movement for trust and friction):
+- relationship as one image:
+- passive-player behaviour:
 - second-turn relationship move:
 - long-session renewal:
-- example conversation decision:
+- talkExample (the ordinary exchange):
 - field allocation (summary / definition / opening / examples / presentation):
 - length tradeoff:
 - play probes:
+- attention: which rule from this packet joins the top iron rules, and the
+  matching line in the final recency checklist (`prompt-attention-architecture.md`):
 - next skill:
 ```
 
@@ -85,12 +93,12 @@ the credit cost.
 
 - Do not fix a weak relationship with prettier flirting. Add asymmetry, state,
   cost, repair, rupture and renewed hooks.
-- Do not let the card decide the player's attraction, forgiveness, consent,
-  loyalty, feelings or actions.
+- Agency guardrails: `agency-design.md`.
 - Do not let slow burn mean nothing happens, rivalry mean cute banter, or
   comfort be the only route.
 - Do not let refusal end play. Shift to distance, friendship, practical
   cooperation or delayed repair.
-- Do not add long sample scenes unless they teach reusable behavior.
+- Do not make the sample a rupture, confession or repair; a weak model plays
+  the sample every turn.
 - Do not edit the card folder or run `hearthroom card push` or `hearthroom play`
   here.

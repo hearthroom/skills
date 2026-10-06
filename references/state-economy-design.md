@@ -6,14 +6,22 @@ omitted. State economy is a writing decision, not a validation gate.
 
 ## How state exists on Hearthroom
 
-There is no separate state schema. State is text the character writes in its
-replies under rules in `definition.md`. It becomes visible either as plain
-HTML written directly into the reply, or as a compact
-plain-text line that a display rule in `rules.json` turns into layout before
-display (`$name` reads keys from a first capture shaped `hp::85;;mood::shy`).
-The model never sees the rendered result. "Hidden" state is a line the model
-writes and a rule removes or restyles; because the model must reproduce it on
-every update, keep it compact and its shape stable.
+The platform keeps no state schema for the model. State is text the character
+writes in its replies under a contract the card gives it, drawn on screen by a
+display rule in `rules.json` and the sandbox kit; the model never sees the
+drawn result. A script may keep its own values in `sdk.save` (see "One owner
+per value"). "Hidden" state is a line the model writes and a rule removes;
+because the model must reproduce every field on every update, keep the block
+compact and its shape stable.
+
+State tokens are taken from the story: every field costs characters in every
+reply that could have been prose. The status overhead ratio (characters of the
+status and choices blocks over characters of the reply) is measured on real
+replies (`check-card.mjs --replay`) and kept under the card's declared
+threshold (`statusOverheadThreshold:` in `README.md`; 15% by default for a
+`uiRole: assist` card; a `core` card declares its own with a reason). Story
+first, `uiRole`, the five jobs of UI and the overhead ratio:
+`presentation-design.md`.
 
 ## When to use
 
@@ -36,6 +44,9 @@ omit it.
 - `visible`: helps the player's next action.
 - `hidden`: needed for future updates, but showing it would spoil, clutter or
   turn the card into a dashboard.
+- `volatile`: a scene-only value with no fallback; when the model stops
+  writing it, it disappears (location of the moment, the current threat).
+  Never for anything the player must not lose.
 - `definition-only`: a rule in `definition.md`, not a runtime value.
 - `omit`: decorative, duplicative, unsafe or too costly.
 
@@ -43,17 +54,42 @@ omit it.
 
 A status surface is an update contract, not a meter dump. Keep two to six
 fields that help the next action: scene, time or phase, relationship
-pressure, risk, resources, clues, route gates, available support.
+pressure, risk, resources, clues, route gates, available support. This is the
+toolkit's single number; other references defer to it.
 
-- A bar-type component only for a single continuous number. Its value is one
-  current number; write the change (`+6`, `8 -> 14`) in prose.
-- Text, enum, flag, resource, phase, location and availability fields get a
-  tag, stat, row or panel type component. Do not invent a `max` to make a
-  field look like a meter. `hearthroom-presentation-director` picks the HTML
-  shape and whether it lives in the content or in a display rule.
-- `definition.md` owns the contract for every kept field: stable key, label,
-  allowed values, update trigger, cadence, play effect. `welcome.md` shows
-  the first useful surface. `rules.json` holds the transform.
+The model ends every reply with one status block:
+
+```
+[status]
+hp: 72/100
+mood: wary
+location: Harbor > North pier
+[/status]
+```
+
+Square brackets (the sandbox sanitizer strips unknown angle-bracket tags, and
+a script that reads the bubble later would never see `<status>`), one
+lowercase `key: value` per line, at the end of the reply, after the prose.
+The keys, their allowed values, when each changes and the instruction to end
+every reply with the block live in `card.json` `outputContract` (or the
+definition); a long card repeats them in one short constant Lorebook entry.
+`welcome.md` ends with the block once, so the first screen shows it and the
+model has a sample to copy. A display rule and the sandbox kit
+(`sandbox-kit.md`) draw the block as a panel inside the bubble; the model
+never sees the drawn result (render rules are not generation rules). A single
+line `hp::85;;mood::shy` is also accepted, so a card without scripts can draw
+the block with `$hp` in a plain rule; teach the multi-line form.
+
+- A bar only for a single continuous number (`72/100`, `40%`). The block
+  carries the current value; show the change as a story consequence, not as
+  arithmetic in the narration.
+- Text, enum, flag, resource, phase, location and availability fields are
+  text, tags, a path or a key-value list; the kit's type ladder draws them
+  from the value's shape (`assets/sandbox-kit/README.md`). Do not invent a
+  `max` to make a field look like a meter.
+- The output contract's example is the most ordinary turn, in this block
+  format; `hearthroom-presentation-director` decides what is drawn and
+  `hearthroom-sandbox-kit` builds it.
 
 A meter that measures a contest (control, suspicion, favour) needs signed
 movement in the contract: how far each kind of player move pushes it and
@@ -64,13 +100,21 @@ A hidden line drifts over long chats. Give phase, route, clue, risk, location
 and relationship pressure a visible surface that still reads well if the
 model forgets the line.
 
+## One owner per value
+
+The model owns a value if it is in the block; a script owns it if it lives in
+`sdk.save` (badges, unlocks across conversations, preferences); never both,
+because the model's copy rewinds with the conversation and the script's does
+not. A narrated number and a stored number drift apart on the first rewind.
+
 ## Agency safety
 
 State never stores the player's feelings, consent, loyalty, guilt, desire,
 actions, confession, commitment or final route choice. Track what the
 character knows, suspects, promised, withheld, offered, lost or unlocked;
 what route, clue, resource, place, deadline, debt or boundary changed; what
-option is now available, risky, delayed or closed.
+option is now available, risky, delayed or closed. Agency guardrails:
+`agency-design.md`.
 
 ## Decorative state
 
@@ -84,12 +128,17 @@ meter is attractive, convert it into one concrete consequence or drop it.
 ```text
 State packet:
 - current request / card shape / state need:
-- status surface: needed | not; per field bar | tag | stat | panel | hidden
-- kept fields: key, visibility, owner, allowed values, update trigger,
-  cadence, character behaviour changed, player options changed, token cost
+- uiRole: assist | core (and the overhead threshold)
+- status surface: needed | not; per field bar | text | tags | path | list | hidden | volatile
+- kept fields: key, visibility, owner (model | script), allowed values,
+  update trigger, cadence, character behaviour changed, player options
+  changed, token cost
 - omitted fields and why:
-- placement: definition.md | welcome.md | rules.json
+- placement: outputContract (or definition.md) | constant entry | welcome.md | rules.json
 - agency guardrails:
+- attention: which rule from this packet joins the top iron rules, and the
+  matching line in the final recency checklist (they must agree;
+  `prompt-attention-architecture.md`)
 - verification probes:
 - hand-off:
 ```
@@ -101,5 +150,13 @@ State packet:
 - visible fields help the next action; the hidden line has no prose
 - player feelings and actions are not stored
 - decorative meters were removed or converted into consequences
-- `hearthroom card render --json` shows the opening's surface with the rules
-  applied; one play turn shows a real update
+- each value has one owner
+- `node scripts/check-card.mjs <dir>` reports no marker the model is never
+  told to write; `hearthroom card render --json` shows the opening's surface
+  with the rules applied; the offline preview or the play page shows the
+  panel drawn (`card render` runs no scripts)
+- read the opening and one reply with rules off: for `assist` nothing is
+  lost; for `core` every value the player needs is still in the text
+- Playtest: 10–20 turns, a weak and a strong model, `--new-session`, one
+  shortcoming per version, compared with the previous version
+  (`playtest-loop.md`); the block is intact at the last turn

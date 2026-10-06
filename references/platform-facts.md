@@ -28,11 +28,11 @@ to read in `--json` output.
 | alternate openings | `welcomeAlternates` | other first messages the player can pick |
 | suggested first lines | `prologue` | player-side first lines offered as choices; never the character's first message |
 | example conversations | `talkExample` | `{roleType: user|ai, content}` pairs |
-| custom instructions | `customInstructions` | replaces one default instruction block; not appended, not the whole system prompt |
+| custom instructions | `customInstructions` | replaces one default instruction block; not appended, not the whole system prompt. Which block it replaces is not documented: a non-empty value removes platform behaviour the author cannot see, so keep it short and compare a probe with it empty and filled |
 | output contract | `roleOutputContract` | format the reply must follow |
 | Lorebook, entry | worldbook, entries | keyword-triggered background knowledge |
 | display rules | author asset, `rules.json` | find/replace rules that turn reply text into layout, status bars, buttons |
-| function bar | `mountTrigger` | content pinned above the message list; visible to the player, never sent to the model |
+| function bar | `mountTrigger` | content pinned above the message list; visible to the player, never sent to the model. It is rendered once when the page loads from its own text (rules run over that text, never over a reply). A `<script>` written in the bar's text is dropped when the shell renders the bar itself (previews, the offline harness) and run once after mount when the play page's host renders it; an `<img onerror>` boot in it runs on both; put scripts in a rule, not in the bar. Anything in it that must change with the conversation is changed by a rule script |
 | chat page | `pageMode` | `sandbox` (default for new cards) or `classic`; `immersive` exists as a legacy value |
 | trial card | trial card | private, auto-expiring copy the CLI pushes to by default |
 | player | user | the person chatting |
@@ -60,12 +60,16 @@ the card calls the player; placeholder values such as 你 / user / you / player
 are ignored and the player's own name or a language default is used instead.
 `nickname` is what `{{char}}` expands to when it differs from `name`.
 
-Two backgrounds: `media.background` is the portrait (9:16) baseline and
-`media.backgroundLandscape` is an optional landscape (16:9) image the chat
-page prefers on wide screens, falling back to the portrait one. Both are
-cropped to cover the screen, so keep important elements inside the central
-75% of each image. On push they become `roleBackground` and
-`roleBackgroundLandscape`.
+One portrait, three crops: `media.portrait` (9:16) is the board cover
+(cropped to about 3:4), the chat avatar (cropped to a 1:1 circle) and, when
+no background is set, the chat background (cropped to cover). Keep the head
+inside the central circle and the silhouette inside the middle 3:4 band.
+Backgrounds are optional: `media.background` (9:16) and
+`media.backgroundLandscape` (16:9, preferred on wide screens, falling back to
+the portrait one). All are cropped to cover the screen, so keep important
+elements inside the central 75% of each image. On push they become
+`roleAvatar`, `roleBackground` and `roleBackgroundLandscape`. The site's
+guide calls the definition the "Persona".
 
 ## Media library
 
@@ -125,7 +129,11 @@ all present), `caseSensitive`, `matchWholeWords`, `scanDepth` (0–100),
 `groupOrder` (pieces of one long entry) and `extensions` (kept from imports,
 never executed). A keyword written as `/pattern/flags` is a regular
 expression; lookaround and backreferences work but run under a timeout; an
-invalid pattern is not treated as literal text.
+invalid pattern is not treated as literal text. Whether a plain keyword
+matches both Chinese scripts is not documented (display-rule `find` does):
+for Chinese cards list both forms of a noun the player might type. Entry
+length is limited per card language (set at `card init --language`; the
+numbers are not documented, so read the validation warnings).
 
 How entries reach the model in a normal conversation:
 
@@ -256,6 +264,10 @@ prose.
   non-empty), `left` / `right` (zero-width positioned columns beside the
   message area; content placed there is a docked sidebar and the message
   column makes room), `header-extra`, `toolbar`. There is no per-message slot.
+  The shell's remaining nodes are internal (`author-css`, `author-script`,
+  `messages`, `list`, `list-spacer`, `message-frame`, `message-avatar`,
+  `header-back`, `header-title`, `header-actions`, `composer-row`, `more`,
+  `panels`, `sdk-debug`): do not depend on them.
   Select by these attributes, not by class names; the legacy selectors `.mes`,
   `.mes_text`, `#msglistview`, `#scrollview`, `.chat-scope-box`, `#chat` are
   also present. `role: system` rows (platform notices) are drawn but emit no
@@ -298,8 +310,8 @@ prose.
   own `close()` does not emit `stage:close`), `sdk.role.get()` → `{name,
   avatarUrl}`, `sdk.user.get()` → `{nickname, avatarUrl, locale}` (the key is
   `nickname`, not `name`), `sdk.text.convert(text)` and `sdk.text.ready()`
-  (see Chinese script below), `sdk.on(event, handler)` (there is no `off` and
-  no `once`; a misspelled event or capability never fires and never errors),
+  (see Chinese script below), `sdk.on(event, handler)` (`sdk.off` and `sdk.once` do not
+  exist; a misspelled event or capability never fires and never errors),
   `sdk.debug.log(...)` (`?sdkDebug=1` shows the panel). `sdk.version` is the
   string `'1'`. Rate limits per minute: `save.set` 20, `message.send` 3 by
   gesture and 3 automatic, `message.edit` 10 → `RATE_LIMITED`.
@@ -328,7 +340,8 @@ prose.
   Inline scripts run as real `<script>` elements (top-level declarations are
   globals); a `SyntaxError` such as a top-level `return` is retried wrapped in
   a function. `type="module"` runs as a classic script; `document.currentScript`
-  is null. External `<script src>` must be `https:` and is not awaited. A
+  is the running script element (inline rule scripts are real `<script>`
+  elements), null only in the wrapped fallback. External `<script src>` must be `https:` and is not awaited. A
   `<script>` inside a reply runs once per distinct code string after the
   message is done; code already run at load does not run again. The card
   editor's preview re-runs the scripts on every edit, so a boot must be
@@ -458,42 +471,64 @@ warnings do not.
 
 ## The CLI loop
 
+The complete manual is `https://cli.hearthroom.club/llms-full.txt`; every
+command accepts `--json`, and an error is one JSON object `{ "error", "detail" }`
+with a non-zero exit code (no other error identifiers are documented: read
+`detail` for the section, field or limit it names).
+
 ```
-hearthroom auth login --no-wait --json       # once: prints user_code + verification_uri
-hearthroom auth login --resume               # after the author types the code and approves
-hearthroom card init <dir> | card import <file…>   # SillyTavern PNG/JSON/CHARX, MMD three-file set
-hearthroom card push <dir> --validate --json # private trial card + validation report
-hearthroom card render <dir> --json          # opening after display rules, per-rule outcome, scan
-hearthroom play <dir> -m "…" --allow-spend --json   # one real turn; spends credits
-hearthroom card pull <dir>                   # bring the provider's copy back to files
-hearthroom card push <dir> --create          # keep it: a real private card on the site
+hearthroom auth login --no-wait --json            # one-time code; then auth login --resume; HEARTHROOM_TOKEN for unattended runs
+hearthroom card init <dir> | card import <file…>   # SillyTavern PNG/JSON/CHARX, MMD three-file set; both write AGENTS.md (never sent)
+node <toolkit>/scripts/check-card.mjs <dir>        # local, free: rules, markers, sdk use (see Local checks)
+hearthroom card status <dir> --json                # what the folder is linked to, which sections changed
+hearthroom card push <dir> --dry-run --json        # what would be sent, without sending
+hearthroom card push <dir> --validate --json       # private trial card + validation report
+hearthroom card validate <dir> --push --strict --json   # re-push and fail on warnings too
+hearthroom card render <dir> --push --opening N --json  # one opening after display rules; --html f writes the raw string
+hearthroom play <dir> --new-session --greeting N -m "…" --allow-spend --json   # one real turn; spends credits
+hearthroom play <dir> --history --limit 20          # read the conversation back (free)
+hearthroom wallet --json                           # balance before a cost stance
+hearthroom card pull <roleId> [dir] --force        # bring the provider's copy back; --force overwrites local files
+hearthroom card push <dir> --create                # keep it: a real private card on the site
+hearthroom models | tags --zone zh | search | media ls|upload|mv|rm | upgrade --check
 ```
 
-- Sign-in uses a one-time code, so it works from SSH sessions and cloud
-  sandboxes. The author opens `verification_uri` in a browser on any device,
-  signs in (or signs up on the same page) and types `user_code`; nothing is
-  pre-filled. `--no-wait` returns at once so the code can be passed on;
-  `--resume` waits for the approval (run it again if it times out; start over
-  with `--no-wait` if the code expired or was denied). A plain `auth login`
-  waits in the foreground, which suits a person at a terminal, not an agent
-  that only sees output after the command exits. `HEARTHROOM_TOKEN` skips
-  sign-in for unattended runs; `auth status` shows the account.
 - Pushing, validating, rendering, importing, pulling and browsing are free.
   Only `play -m` generates and needs `--allow-spend`.
 - A trial card expires three days after its last push; an account holds at
   most five (`--evict` frees the oldest). The site's inventory does not list
   trial cards, but their play link works for the author.
-- `play --greeting N` starts from an alternate opening, `--agent on|off` sets
-  agent mode for the turn, `--model` picks a model from `hearthroom models`,
-  `--history` prints recent messages, `--stop` cancels a reply.
+- Consecutive `play` calls on the same folder continue one conversation: the
+  first call opens it, later calls resume it, and the folder's sync state
+  remembers it. `--new-session` archives the current conversation and starts
+  a fresh one; `--greeting N` (0 = main, 1.. = alternates) applies only when a
+  new conversation is created, so an alternate is tested with
+  `--new-session --greeting N`. Every independent probe and every retest
+  starts with `--new-session`.
+- Turns carry the card's `language` from `card.json`; without one the
+  provider replies in English. `--language` overrides it for the turn,
+  `--model` picks a model from `hearthroom models`, `--thinking` sets a
+  thinking depth where the model supports it, `--show-thinking` prints
+  reasoning deltas, `--stop` cancels a reply. With `--json`, every server
+  event is printed as one JSON object per line; a stopped or failed reply is
+  still charged for the calls it made. Turns sent with `play` do not pass
+  through the play page, so display rules and scripts are not exercised by
+  them; use the offline preview or the play link for the screen.
 - `card validate --json` returns `status` (`pass` | `warning` | `blocker`),
   `blockers`, `warnings`, `suggestedFixes` and `tokenBudget` with
   `roleDescChars`, `roleDetailDescChars`, `roleWelcomeChars`,
   `customInstructionsChars`, `roleOutputContractChars`, `totalChars`,
-  `estimatedTokens`, `welcomeToDetailRatio` and `limits`.
-- Consecutive `play` calls on the same folder continue one conversation: the
-  first call opens it, later calls resume it, and the folder's sync state
-  remembers it. `--greeting N` applies when a new conversation is created.
+  `estimatedTokens`, `welcomeToDetailRatio` and `limits`. There is no count
+  or limit for `talkExample` in the report.
+- `card pull` takes the card id, not the folder: `card pull <roleId> [dir]`;
+  an existing folder needs `--force`, which overwrites local files, so run
+  `card status` first and pull only when the site copy is the newer one.
+- `push --create` makes a real private card; on a folder already linked to an
+  owned card (after `pull` or `push --to <id>`), plain `push` updates that
+  card and `--create` would make a second one. `card status` shows the link.
+- `card init --language` sets the card language, which also selects the
+  Lorebook entry length limit (the value is not documented; read validation
+  warnings).
 - An MMD rules file marked `chatVersion: 1` imports as `pageMode: sandbox`;
   trial cards keep `pageMode` and `cardFormat`. Its `pageDepth` 1/0/under
   becomes `mountLayer: under`, otherwise `over`; `statusbar` becomes
@@ -506,7 +541,8 @@ hearthroom card push <dir> --create          # keep it: a real private card on t
 ## Publishing
 
 `card push --create` makes a real private card that appears in the author's
-inventory on the site. Submitting for community review happens on the site:
+inventory on the site; later plain pushes keep updating it. Submitting for
+community review happens on the site, and that is where a version is frozen:
 review applies to one frozen version of the card, submitted together with a
 content rating; changing content makes a new version that needs its own review. Reviewers see a similarity score for the
 definition against other submitted and approved cards (reviewers only; the

@@ -14,19 +14,15 @@ voice -> consequence -> longplay -> scene reservoir -> boundaries ->
 format stability
 ```
 
-Fill detail only while each section buys future behavior, route memory, state
+Fill detail only while each section buys future behaviour, route memory, state
 change, voice control or agency protection. Stop when the next section would
 only repeat mood, lore or adjectives.
 
-## Every-turn iron laws
+## Narrative progression engine
 
-Put a compact 5-7 item every-turn block near the top of any long definition for
-a high-ambition story, scenario, game, system or meta-narrative card. It gives
-the model a primacy anchor before lore, voice and scene reservoirs. Limits are
-character counts; leave buffer under the definition limit so late edits do not
-push the field over.
-
-For plot-driven cards include a narrative progression engine:
+The definition's order (iron laws at the top, the final recency checklist at
+the end, the two in agreement) is owned by `prompt-attention-architecture.md`.
+For plot-driven cards the iron laws include a narrative progression engine:
 
 1. Inciting incident: within the first one or two character turns, ignite a
    main line with an external goal, pressure, route, risk or obligation. Do not
@@ -54,7 +50,7 @@ self-contained.
 ## When to use
 
 - The definition is short for its language and ambition.
-- It is a biography with no runnable behavior under pressure.
+- It is a biography with no runnable behaviour under pressure.
 - The first turn is strong but later turns drift or wait.
 - Durable rules live in the opening, in markup or in examples.
 - The author asks for a top-card, full-detail or longplay-capable character.
@@ -64,22 +60,15 @@ exists. Use `prompt-attention-architecture.md` for attention dilution or
 cross-model drift. Preserve the narrow engine packet first when appeal, world,
 relationship, play rules, agency, voice or longplay is not designed yet.
 
-## Language-aware budget
+## Length follows modules
 
-Use the budget as a craft target, not a padding order.
-
-- Non-English cards often need 5,000-10,000 definition characters for story,
-  relationship, world, ensemble, game, system or generator engines.
-- English cards (`language` exactly `en`) have a much larger limit and need
-  more characters for the same depth. Judge by module coverage, not by CJK
-  character intuition.
-- Light-setting or intimate companion cards can be shorter, but still need
-  motive, relationship rules, voice, initiative, boundaries and progression.
-
-Treat the lower edge of the band as a floor for complete, high-ambition drafts.
-A non-English draft well below it is usually unfinished unless the card is
-intentionally light and every module is proven in play. This is a writing
-signal, not a validation rule.
+There is no length target. A module earns its place when play shows the model
+getting it wrong without it; a module nobody missed is cut. Non-English
+(`language` not `en`) limits are small and CJK fills them fast, so keep at
+least about 500 characters free under each limit for later repairs
+(`token-economy.md`). English cards have larger limits and need more
+characters for the same depth; judge by module coverage either way, never by
+a count.
 
 ## Detail engine packet
 
@@ -96,7 +85,7 @@ Detail engine packet:
   - narrative progression engine:
   - player relationship:
   - world / scenario / play functions:
-  - proactive turn behavior:
+  - proactive turn behaviour:
   - voice and action logic:
   - emotional reactions:
   - longplay hooks:
@@ -121,13 +110,14 @@ Detail engine packet:
 
 ### Identity and core charm
 
-State what makes the character memorable as behavior. Replace quiet, cold,
+State what makes the character memorable as behaviour. Replace quiet, cold,
 powerful, sweet, mysterious or chaotic with how they act when they want
 something, hide something or are challenged.
 
 ### Background and motive
 
-Keep history only when it changes play. Every backstory item explains a current
+Keep history only when it changes play. Delete a backstory line if the
+character would act the same without it; what survives explains a current
 want, fear, debt, skill, taboo, relationship pressure or available route.
 
 ### Current pressure
@@ -158,7 +148,7 @@ Leave out calendars, species lists, maps and catalogs that change nothing.
 Facts needed only in some scenes go into Lorebook entries with keywords and a
 descriptive name; the definition keeps what every turn needs.
 
-### Proactive turn behavior
+### Proactive turn behaviour
 
 Specify what the character does when the player is passive, brief, evasive,
 resistant, curious, boundary-setting or route-changing: ask, reveal, escalate,
@@ -166,8 +156,10 @@ offer, test, delay, bargain, protect or complicate.
 
 ### Voice and action logic
 
-Write executable voice: sentence rhythm, vocabulary, address terms, metaphors,
-emotional tells, action beats, refusal style, avoided phrasing. Tie voice to
+Write executable voice: sentence rhythm, vocabulary, address terms, emotional
+tells, action beats, refusal style, and "says instead" (one line showing what
+replaces a tic). Metaphor density and catchphrase frequency are set by the
+opening and the sample, not by a rule (`talk-example-design.md`). Tie voice to
 pressure so it changes under trust, fear, embarrassment, anger, relief or
 suspicion.
 
@@ -207,11 +199,11 @@ observe player move -> show concrete consequence -> make in-character move ->
 offer one next action or a sharper question
 ```
 
-For cards that failed play on agency or next-move clarity, add an action-path
-closure rule: the last visible block of every turn returns control to the
-player through choices, a direct decision question, or a concrete affordance.
-Ending on mood, a twist line or a clue alone is not enough unless the playable
-next move follows.
+For cards that failed play on agency or next-move clarity, end each turn on a
+pull the player wants to answer: a held action, an open door, a consequence
+landing. A menu or "what do you do?" is the fallback, not the default; a
+strong model that closes every reply with a question or a numbered list has
+been taught a tic.
 
 ### Time and consequence
 
@@ -221,7 +213,7 @@ or risk. Consequences continue play; they do not end it.
 
 ### Secret and reveal plan
 
-Secrets create behavior before they are revealed. Define what the character
+Secrets create behaviour before they are revealed. Define what the character
 hides or misdirects, what evidence can surface early, what the player can ask,
 notice, test or risk, and what changes on partial or full reveal. Never dump
 secrets in the opening.
@@ -235,15 +227,16 @@ Detail can pressure, invite, tempt or constrain; it cannot decide.
 
 State what the character must not narrate for the player: feelings,
 commitments, consent, route choices, guilt, loyalty, desire, bodily action or
-final interpretation. Include refusal and slowdown behavior when needed.
+final interpretation. Include refusal and slowdown behaviour when needed.
 
 ### Format stability
 
-For cards with a status line, generator schema, game turn protocol or another
-reply shape, keep format rules compact and explicit. Put the shape in the
-output contract and the card-specific meaning (when state changes, when
-choices appear, what a status label means later) in the definition. Never
-paste a generic formatting manual.
+For cards with a status block, generator schema, game turn protocol or
+another reply shape, keep format rules compact and explicit. Put the shape in
+the output contract (the canonical `[status]` block is in
+`state-economy-design.md`) and the card-specific meaning (when state changes,
+when choices appear, what a status label means later) in the definition.
+Never paste a generic formatting manual.
 
 ## Placement
 
@@ -252,15 +245,15 @@ paste a generic formatting manual.
 - Lorebook: sometimes-needed facts with keywords; few short constant entries
   for what must always be present.
 - Opening: only the first scene, immediate pressure and first reply paths.
-- Example conversations: only when they teach voice, refusal, format or turn
-  protocol more cheaply than rules.
+- Example conversations: one ordinary-turn sample by default; examples beat
+  rules for weak models (`talk-example-design.md`).
 - Output contract and display rules: reply shape and how it is drawn, never the
   only place a durable rule exists.
 
 ## Self-review
 
 - Would the second turn beat the first without inventing a new plot?
-- Does each section change future behavior, state, route, voice or boundary?
+- Does each section change future behaviour, state, route, voice or boundary?
 - Can the character act on a short or passive message?
 - Are there enough scene seeds to avoid abstract repeated setup?
 - Can the player refuse, redirect, ask, test or slow down without ending play?
@@ -268,13 +261,13 @@ paste a generic formatting manual.
 - Is time and consequence concrete enough to create memory?
 - Is player insertion space protected?
 - Did the opening get shorter because the engine moved into the definition?
-- Is the budget appropriate for the language and the engine depth?
+- Is there at least about 500 characters of room under the limit?
 
 ## Repair pattern
 
 1. Preserve existing packets and author taste.
 2. Identify the missing modules.
-3. Expand them with concrete behavior, not padding.
+3. Expand them with concrete behaviour, not padding.
 4. Add a small scene reservoir and one turn recipe.
 5. Move durable rules out of the opening and examples. Move conditional lore
    into Lorebook entries.

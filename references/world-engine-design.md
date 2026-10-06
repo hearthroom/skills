@@ -54,8 +54,8 @@ resource, debt, clue, reputation, relationship thread, route flag, promise,
 boundary, unresolved question. No decorative meters, and no hidden state that
 contradicts the player's visible choices. If the player should see state,
 route its format to `hearthroom-state-economist` and
-`hearthroom-presentation-director`; display rules can turn a
-`key::value;;key::value` fragment in a reply into a status bar.
+`hearthroom-presentation-director`. Status block: the canonical form and its
+home are in `state-economy-design.md`.
 
 A route seed is a contract: trigger, world pressure, player leverage, faction
 or relationship shift, unlock, cost, memory left behind, renewal hook. A route
@@ -81,7 +81,15 @@ Split by when a fact is needed:
   must shape every reply.
 - Lorebook (`lorebook.json`): facts that matter only when a place, faction,
   person, object or topic comes up. Each entry has `name`, `content`,
-  `keywords`, `secondaryKeywords`, `constant` and `disabled`.
+  `keywords`, `secondaryKeywords`, `constant`, `disabled` and `matchOptions`
+  (`scanDepth`: 0 is this turn plus the latest reply, 1–100 that many
+  messages; `matchWholeWords`, on for short English keywords so "art" does
+  not fire on "start"; `caseSensitive`; `order`; `platform-facts.md`).
+
+Before keeping a line, ask whether the model would get it wrong without it,
+whether it is information or decoration, whether a list could replace it,
+and whether it makes sense without the source material; fail one, cut or
+rewrite.
 
 How entries reach the model in a normal conversation:
 
@@ -96,20 +104,33 @@ How entries reach the model in a normal conversation:
   that scene. Before pushing, run the keywords over a few real reply texts
   from a playtest and count hits; an optional branch that fires in most
   replies needs narrower keywords. A whole-line regex such as
-  `/^\s*[.…]+\s*$/m` catches a minimal player input without catching prose.
+  `/^\s*[.…]+\s*$/m` catches a minimal player input; whether matching is per
+  message or over the joined window is not documented, so confirm with a
+  play turn whose reply contains a bare ellipsis line.
+- Partition keywords so one ordinary sentence does not fire several entries:
+  give each entry nouns no sibling entry shares, and run a few real replies
+  through every keyword list to count entries fired per sentence.
+- Whether a plain keyword matches both Chinese scripts is not documented
+  (`platform-facts.md`): for Chinese cards list both forms of a noun the
+  player might type.
 - Secondary keywords can veto a primary hit. Use them only when a common word
   needs a context guard.
 - Constant entries are always included, in priority order, as long as they
   fit. A card whose constant entries do not fit the context tier is refused.
-  Keep them few and short; most always-on rules belong in the definition.
+  Keep them few and short; most always-on rules belong in the definition. A
+  long card restates its status-block protocol (keys, cadence, "end every
+  reply with the block") in one short constant entry: that is a generation
+  rule, and the display rule that draws the block never reaches the model
+  (`state-economy-design.md`).
 - Entries that did not match may still be admitted by semantic search within
   a budget. Never rely on that for a fact that must appear. Give it keywords
   or make it constant.
 - Once admitted, an entry stays in place for later turns until the source is
   edited, deleted or reclaimed. A fact does not need re-triggering every turn.
 - Long entries are split into ordered groups internally and admitted whole,
-  so an entry can be a full location or faction sheet. Prefer one entry per
-  entity over one giant entry.
+  but entry length is limited per card language (the numbers are not
+  documented; read the validation warnings after push). Keep one entry per
+  entity.
 
 In agent mode the character can list, search and read entries by name and
 content before replying. Name each entry by what it contains, such as "Harbor
@@ -127,8 +148,8 @@ entries only for always-on facts that cannot live in the definition.
 - Definition (`definition.md`): the packet without the Lorebook entries.
 - Lorebook (`lorebook.json`): the entry set from the Lorebook plan.
 - Opening (`welcome.md`): the moment the world rule creates a choice.
-- Example conversations (`card.json` `talkExample`): only if a narrator or
-  ensemble turn style cannot survive as rules.
+- Example conversations (`card.json` `talkExample`): examples beat rules for
+  weak models: one ordinary-turn sample by default (`talk-example-design.md`).
 - Presentation: state panels, maps or route choices only when they make the
   first action clearer.
 
@@ -146,3 +167,5 @@ characters, repeated atmosphere. Read the limits from `tokenBudget.limits` in
 - Each faction and location has a play function; routes have costs and memory.
 - The opening avoids a lore dump; the state is compact and updateable.
 - Constant entries are few and short; entry names say what they contain.
+- Every kept line passed the four questions; keywords are staggered.
+- Agency guardrails: `agency-design.md`.

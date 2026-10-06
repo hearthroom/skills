@@ -23,8 +23,9 @@ situation without taking the player's agency.
   a place, person or object comes up. Keep constant entries few and short.
   In agent mode the character can list, search and read entries by name and
   content, so name entries by what they contain.
-- Probe with `hearthroom play -m "…" --allow-spend --json`; `--history`
-  prints recent messages.
+- Playtest: 10–20 turns, a weak and a strong model, `--new-session`, one
+  shortcoming per version, compared with the previous version
+  (`playtest-loop.md`); `--history` prints recent messages.
 
 ## Continuity spine
 
@@ -84,32 +85,29 @@ still obeys is not resistance.
 A long card grows by optional branches that the player reaches by doing
 something the main line did not expect, each with a trigger, a few escalating
 beats, a line or item left in memory and an ending it can lead to. Keep one
-Lorebook entry that says where the branch entrances are and tells the
-character to reveal one at a time (a side path, an odd object, a remark),
-only when the player explores or keeps complying; never list them.
+short constant Lorebook entry that says where the branch entrances are and
+tells the character to reveal one at a time (a side path, an odd object, a
+remark), only when the player explores or keeps complying; never list them
+(a keyword entry would fire only when the branch is already being
+discussed). Replayability comes from branches and from alternate openings
+that start different situations (`opening-design.md`).
 
 Models play branches willingly but rarely close them: asked to end a story,
 they add another beat. Make the ending the player's move. When the branch
-condition is met (the script can count the player's own lines), offer an
+condition is met (a rule script can count the player's own lines on the
+sandbox page, keyed on message content, not on `data-msg-id`; it needs
+`pageMode: sandbox`), offer an
 ending action that sends an explicit line such as "(Ending: X) Let this be
 where it ends", and bind that line in the output contract: that turn must
 play ending X, emit its marker and close. In the same rule, forbid the
 character from writing the player's actions or thoughts in the ending turn;
 without it, the model finishes the story on the player's behalf.
 
-## Initiative table
+## Initiative
 
-```text
-Player behaviour | Character move | What changes | Next hook
-accepts hook     |                |              |
-asks a question  |                |              |
-resists          |                |              |
-is passive       |                |              |
-changes route    |                |              |
-returns later    |                |              |
-```
-
-Moves stay in character: reveal, ask, test, offer, pressure, withdraw, change
+Fill the reply-path matrix in `agency-design.md` with these rows: accepts
+the hook, asks a question, resists, is passive, changes route, returns
+later. Moves stay in character: reveal, ask, test, offer, pressure, withdraw, change
 location, introduce a cost, call back a memory thread.
 
 ## Memory threads
@@ -156,9 +154,13 @@ Longplay engine
 - Memory threads:
 - Passive-player behaviour:
 - Scene renewal rule and next-station hook:
+- attention: which rule from this packet joins the top iron rules, and the
+  matching line in the final recency checklist (they must agree;
+  `prompt-attention-architecture.md`)
 ```
 
-Keep it compact. Durable rules beat long sample scenes.
+Keep it compact. Durable rules carry the rare turn; one ordinary-turn sample
+carries the format (`talk-example-design.md`).
 
 ## Continuation probes
 
@@ -169,7 +171,8 @@ Keep it compact. Durable rules beat long sample scenes.
 5. Renewal probe: end a scene and see what the character offers.
 
 Pass: the character changes relationship, state, route, risk, artifact or
-information, then offers a new playable hook.
+information, then offers a new playable hook, still at turn fifteen. Run the
+probes inside one 10–20-turn conversation per model (`playtest-loop.md`).
 
 ## Failure repairs
 
@@ -191,3 +194,4 @@ information, then offers a new playable hook.
 - Can a later session restart from the last unresolved hook?
 - Does memory preserve choices without deciding feelings or consent?
 - Is the state model compact enough to update reliably?
+- Agency guardrails: `agency-design.md`.

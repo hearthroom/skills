@@ -26,18 +26,20 @@ without rereading the material. The output is a map, not a card.
 2. Inventory each source by what it can contribute, without copying it.
 3. Extract the playable promise: fantasy, player role, central tension, and the
    pressure that starts the first scene.
-4. Filter for playability. Keep a fact only when it creates agency, consequence,
-   character behavior, state, a route seed, voice, or a first-scene action.
+4. Filter for playability. Keep a fact only if it creates agency, consequence,
+   character behaviour, state, a route seed, voice, or a first-scene action.
+   Check every real-world fact against a reliable source before it goes into a
+   field; mark the unverified as assumptions.
 5. Compress a world into modules: core rule, player position, locations,
    factions, state, route seeds, one opening problem. Compress a character into
-   desire, contradiction, boundary, player leverage, voice, turn behavior,
+   desire, contradiction, boundary, player leverage, voice, turn behaviour,
    progression.
 6. Mark every item keep, delay, cut, merge, rename, or assumption.
 7. Map what is kept to the folder: durable rules and engine to `definition.md`;
-   the first scene to `welcome.md`; background that matters only when named to
+   the first scene to `welcome.md`; background that matters only once named to
    `lorebook.json` entries with keywords and descriptive names; visible status
-   or layout ideas to a presentation note; example conversations only when they
-   teach voice or format.
+   or layout ideas to a presentation note; one ordinary-turn sample for
+   `talkExample` (examples beat rules for weak models, `talk-example-design.md`).
 8. Write a character plan per field. Take limits from `card validate --json`
    (`tokenBudget.limits`). Cut history before agency, consequence, voice, or state.
 
@@ -46,7 +48,7 @@ without rereading the material. The output is a map, not a card.
 ```text
 Material inventory / Playable promise
 Source-to-play map: definition | opening | Lorebook | presentation | examples
-Delay / cut / merge / assumptions
+Delay / cut / merge / assumptions; facts checked: yes | list
 Character plan per field; cut first
 Next skill; ready: yes | no; missing author input
 ```
@@ -65,6 +67,6 @@ Next skill; ready: yes | no; missing author input
   and a first action beats a digest.
 - Do not paste source passages into the card; rewrite as original rules and beats.
 - Do not keep names, factions, or mechanics that do not change play.
-- Do not ask about every gap; ask only when the answer changes player role,
+- Do not ask about every gap; ask only if the answer changes player role,
   intensity, central relationship, first scene, or ownership.
 - Do not run CLI commands or edit the folder from this skill.

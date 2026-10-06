@@ -21,17 +21,19 @@ deciding whether ensemble is the primary contract or an overlay;
 `../../references/opening-design.md` when the first screen is a roll call;
 `../../references/agency-design.md` when the cast crowds out the player;
 `../../references/longplay-design.md` when group tension needs memory;
-`../../references/token-economy.md` when cast or samples bloat fields.
+`../../references/token-economy.md` when cast or samples bloat fields;
+`../../references/talk-example-design.md` for the ordinary-turn sample;
+`../../references/world-engine-design.md` for keyword staggering.
 
 ## Workflow
 
 1. Restate the seed or failure: new design, roll-call opening, cast crowding, blurred speakers, token bloat or weak player role. Decide whether ensemble is primary or an overlay; use `hearthroom-archetype-director` if unresolved.
 2. Define player role and leverage before keeping any speaker. The player must be able to change clue, route, trust, alliance, risk, access or boundary.
-3. Build the cast decision matrix and keep, merge or cut by play function. Most cards keep 2-5 core speakers.
+3. Build the cast decision matrix (including each speaker's relation to the player as one concrete image) and keep, merge or cut by play function. Most cards keep 2-5 core speakers.
 4. Define the conflict network and group tension state.
 5. Define turn ownership: opening focus, first speaker, interrupter, holder-back, secondary entry rules, max active speakers per turn, when the player must be addressed. If replies must mark who speaks, plan that format for the output contract.
-6. Define spotlight rules, the opening focus, voice contrast, and whether any speaker needs a `talkExample` micro-sample.
-7. Plan secondary speakers and factions as named Lorebook entries; produce token plan and field allocation.
+6. Define spotlight rules, the opening focus and voice contrast; plan one ordinary group-turn sample for `talkExample` (examples beat rules for weak models), never a showdown.
+7. Plan secondary speakers and factions as named Lorebook entries with staggered keywords; produce token plan and field allocation.
 8. Write agency and play probes, run the self-review, name the next skill.
 
 ## Hand-off
@@ -51,9 +53,10 @@ Ensemble packet:
 - group tension state:
 - opening focus:
 - voice contrast plan:
-- talkExample decision:
+- talkExample: the ordinary group turn it shows
 - token plan:
-- agency and play probes:
+- agency and play probes (Playtest: 10–20 turns, a weak and a strong model, `--new-session`, one shortcoming per version, compared with the previous version (`playtest-loop.md`).):
+- attention: which turn-ownership rule joins the top iron rules, and the matching line in the final recency checklist (they must agree; `prompt-attention-architecture.md`)
 - field allocation:
 - self-review: every speaker changes play; player not crowded out; opening not a roll call; turn ownership explicit; tension trackable; voices pass a blind-line check; tokens justified
 - next skill:
@@ -65,7 +68,7 @@ overlay; `hearthroom-card-blueprint` for a card-ready blueprint;
 `hearthroom-opening-director` when the first screen lacks a focal crisis;
 `hearthroom-voice-director` when speakers still blur;
 `hearthroom-agency-designer` when the cast still crowds out the player;
-`hearthroom-chat-simulation` when transcripts show cast-over-player behavior
+`hearthroom-chat-simulation` when transcripts show cast-over-player behaviour
 or ignored choices.
 
 ## Do not

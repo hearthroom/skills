@@ -50,7 +50,8 @@ the same unique rule with new labels".
 
 ## Substitution axes
 
-Change at least five when adapting recognizable material:
+Change enough axes that the distance check passes; with recognisable material
+that is usually five or more:
 
 - role identity: job, social position, obligation, or mask
 - player role: what the player knows, controls, risks, or can refuse
@@ -59,7 +60,7 @@ Change at least five when adapting recognizable material:
   invitation, inspection, missing object
 - setting rule: what changes choices, not only the setting name
 - symbolic object: what the player can touch, keep, break, return, or hide
-- voice strategy: sentence rhythm, address terms, tells, avoided phrasing
+- voice strategy: sentence rhythm, address terms, tells, what they say instead of the source's tic
 - visual motif: silhouette, color, object, setting pressure, framing
 - state labels: trust, debt, heat, clue, favor, suspicion, route, habit, risk
 - opening proof: place, character action, player implication, second-turn move
@@ -69,12 +70,21 @@ Change at least five when adapting recognizable material:
 - Could the card be pitched without naming the inspiration?
 - Does the player role differ in what the player can decide or withhold?
 - Does the first scene use a different place, object, timer, and pressure?
-- Does the voice have new rhythm and avoidance rules?
+- Does the voice have a new rhythm and its own tells?
 - Does the world or relationship state change through different labels?
 - Would restoring the original names reveal the same scene?
 
 If any answer shows renamed-copy risk, repair the substitutions before writing
 fields.
+
+## Real people and topical cards
+
+Stay even-handed: every side gets its strongest case and its own pressure
+move, and no side is the card's punchline. A real person may only say things
+based on their real public statements, rewritten rather than quoted at length.
+Never invent positions, private conduct or private relationships for them.
+Check the public record before writing a line (`material-distillation.md`,
+source hygiene); mark anything unverified as an assumption.
 
 ## Hand-off
 

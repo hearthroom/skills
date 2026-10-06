@@ -357,6 +357,10 @@
     "sandbox-kit.md": {
       "batch": "G",
       "source": null
+    },
+    "full-page-layouts.md": {
+      "batch": "G",
+      "source": "split out of presentation-design.md; browser and vendor documentation, not facts"
     }
   },
   "examples": {
@@ -369,26 +373,30 @@
   },
   "dropped": [
     "lunatalk-mcp-operator (replaced by hearthroom-cli-operator)",
-    "lunatalk-preview-page-designer",
-    "lunatalk-benchmark-runner",
-    "lunatalk-mod-author",
-    "card-writer-mcp.md",
+    "lunatalk-preview-page-designer (its page model does not exist on Hearthroom; replaced by hearthroom-sandbox-kit and the offline preview)",
+    "lunatalk-benchmark-runner (depended on the predecessor's analytics)",
+    "lunatalk-mod-author (no mod system on Hearthroom)",
+    "card-writer-mcp.md (no tool-protocol server; the CLI replaces it)",
     "mcp-client-workflow.md (folded into cli-workflow.md)",
-    "oauth-client-lifecycle.md",
-    "theme-v3-rendering.md",
-    "preview-page-authoring.md",
-    "creator-analytics.md",
-    "benchmark-pattern-calibration.md",
+    "oauth-client-lifecycle.md (sign-in is a one-time code in the CLI)",
+    "theme-v3-rendering.md (that theme engine does not exist on Hearthroom; themes are --chat-* variables and the kit's presets)",
+    "preview-page-authoring.md (that page model does not exist on Hearthroom)",
+    "creator-analytics.md (no analytics endpoint on Hearthroom)",
+    "benchmark-pattern-calibration.md (depended on the predecessor's benchmark runner)",
     "agent-mode-runtime.md (folded into platform-facts.md)",
-    "one-shot-prompt-runtime.md",
-    "mod-authoring.md",
-    "end-to-end-acceptance.md",
+    "one-shot-prompt-runtime.md (no one-shot runtime on Hearthroom)",
+    "mod-authoring.md (no mod system on Hearthroom)",
+    "end-to-end-acceptance.md (folded into playtest-loop.md and the pre-push gates)",
     "safety-and-cost.md (rewritten as cost-and-boundaries.md)"
   ],
   "assets": {
     "sandbox-kit": {
       "batch": "G",
       "source": "Hearthroom-native kit; method informed by tavern-mmd's sandbox kit (MIT)"
+    },
+    "probe-card": {
+      "batch": "G",
+      "source": "a card whose script checks the sandbox contract claims on a real page (offline preview or a trial card)"
     }
   },
   "scripts": {

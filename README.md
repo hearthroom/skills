@@ -36,7 +36,8 @@ When writing, reviewing or testing a Hearthroom character card, read
 <path>/skills/using-hearthroom/SKILL.md first and follow its routing table.
 ```
 
-You also need the CLI: `curl -fsSL https://raw.githubusercontent.com/hearthroom/cli/main/install.sh | sh`,
+You also need the CLI: `brew install hearthroom/tap/hearthroom` on macOS,
+or `curl -fsSL https://raw.githubusercontent.com/hearthroom/cli/main/install.sh | sh`,
 then `hearthroom auth login`.
 
 ## What to say to your agent
@@ -45,13 +46,15 @@ then `hearthroom auth login`.
 
 > This card runs out of things to say after three turns. Find out why and fix it.
 
-> Render the opening and tell me whether the status bar rule actually applies.
+> Render the opening and show me a screenshot of whether the status panel actually draws.
 
 > Play two turns with the alternate opening and tell me where a player would lose interest.
 
 The agent starts at `using-hearthroom`, routes to the narrowest skill, edits
-the card folder, and runs `card push --validate`, `card render` and, only with
-your agreement, `play --allow-spend`.
+the card folder, runs the local checker (`scripts/check-card.mjs`),
+`card push --validate` and `card render`, looks at the screen in the offline
+preview when the chat page's repository is available, and, only with your
+agreement, `play --allow-spend`.
 
 ## What is inside
 
@@ -65,7 +68,10 @@ your agreement, `play --allow-spend`.
 - Sources and framing: material distiller, originality adapter, sample
   calibrator, profile packager, visual identity director, boundary designer,
   language stylist, detail engineer, token architect, instruction guardrail.
-- Presentation: presentation director, sandbox kit, render review.
+- Presentation: presentation director, sandbox kit, render review. Story
+  first: every card declares whether its UI assists the story or carries the
+  game, and the toolkit measures how much of each reply the status block
+  costs.
   `assets/sandbox-kit/` is the toolkit's own kit for the sandbox page: a
   status panel drawn from a block the model writes, a dark-and-light preset,
   a settings drawer, a pinned bar and choice buttons, built into display

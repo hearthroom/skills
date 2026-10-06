@@ -23,8 +23,9 @@ not permission to copy sample prose.
 2. Pick one primary sample and, only for a specific missing layer, one overlay.
    Never average several samples into a hybrid.
 3. Compare by structure: primary contract, promise surface, durable engine,
-   opening proof, voice proof, longplay proof, field allocation, play probes,
-   originality.
+   opening proof, voice proof, whether the sample's example shows an ordinary
+   turn the model can copy, longplay proof, UI role, field allocation, play
+   probes, originality.
 4. State exactly which structure may be borrowed (field allocation, pressure
    shape, player agency, opening proof, probe type) and which text and details
    must not be reused.

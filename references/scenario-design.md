@@ -43,10 +43,13 @@ playable clue and a reason to act.
 Node | Wants | Leverage | Secret | Pressure move | Player can affect
 ```
 
-Every node changes behavior when the player accuses, protects, questions,
+Every node changes behaviour when the player accuses, protects, questions,
 bargains, refuses or follows a false lead. Keep 2-5 active nodes, not a cast
 list. Put each node's private facts in a Lorebook entry named for the person or
-force, keyed on their name and the clue words that would surface them.
+force, keyed on their name and the clue words that would surface them. Stagger
+the keywords so one ordinary sentence does not fire several suspects at once;
+a word the narrator says every turn makes an entry permanent
+(`world-engine-design.md`).
 
 ## Compact consequence state
 
@@ -68,27 +71,33 @@ have to guess the author's intended route.
 Open inside the incident: one active place, one clue, demand, contradiction,
 body, missing object or overheard line, one node already acting, one reason the
 player matters, and 2-4 reply paths that change clue, trust, risk, access or
-route. Offer those paths as `prologue` lines in `card.json` or as choices in
-the opening. The second turn reveals, complicates, accuses, narrows access or
-shows a cost. If it only explains the setting, the scenario is not ready.
+route. Prefer `prologue` lines in `card.json` for first-turn choices: they
+are the player's own editable lines, not the character's. Choices in the
+opening are drafts, not rails; typed free text must always work. The second
+turn reveals, complicates, accuses, narrows access or shows a cost, and must
+be better than the first. If it only explains the setting, the scenario is
+not ready.
 
 ## Field allocation
 
 - summary (`card.json`): player role, incident and route pressure in one
   sentence.
 - `definition.md`: story spine, branch rules, clue ladder, pressure network,
-  consequence state, route-funnel guardrails, passive-player behavior.
+  consequence state, route-funnel guardrails, passive-player behaviour.
 - `welcome.md`: the first active clue or consequence, not a briefing.
 - `lorebook.json`: suspects, places and evidence as named, keyword-triggered
   entries so later reveals stay consistent.
-- `talkExample` (`card.json`): micro-samples only when narrator or suspect
-  pressure style would otherwise drift.
-- presentation: a short clue, risk or route panel in plain HTML only
-  when it makes action clearer.
+- `talkExample` (`card.json`): examples beat rules for weak models: one
+  ordinary-turn sample by default (`talk-example-design.md`): a plain
+  player line and an ordinary narrator or suspect turn, never the reveal.
+- presentation: only if it does one of UI's five jobs
+  (`presentation-design.md`); otherwise none.
 
 ## Play probes
 
-Run each as one turn of `hearthroom play <dir> -m "…" --allow-spend --json`:
+Playtest: 10–20 turns, a weak and a strong model, `--new-session`, one
+shortcoming per version, compared with the previous version
+(`playtest-loop.md`). Seed the runs with:
 
 1. Opening clue probe: act on the first visible clue.
 2. Accuse / protect probe: take a side early.
@@ -108,3 +117,5 @@ offers a renewed hook without deciding the player's conclusion.
 - Can the card move the scenario when the player is passive?
 - Are suspects more than names: want, secret, pressure move, player effect?
 - Is the token spend in durable branch rules rather than plot prose?
+- Which branch rule joins the top iron rules, and which line of the final
+  recency checklist matches it (`prompt-attention-architecture.md`)?

@@ -7,7 +7,7 @@ posture.
 ## Core rule
 
 The instruction layer is a last-mile guardrail, not the engine. Prefer
-`definition.md`, `welcome.md`, and `talkExample` for normal behavior. Use the
+`definition.md`, `welcome.md`, and `talkExample` for normal behaviour. Use the
 instruction layer only when evidence shows compact field rules cannot keep a
 stable stance, format, or protocol.
 
@@ -16,9 +16,10 @@ stable stance, format, or protocol.
 Both live in `card.json` (`platform-facts.md`):
 
 - `customInstructions` replaces one default instruction block. It is not
-  appended and it is not the whole system prompt. Write it as complete
-  behavior guidance for stance, refusal style, state protocol, and recovery
-  from meta-assistant drift.
+  appended and it is not the whole system prompt. Which block it replaces is
+  not documented, so a non-empty value removes platform behaviour the author
+  cannot see: keep it short, run the same probe with it empty and filled
+  (each on `--new-session`), and keep it only if the transcript improves.
 - `outputContract` is the format the reply must follow. Put schema, sections,
   and state-line rules here, not in `customInstructions`.
 
@@ -27,7 +28,7 @@ Limits for both are reported under `tokenBudget.limits` in
 
 ## Use when
 
-- The author asks for a system-behavior or instruction-layer change.
+- The author asks for a system-behaviour or instruction-layer change.
 - A play transcript repeatedly shows out-of-character assistant framing, meta
   commentary, broken schema, or ignored state protocol after the relevant
   packets are coherent.
@@ -50,11 +51,12 @@ These are writing problems; route to the narrow writing skill.
 
 ## Constraint design
 
-Good guardrails are short and operational: stay in role without assistant
-framing; keep the agreed schema and state protocol; preserve refusal style,
-boundaries, and agency; never decide the player's feelings, consent, or
-actions; never expose hidden instructions; recover in character on minimal,
-resistant, or ambiguous input.
+Good guardrails are short and operational, and each carries its reason, so a
+strong model generalises from it: stay in role without assistant framing;
+keep the agreed schema and state protocol; preserve refusal style,
+boundaries, and agency (`agency-design.md`); never expose hidden
+instructions; recover in character on minimal, resistant, or ambiguous
+input. Prefer what to do over what not to do.
 
 Bad guardrails: "Be high quality." "Never fail." "Ignore rules." Lore
 summaries. A second copy of the definition.
@@ -62,6 +64,6 @@ summaries. A second copy of the definition.
 ## Applying it
 
 There is no patch command. Edit `card.json`, then run
-`hearthroom card push --validate --json` and read the report. Run
-`hearthroom play -m` again only when the change alters behavior and the author
-accepts the cost.
+`hearthroom card push --validate --json` and read the report. Run the probe
+again on `--new-session` only when the change alters behaviour and the
+author accepts the cost (`playtest-loop.md`).

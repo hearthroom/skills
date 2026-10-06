@@ -2,7 +2,7 @@
 
 Use this reference when the author is unsure what kind of card they are
 making, when a card mixes several formats, or when the chosen type is valid but
-behaviorally generic. An archetype is not a genre label. It is the playable
+behaviourally generic. An archetype is not a genre label. It is the playable
 contract the card makes with the player. Pick one primary contract; overlays
 support it instead of competing with it.
 
@@ -31,12 +31,12 @@ the contract?
 ### Companion
 
 Engine: relationship pressure; desire and contradiction; player leverage;
-pacing and refusal behavior; initiative when the player is passive. Summary:
+pacing and refusal behaviour; initiative when the player is passive. Summary:
 the relationship promise plus immediate tension. Definition: identity, desire,
-contradiction, boundary, voice, pressure behavior, trust or distance
+contradiction, boundary, voice, pressure behaviour, trust or distance
 progression. Opening: a scene already in motion where the character acts
-first. Example conversations only if voice cannot be preserved by rules.
-Failure modes: a mood-label character; a first turn that asks for comfort but
+first. Examples beat rules for weak models: one ordinary-turn sample by
+default (`talk-example-design.md`). Failure modes: a mood-label character; a first turn that asks for comfort but
 has no decision; closeness without pacing; the card deciding the player's
 feelings or consent.
 
@@ -47,8 +47,8 @@ likely branches; named places or people only when they affect action; memory
 of route choices. Summary: player position plus incident. Definition: stakes,
 routes, key locations, pressure moves, memory rules, consequence loop;
 sometimes-needed places and people go to the Lorebook. Opening: inside the
-incident, not a setting tour; alternate openings can start from a different
-incident. Failure modes: a premise summary with no scene; branches that change
+incident, not a setting tour; alternates are different situations, never
+rewrites of the main opening. Failure modes: a premise summary with no scene; branches that change
 scenery but not state, risk, relationship or access; a player who is only a
 witness. Use `scenario-design.md`.
 
@@ -67,11 +67,15 @@ story or is ignored; state not updated after the player's action.
 
 Summary: player position and choice pressure, or system purpose and main
 controls. Definition: rules, state schema, resources, factions, scene loop,
-failure behavior, progression. The turn or reply format goes in the output
-contract (`outputContract` in `card.json`). Opening: setup state or the first
-crisis with choices, or a compact control surface with defaults. Example
-conversations are useful when they teach the turn format. Visible state can
-be drawn by display rules in `rules.json`. Use `play-engine-design.md`.
+failure behaviour, progression. The turn or reply format goes in the output
+contract (`outputContract` in `card.json`). `customInstructions` replaces
+one default instruction block and the block it replaces is not documented;
+use it only to replace that block, never for card rules
+(`platform-facts.md`). Opening: setup state or the first crisis with choices,
+or a compact control surface with defaults. The sample turn teaches the turn
+format (`talk-example-design.md`). Visible state is the status block drawn by
+the sandbox kit (`state-economy-design.md`), which needs `pageMode: sandbox`.
+Use `play-engine-design.md`.
 
 ### Generator
 
@@ -140,3 +144,11 @@ boundary design before first-scene escalation.
   actions or commitments?
 - Is the length plan right for the contract? Check
   `hearthroom card push --validate --json` once fields exist.
+- Is `uiRole` declared: `assist` (the story is the product; the card must
+  read well with display rules off) or `core` (mechanics bound to UI: each
+  mechanic legible in text, degrades to text, changes a choice or
+  consequence)? Story first, `uiRole`, the five jobs of UI and the overhead
+  ratio: `presentation-design.md`.
+- Is `pageMode` decided: `sandbox` (default; required for the kit, scripts
+  and saves) or `classic` (only for an imported card that misbehaves in the
+  sandbox)?

@@ -110,6 +110,9 @@
 .hr-choice--spent { opacity: .45; cursor: default; }
 .hr-choice--picked { opacity: 1; border-color: var(--hr-accent); }
 .hr-choices--old .hr-choice { opacity: .4; pointer-events: none; }
+.hr-choices--raw { white-space: pre-line; opacity: .85; }
+.hr-choice--own { border-style: dashed; color: var(--hr-muted); }
+.hr-choices--old .hr-choice--own { pointer-events: auto; opacity: .7; }
 
 /* ---------- toast, stage ---------- */
 .hr-toast { position: absolute; left: 50%; bottom: calc(120 * var(--rpx)); transform: translateX(-50%); z-index: 3800; padding: 8px 14px; border-radius: 999px; background: var(--hr-surface-2); color: var(--hr-text); border: 1px solid var(--hr-border); box-shadow: var(--hr-shadow); font-size: 13px; pointer-events: none; }

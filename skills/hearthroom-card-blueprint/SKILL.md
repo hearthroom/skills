@@ -64,9 +64,12 @@ turn protocol), `../../references/generator-design.md` (artifact output),
 5. Build the tension triangle: role desire, player leverage, external
    pressure. Use `hearthroom-tension-weaver` when the premise is inert.
 6. Define the character core: identity, desire, contradiction, boundary, mask
-   or wound, player leverage, pressure behavior, what changes as the player
-   moves closer or pushes back. Use `hearthroom-character-core` when appeal is
-   the weak layer.
+   or wound, player leverage, pressure behaviour, what changes as the player
+   moves closer or pushes back. Appearance: write only what deviates from the
+   default picture the name and genre already evoke (test: hide the name;
+   would you recognise them?). Relationship to the player: one concrete image
+   ("she still keeps your umbrella by the door"), never "deep feelings". Use
+   `hearthroom-character-core` when appeal is the weak layer.
 7. Define the player insertion space: what the player controls, can refuse,
    can change, and what the card must never decide. Use
    `hearthroom-agency-designer` for spectator play or decorative choices.
@@ -75,13 +78,17 @@ turn protocol), `../../references/generator-design.md` (artifact output),
    play, generator, scenario or daily-life. Define the world only as far as it
    creates play; sometimes-needed facts become Lorebook entries.
 9. Define the voice fingerprint: rhythm, vocabulary, address terms, emotional
-   tells, action beats, concealment, refusal style, avoided phrasing. For
-   ensembles add a contrast matrix. Use `hearthroom-voice-director` when voice
-   is the main repair.
+   tells, action beats, concealment, refusal style, and "says instead" (one
+   line showing what replaces a tic you want gone). For ensembles add a
+   contrast matrix. Use `hearthroom-voice-director` when voice is the main
+   repair.
 10. Decide allocation early: what belongs in the definition, the opening,
     Lorebook entries, the output contract and display rules. Use
     `hearthroom-token-architect` when the opening wants to become a manual.
-11. Design the first scene and the second-turn engine together. Write the
+11. Design the first scene and the second-turn engine together. The opening
+    is the free demo: it must show the voice, offer one low-friction first
+    action, and leave a pull the player wants to answer; the second-turn
+    move must be better than the opening, not a restatement. Write the
     expected first user message and the character's second-turn move. Use
     `hearthroom-opening-director` when the opening is the core problem,
     `hearthroom-longplay-architect` for a dead third turn,
@@ -98,13 +105,16 @@ Return a blueprint packet with only the sections that apply:
 Seed:
 Recommended direction: why stronger, card shape, type, language, rating intent
 Tension: role desire, player leverage, external pressure, why now, first-scene hook
-Character core: identity, desire, contradiction, boundary, mask, leverage, pressure behavior
+Character core: identity, desire, contradiction, boundary, mask, leverage, pressure behaviour
 Player insertion: controls, can refuse, can change, must not decide, reply-path matrix
 Engine packet(s): relationship | world | play | generator | scenario | daily-life | ensemble
-Voice fingerprint: rhythm, vocabulary, address terms, tells, refusal style, avoided phrasing
+Voice fingerprint: rhythm, vocabulary, address terms, tells, refusal style, says instead
 First scene: place/time, role action, pressure, player implication, reply paths
 Second-turn engine: expected first user message, role move, what changes, renewed hook
 State economy: kept fields, visibility, update triggers
+UI role: assist | core; what each UI element changes (presentation-design.md, Story first)
+Status overhead: fields × typical length vs reply length; declared threshold
+Attention: which rule joins the top iron rules, and the matching line in the final recency checklist (prompt-attention-architecture.md)
 Field draft: name, summary, definition outline, opening concept
 Allocation: definition | opening | Lorebook | output contract | display rules | cut first
 Boundary packet (when sensitive):

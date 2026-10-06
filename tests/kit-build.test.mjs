@@ -22,13 +22,13 @@ test('contrast ratio matches the WCAG reference values', () => {
   assert.equal(contrast('not a colour', '#fff'), null);
 });
 
-test('the example config builds three rules, each well under 128 KiB, pageMode sandbox, kit rules first', () => {
+test('the example config builds four rules, each well under 128 KiB, pageMode sandbox, kit rules first', () => {
   const built = buildRules(example, ROOT);
-  assert.deepEqual(built.rules.map((r) => r.id), ['hr-style', 'hr-kit', 'hr-status']);
+  assert.deepEqual(built.rules.map((r) => r.id), ['hr-style', 'hr-kit', 'hr-status', 'hr-choices']);
   for (const r of built.rules) assert.ok(bytes(r.replace) < REPLACE_MAX_BYTES / 2, `${r.id} is ${bytes(r.replace)} bytes`);
   assert.deepEqual(built.problems, []);
   const merged = mergeInto({ rules: [{ id: 'mine', find: 'x', replace: 'y', enabled: true }, { id: 'hr-kit', find: 'old', replace: 'old' }], mountTrigger: '' }, built);
-  assert.deepEqual(merged.rules.map((r) => r.id), ['hr-style', 'hr-kit', 'hr-status', 'mine']);
+  assert.deepEqual(merged.rules.map((r) => r.id), ['hr-style', 'hr-kit', 'hr-status', 'hr-choices', 'mine']);
   assert.equal(merged.pageMode, 'sandbox');
   assert.equal(merged.mountTrigger, '');
 });
@@ -60,4 +60,21 @@ test('the kit modules parse as JavaScript after slimming and expose window.HR', 
   assert.doesNotThrow(() => new Function(js));
   assert.match(js, /W\.HR = HR/);
   assert.match(js, /HR\.status\.auto\(\)/);
+});
+
+test('choices mode follows uiRole unless set; the choices rule is emitted', async () => {
+  const { choicesModeOf, emitContract } = await import('../assets/sandbox-kit/build.mjs');
+  assert.equal(choicesModeOf({ uiRole: 'assist', modes: { choices: true } }), 'draft');
+  assert.equal(choicesModeOf({ uiRole: 'core', modes: { choices: true } }), 'send');
+  assert.equal(choicesModeOf({ modes: { choices: 'send' } }), 'send');
+  assert.equal(choicesModeOf({ modes: { choices: false } }), null);
+  const built = buildRules(example, ROOT);
+  assert.ok(built.rules.some((r) => r.id === 'hr-choices'));
+  const c = emitContract(example);
+  assert.match(c.text, /^End every reply with one \[status\] block/);
+  assert.match(c.text, /hp: <current>\/<max>/);
+  assert.match(c.text, /drop them when they stop applying: danger/);
+  assert.match(c.text, /\[choices\]/);
+  assert.ok(!c.keys.includes('danger') && c.volatileKeys.includes('danger'));
+  assert.match(c.text, /Example of an ordinary turn/);
 });

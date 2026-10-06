@@ -13,20 +13,22 @@ written.
 
 | Field | File |
 |---|---|
-| name, summary, tags, type, sex, playerName, nickname, language | `card.json` |
+| name, summary, tags, type, sex, playerName, nickname, language, cardMeta | `card.json` |
 | output contract, custom instructions, example conversations, suggested first lines | `card.json` (`outputContract`, `customInstructions`, `talkExample`, `prologue`) |
-| portrait, background | `card.json` `media.portrait` / `media.background`, files under `assets/` |
+| portrait, background, landscape background, media-library folder | `card.json` `media.portrait` / `media.background` / `media.backgroundLandscape` / `media.folder`, files under `assets/` |
 | definition | `definition.md` |
 | opening | `welcome.md` |
 | alternate openings | `openings/alt-NN.md`, file-name order |
 | Lorebook | `lorebook.json` |
-| display rules, function bar, page mode | `rules.json` |
-| working notes, version history, author-facing remarks | `README.md` (never sent to the provider) |
+| display rules, function bar, page mode, mount layer, card format (`mmd`, the default, locks the dark theme) | `rules.json` |
+| dossier: `uiRole`, status overhead threshold, decisions, rejected directions, evidence by version | `README.md` (never sent to the provider; template in `card-authoring-templates.md`) |
 
 ## Finalization gates
 
 Check these in order.
 
+0. Local check: `node <toolkit>/scripts/check-card.mjs <dir>`. Errors block;
+   warnings are read and either fixed or explained in the packet.
 1. Packet preservation: every supplied packet is preserved, deliberately
    resolved, or sent back to the right narrow skill.
 2. Field completeness: name, summary, definition, opening, tags, type, language,
@@ -38,7 +40,7 @@ Check these in order.
 4. Limits: read `tokenBudget.limits` and the per-field counts from
    `card validate --json`. The English column applies only when `language` is
    exactly `en`. Limits are ceilings, not targets. Record the current estimate
-   and why each long section changes behavior, route, state, voice, boundary or
+   and why each long section changes behaviour, route, state, voice, boundary or
    return-later play. For long definitions apply
    `prompt-attention-architecture.md` before treating the field as final. Leave
    buffer under every limit so a last edit does not turn into a blocker.
@@ -48,10 +50,13 @@ Check these in order.
    no skipped levels), JSON validity of `card.json`, `lorebook.json` and
    `rules.json`, exact spelling of `{{char}}` and `{{user}}`, and that HTML in
    the opening is plain HTML and CSS with no custom elements the page does
-   not register. A status line
-   the model must write belongs in the output contract with its drawing rule
-   in `rules.json`; never store the player's feelings, consent or chosen route
-   as state. Every Lorebook entry has a descriptive `name`, `content`, and
+   not register. A status block the model must write is declared, with its
+   keys and allowed values, in the output contract or the definition and
+   appears in the opening, with its drawing rule in `rules.json` (render
+   rules are not generation rules); every value has one owner, the model in
+   the block or a script in `sdk.save`, never both; scene-only values are
+   `volatile` (`state-economy-design.md`, `sandbox-kit.md`); never store the
+   player's feelings, consent or chosen route as state. Every Lorebook entry has a descriptive `name`, `content`, and
    either `keywords` or `constant: true`. If the opening's HTML, display rules
    or status line design is unsettled, route to
    `hearthroom-presentation-director` or `hearthroom-render-review` instead of
@@ -88,9 +93,10 @@ Field finalization packet:
   - definition:
   - opening:
   - example conversations:
-- format checks: Markdown | HTML (plain, no unregistered custom elements) | JSON files | status line
+- check-card: no errors | warnings read
+- format checks: Markdown | HTML (plain, no unregistered custom elements) | JSON files | status block declared and consumed
 - placeholder / meta check:
-- file mapping: card.json | definition.md | welcome.md and openings | lorebook.json | rules.json | assets/
+- file mapping: card.json | definition.md | welcome.md and openings | lorebook.json | rules.json | assets/ | README.md dossier (uiRole, threshold)
 - validate / render / play hand-off:
   - validate focus:
   - render focus:
@@ -108,7 +114,7 @@ Field finalization packet:
   `hearthroom-daily-life-architect`.
 - Lore dump or inactive setting: `hearthroom-world-engineer` or
   `hearthroom-material-distiller`.
-- Broken game or generator behavior: `hearthroom-play-engineer` or
+- Broken game or generator behaviour: `hearthroom-play-engineer` or
   `hearthroom-generator-architect`.
 - Passive player, decorative choices, agency takeover: `hearthroom-agency-designer`.
 - Generic dialogue or blurred speakers: `hearthroom-voice-director` or
@@ -118,7 +124,7 @@ Field finalization packet:
   `hearthroom-token-architect`.
 - Opening HTML, display rules or status line unresolved:
   `hearthroom-presentation-director`.
-- Fields coherent but behavior still drifts in play:
+- Fields coherent but behaviour still drifts in play:
   `hearthroom-instruction-guardrail`.
 
 ## Ready standard

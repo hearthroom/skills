@@ -104,7 +104,8 @@ happens next, or replace all three with an action.
   scene has stopped moving.
 - Similes are rationed. 像是、彷彿、如同 once per screen at most, and only when
   the comparison brings in a new object. "像是獵食者在觀察獵物" adds nothing
-  the eyes did not already say.
+  the eyes did not already say. The ration is set by the sample: a rule
+  cannot suppress similes on DeepSeek V4 Flash, only the sample can.
 - Retire the stock gestures. 嘴角勾起一抹弧度、眼中閃過一絲、空氣彷彿凝固、
   不知為何、心中一動 are not forbidden words; they are signs that the writer
   has stopped watching the character. Replace with what this character does
@@ -187,6 +188,8 @@ and the output contract sample:
 - One line refuses the mood.
 - The player has at least two defensible next moves, and the second turn can
   change something the first screen planted.
+- The sample ends with the status block if the card has one, in the
+  canonical form (`state-economy-design.md`).
 
 ## Repairs
 

@@ -23,21 +23,32 @@ Read `../../references/platform-facts.md` once per session. Read
 
 1. Identify what the author actually has: nothing but a mood, a settled premise,
    source material, an imported card, a pushed card with evidence, or feedback.
-2. Pick the narrowest skill below. If several apply, choose the first decisive
+2. Name the weakest conversion layer (`role-card-writing-framework.md`,
+   Funnel): L0 cover and title (would a stranger stop?), L1 summary (would
+   they open the opening?), L2 opening (is it a free demo that earns the
+   first paid message?), L3 play (is turn two better than turn one; do
+   choices accumulate?). Board metrics are not documented; judge the layer by
+   reading as a player. L0 → `hearthroom-visual-identity-director` and
+   `hearthroom-profile-packager`, L1 → `hearthroom-profile-packager`, L2 →
+   `hearthroom-opening-director`, L3 → `hearthroom-longplay-architect`,
+   `hearthroom-relationship-architect` or `hearthroom-play-engineer`.
+3. Pick the narrowest skill below. If several apply, choose the first decisive
    bottleneck and list the others as "later".
-3. State the route in one short block before doing narrower work:
+4. State the route in one short block before doing narrower work:
 
 ```text
 Route:
 - intent:
 - skill:
 - mode: draft-only | folder edit | push + validate | render | playtest | publish readiness
+- weakest layer: L0 | L1 | L2 | L3
+- uiRole: assist | core (from the card's README.md, or to be declared)
 - references:
 - later:
 - do not do yet:
 ```
 
-4. Keep all work on a trial card or the author's own private card. Never
+5. Keep all work on a trial card or the author's own private card. Never
    submit for review or make a card public on the author's behalf.
 
 ## Routing table
@@ -89,11 +100,14 @@ Route:
 
 ## Order of work for a new card
 
-premise → archetype → character core / relationship / world → tension →
-opening → voice → state → blueprint → author → finalizer → (sandbox kit) →
-check-card → push + validate → render → playtest → iterate → publish
-readiness. Skip stages the author has
-already settled; do not reopen a chosen direction unless asked.
+premise → engine (character, relationship, world) → opening → blueprint →
+author → finalizer → (sandbox kit) → `check-card.mjs` → `push --validate` →
+`render` → offline preview → playtest (a weak and a strong model, 10–20
+turns, `--new-session`) → iterate one shortcoming per version → publish
+readiness. Run a stage only when it is the current weakest layer; skip
+stages the author has already settled and do not reopen a chosen direction
+unless asked. This table is the only routing table in the toolkit; other
+skills point here.
 
 ## Feed lessons back into these skills
 
@@ -105,7 +119,8 @@ toolkit as well as the card:
 1. Edit the skill or reference that should have told you, in general terms:
    no card names, ids, private content or credit balances.
 2. Run `npm run validate` and `npm test` in the toolkit.
-3. Commit it with the repository's own author identity.
+3. Commit with the git identity already configured in the toolkit repository,
+   never the card author's.
 4. Tell the person you are working with what changed and why. Push only after
    they agree.
 

@@ -33,23 +33,22 @@ Preserve narrow packets when they exist: `character-core-design.md`,
 1. Name the failure: thin biography, under-budget engine, opening carrying
    rules, lore digest, generic trope, no role initiative, no consequence, no
    player insertion space, or no format stability.
-2. Set the language and budget target from `role-detail-engine.md`. Coverage
-   matters more than length, but flag a high-ambition non-English draft that
-   stays far below the band without a proven light-setting reason. Limits come
-   from `tokenBudget.limits` in `card validate --json`.
+2. Judge the definition by module coverage and play evidence, never by a
+   character count: flag a module that play showed missing, not a short
+   field. Limits come from `tokenBudget.limits` in `card validate --json`;
+   keep at least about 500 characters free under each non-English limit.
 3. Classify the card shape and preserve existing packet signals. If the premise
    is not chosen, route to `hearthroom-premise-workshop` or
    `hearthroom-tension-weaver` first.
-4. For long or strict definitions put a 5-7 item every-turn block at the top.
-   For plot-driven cards include a narrative progression engine: inciting
-   incident within one or two turns, a next station every turn, progression
-   and response as separate duties, the character owns story direction, no
-   turn-count rules. For cards with a reply shape add a minimum viable reply,
-   a recovery sentence, and a tiny format exemplar that teaches structure
-   without a new story beat.
-5. Fill the engine modules with concrete behavior: identity and core charm,
+4. Order the definition by `prompt-attention-architecture.md`: the iron laws
+   at the top, the final recency checklist at the end, and the two must
+   agree. For plot-driven cards include the narrative progression engine from
+   `role-detail-engine.md`. For cards with a reply shape add a minimum viable
+   reply, a recovery sentence, and one ordinary-turn example of the status
+   block with concrete values (`state-economy-design.md`).
+5. Fill the engine modules with concrete behaviour: identity and core charm,
    background and motive, current pressure, narrative progression, player
-   relationship, world or play functions, proactive turn behavior, voice and
+   relationship, world or play functions, proactive turn behaviour, voice and
    action logic, emotional reactions, longplay hooks, scene reservoir and turn
    recipes, time and consequence, secret and reveal plan, player insertion
    space, agency boundaries, format stability.
@@ -66,7 +65,7 @@ Return the detail engine packet from `role-detail-engine.md` plus:
 
 ```text
 Self-review:
-- each module changes future behavior:
+- each module changes future behaviour:
 - no thin biography remains:
 - scene reservoir prevents abstract repeated setup:
 - no durable rules stranded in the opening:
@@ -87,6 +86,9 @@ engine skill this pass exposed as missing.
 - Do not leave backstory that changes no want, fear, debt, skill, taboo or
   route.
 - Do not keep lore that changes no access, risk, cost, state, clue or leverage.
+  For every Lorebook line ask: would the model get it wrong without it? Is it
+  information or decoration? Would a list do? Does it make sense without the
+  source? Fail one, cut or rewrite.
 - Do not make the player open the new scene.
 - Do not write turn-count rules such as "after three turns" or "reveal on
   turn five".

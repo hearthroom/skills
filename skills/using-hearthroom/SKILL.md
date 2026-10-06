@@ -121,7 +121,10 @@ model behaviour, a test that would have caught it earlier), update this
 toolkit as well as the card:
 
 1. Edit the skill or reference that should have told you, in general terms:
-   no card names, ids, private content or credit balances.
+   no card names, ids, private content or credit balances. For a platform
+   fact, confirm it first in the chat page's source (`platform-facts.md`,
+   "Where these facts come from" names the files) and then write it into
+   `platform-facts.md`.
 2. Run `npm run validate` and `npm test` in the toolkit.
 3. Commit with the git identity already configured in the toolkit repository,
    never the card author's.

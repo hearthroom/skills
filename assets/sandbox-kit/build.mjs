@@ -73,7 +73,7 @@ export function contrastReport(tokens) {
   return out;
 }
 
-/** A preset from a flat palette (ui-ux-pro-max or any design tool): each side needs at least
+/** A preset from a flat palette (any design tool's export): each side needs at least
  *  bg, surface, text, accent; muted/border/on-accent and the tones are derived when missing.
  *  The result goes through the same contrast checks as a shipped preset. */
 export function presetFromPalette(input, name = 'custom') {

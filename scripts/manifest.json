@@ -406,6 +406,10 @@
     "sandbox-contract.json": {
       "batch": "G",
       "source": "hearthroom/stage contract/sandbox-contract.json (generated)"
+    },
+    "sync-contract.mjs": {
+      "batch": "G",
+      "source": "keeps sandbox-contract.json equal to the chat page's generated contract (CI runs --check)"
     }
   }
 }

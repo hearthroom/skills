@@ -251,5 +251,30 @@
     visible: function () { return W.sdk.stage.visible(); },
   };
 
+  /* ---------- intro: a first-open screen on the stage (gated; L2 only) ----------
+     Shown once per card when the conversation has no player line yet (every bubble's serverId is
+     null and there is at most the greeting), never again after "Begin" (stored). It states the
+     promise in one line and offers one action; it must not restate the opening. */
+  ui.intro = function (opts) {
+    opts = opts || {};
+    if (HR.store.get('introSeen', false)) return false;
+    var bubbles = D.body.querySelectorAll('[data-chat="message"]');
+    var fresh = bubbles.length <= 1;
+    for (var i = 0; i < bubbles.length; i++) if (bubbles[i].getAttribute('data-msg-id')) fresh = false;
+    if (!fresh) return false;
+    ui.stage.open('full', function (box) {
+      box.className += ' hr-intro';
+      box.appendChild(h('div', { 'class': 'hr-intro__title', text: HR.t(opts.title || (W.sdk.role.get().name || '')) }));
+      if (opts.line) box.appendChild(h('p', { 'class': 'hr-intro__line', text: HR.t(opts.line) }));
+      box.appendChild(h('button', { 'class': 'hr-btn hr-intro__begin', type: 'button', text: HR.t(opts.begin || 'Begin'), on: { click: function () {
+        HR.store.set('introSeen', true);
+        ui.stage.close();
+        if (opts.draft) { try { W.sdk.input.set(opts.draft); W.sdk.input.focus(); } catch (e) { /* ignore */ } }
+        if (typeof opts.onBegin === 'function') opts.onBegin();
+      } } }));
+    });
+    return true;
+  };
+
   HR.log('ui ready');
 })(window);

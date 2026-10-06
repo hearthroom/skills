@@ -22,6 +22,16 @@ HUD. Report the status overhead ratio of the block on the sample replies
 (`check-card.mjs --replay`) against the threshold the card declares in its
 `README.md`.
 
+
+## The kit is not the default
+
+Most cards need no panel. Use the kit when the state packet says the player
+acts on two to six values every turn and a diegetic form of those values (a
+ledger line, a stamp, a letter) would cost the model more than it gives; if a
+line of prose carries the state better, write the line. A card that opens
+with a status panel because the toolkit has one has let the tool choose the
+story. Skin it to the world (`preset` and `extra.css`); the shipped presets
+are starting points, not looks.
 ## Three constraints that shape everything
 
 1. **The function bar is static.** `mountTrigger` is rendered once when the
@@ -212,3 +222,14 @@ expected under `report.unsupported` are `sdk.vars` and `<abc_vars>`. An
 author who also targets SillyTavern or MMD's older page can keep the
 open-source `tavern-mmd` skill for those platforms; on Hearthroom this kit
 is the route.
+
+## Gated extras
+
+Two things the kit can do only when the card says why (`gates.intro`, `gates.page` in
+the config; the build refuses them otherwise): a first-open intro on the stage (one line
+and one action, shown once, never a restatement of the opening) and a full-page reading
+mode over the chat list (one page per reply, choices unlock at the end of the page, one
+tap back to the chat). Both must pass the story-first numbers in the offline preview: the
+text-only view still reads, the first screen shows more story than chrome, and the first
+choice is reachable without hunting. A palette from a design tool becomes a preset with
+`--preset-from`, through the same contrast checks as the shipped ones.

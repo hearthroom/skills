@@ -78,3 +78,18 @@ test('choices mode follows uiRole unless set; the choices rule is emitted', asyn
   assert.ok(!c.keys.includes('danger') && c.volatileKeys.includes('danger'));
   assert.match(c.text, /Example of an ordinary turn/);
 });
+
+test('page and intro are gated; a palette becomes a preset that passes the contrast checks', async () => {
+  const { presetFromPalette, bootScript, OPTIONAL_MODULES } = await import('../assets/sandbox-kit/build.mjs');
+  const gated = buildRules({ ...example, modes: { ...example.modes, page: 'on', intro: { line: 'x' } } }, ROOT);
+  assert.ok(gated.problems.some((p) => p.includes('modes.page is gated')));
+  assert.ok(gated.problems.some((p) => p.includes('modes.intro is gated')));
+  const ok = buildRules({ ...example, modes: { ...example.modes, page: 'on', intro: { line: 'x' } }, gates: { page: 'reads as a novel', intro: 'names the bet' } }, ROOT);
+  assert.deepEqual(ok.problems, []);
+  assert.match(ok.rules[1].replace, /HR\.claim\('page'\)/);
+  assert.match(bootScript({ modes: { intro: { line: 'x' } } }), /HR\.ui\.intro\(\{"line":"x"\}\)/);
+  assert.equal(OPTIONAL_MODULES.page, 'hr-page.js');
+  const preset = presetFromPalette({ dark: { bg: '#101214', surface: '#1a1d21', text: '#e9ecef', accent: '#8ab4f8' }, light: { bg: '#fafafa', surface: '#ffffff', text: '#1f2328', accent: '#1a5fb4' } }, 'ink');
+  assert.deepEqual(contrastReport(preset).filter((c) => !c.ok), []);
+  assert.throws(() => presetFromPalette({ dark: { bg: '#000' }, light: {} }));
+});

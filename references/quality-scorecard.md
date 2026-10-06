@@ -57,6 +57,16 @@ cannot exceed the tier of its weakest layer.
 | L2 first paid message | Opening, Player agency, Story/UI balance | Is the opening a free demo: voice heard, one low-friction first action, a pull to answer? |
 | L3 return | Second-turn engine, Longplay, State economy, engines | Is turn two better than turn one; do choices accumulate and cost something; is there a reason to come back? |
 
+
+## The template test
+
+Could this card have been produced by filling the toolkit's packets in with
+the first thing that came to mind: the obvious premise for the genre, the
+status block because there is a kit, five beats in order, choices in every
+reply? If yes, it fails this test whatever the dimension scores, and the first
+repair is to find the one thing this card does that no template suggested.
+Also compare with the toolkit's own examples and the author's other cards: a
+family resemblance is a defect, not a style.
 ## Overall tier
 
 - `Blocked`: any critical blocker, regardless of total.

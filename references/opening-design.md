@@ -1,5 +1,11 @@
 # Opening design
 
+The beats below are what an opening must contain, not the order it must take
+or the voice it must use. An opening that ticks every beat in sequence reads
+like every other opening; an opening that lands them in an order and a form
+nobody expected is the point. Decide first what this opening does that the
+obvious one would not.
+
 Use this reference when a card needs a stronger opening (`welcome.md`), first
 reply path, or second-turn engine. The opening is not a greeting. It is the
 card's first playable contract.

@@ -18,6 +18,7 @@ const require = createRequire(import.meta.url);
 const status = require(path.join(HERE, 'kit/hr-status.js'));
 
 export const MODULES = ['hr-core.js', 'hr-status.js', 'hr-theme.js', 'hr-ui.js'];
+export const OPTIONAL_MODULES = { page: 'hr-page.js' };
 export const REPLACE_MAX_BYTES = 128 * 1024;
 export const WARN_BYTES = 110 * 1024;
 const TOKEN_KEYS = ['bg', 'surface', 'surface-2', 'text', 'muted', 'border', 'accent', 'on-accent', 'hp', 'mp', 'sp', 'xp', 'good', 'warn', 'bad', 'gap', 'pad', 'radius', 'shadow', 'glow', 'font-size', 'line-height'];
@@ -70,6 +71,28 @@ export function contrastReport(tokens) {
     }
   }
   return out;
+}
+
+/** A preset from a flat palette (ui-ux-pro-max or any design tool): each side needs at least
+ *  bg, surface, text, accent; muted/border/on-accent and the tones are derived when missing.
+ *  The result goes through the same contrast checks as a shipped preset. */
+export function presetFromPalette(input, name = 'custom') {
+  const side = (p = {}) => {
+    const bg = p.bg || p.background, surface = p.surface || p.card || bg, text = p.text || p.foreground, accent = p.accent || p.primary;
+    if (!bg || !surface || !text || !accent) throw new Error('a palette side needs bg, surface, text and accent');
+    const lum = (hex) => { const h = hex.replace('#', ''); const v = h.length === 3 ? h.split('').map((c) => c + c).join('') : h; return [0, 2, 4].map((i) => parseInt(v.slice(i, i + 2), 16)).reduce((a, c, i) => a + c * [0.2126, 0.7152, 0.0722][i], 0) / 255; };
+    const dark = lum(bg) < 0.5;
+    return {
+      bg, surface, 'surface-2': p['surface-2'] || p.surface2 || surface, text, muted: p.muted || p['text-muted'] || (dark ? '#a8adb5' : '#5b6270'),
+      border: p.border || (dark ? '#6b7280' : '#7d8794'), accent, 'on-accent': p['on-accent'] || p.onAccent || (lum(accent) < 0.5 ? '#ffffff' : '#111111'),
+      hp: p.hp || p.danger || (dark ? '#d4645f' : '#b7322c'), mp: p.mp || p.info || (dark ? '#5b8def' : '#2a57b7'), sp: p.sp || p.success || (dark ? '#5fb77a' : '#237a46'), xp: p.xp || p.warning || (dark ? '#d9a441' : '#8f6a12'),
+      good: p.good || p.success || (dark ? '#5fb77a' : '#237a46'), warn: p.warn || p.warning || (dark ? '#d9a441' : '#8f6a12'), bad: p.bad || p.danger || (dark ? '#d4645f' : '#b7322c'),
+      gap: p.gap || 'calc(12 * var(--rpx))', pad: p.pad || 'calc(16 * var(--rpx))', radius: p.radius || 'calc(12 * var(--rpx))',
+      shadow: p.shadow || (dark ? '0 2px 10px rgba(0, 0, 0, .3)' : '0 2px 10px rgba(0, 0, 0, .1)'), glow: p.glow || '0', 'font-size': p['font-size'] || '15px', 'line-height': p['line-height'] || '1.6',
+    };
+  };
+  const chat = { bg: 'bg', surface: 'surface', text: 'text', 'text-muted': 'muted', border: 'border', accent: 'accent', 'bubble-user-bg': 'surface-2', 'bubble-ai-bg': 'surface', 'bubble-text': 'text', 'input-bg': 'surface', 'input-text': 'text', 'input-border': 'border', 'composer-bg': 'bg', 'composer-text': 'text' };
+  return { name, intent: input.intent || 'from a palette', dark: side(input.dark), light: side(input.light), chat: { dark: chat, light: chat } };
 }
 
 export function loadPreset(name, root = HERE) {
@@ -172,6 +195,8 @@ export function bootScript(config) {
     lines.push(`HR.settled(function(){HR.ui.pinned(${JSON.stringify(modes.pinned.slice(0, 3))},${JSON.stringify(labels)});});`);
   }
   if (modes.choices !== false) lines.push('HR.ui.choices();');
+  if (modes.intro) lines.push(`HR.settled(function(){HR.ui.intro(${JSON.stringify(typeof modes.intro === 'object' ? modes.intro : {})});});`);
+  if (modes.page) lines.push(`HR.page.auto=${modes.page === 'auto'};` + (modes.page === 'on' ? 'HR.settled(function(){HR.page.on();});' : ''));
   lines.push('})();');
   return lines.join('\n');
 }
@@ -181,7 +206,9 @@ export function buildRules(config, root = HERE) {
   const tokens = mergeTokens(preset, config.overrides);
   const report = contrastReport(tokens);
   const css = slim(readFileSync(path.join(root, 'kit/hr-base.css'), 'utf8')) + '\n' + compileCss(tokens, { retheme: config.retheme !== false }) + (config.extra && config.extra.css ? '\n' + slim(config.extra.css) : '');
-  const js = MODULES.map((m) => slim(readFileSync(path.join(root, 'kit', m), 'utf8'))).join('\n') + '\n' + bootScript(config) + (config.extra && config.extra.js ? '\n' + slim(config.extra.js) : '');
+  const mods = MODULES.slice();
+  if (config.modes && config.modes.page) mods.push(OPTIONAL_MODULES.page);
+  const js = mods.map((m) => slim(readFileSync(path.join(root, 'kit', m), 'utf8'))).join('\n') + '\n' + bootScript(config) + (config.extra && config.extra.js ? '\n' + slim(config.extra.js) : '');
   const rules = [
     { id: 'hr-style', name: 'hr kit styles', find: '{{hr-style}}', replace: `<style>\n${css}\n</style>`, enabled: true },
     { id: 'hr-kit', name: 'hr kit script', find: '{{hr-kit}}', replace: `<script>\n${js}\n</script>`, enabled: true },
@@ -201,6 +228,8 @@ export function buildRules(config, root = HERE) {
   if (pinned && config.modes.pinned.length > 3) problems.push('modes.pinned: at most three fields');
   for (const f of (config.schema && config.schema.fields) || []) if (f.type && !['num', 'text', 'bar', 'level', 'tags', 'entities', 'stats', 'kvlist', 'path'].includes(f.type)) problems.push(`schema field ${f.key}: unknown type ${f.type}`);
   if (config.uiRole && !['assist', 'core'].includes(config.uiRole)) problems.push(`uiRole must be assist or core`);
+  if (config.modes && config.modes.page && !(config.gates && config.gates.page)) problems.push('modes.page is gated: set gates.page to the reason this card reads better as pages (and verify text-only and reading-first in the preview)');
+  if (config.modes && config.modes.intro && !(config.gates && config.gates.intro)) problems.push('modes.intro is gated: set gates.intro to what the intro says that the opening does not');
   return { rules, report, problems, pinned, sizes: Object.fromEntries(rules.map((r) => [r.id, bytes(r.replace)])) };
 }
 
@@ -237,6 +266,17 @@ if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.me
   const hard = built.problems.filter((p) => !p.includes('close to'));
   console.log(`rules: ${built.rules.map((r) => `${r.id} (${built.sizes[r.id]} B)`).join(', ')}`);
   if (hard.length && !args.force) { console.log(`✖ ${hard.length} problem(s); fix them or pass --force`); process.exit(1); }
+  if (args['preset-from']) {
+    const input = JSON.parse(readFileSync(path.resolve(args['preset-from']), 'utf8'));
+    const preset = presetFromPalette(input, args.name || 'custom');
+    const report = contrastReport(preset).filter((c) => !c.ok);
+    for (const c of report) console.error(`✖ ${c.side}: ${c.fg} on ${c.bg} is ${c.ratio ?? c.note}, needs ${c.min}:1`);
+    if (report.length && !args.force) { console.error('✖ palette fails the contrast checks; adjust it or pass --force'); process.exit(1); }
+    const outFile = path.resolve(args.out || `${preset.name}.json`);
+    writeFileSync(outFile, JSON.stringify(preset, null, 2) + '\n');
+    console.log(`✔ wrote ${outFile}; use it with "preset": "${outFile}"`);
+    process.exit(0);
+  }
   if (args['emit-contract']) {
     const c = emitContract(config);
     process.stdout.write(c.text + '\n');

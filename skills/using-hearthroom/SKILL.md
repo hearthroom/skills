@@ -50,6 +50,10 @@ Route:
 
 5. Keep all work on a trial card or the author's own private card. Never
    submit for review or make a card public on the author's behalf.
+6. Before any packet is filled, say what the obvious card for this request
+   would be and what this card will do instead. The packets list decisions,
+   not answers (`role-card-writing-framework.md`, "Questions, not a mould");
+   a card an agent could produce by filling them in is not good enough.
 
 ## Routing table
 

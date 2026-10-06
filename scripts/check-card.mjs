@@ -91,15 +91,29 @@ export function readDeclarations(readme) {
 const STATUS_BLOCK = /\[(status|choices)\]([\s\S]*?)(?:\[\/\1\]|$)/g;
 
 /** Replies → protocol health: how often each key is written, how the block drifts, what it costs. */
-export function replayHealth(replies, { block = 'status', threshold = 0.15, requiredKeys = [], volatileKeys = [] } = {}) {
+export function replayHealth(replies, { block = 'status', threshold = 0.15, requiredKeys = [], volatileKeys = [], markers = [] } = {}) {
   const keyHits = {};
   let withBlock = 0, missingClose = 0, blockChars = 0, replyChars = 0, skippedLines = 0, fullWidth = 0, choicesBlocks = 0;
   const per = [];
+  // The card's own markers (what its rules consume): presence rate and the characters they cost.
+  const markerStats = {};
+  const markerRes = markers.map((m) => {
+    const n = m.name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    return { name: m.name, re: m.angle ? new RegExp(`<${n}[^>]*>[\\s\\S]*?(?:<\\/${n}>|(?=<[a-zA-Z])|$)`, 'g') : new RegExp(`\\[${n}\\][\\s\\S]*?(?:\\[\\/${n}\\]|(?=\\[)|$)`, 'g') };
+  });
   for (const reply of replies) {
     const text = String(reply ?? '');
     replyChars += text.length;
     let found = 0, chars = 0;
+    for (const { name, re } of markerRes) {
+      let hit = 0;
+      for (const m of text.matchAll(re)) { hit++; chars += m[0].length; }
+      const st = markerStats[name] || (markerStats[name] = { replies: 0, count: 0, chars: 0 });
+      if (hit) { st.replies++; st.count += hit; }
+      st.chars += Array.from(text.matchAll(re)).reduce((a, m) => a + m[0].length, 0);
+    }
     for (const m of text.matchAll(STATUS_BLOCK)) {
+      if (markerRes.some((x) => x.name === m[1])) continue; // already counted above
       chars += m[0].length;
       if (m[1] === 'choices') { choicesBlocks++; continue; }
       found++;
@@ -122,8 +136,9 @@ export function replayHealth(replies, { block = 'status', threshold = 0.15, requ
   const overhead = replyChars ? blockChars / replyChars : 0;
   const keys = Object.fromEntries(Object.entries(keyHits).sort((a, b) => b[1] - a[1]).map(([k, v]) => [k, { count: v, rate: v / n }]));
   const missing = requiredKeys.filter((k) => !(keyHits[k.toLowerCase()] >= Math.ceil(n * 0.9)));
+  const markerRates = Object.fromEntries(Object.entries(markerStats).map(([k, v]) => [k, { rate: v.replies / n, perReply: v.count / n, share: replyChars ? v.chars / replyChars : 0 }]));
   return {
-    replies: replies.length, withBlock, blockRate: withBlock / n, missingClose, skippedLines, fullWidthLines: fullWidth, choicesBlocks,
+    replies: replies.length, withBlock, blockRate: withBlock / n, missingClose, skippedLines, fullWidthLines: fullWidth, choicesBlocks, markers: markerRates,
     overhead: Math.round(overhead * 1000) / 1000, threshold, overThreshold: overhead > threshold,
     worstReply: Math.max(0, ...per.map((p) => p.ratio)), keys, requiredKeysBelow90: missing, volatileKeys,
   };
@@ -138,6 +153,12 @@ export function repliesFrom(text) {
   let any = false;
   for (const line of t.split(/\n/)) { const l = line.trim(); if (!l.startsWith('{')) continue; try { take(JSON.parse(l)); any = true; } catch { /* skip */ } }
   if (any && out.length) return out;
+  // `hearthroom play --history` text: sections headed [AI] / [USER]; keep the AI ones.
+  if (/^\[(AI|USER)\]\s*$/m.test(t)) {
+    const parts = t.split(/^\[(AI|USER)\]\s*$/m);
+    for (let i = 1; i < parts.length; i += 2) if (parts[i] === 'AI') { const body = parts[i + 1].trim(); if (body) out.push(body); }
+    if (out.length) return out;
+  }
   // preview/replies.md style: one reply per `## ` heading; otherwise blank-line paragraphs.
   if (/^## /m.test(t)) return t.split(/^## .*$/m).map((s) => s.trim()).filter(Boolean);
   return t.split(/\n\s*\n(?=\S)/).filter((s) => STATUS_BLOCK.test(s) || s.length > 40).map((s) => { STATUS_BLOCK.lastIndex = 0; return s; });
@@ -251,11 +272,23 @@ if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.me
     let config = null;
     try { config = JSON.parse(readFileSync(path.join(dir, 'kit.config.json'), 'utf8')); } catch { /* no kit */ }
     const fields = (config && config.schema && config.schema.fields) || [];
-    const health = replayHealth(replies, { threshold: decl.threshold ?? 0.15, requiredKeys: fields.filter((f) => f.key && !f.volatile && !f.hidden).map((f) => f.key), volatileKeys: fields.filter((f) => f.volatile).map((f) => f.key) });
-    findings.push({ level: health.overThreshold ? 'warning' : 'info', where: 'replay', msg: `status overhead ${(health.overhead * 100).toFixed(1)}% of ${health.replies} replies (threshold ${(health.threshold * 100).toFixed(0)}%, worst reply ${(health.worstReply * 100).toFixed(0)}%)` });
+    const markers = [];
+    try {
+      const rj = JSON.parse(readFileSync(path.join(dir, 'rules.json'), 'utf8'));
+      for (const r of rj.rules || []) {
+        if (r.enabled === false) continue;
+        const sf = slashForm(r.find);
+        const src = sf ? sf.source : String(r.find ?? '');
+        const m = /\\\[([a-zA-Z0-9_\u4e00-\u9fff-]+)\\\]/.exec(src) || /<([a-zA-Z][a-zA-Z0-9_-]*)>/.exec(src) || /^\[([^\]]+)\]$/.exec(src.trim()) || /^<([^>]+)>$/.exec(src.trim());
+        if (m && !markers.some((x) => x.name === m[1])) markers.push({ name: m[1], angle: m[0].startsWith('<') });
+      }
+    } catch { /* no rules */ }
+    const health = replayHealth(replies, { threshold: decl.threshold ?? 0.15, requiredKeys: fields.filter((f) => f.key && !f.volatile && !f.hidden).map((f) => f.key), volatileKeys: fields.filter((f) => f.volatile).map((f) => f.key), markers });
+    findings.push({ level: health.overThreshold ? 'warning' : 'info', where: 'replay', msg: `marked-up share ${(health.overhead * 100).toFixed(1)}% of ${health.replies} replies (threshold ${(health.threshold * 100).toFixed(0)}%, worst reply ${(health.worstReply * 100).toFixed(0)}%); a marker that wraps prose (dialogue, a chapter head) counts its whole span, so read the per-marker shares before cutting` });
     findings.push({ level: health.blockRate < 0.9 ? 'warning' : 'info', where: 'replay', msg: `block present in ${health.withBlock}/${health.replies} replies; missing closer ${health.missingClose}; skipped lines ${health.skippedLines}; full-width punctuation lines ${health.fullWidthLines}; choices blocks ${health.choicesBlocks}` });
     if (health.requiredKeysBelow90.length) findings.push({ level: 'warning', where: 'replay', msg: `keys written in fewer than 90% of replies: ${health.requiredKeysBelow90.join(', ')} (the model forgets them; move them to the recency checklist or drop them)` });
-    findings.push({ level: 'info', where: 'replay', msg: 'per key: ' + Object.entries(health.keys).map(([k, v]) => `${k} ${(v.rate * 100).toFixed(0)}%`).join(', ') });
+    if (Object.keys(health.markers).length) findings.push({ level: 'info', where: 'replay', msg: 'markers the rules consume: ' + Object.entries(health.markers).map(([k, v]) => `${k} in ${(v.rate * 100).toFixed(0)}% of replies (${v.perReply.toFixed(1)}/reply, ${(v.share * 100).toFixed(0)}% of characters)`).join(', ') });
+    if (Object.keys(health.keys).length) findings.push({ level: 'info', where: 'replay', msg: 'per key: ' + Object.entries(health.keys).map(([k, v]) => `${k} ${(v.rate * 100).toFixed(0)}%`).join(', ') });
   }
   const errors = findings.filter((f) => f.level === 'error').length;
   if (process.argv.includes('--json')) console.log(JSON.stringify({ status: errors ? 'error' : 'ok', findings }, null, 2));

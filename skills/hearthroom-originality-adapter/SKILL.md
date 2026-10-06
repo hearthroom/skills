@@ -1,71 +1,52 @@
 ---
 name: hearthroom-originality-adapter
-description: Use when Hearthroom card work starts from canon, an IP, a fan premise, another card, a copied draft, or recognizable inspiration, or when the author asks to make a card original without losing its fantasy, before blueprinting, authoring, play testing, or publishing.
+description: Use when card work starts from canon, an IP, a fan premise, another card, a copied draft or recognisable inspiration, or when the author says "like X but original" or asks to keep the fantasy without the copy risk, before authoring or publishing.
 ---
 
 # Hearthroom Originality Adapter
 
 Preserve why the inspiration works while making every fictional choice new.
-The output is an adaptation packet, not final fields and not a legal review.
+Reviewers see a similarity score for the definition against other submitted
+cards, so originality of `definition.md` matters when the card will be
+submitted. The output is an adaptation packet, not final fields and not a
+legal review.
 
 ## Required references
 
-- `../../references/originality-adaptation.md` first: transferable fantasy,
-  substitution axes, distance check.
-- `../../references/platform-facts.md`, Publishing: reviewers see a similarity
-  score for the definition against other submitted and approved cards, so
-  originality of `definition.md` matters when the card will be submitted.
-- `../../references/material-distillation.md` when the inspiration is a large
-  file or notes pack.
-- `../../references/sample-driven-calibration.md` when copy risk comes from a
-  toolkit sample.
+Read `../../references/originality-adaptation.md` (transferable fantasy,
+substitution axes, distance check, real people). Read
+`../../references/material-distillation.md` when the inspiration is a large
+file or notes pack, and `../../references/sample-driven-calibration.md`
+when the copy risk comes from a toolkit sample.
 
 ## Workflow
 
-1. Name the inspiration type: canon or IP, fan premise, another card, pasted
-   draft, genre trope, visual reference, or mixed.
-2. Clarify the stance: original transformation, canon or fan card with allowed
-   use, or unclear. If unclear and the card may be submitted, keep the original
-   transformation stance.
-3. Extract the transferable fantasy: player fantasy, relationship or role shape,
-   central tension, interaction loop, voice function.
-4. List the protected surface to avoid: names, quotes, scene setup, outfits,
+1. Name the inspiration type (canon or IP, fan premise, another card, pasted
+   draft, genre trope, visual reference) and the stance: original
+   transformation, or a canon or fan card with allowed use. When unclear and
+   the card may be submitted, keep the original transformation stance.
+2. Extract the transferable fantasy: player fantasy, relationship or role
+   shape, central tension, interaction loop, voice function.
+3. List the protected surface to avoid: names, quotes, scene setup, outfits,
    visual motifs, lore terms, factions, unique mechanics.
-5. Write original substitutions on enough axes for the distance check to
+4. Write original substitutions on enough axes for the distance check to
    pass, usually five or more: role identity, player role, relationship
    history, pressure source, setting rule, symbolic object, voice strategy,
-   visual motif, state labels, opening proof. For a real person or a topical
-   premise: every side gets its strongest case; a real person says only
-   things based on their real public statements, rewritten; never invent
-   positions or private conduct (`originality-adaptation.md`, Real people).
-6. Run the distance check. If the card is still a renamed copy, change more axes
-   before any field is drafted.
-7. For a canon or fan card with allowed use, keep only the facts the scene needs
-   and do not rely on broad trivia.
+   visual motif, state labels, opening proof. For a real person or topical
+   premise every side gets its strongest case, and a real person says only
+   things based on their public statements, rewritten; never invent
+   positions or private conduct.
+5. Run the distance check (not a renamed copy, no copied scene text, no
+   copied proper nouns, new player leverage, new second-turn move); if it
+   fails, change more axes before any field is drafted. A canon or fan card
+   with allowed use keeps only the facts the scene needs.
 
-## Hand-off
-
-```text
-Inspiration type; stance
-Transferable fantasy (5 items)
-Protected surface to avoid
-Original substitutions (per axis)
-Distance check: not a renamed copy | no copied scene text | no copied proper nouns |
-  new player leverage | new second-turn move
-Next skill
-```
-
-- `hearthroom-premise-workshop`: the author wants several original directions.
-- `hearthroom-character-core`, `-relationship-architect`, `-world-engineer`,
-  `-scenario-architect`, `-daily-life-architect`, `-play-engineer`,
-  `-generator-architect`, or `-ensemble-director`: that layer still needs design.
-- `hearthroom-visual-identity-director`: the image direction is still too close.
-- `hearthroom-card-author`: the packet passes the distance check.
+Continue with `hearthroom-premise-workshop` when the author wants several
+original directions, the layer skill that still needs design,
+`hearthroom-visual-identity-director` when the image direction is still too
+close, or `hearthroom-card-author` once the distance check passes.
 
 ## Do not
 
 - Do not solve copy risk by swapping names.
-- Do not copy names, quotes, scene text, outfits, proper nouns, factions,
-  artifact names, route labels, tag strings, or distinctive compositions.
 - Do not state a similarity threshold; none is documented.
-- Do not run CLI commands or edit the folder from this skill.

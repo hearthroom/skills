@@ -1,6 +1,8 @@
 {
   "$comment": "Input for build.mjs. Copy next to a card folder as kit.config.json, edit, then: node <toolkit>/assets/sandbox-kit/build.mjs --config kit.config.json --card <dir>. Keys starting with $ are ignored.",
   "uiRole": "assist",
+  "language": "en",
+  "$language": "The language --emit-contract writes its framing sentences and sample values in: en or zh-Hant. On a non-English card give every field an example in that language; a field without one gets a generic sample the model may copy.",
   "block": "status",
   "preset": "quiet-reading",
   "overrides": {

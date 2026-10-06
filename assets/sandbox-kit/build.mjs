@@ -140,43 +140,87 @@ export function choicesModeOf(config) {
 /** The model-side protocol paragraph, generated from the same schema the kit draws from, so the
  *  render rule and the generation rule cannot disagree. Paste it into card.json outputContract
  *  (or the definition); for a long card repeat it in one constant Lorebook entry. */
+/* The model-side protocol, in the card's language (`language` in the config: "en" or "zh-Hant";
+   other values fall back to English with a warning). A field on a non-English card should carry
+   `example`; the English fallback samples (Harbor > North pier) are what a weak model copies. */
+const CONTRACT_TEXT = {
+  en: {
+    head: (b) => `End every reply with one [${b}] block, after the prose, one key per line, nothing else inside it:`,
+    volatile: (list) => `Add these lines only while they apply to the scene and drop them when they stop applying: ${list}.`,
+    rules: (list) => `How each value moves: ${list}.`,
+    choices: 'When the player has a decision to make, add a [choices] block after it with two to four short options, one per line; the player may also type anything else.',
+    example: "Example of an ordinary turn's block (values are illustrative):",
+    ph: { current: 'current', max: 'max', number: 'number', name: 'name', a: 'a', b: 'b', k: 'k', v: 'v', text: 'short text' },
+    samples: { bar: '72/100', num: '12', level: 'Adept|120/300', tags: 'cold, watched', entities: 'Mara=61, Tove=25', stats: 'atk:12 def:8', kvlist: 'head:hood|body:cloak', path: 'Harbor > North pier', text: 'steady' },
+  },
+  'zh-Hant': {
+    head: (b) => `每則回覆的正文之後，附上一個 [${b}] 區塊，一行一個鍵，裡面不放其他東西：`,
+    volatile: (list) => `下列各行只在場景用得上時才寫，不再適用就整行拿掉：${list}。`,
+    rules: (list) => `各值怎麼動：${list}。`,
+    choices: '玩家要做決定時，在正文後加一個 [choices] 區塊，列二到四個短選項、一行一個；玩家也可以自己打任何內容。',
+    example: '一個普通回合的區塊範例（數值僅供示意）：',
+    ph: { current: '目前值', max: '上限', number: '數字', name: '名稱', a: '甲', b: '乙', k: '鍵', v: '值', text: '短句' },
+    samples: { bar: '72/100', num: '12', level: '入門|120/300', tags: '濕冷, 被盯上', entities: '阿梅=61, 阿托=25', stats: '攻:12 防:8', kvlist: '頭:兜帽|身:斗篷', path: '港口 > 北碼頭', text: '平穩' },
+  },
+};
+export function contractLanguage(config) {
+  if (config.language == null) {
+    // no declaration: a schema written in CJK (keys, labels, examples, rules) is a Chinese card
+    const fields = ((config.schema && config.schema.fields) || []);
+    const cjk = fields.some((f) => f && /[\u3400-\u9fff]/.test([f.key, f.label, f.example, f.rule, ...(f.values || [])].filter(Boolean).join(' ')));
+    return cjk ? 'zh-Hant' : 'en';
+  }
+  const l = String(config.language);
+  if (CONTRACT_TEXT[l]) return l;
+  if (/^zh/i.test(l)) return 'zh-Hant';
+  return 'en';
+}
 export function emitContract(config) {
   const block = config.block || status.DEFAULT_BLOCK;
+  const lang = contractLanguage(config);
+  const T = CONTRACT_TEXT[lang];
+  const warnings = [];
+  if (config.language && lang !== config.language) warnings.push(`language "${config.language}" has no contract text; emitted in ${lang}; translate the framing sentences before pasting`);
   const fields = ((config.schema && config.schema.fields) || []).filter((f) => f && f.key);
   const always = fields.filter((f) => !f.volatile);
   const volatile = fields.filter((f) => f.volatile);
+  const P = T.ph;
   const shape = (f) => {
     const t = f.type || 'text';
-    if (t === 'bar') return `${f.key}: <current>/<max>`;
-    if (t === 'num') return `${f.key}: <number>`;
-    if (t === 'level') return `${f.key}: <name>|<current>/<max>`;
-    if (t === 'tags') return `${f.key}: <a>, <b>`;
-    if (t === 'entities') return `${f.key}: <name>=<number>, <name>=<number>`;
-    if (t === 'stats') return `${f.key}: <k>:<v> <k>:<v>`;
-    if (t === 'kvlist') return `${f.key}: <k>:<v>|<k>:<v>`;
-    if (t === 'path') return `${f.key}: <a> > <b>`;
-    return `${f.key}: ${f.values ? f.values.join(' | ') : '<short text>'}`;
+    if (t === 'bar') return `${f.key}: <${P.current}>/<${P.max}>`;
+    if (t === 'num') return `${f.key}: <${P.number}>`;
+    if (t === 'level') return `${f.key}: <${P.name}>|<${P.current}>/<${P.max}>`;
+    if (t === 'tags') return `${f.key}: <${P.a}>, <${P.b}>`;
+    if (t === 'entities') return `${f.key}: <${P.name}>=<${P.number}>, <${P.name}>=<${P.number}>`;
+    if (t === 'stats') return `${f.key}: <${P.k}>:<${P.v}> <${P.k}>:<${P.v}>`;
+    if (t === 'kvlist') return `${f.key}: <${P.k}>:<${P.v}>|<${P.k}>:<${P.v}>`;
+    if (t === 'path') return `${f.key}: <${P.a}> > <${P.b}>`;
+    return `${f.key}: ${f.values ? f.values.join(' | ') : `<${P.text}>`}`;
   };
   const lines = [];
-  lines.push(`End every reply with one [${block}] block, after the prose, one key per line, nothing else inside it:`);
+  lines.push(T.head(block));
   lines.push(`[${block}]`);
   for (const f of always) lines.push(shape(f));
   lines.push(`[/${block}]`);
-  if (volatile.length) lines.push(`Add these lines only while they apply to the scene and drop them when they stop applying: ${volatile.map(shape).join('; ')}.`);
+  if (volatile.length) lines.push(T.volatile(volatile.map(shape).join(lang === 'en' ? '; ' : '；')));
   const rulesText = fields.filter((f) => f.rule).map((f) => `${f.key}: ${f.rule}`);
-  if (rulesText.length) lines.push(`How each value moves: ${rulesText.join('. ')}.`);
+  if (rulesText.length) lines.push(T.rules(rulesText.join(lang === 'en' ? '. ' : '。')));
   const mode = choicesModeOf(config);
-  if (mode) lines.push(`When the player has a decision to make, add a [choices] block after it with two to four short options, one per line; the player may also type anything else.`);
-  lines.push(`Example of an ordinary turn's block (values are illustrative):`);
+  if (mode) lines.push(T.choices);
+  lines.push(T.example);
   lines.push(`[${block}]`);
-  for (const f of always) lines.push(`${f.key}: ${f.example != null ? f.example : exampleFor(f)}`);
+  for (const f of always) {
+    if (f.example == null && lang !== 'en' && !(f.values && f.values.length)) warnings.push(`field "${f.key}" has no example; the sample value is a generic placeholder a weak model may copy — add "example" in the card's language`);
+    lines.push(`${f.key}: ${f.example != null ? f.example : exampleFor(f, T)}`);
+  }
   lines.push(`[/${block}]`);
   const text = lines.join('\n');
-  return { text, chars: text.length, keys: always.map((f) => f.key), volatileKeys: volatile.map((f) => f.key) };
+  return { text, chars: text.length, keys: always.map((f) => f.key), volatileKeys: volatile.map((f) => f.key), language: lang, warnings };
 }
-function exampleFor(f) {
+function exampleFor(f, T) {
   const t = f.type || 'text';
-  return { bar: '72/100', num: '12', level: 'Adept|120/300', tags: 'cold, watched', entities: 'Mara=61, Tove=25', stats: 'atk:12 def:8', kvlist: 'head:hood|body:cloak', path: 'Harbor > North pier' }[t] || (f.values ? f.values[0] : 'steady');
+  if (f.values && f.values.length) return f.values[0];
+  return T.samples[t] || T.samples.text;
 }
 
 export function bootScript(config) {
@@ -280,7 +324,8 @@ if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.me
   if (args['emit-contract']) {
     const c = emitContract(config);
     process.stdout.write(c.text + '\n');
-    console.error(`${c.chars} characters; keys: ${c.keys.join(', ')}${c.volatileKeys.length ? `; volatile: ${c.volatileKeys.join(', ')}` : ''}`);
+    for (const w of c.warnings) console.error(`△ ${w}`);
+    console.error(`${c.chars} characters in ${c.language}; keys: ${c.keys.join(', ')}${c.volatileKeys.length ? `; volatile: ${c.volatileKeys.join(', ')}` : ''}`);
     process.exit(0);
   }
   if (args.check) process.exit(0);

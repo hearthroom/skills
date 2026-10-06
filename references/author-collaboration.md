@@ -1,28 +1,27 @@
 # Author collaboration
 
-Use this reference when the author is reviewing taste, direction, draft fit,
-render evidence, play evidence or a proposed patch in conversation, rather
-than asking for one technical fix. Collaboration turns subjective feedback
-into a card decision. It is not a comment system, task database or gate.
+For when the author is reviewing taste, direction, draft fit, render
+evidence, play evidence or a proposed patch in conversation, rather than
+asking for one technical fix. Collaboration turns subjective feedback into
+a card decision. It is not a comment system, task database or gate.
 
 ## Core loop
 
 ```text
-author signal -> evidence -> preference axis -> options -> decision -> patch packet
+author signal -> evidence -> preference axis -> options -> decision -> patch
 ```
 
-1. Restate what the author is reacting to.
-2. Separate taste, evidence, constraints and unresolved decisions.
-3. Translate vague words into observable card behaviour.
-4. Offer two or three concrete choices, one recommended.
-5. Record what to preserve, change, reject and delay; rejected directions go
-   into the card's `README.md` dossier with the reason, so a later session
-   does not reopen them.
-6. Hand off to the narrow skill that performs the patch.
+Restate what the author is reacting to; separate taste, evidence,
+constraints and unresolved decisions; translate vague words into observable
+card behaviour; offer two or three concrete choices with one recommended;
+record what to preserve, change, reject and delay (rejected directions go
+into the card's `README.md` dossier with the reason, so a later session
+does not reopen them); then continue with the narrow skill that performs
+the patch.
 
 The feedback surface is the conversation. Do not invent comment tables,
-review storage or approval records. When a final action needs consent, such
-as `card push --create`, quote the author's words in the hand-off.
+review storage or approval records. When a final action needs consent,
+such as `card push --create`, quote the author's words.
 
 ## Translate taste into behaviour
 
@@ -43,71 +42,41 @@ verification trigger.
 
 ## Decision frame
 
-```text
-Decision frame:
-- current tension:
-- option A: what changes / what it preserves / risk
-- option B: what changes / what it preserves / risk
-- option C, optional: what changes / what it preserves / risk
-- recommendation:
-- author decision needed:
-```
-
-Three options for premise direction, archetype conflict or strong taste
-uncertainty. Two for narrow patches: warmer or colder voice, shorter or
-denser opening, safer or more charged boundary posture.
-
-## Collaboration packet
-
-```text
-Author collaboration packet:
-- author signal:
-- current artifact:
-- evidence available:
-- inferred preference axes:
-- non-negotiables:
-- preserve / change / reject (to the dossier) / delay:
-- decision frame:
-- recommended next move:
-- patch target:
-- next skill:
-- confirmation needed:
-- validate / render / play stance:
-```
+Give the author the current tension, two or three options (what each
+changes, preserves and risks), a recommendation, and the one decision only
+they can make. Three options for premise direction, archetype conflict or
+strong taste uncertainty; two for narrow patches (warmer or colder voice,
+shorter or denser opening, safer or more charged boundary posture).
 
 ## Co-review after evidence
 
 After a render review or playtest: show the probe or rendered opening being
 judged, summarise the evidence that matters in plain language, name what
 passed and failed, suggest one patch path, and ask whether it matches the
-author's taste before spending more credits or creating the real card. Never
-ask the author to decide from raw output.
+author's taste before spending more credits or creating the real card.
+Never ask the author to decide from raw output.
 
 ## Comparing versions
 
 When the author weighs a draft against the previous one, show v(N-1) and
 v(N) on the same probes and the same model, side by side, layer by layer
-(L0–L3 and the dimensions in `quality-scorecard.md`): better, same or worse,
-with the line that shows it. Say when the difference is within the noise of
-one run, and propose more turns before deciding; one reply cannot separate
-improvement from noise. Record the comparison in the dossier's evidence
-table.
+(L0–L3 and the dimensions in `quality-scorecard.md`): better, same or
+worse, with the line that shows it. Say when the difference is within the
+noise of one run and propose more turns before deciding; one reply cannot
+separate improvement from noise. Record the comparison in the dossier's
+evidence table.
 
-## Hand-off map
+## Where to continue
 
-- No settled premise: `hearthroom-premise-workshop`.
-- Existing card with several symptoms: `hearthroom-card-doctor`.
-- Packets need final fields: `hearthroom-card-author`.
-- Public profile does not match the promise: `hearthroom-profile-packager`.
-- Language only: `hearthroom-language-stylist`.
-- Presentation plan, `uiRole`, what the screen should show:
-  `hearthroom-presentation-director`.
-- Kit build or repair (panel, theme, choices, script, save):
-  `hearthroom-sandbox-kit`.
-- Render evidence: `hearthroom-render-review`.
-- Play evidence: `hearthroom-chat-simulation` with the previous version's
-  probe set, then the narrow skill the transcript names.
-- The author wants the card kept: `hearthroom-publish-readiness`.
+No settled premise: `hearthroom-premise-workshop`. An existing card with
+several symptoms: `hearthroom-card-doctor`. Packets that need final fields:
+`hearthroom-card-author`. A public profile that misses the promise:
+`hearthroom-profile-packager`. Language only: `hearthroom-language-stylist`.
+What the screen should show: `hearthroom-presentation-director`; a kit
+build or repair: `hearthroom-sandbox-kit`. Render evidence:
+`hearthroom-render-review`. Play evidence: `hearthroom-chat-simulation` with
+the previous version's probe set. The author wants the card kept:
+`hearthroom-publish-readiness`.
 
 ## Guardrails
 

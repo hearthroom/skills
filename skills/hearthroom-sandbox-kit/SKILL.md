@@ -19,6 +19,12 @@ Read `../../references/sandbox-kit.md` (the method), the sandbox section of
 `../../scripts/sandbox-contract.json` is the list of every capability, event,
 node, variable and limit; cite it rather than memory.
 
+When the kit or a script misbehaves in a way neither the facts sheet nor the
+contract explains, the chat page is open source: `platform-facts.md`, "Where
+these facts come from", names the files to read and the cautions (read
+`origin/main`, mind the host path versus the shell path, never depend on
+internal nodes).
+
 ## Workflow
 
 1. Take the state packet (from `hearthroom-state-economist`) and the

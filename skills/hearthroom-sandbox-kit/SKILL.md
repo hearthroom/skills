@@ -52,11 +52,19 @@ these facts come from", names the files and the cautions.
 6. `card push <dir> --validate --json`, then `card render <dir> --json`:
    `hr-status` must be `applied` on the opening and `report.unsupported`
    empty.
-7. `hearthroom card preview <dir>`: stream a sample reply from
-   `preview/replies.md`, confirm the panel hydrates after the stream, switch
-   conversation, tap a choice in its mode, open the dock, both widths and
-   both themes, and the same screens with rules disabled. Accept on
-   screenshots.
+7. `hearthroom card preview --check <dir>`: drives the real shell in headless
+   Chrome, streams the samples from `preview/replies.md` (or
+   `--from-history <play history>` for real replies), and writes
+   `preview/shots/`: one screenshot per state (phone and desktop, both
+   themes, rules on and off, first and last sample), `contact.png` with all
+   of them captioned, and `findings.json` (block written but never drawn,
+   panel drawn late, sideways overflow on the phone, console errors, story
+   and UI share, choices and free input). Clear every error finding, then
+   read `contact.png` yourself: does the panel belong to the card, is the
+   story still the thing on screen, does rules-off read as prose. Change,
+   run again; two rounds usually converge. `--open` is for a person at a
+   browser; tapping a choice in its mode and opening the dock still need
+   that.
 8. Format probe: ten or more turns on a weak model with `hearthroom play
    --new-session --model …` (the block and the choices intact at every
    decision point), one strong-model run for emergence, then

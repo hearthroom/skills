@@ -40,7 +40,7 @@ node, variable and limit; cite it rather than memory.
    It merges `hr-style`, `hr-kit`, `hr-status`, `hr-choices` (and `hr-pinned`)
    into `rules.json`, keeps the author's other rules, sets `pageMode: sandbox`,
    and refuses on a contrast failure or a replacement over 128 KiB.
-5. Check: `node <toolkit>/scripts/check-card.mjs <dir>`. Fix every error;
+5. Check: `hearthroom card check <dir>` (or `node <toolkit>/scripts/check-card.mjs <dir>`). Fix every error;
    read every warning (a marker nobody tells the model to write, an attribute
    the sanitizer strips, an `await` before a send, a save key that is not a
    key, a core card with no declared threshold).

@@ -51,6 +51,12 @@ notes or an imported draft.
 8. State opening, longplay and presentation implications, the length
    tradeoff, and the next skill.
 
+Source files: one entry per file under `worldbook/*.md` (frontmatter `name`,
+`keywords`, `secondaryKeywords`, `constant`, `order`; the body is the content),
+built with `hearthroom lorebook build <dir>`; `hearthroom lorebook check <dir>`
+reports drift, entries without keywords and keyword collisions (the
+peak-staggering check). Never hand-edit the built JSON.
+
 ## Hand-off
 
 Give the next skill this packet:

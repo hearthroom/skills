@@ -52,7 +52,7 @@ to read in `--json` output.
 | alternate openings | `welcomeAlternates` | other first messages the player can pick |
 | suggested first lines | `prologue` | player-side first lines offered as choices; never the character's first message |
 | example conversations | `talkExample` | `{roleType: user|ai, content}` pairs |
-| custom instructions | `customInstructions` | the site editor's 額外指示 ("a reminder attached at the end of every turn"). Per the provider's prompt code it is the last system message, after the history and right before the reply, prefixed `[Content scope]` / `[內容範圍]`; a non-empty value replaces the platform's default content-scope block (which, in Chinese, frames the story as mature literary writing with romance and physical intimacy). A player's own text in their persona's Advanced field replaces the card's; it is left out at the strictest safety level. Keep it short: the one or two rules replies most often forget, and the scope the card is written for |
+| custom instructions | `customInstructions` | the site editor's 額外指示 ("a reminder attached at the end of every turn"). Per the provider's prompt code it is a system message after the history, followed only by the platform's short format guard and the `[Response preferences]` block (which carries any `responseDefaults` notes), prefixed `[Content scope]` / `[內容範圍]`; a non-empty value replaces the platform's default content-scope block (which, in Chinese, frames the story as mature literary writing with romance and physical intimacy). A player's own text in their persona's Advanced field replaces the card's; it is left out at the strictest safety level. Keep it short: the one or two rules replies most often forget, and the scope the card is written for |
 | output contract | `roleOutputContract` | format the reply must follow |
 | Lorebook, entry | worldbook, entries | keyword-triggered background knowledge |
 | display rules | author asset, `rules.json` | find/replace rules that turn reply text into layout, status bars, buttons |
@@ -85,41 +85,50 @@ are ignored and the player's own name or a language default is used instead.
 `nickname` is what `{{char}}` expands to when it differs from `name`.
 
 `responseDefaults` (CLI 0.6.0) sets the card's defaults for the player's
-Response preferences, five axes the player can still change per
-conversation: `agency` (`protect`, the platform default: never writes the
-player's part; `assist` fills in details of actions the player stated;
-`lines` may write the player character's lines but not decisions;
-`coauthor` may write words, actions and decisions), `style` (`default`
-platform writing guide; `guided`, a lighter guide that defers to the card's
-material; `card`, no platform guide; `custom` with `customStyle`, at most
-1000 characters), `perspective` (`card`, the default; `first_character`,
-`second_user`, `third_limited`, `third_omniscient`), `length` (`auto`, the
-default; `recommended`, 2 to 5 paragraphs, about 2500 characters; `target`
-with `lengthTarget` one of 200, 300, 400, 500, 600, 800, 1000, 1200, 1500,
-2000, 2500, 3000, 4000, 5000, 7000, 10000 characters) and `pace`
-(`natural`, the default; `linger`; `advance`). Each axis takes a one-line
-note (`agencyNote`, `styleNote`, `perspectiveNote`, `lengthNote`,
-`paceNote`, at most 200 characters) that wins where it differs from the
-option. A player who has not touched an axis gets the card's value. One who
-picks a different option keeps their choice, and the card's note, custom
-style and length target for that axis stop applying; picking the card's own
-option (or the platform default where the card set none) keeps them. A
-player's own note replaces only the card's note on that axis. A push reaches
-existing conversations from their next reply, on every axis the player has
-not moved off the card's option.
-Leave a key out to keep the platform default; `"responseDefaults": {}`
-clears the server copy, and deleting the key from `card.json` leaves it.
-Per the provider's prompt code, setting response preferences also changes
-the template around the card: a `[Roleplay]` preamble ("keep the response
-inside the story; follow the response preferences after the history"), and
-with `style` `default` or `guided` a writing guide whose last word is that
-everything written stays inside the story. Out-of-story blocks the card
-asks for (`[status]`, `[choices]`, side channels) compete with that line:
-in one test a weak model dropped them in two of three turns with `guided`,
-kept the status block in six of six and the choices in five of six with
-`card`, and three of three with no preferences set. A card that relies on
-such blocks uses `style: card` and re-runs its weak-model format probe after
-adding `responseDefaults`.
+Response preferences. Set an axis only when the card is built for a
+different reply shape than the platform default (a narrator card read in
+third person, status blocks that need long replies); leave every other key
+out, so the player starts from the platform default there.
+
+| Key | Values (platform default first) |
+|---|---|
+| `agency` | `protect` never writes the player's part; `assist` fills in details of actions the player stated; `lines` may write the player character's lines but not decisions; `coauthor` may write words, actions and decisions |
+| `style` | `default` platform writing guide; `guided` a lighter guide that defers to the card's material; `card` no platform guide; `custom` with `customStyle` (at most 1000 characters) |
+| `perspective` | `card` follow the material; `first_character`; `second_user`; `third_limited`; `third_omniscient` |
+| `length` | `auto`; `recommended` 2 to 5 paragraphs, about 2500 characters; `target` with `lengthTarget`, one of 200, 300, 400, 500, 600, 800, 1000, 1200, 1500, 2000, 2500, 3000, 4000, 5000, 7000, 10000 characters |
+| `pace` | `natural`; `linger`; `advance` |
+| `agencyNote`, `styleNote`, `perspectiveNote`, `lengthNote`, `paceNote` | one line, at most 200 characters, refining that axis; it wins where it differs from the option |
+
+How the player's choices combine with the card's:
+
+- An axis the player has not touched uses the card's value.
+- A player who picks a different option keeps their choice, and the card's
+  note, custom style and length target for that axis stop applying.
+- Picking the card's own option (or the platform default where the card
+  set none) keeps all of them. A player's own note replaces only the card's
+  note on that axis.
+- A push reaches existing conversations from their next reply, on every
+  axis the player has not moved off the card's option.
+- `"responseDefaults": {}` clears the server copy; deleting the key from
+  `card.json` leaves the server copy in place.
+
+The notes are the latest text the card controls: they sit in the
+`[Response preferences]` block after the history, after `customInstructions`.
+Put a rule about reply length, agency or pacing that replies keep forgetting
+in that axis's note, next to the option it bends.
+
+Per the provider's prompt code, every conversation on this provider gets a
+`[Roleplay]` preamble before the card ("keep the response inside the story;
+follow the response preferences after the history"), and `style` decides
+the writing guide after it: `default` and `guided` add one whose last word
+is that everything written stays inside the story; `card` and `custom` add
+none. Out-of-story blocks the card asks for (`[status]`, `[choices]`, side
+channels) compete with that line. In one test a weak model dropped them in
+two of three turns with `guided`, and kept them with `card` (status block
+six of six, choices five of six) and with nothing set (`default`, three of
+three). A card whose replies end in such blocks leaves `style` at `default`
+or sets `card`, and re-runs its weak-model format probe after any
+`responseDefaults` change.
 
 One portrait, three crops: `media.portrait` (9:16) is the board cover
 (cropped to about 3:4), the chat avatar (cropped to a 1:1 circle) and, when

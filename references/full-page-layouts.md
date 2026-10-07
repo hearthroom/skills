@@ -35,6 +35,20 @@ the transport.
 - Every component with a lookup (a portrait by name, art by chapter) needs a
   designed fallback for the miss, and a preview sample that hits it: the
   model will introduce minor characters that no table knows.
+- When the overlay takes the whole page, hide the site header as well and
+  keep one bar, or the screen shows two title bars. Forward back and
+  fullscreen to the header's own buttons (facts sheet, `data-lt` hooks), so
+  navigation and fullscreen stay the site's. Put the menu button at the
+  outer edge and the way out of the card inside the menu, as a game's exit
+  item: a back arrow beside the menu crowds the corner and is easy to hit by
+  mistake. Automatic fullscreen pays off only on an Android phone in a
+  browser tab, where the browser's bars take real height: enter it on the
+  player's first tap (once per page load), never re-enter after they leave
+  it, and offer a setting to turn it off. Skip it in the Hearthroom App and
+  in an installed web app (already full height), in WebViews and in-app
+  browsers (fullscreen rarely works there), and on iOS and desktops. Show
+  the toggle itself only in a browser tab on Android or a desktop, and only
+  where the hook exists.
 - When the overlay covers the composer, hide the site's (`sdk.composer.hide()`,
   `show()` on the way back to the chat) and draw one input inside the overlay:
   a choice drafts into it, the send button calls `sdk.message.send` in the

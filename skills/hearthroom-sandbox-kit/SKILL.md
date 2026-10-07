@@ -68,8 +68,9 @@ these facts come from", names the files and the cautions.
 8. Format probe: ten or more turns on a weak model with `hearthroom play
    --new-session --model …` (the block and the choices intact at every
    decision point), one strong-model run for emergence, then
-   `hearthroom card check <dir> --replay <history.txt>` (the text output of
-   `play --history`; its `--json` output is read as one reply) for the hit rate
+   `hearthroom card check <dir> --replay <history.txt>` (CLI 0.5.0 needs the
+   text output of `play --history` and reads its `--json` output as one reply;
+   the toolkit's `check-card.mjs --replay` reads either) for the hit rate
    per key, drift types and the overhead ratio against the threshold; then
    `hearthroom-render-review`.
 

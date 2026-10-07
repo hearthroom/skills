@@ -148,8 +148,10 @@ export function replayHealth(replies, { block = 'status', threshold = 0.15, requ
 export function repliesFrom(text) {
   const out = [];
   const t = String(text ?? '').trim();
-  const take = (o) => { if (o && typeof o === 'object') { const role = o.role || o.roleType || o.from; const content = o.content ?? o.text ?? o.message; if (typeof content === 'string' && (role == null || /^(ai|assistant|char|character)$/i.test(String(role)))) out.push(content); } };
-  try { const j = JSON.parse(t); if (Array.isArray(j)) j.forEach(take); else if (j && Array.isArray(j.messages)) j.messages.forEach(take); else take(j); if (out.length) return out; } catch { /* not one JSON document */ }
+  const take = (o) => { if (o && typeof o === 'object' && o.isSummary !== true) { const role = o.role || o.chatRole || o.roleType || o.from; const content = o.content ?? o.chatMessage ?? o.text ?? o.message; if (typeof content === 'string' && (role == null || /^(ai|assistant|char|character)$/i.test(String(role)))) out.push(content); } };
+  // `play --history --json` prints {conversationId, history: {chats}}, newest first.
+  const chatsOf = (j) => { const h = j && j.history && typeof j.history === 'object' ? j.history : j; return h && Array.isArray(h.chats) ? h.chats : null; };
+  try { const j = JSON.parse(t); const chats = chatsOf(j); if (Array.isArray(j)) j.forEach(take); else if (j && Array.isArray(j.messages)) j.messages.forEach(take); else if (chats) [...chats].reverse().forEach(take); else take(j); if (out.length) return out; } catch { /* not one JSON document */ }
   let any = false;
   for (const line of t.split(/\n/)) { const l = line.trim(); if (!l.startsWith('{')) continue; try { take(JSON.parse(l)); any = true; } catch { /* skip */ } }
   if (any && out.length) return out;

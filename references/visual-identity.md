@@ -77,6 +77,20 @@ image text. Do not name living artists or private references. Use traits that
 serve the card: silhouette, expression, camera distance, lighting, palette,
 key object, setting pressure, player-relative framing.
 
+## Pixel art and sprites
+
+Image models draw "pixel art" as a large picture with soft, uneven blocks.
+For true pixels, ask for a low-resolution look (about 320 px wide, limited
+palette, no anti-aliasing), then shrink the result with a box filter to that
+grid (for example 384 x 216 for a 16:9 scene, 128 x 128 for a bust), quantise
+it to 32–64 colours without dithering, save it lossless, and let the page
+scale it up with `image-rendering: pixelated`; the files stay a few tens of
+kilobytes. For a sprite over a scene, ask for one flat pure magenta
+background, key it out, crop to the figure, and drop the magenta fringe
+after shrinking. Keep characters out of scene art so one figure can stand in
+any scene, and keep the figure's design the same across scene, sprite and
+portrait.
+
 ## Layers
 
 Profile packaging decides the promise in words and owns the title. Visual

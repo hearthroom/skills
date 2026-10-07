@@ -35,6 +35,21 @@ the transport.
 - Every component with a lookup (a portrait by name, art by chapter) needs a
   designed fallback for the miss, and a preview sample that hits it: the
   model will introduce minor characters that no table knows.
+- When the overlay covers the composer, hide the site's (`sdk.composer.hide()`,
+  `show()` on the way back to the chat) and draw one input inside the overlay:
+  a choice drafts into it, the send button calls `sdk.message.send` in the
+  same task as the click, Enter sends only with a fine pointer and outside an
+  IME composition. Keep the text until the send resolves, so a refused send
+  loses nothing.
+- On a cold start every stored message fires `message:new`, so `new` alone
+  does not mean a reply started; count a reply as live only after the replayed
+  messages have settled, or the first screen opens in the writing state with
+  its choices disabled.
+- A page that streams starts at its top and does not follow the stream to
+  the bottom: the reader reads as the text arrives. Until the reply's state
+  block arrives, keep showing the previous page's values rather than empty
+  meters, and show the page's own values (not the latest) when the reader
+  pages back.
 
 ## Choose the layout from the shape, not the device
 
@@ -106,6 +121,18 @@ head (chapter title centred, quiet tabs) and drop state that the pages
 already show.
 
 ## Layout traps found on these screens
+
+- A 16:9 phone inside a browser usually has an available area of about
+  375 x 560, under the 1.75 ratio, so the shape table would give it the
+  short-screen layout; at that width a side column leaves too little text.
+  Give the side column only to widths of about 420 px and more, and keep
+  narrower screens on the one-page stack.
+- Focusing an input (a phone keyboard opening) or `scrollIntoView` can scroll
+  an `overflow: hidden` fixed overlay and push its header out of view. Reset
+  `scrollTop` on the overlay's own boxes when they scroll.
+- A full-width column with padding needs `box-sizing: border-box`, or a
+  two-page body set to `width: 100%` overflows by its padding and the control
+  page is cut at the right edge.
 
 - `letter-spacing` adds space after the last character, so centred spaced
   text sits left of centre; add an equal `text-indent`.

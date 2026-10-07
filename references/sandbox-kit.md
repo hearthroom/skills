@@ -219,6 +219,8 @@ while the model writes shows a toast instead of sending.
 | a path built as `"assets/" + id` | the file is never uploaded |
 | `{{random:a|b}}` | the literal text; the engine wants `{{random:a::b}}` |
 | a block the model is never told to write | the panel shows on the opening and never again |
+| `message:new` read as "a reply started" before the history settled | every stored message replays `new` on a cold start; the screen opens as if a reply were generating |
+| a status value shown from the kit's parsed value | full-width punctuation becomes ASCII (`｜` → `|`); show text values from the block as written |
 
 ## Importing a kit written for another platform
 

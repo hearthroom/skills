@@ -92,6 +92,15 @@ with observable pressure: "The door stays open." "The offer expires at dawn."
 invite, tease, bargain, threaten within the rating, withdraw or refuse. It
 never writes the player's decision.
 
+When the player plays the protagonist in a script-style format (one
+`Name「line」` per beat), models turn the player's message into the
+protagonist's dialogue line and then keep going with more lines and inner
+voice. A plain ban loses to the format. What held better was to allow exactly
+one line that quotes this turn's message verbatim and forbid every other
+protagonist line and inner voice, in the definition and again in
+`customInstructions`. Weak models then mostly comply; strong models may still
+add lines, so record it as a known limit instead of stacking more rules.
+
 ## Consequence checks
 
 Each meaningful path changes at least one of: relationship (trust,

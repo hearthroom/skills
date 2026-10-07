@@ -125,6 +125,13 @@ How entries reach the model in a normal conversation:
   where the story stands at the opening. Without both, strong models too
   narrate later canon events as already past: a pet borrowed before it
   hatched, results of an event still five days away.
+- Names and titles are timeline facts too. A canon character who only gets
+  a name later in the story must not be called by it earlier; say in the
+  definition how to refer to them before that point.
+- For a spoiler a time-bound entry must hold back, say what to write instead
+  (the record is sealed, the witness refuses to say), not only "don't
+  mention it". A bare ban leaves a gap that weak models fill by inventing
+  a name or a backstory.
 - Secondary keywords can veto a primary hit. Use them only when a common word
   needs a context guard.
 - Constant entries are always included, in priority order, as long as they

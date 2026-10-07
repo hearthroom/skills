@@ -50,9 +50,10 @@ artifact, since the artifact's shape is the format.
 | Relationship texture | an ordinary exchange at the card's usual closeness: one small move, one small state change; never the rupture, confession or repair beat, which stay in the definition's rules |
 
 Do not stage the move a player is most likely to make first (the canonical
-fix, the obvious offer): a strong model replays the sample almost word for
-word when the player makes it. Do not repeat the opening scene, and do not use the same situation as the
-opening's first step: weak models copy it word for word. The `user` line may
+fix, the obvious offer): when the player makes it, a strong model can replay
+the sample almost word for word. Do not repeat the opening scene, and do not
+use the same situation as the opening's first step: weak models copy it word
+for word. The `user` line may
 express a move; the `ai` reply must leave the player's feelings, actions,
 consent and commitments alone.
 

@@ -77,6 +77,25 @@ image text. Do not name living artists or private references. Use traits that
 serve the card: silhouette, expression, camera distance, lighting, palette,
 key object, setting pressure, player-relative framing.
 
+## A cover with its title on it
+
+A card whose own screen covers the chat page (so the portrait no longer
+works as the chat background) can make the portrait a real cover, the way a
+light novel's is. The pattern: one bright character illustration that fills
+the frame, and a custom title logo in the upper part. A long title gets a
+size hierarchy: a short lead line on a ribbon, the key phrase largest with a
+thick outline, a gradient fill and a drop shadow, each character tilted a
+little differently, and the payoff line below it in white, tilted the
+other way. A sticker or badge sits in a corner, and a small tag line runs
+along the bottom. Image models garble text, so ask the model for the
+illustration only, with the top third left as open sky, and set the title
+in HTML and CSS with a web font rendered to PNG (headless Chrome). Then
+check the crops: the board cover is the middle 3:4 band, so the logo stays
+inside it; the avatar is the centre circle, so the face goes there, just
+below the logo. If the model puts the face too high, move the whole
+illustration down and continue the sky above it in its own colour; don't
+let the logo cover the face.
+
 ## Pixel art and sprites
 
 Asked for "pixel art", image models tend to return a large picture with

@@ -38,14 +38,12 @@ specific thing? Write three candidates, each using a different one of the
 three devices, then pick. Avoid generic archetypes ("Vampire Boyfriend"),
 mood-only names, joke names on non-comedic cards, and stacked subtitles.
 
-For a fan card of a light novel or anime, borrow the source title's own
-shape, since that is what fans recognise at a glance. Those long titles
-follow one formula: one sentence, an ordinary cause and a wildly
-disproportionate effect, and a casual ending ("…したいと思います", "…した件",
-"…就對了"), stopping short of the climax. Keep the source's key phrase word
-for word and swap one part for the twist (the subject, or the ending). Do
-not add a second clause after a comma to explain the card's angle: the
-title turns into two ideas and loses its pull. The angle goes in the summary.
+For a fan card, consider borrowing the shape of the source's own title,
+since that is what fans recognise at a glance (a light novel's long
+one-sentence title, a series' naming pattern), keeping its key phrase and
+changing one part for the card's twist. A title that needs a second clause
+to explain the angle has usually become two ideas; the angle can live in
+the summary.
 
 Then check the pair: does the cover raise the same question as the title? If
 not, route the hook sentence to `hearthroom-visual-identity-director`; do not

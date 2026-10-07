@@ -81,30 +81,22 @@ key object, setting pressure, player-relative framing.
 ## A cover with its title on it
 
 A card whose own screen covers the chat page (so the portrait no longer
-works as the chat background) can make the portrait a real cover, the way a
-light novel's is. The pattern: one bright character illustration that fills
-the frame, and a custom title logo in the upper part. A long title gets a
-size hierarchy: a short lead line on a ribbon, the key phrase largest with a
-thick outline, a gradient fill and a drop shadow, each character tilted a
-little differently, and the payoff line below it in white, tilted the
-other way. A sticker or badge sits in a corner, and a small tag line runs
-along the bottom. Image models garble text, so ask the model for the
-illustration only, with the top third left as open sky, and set the title
-in HTML and CSS with a web font rendered to PNG (headless Chrome). Then
-check the crops: the board cover is the middle 3:4 band, so the logo stays
-inside it; the avatar is the centre circle, so the face goes there, just
-below the logo. A card that styles its own chat page can instead hide the
-avatar (it is the site's message avatar node; see the facts sheet's caution
-on internal nodes) and keep its own chat background, and then design the
-portrait for the board instead: a bigger logo and a bigger figure. Either
-way, do not trust one crop. Per the site's source every cover slot (board
-tile, card page, own cards, review list) crops 3:4 from the centre and the
-board tile zooms 4% on hover, while a shared link's preview is wide (see
-The share image) and other surfaces may show it square; so keep the logo and
-the face inside the area all of them keep, the centre square of the 9:16
-portrait, about 6% in from each side, and let sky and legs take the rest. If the model puts the face too high, move the whole
-illustration down and continue the sky above it in its own colour; don't
-let the logo cover the face.
+works as the chat background) may make the portrait a real cover with the
+title on it. How it looks is the card's call: the title should read as part
+of the same world as the art. Two things hold whatever the look:
+
+- Image models garble text. Ask for the art only, with room left where the
+  title will go, and set the title yourself (HTML and CSS with a web font,
+  rendered to PNG in headless Chrome, works).
+- Every crop must keep the title and the face. Per the site's source every
+  cover slot (board tile, card page, own cards, review list) crops 3:4 from
+  the centre and the board tile zooms 4% on hover, a shared link's preview
+  is wide (see The share image), and other surfaces may show it square: keep
+  the title and the face inside the area all of them keep, the centre
+  square of the 9:16 portrait, about 6% in from each side, and never let the
+  title cover the face. A card that hides the site's avatar (the message
+  avatar node; see the facts sheet's caution on internal nodes) can design
+  the portrait for the board crop alone.
 
 ## The share image
 
@@ -143,11 +135,9 @@ For a fan card, where the canon look is the point, a description in words
 gets a generic costume: attach the official full-body art (a series' own
 character page is better than an episode still, which leaves the body to be
 invented) and ask for the same hair, outfit, colours and weapon in the
-pixel style. A full-screen title on a phone needs tall art: a 9:16 backdrop
-with a flat ground band near the bottom, shown cover-anchored to the bottom,
-with the sprites placed on that band, so a taller screen shows more of the
-picture; a 16:9 scene with a sky colour filled above it leaves the top half
-empty. When a script runs an image CLI once per line of a job file, give the
+pixel style. A screen shown in portrait needs art composed for portrait;
+a landscape scene padded with a filled colour leaves half the screen empty.
+When a script runs an image CLI once per line of a job file, give the
 CLI no stdin (`< /dev/null`), or the first job reads the rest of the file as
 its prompt, and put the prompt before a flag that takes several files.
 

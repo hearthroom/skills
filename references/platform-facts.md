@@ -448,6 +448,24 @@ prose.
 - The site header is `[data-chat="header"]`; the classes inside it are site
   internals. A card that moves its own bar into the header must fall back to
   `[data-slot="statusbar"]` when the header is hidden or changes.
+- With the standard chrome the header carries stable `data-lt` hooks, kept
+  across releases and checked by the site's tests (class names are not):
+  `[data-lt="header"]`, `back`, `avatar`, `title`, `header-actions` and
+  `fullscreen`. The fullscreen button exists only where the host document
+  can go fullscreen (not on iPhone Safari) and has `aria-pressed="true"`
+  while it is. Both buttons only post to the host and spend nothing, so a
+  card script's `.click()` on them works: back navigates (or closes an open
+  stage first), fullscreen toggles the host document. The browser grants
+  fullscreen only after a player's gesture, so a forwarded click works
+  inside a tap and does nothing on load.
+- The Hearthroom App's WebView adds `HearthroomApp/<version>` to the user
+  agent, and the card's frame reads the same string. The site treats that,
+  or `display-mode: standalone` / `fullscreen` (and iOS's
+  `navigator.standalone`), as an installed app; a card opened from its own
+  home-screen icon then has no back button in the header.
+- The host colours the phone's status bar from the header's `.topTabbar`
+  background and measures it again when the page's `html` or `body` classes
+  change; a card that hides the header can still set that background.
 
 **Classic**: rules are applied directly onto the site's chat page. The
 selectors authors used there (`.mes`, `.mes_text`, `.mes.Ai` / `.mes.User`,

@@ -79,6 +79,31 @@ the transport.
   change. Pick the title's attract episodes at random without repeating the
   last few, and on a portrait panel (a phone, a full-screen view) switch the
   stage to the tall backdrop layout rather than letterboxing 16:9.
+- Keep the stage and the prose on screen together, and let the reading
+  position drive it: on a phone pin the stage above the reading pane and
+  narrow it to a strip (actors and the current beat) once the reader
+  scrolls, so it never sits over unread text; a pinned slot of constant
+  height whose lower part is transparent narrows without making the text
+  jump. Play each system line's beat when that line first comes into view
+  (an IntersectionObserver rooted at the reading pane, its top margin
+  minus the pinned stage), queue beats rather than restarting, remember
+  what played by message and line (the page is re-rendered on every
+  streamed chunk), and while a reply streams leave its lines alone: the
+  stage still shows the previous page, so the lines the reader passed
+  catch up once it completes. A monster the page defeats stands until
+  that line is read.
+- Give the card's core verb its own small window that drafts one precise
+  line into the input (pick a target, a method, a number, a scope; fold
+  each decided step so the rest fits a short phone). A completeness
+  checklist is fair when the card rewards precision; a predicted meter
+  change is not, because the model decides it. Let scope options carry the
+  card's rules (no "this player only" when the rules forbid it), and keep a
+  history of what the player did and how the story answered.
+- Sound can be synthesised in the page with WebAudio (no files): in the
+  preview shell's sandboxed iframe the context starts suspended and runs
+  after a tap inside the frame, so start it from the title's tap and again
+  on the first touch. Give music and effects separate switches, a mute in
+  the top bar, and no music by default under reduced motion.
 - When the overlay covers the composer, hide the site's (`sdk.composer.hide()`,
   `show()` on the way back to the chat) and draw one input inside the overlay:
   a choice drafts into it, the send button calls `sdk.message.send` in the

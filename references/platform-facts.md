@@ -139,7 +139,14 @@ Backgrounds are optional: `media.background` (9:16) and
 the portrait one). All are cropped to cover the screen, so keep important
 elements inside the central 75% of each image. On push they become
 `roleAvatar`, `roleBackground` and `roleBackgroundLandscape`. The site's
-guide calls the definition the "Persona".
+guide calls the definition the "Persona". Per the site's source, the board
+tile and the card page show the portrait, but the author's own "my cards"
+tile shows the background first and falls back to the portrait. The chat
+stage draws the background on `.chat-scope-box` (`--lt-bg-portrait`, and
+`--lt-bg-landscape` in landscape), and a card's CSS may override that node, so
+a card can point `media.background` at its cover and set its real chat
+background in its own stylesheet. `card pull` leaves `media.background` out
+when it equals the portrait.
 
 ## Media library
 

@@ -95,7 +95,13 @@ inside it; the avatar is the centre circle, so the face goes there, just
 below the logo. A card that styles its own chat page can instead hide the
 avatar (it is the site's message avatar node; see the facts sheet's caution
 on internal nodes) and keep its own chat background, and then design the
-portrait for the 3:4 band alone: a bigger logo and a bigger figure. If the model puts the face too high, move the whole
+portrait for the board instead: a bigger logo and a bigger figure. Either
+way, do not trust one crop. Per the site's source every cover slot (board
+tile, card page, own cards, review list) crops 3:4 from the centre and the
+board tile zooms 4% on hover, while a shared link's preview uses the
+original image and other surfaces may show it square; so keep the logo and
+the face inside the area all of them keep, the centre square of the 9:16
+portrait, about 6% in from each side, and let sky and legs take the rest. If the model puts the face too high, move the whole
 illustration down and continue the sky above it in its own colour; don't
 let the logo cover the face.
 

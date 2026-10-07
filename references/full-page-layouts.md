@@ -49,6 +49,12 @@ the transport.
   browsers (fullscreen rarely works there), and on iOS and desktops. Show
   the toggle itself only in a browser tab on Android or a desktop, and only
   where the hook exists.
+- Art chosen from the reply's words (a scene, a portrait) is chosen once the
+  reply is complete: guessing from half a streamed text flips between two
+  pictures several times a second. Change it with a short crossfade, not a
+  cut. A "running" sprite bobs; flipping it to its mirror image every few
+  frames reads as two pictures flashing. Move one layer at a time (a
+  scrolling ground under a still sprite) and keep large areas still.
 - When the overlay covers the composer, hide the site's (`sdk.composer.hide()`,
   `show()` on the way back to the chat) and draw one input inside the overlay:
   a choice drafts into it, the send button calls `sdk.message.send` in the

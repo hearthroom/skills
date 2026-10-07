@@ -9,14 +9,17 @@ funnels different replies back to the same scene.
 The character may create pressure; the player keeps authorship of their inner
 state and choices.
 
-The platform side of this is `responseDefaults.agency` (`platform-facts.md`):
-keep it `protect` for a card whose rules forbid writing the player's part,
-and put the card's own exception in `agencyNote` (for example, quoting the
-player's in-world post verbatim).
-
 ```text
 player insertion -> reply path -> consequence -> remembered boundary -> renewed hook
 ```
+
+The platform states its own agency rule every turn from
+`responseDefaults.agency` (`platform-facts.md`), and a card rule that
+disagrees with it hands the model two conflicting instructions. For a card whose rules forbid writing
+the player's part, leave it at `protect`. Put the card's one exception (for
+example, quoting the player's in-world post verbatim) in `agencyNote`: it
+sits next to the agency line after the history, where it overrides that
+line instead of contradicting it from the definition.
 
 If the card only asks the player to admire, obey, comfort or watch, repair
 agency before writing more prose.

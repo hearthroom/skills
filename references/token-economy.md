@@ -6,18 +6,19 @@ rewrite plan before render or play.
 
 ## Core rule
 
-Reply length has its own control: `responseDefaults.length` with a
-`lengthTarget` and a `lengthNote` (`platform-facts.md`). Set it when a
-length rule in the definition keeps being ignored; a strong model in
-testing that ran 1400–2400 characters against a written "at most 1200"
-stayed near 1100 with `target` 1200. The player can still change it.
-
 Tokens are attention budget, not a length target. Spend them where they change
 future behaviour:
 
 ```text
 promise -> durable engine -> playable opening -> compact state -> optional style
 ```
+
+Reply length has its own control, so the definition need not spend words
+on it: `responseDefaults.length` with a `lengthTarget` and a `lengthNote`
+(`platform-facts.md`). Use it when a length rule in the definition keeps
+being ignored. In testing, a strong model ran 1400–2400 characters against
+a written "at most 1200" and stayed near 1100 with `target` 1200. The
+player can still change it.
 
 If the first screen is doing the work of the whole card, repair allocation
 before polishing prose.
@@ -44,7 +45,7 @@ from `tokenBudget.limits` in `card validate --json`.
 | background facts needed only in some scenes | `lorebook.json` entries with keywords | admitted by keyword, or possibly by semantic search within a budget; once admitted an entry stays for later turns, so long entries keep costing |
 | facts that must always be present | a few short constant entries, or the definition | constant entries are always included while they fit; a card whose constant entries do not fit the context tier is refused with advice |
 | the reply shape the model must keep | `card.json` `outputContract` | one short contract instead of format prose everywhere |
-| a last reminder before each reply (replaces the default content-scope block) | `card.json` `customInstructions` | short; the one or two rules replies forget |
+| a late reminder after the history (replaces the default content-scope block) | `card.json` `customInstructions` | short; the one or two rules replies forget |
 | layout, status bars, buttons | `rules.json` display rules | the model writes plain values; the page draws the rest |
 | first playable scene | `welcome.md` | the only place that must be read before the first reply |
 | player-side first lines | `card.json` `prologue` | reply paths without lengthening the opening |

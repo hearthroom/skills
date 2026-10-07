@@ -92,6 +92,23 @@ the transport.
   stage still shows the previous page, so the lines the reader passed
   catch up once it completes. A monster the page defeats stands until
   that line is read.
+- Do not make the stage guess who is on screen from the prose: real replies
+  rename monsters, turn a foe into a pet, move the scene and cut to another
+  character, and no keyword table survives that. Let the model declare the
+  frame in the state block (one line: who the camera follows, where, who else
+  is in shot, with pets and mounts marked), keep prose inference only as the
+  fallback for a reply that drops the line, and test that a weak model still
+  writes it every turn. The page starts from that frame with the page's own
+  changes undone (what it tames is still hostile, what the player drops is
+  not there yet, last page's cast is still standing if the camera stayed) and
+  settles into the declared frame at the page's end; someone a line names who
+  is not in shot walks in. Read the system lines as subject, verb, target and
+  number; give speech to the nearest name before the quote (the camera's
+  focus when the paragraph only says "she"), off-stage voices to a small
+  portrait window, forum posts to danmaku, and play the player's own move of
+  that turn first. Test with real replies, not hand-written samples: feed a
+  `play --history` export back through the preview, player line then reply,
+  and scroll it.
 - Give the card's core verb its own small window that drafts one precise
   line into the input (pick a target, a method, a number, a scope; fold
   each decided step so the rest fits a short phone). A completeness

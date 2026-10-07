@@ -139,9 +139,8 @@ Backgrounds are optional: `media.background` (9:16) and
 `media.backgroundLandscape` (16:9, preferred on wide screens, falling back to
 the portrait one). All are cropped to cover the screen, so keep important
 elements inside the central 75% of each image. `media.share` (1200 × 630,
-optional) is the link-preview image; without it the site builds one from the
-whole portrait over a blurred copy of itself (`visual-identity.md`, The share
-image). On push they become `roleAvatar`, `roleBackground`,
+optional) is the link-preview image; without it the site uses the landscape
+background, then the portrait (`visual-identity.md`, The share image). On push they become `roleAvatar`, `roleBackground`,
 `roleBackgroundLandscape` and `roleShareImage`. The site's
 guide calls the definition the "Persona". Per the site's source, the board
 tile and the card page show the portrait, but the author's own "my cards"

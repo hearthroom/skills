@@ -121,6 +121,8 @@ test('README declarations and the replay health report', async () => {
   assert.equal(k.missingClose, 1);
   assert.ok(k.keys.hp.count === 2 && k.keys.mood.count === 2);
   assert.ok(Math.abs(k.overhead - h.overhead) < 0.02, `overhead ${k.overhead} vs ${h.overhead}`);
+  const played = repliesFrom('{"conversationId":"c","history":{"chats":[{"chatRole":"AI","chatMessage":"Second.\\n[status]\\nhp: 2\\n[/status]"},{"chatRole":"AI","chatMessage":"recap","isSummary":true},{"chatRole":"USER","chatMessage":"go on"},{"chatRole":"AI","chatMessage":"Opening.","isFirst":true}]}}');
+  assert.deepEqual(played.map((r) => r.split('\n')[0]), ['Opening.', 'Second.']);
   const fromJsonl = repliesFrom('{"role":"user","content":"hi"}\n{"role":"ai","content":"[status]\\nhp: 1\\n[/status]"}\n');
   assert.deepEqual(fromJsonl, ['[status]\nhp: 1\n[/status]']);
   const dir = await card({ 'README.md': 'uiRole: core\n', 'rules.json': { pageMode: 'sandbox', rules: [] } });

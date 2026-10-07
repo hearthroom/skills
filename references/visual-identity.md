@@ -109,11 +109,11 @@ let the logo cover the face.
 ## The share image
 
 A link pasted into Discord, LINE or X shows a wide preview, about 1.91:1, with
-the card name and summary as text beside or under it. Cropping the 9:16
-portrait to that shape keeps only a thin middle strip, so the site does not
-crop it: without `media.share` it builds the preview from the whole portrait,
-centred over a blurred, enlarged copy of itself. Nothing is lost, but the
-portrait fills only the middle third and a title drawn on it comes out small.
+the card name and summary as text beside or under it. The site picks
+`media.share`, then `media.backgroundLandscape`, then the 9:16 portrait. The
+platform crops the 16:9 background a little at the top and bottom, but the
+portrait down to a thin middle strip, so a title drawn on the portrait is cut
+off.
 
 A card that wants a real preview sets `media.share` (`roleShareImage` on
 push): 1200 × 630, PNG or JPEG, its own composition rather than a crop of the

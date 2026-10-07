@@ -112,7 +112,21 @@ How entries reach the model in a normal conversation:
   through every keyword list to count entries fired per sentence.
 - Whether a plain keyword matches both Chinese scripts is not documented
   (`platform-facts.md`): for Chinese cards list both forms of a noun the
-  player might type.
+  player might type. For a canon or IP card, also list each name in every
+  regional translation players use (the official Taiwan release, the
+  mainland streaming subtitles, common fan spellings): the same character
+  can have three names.
+- A one-character name that also sits inside common words (霞 in 晚霞, 奏 in
+  演奏, 朧 in 朦朧) is better written as a regular expression that excludes
+  those words, such as `/(?<![晚雲彩朝紅])霞(?!光)/`, than as the bare
+  character, which fires on scenery. Test it against the compounds before
+  pushing.
+- When the Lorebook holds a whole canon timeline and the card starts partway
+  through it, put the canon timing in the first line of every time-bound
+  entry ("canon time: after the second event") and state in the definition
+  where the story stands at the opening. Without both, strong models too
+  narrate later canon events as already past: a pet borrowed before it
+  hatched, results of an event still five days away.
 - Secondary keywords can veto a primary hit. Use them only when a common word
   needs a context guard.
 - Constant entries are always included, in priority order, as long as they

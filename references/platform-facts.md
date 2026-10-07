@@ -588,7 +588,12 @@ hearthroom models | tags --zone zh | search | media ls|upload|mv|rm | upgrade --
   thinking depth where the model supports it, `--show-thinking` prints
   reasoning deltas, `--stop` cancels a reply. With `--json`, every server
   event is printed as one JSON object per line; a stopped or failed reply is
-  still charged for the calls it made. Turns sent with `play` do not pass
+  still charged for the calls it made. A provider outage ends the turn with
+  `state: failed_retryable`, `failureCause: service_unavailable` and
+  `chargeCredits: 0`. A reply left incomplete keeps the conversation busy:
+  further sends and `--new-session` return `409 chat_operation_conflict` until
+  the server lets go (about two to three minutes in CLI 0.5.0; `--stop` did
+  not release it sooner), so poll `--history` before retrying. Turns sent with `play` do not pass
   through the play page, so display rules and scripts are not exercised by
   them; use the offline preview or the play link for the screen.
 - `card validate --json` returns `status` (`pass` | `warning` | `blocker`),

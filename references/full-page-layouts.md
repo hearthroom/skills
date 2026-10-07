@@ -55,6 +55,17 @@ the transport.
   cut. A "running" sprite bobs; flipping it to its mirror image every few
   frames reads as two pictures flashing. Move one layer at a time (a
   scrolling ground under a still sprite) and keep large areas still.
+- A title or splash screen waits for the player's tap: a timer that skips
+  it takes the moment away, and a tap is also the gesture fullscreen needs.
+  Behind the title, let the game's own scene play by itself (an attract
+  loop), so the first screen already shows what the card is about.
+- A scene panel that only shows a picture is decoration. Build it from
+  layers in one fixed pixel grid (background, actors, effects, bubbles kept
+  at screen size), give each scene a small idle script that fires at random,
+  play a few beats derived from each finished reply, and let a tap on an
+  actor answer with a line and, sometimes, a draft action for the input box,
+  so the panel feeds the game's loop. Stop every timer while the panel is
+  off screen or the page is hidden, and do nothing under reduced motion.
 - When the overlay covers the composer, hide the site's (`sdk.composer.hide()`,
   `show()` on the way back to the chat) and draw one input inside the overlay:
   a choice drafts into it, the send button calls `sdk.message.send` in the

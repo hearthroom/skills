@@ -124,8 +124,19 @@ the transport.
   √2:1 handsets (a Surface Duo's single screen) as their own case: stacked,
   the meters, tabs and controls leave the story two lines; put the picture
   and the story in one column and the meters and tabs in a narrow rail
-  beside them. Tell them apart by a coarse pointer and the ratio, not by
-  width alone.
+  beside them. Tell them apart by a coarse pointer and the physical
+  screen's ratio (`screen.width/height`), not the viewport: browser bars
+  shorten a Duo's viewport to an ordinary portrait one.
+- What stays on screen permanently must serve the card's core loop and give
+  the player something to act on. Two meters the player cannot touch are
+  not that; in a multi-view GM card the permanent strip is the channel list
+  (who is being watched, who is in a fight, who did something odd) plus a
+  few alerts that each open the place where they are handled. Keep the meters
+  where decisions are reviewed (the turn's result, an intel page).
+- A taller version of a scene must be the same place: when a portrait or
+  full view swaps to tall art, only swap scenes that have their own tall
+  art and crop the wide one otherwise; generate the tall one from the wide
+  art as a reference.
 - `container-type` (and other containment) makes an element the containing
   block for its fixed-position descendants: a "full screen" child of a
   pinned container query box scrolls with the page on Android and collapses

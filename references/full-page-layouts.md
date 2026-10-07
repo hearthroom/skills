@@ -66,6 +66,19 @@ the transport.
   actor answer with a line and, sometimes, a draft action for the input box,
   so the panel feeds the game's loop. Stop every timer while the panel is
   off screen or the page is hidden, and do nothing under reduced motion.
+- Make that stage show the story's state, not only its beats. Take the cast
+  from the shown page's own prose with the side blocks removed, so it never
+  shows a character or form the story has not reached; draw what the story
+  left behind (a sign for the active rule change that falls over when the
+  character goes around it, the remains of a beaten boss, a crowd sized by
+  the forum posts); turn a counter the reply already writes ("progress 94%")
+  into the monster's health bar. A monster the story finished stays gone, and
+  the replay brings it back only to finish it again. Replay a finished turn
+  as its system lines in order, each as a caption, at most about seven beats:
+  merge repeats and drop minor hits before a defeat, a skill or a rule
+  change. Pick the title's attract episodes at random without repeating the
+  last few, and on a portrait panel (a phone, a full-screen view) switch the
+  stage to the tall backdrop layout rather than letterboxing 16:9.
 - When the overlay covers the composer, hide the site's (`sdk.composer.hide()`,
   `show()` on the way back to the chat) and draw one input inside the overlay:
   a choice drafts into it, the send button calls `sdk.message.send` in the

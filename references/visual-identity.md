@@ -119,6 +119,18 @@ after shrinking. Keep characters out of scene art so one figure can stand in
 any scene, and keep the figure's design the same across scene, sprite and
 portrait.
 
+For a fan card, where the canon look is the point, a description in words
+gets a generic costume: attach the official full-body art (a series' own
+character page is better than an episode still, which leaves the body to be
+invented) and ask for the same hair, outfit, colours and weapon in the
+pixel style. A full-screen title on a phone needs tall art: a 9:16 backdrop
+with a flat ground band near the bottom, shown cover-anchored to the bottom,
+with the sprites placed on that band, so a taller screen shows more of the
+picture; a 16:9 scene with a sky colour filled above it leaves the top half
+empty. When a script runs an image CLI once per line of a job file, give the
+CLI no stdin (`< /dev/null`), or the first job reads the rest of the file as
+its prompt, and put the prompt before a flag that takes several files.
+
 ## Layers
 
 Profile packaging decides the promise in words and owns the title. Visual

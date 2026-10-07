@@ -116,7 +116,12 @@ the transport.
   advanced by the player one chunk at a time (a paragraph plus the system
   lines that follow it; group and forum blocks on their own); the picture
   acts first, then the text types out, a tap completes it. Keep the full
-  page as a log view and as the fallback. Speech goes in the text box, not
+  page as a log view and as the fallback, with a control on both views that
+  switches back. An auto mode must wait for the reader, not a clock: hold
+  each chunk for its own reading time (about four Chinese characters a second
+  or a third of a second per English word, plus a margin, counted from when
+  the text is out and the picture is still), offer ×1 and ×2, and let a tap
+  move on at any time. Speech goes in the text box, not
   in bubbles over the picture (one line, read once). A tall phone keeps a
   16:10 picture and gives the rest to the story; a near-square or wide
   screen, an unfolded or half-folded device, splits in half (on the hinge
@@ -127,6 +132,9 @@ the transport.
   beside them. Tell them apart by a coarse pointer and the physical
   screen's ratio (`screen.width/height`), not the viewport: browser bars
   shorten a Duo's viewport to an ordinary portrait one.
+- Never put two controls that do the same thing side by side on a small
+  screen (an alert that opens a tab next to that tab): put the alert on the
+  tab as a badge.
 - What stays on screen permanently must serve the card's core loop and give
   the player something to act on. Two meters the player cannot touch are
   not that; in a multi-view GM card the permanent strip is the channel list

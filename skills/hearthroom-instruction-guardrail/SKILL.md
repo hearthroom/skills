@@ -12,8 +12,9 @@ gate: the instruction layer cannot fix a boring, generic or passive card.
 ## Required references
 
 Read `../../references/instruction-guardrails.md`. From
-`../../references/platform-facts.md`: `customInstructions` replaces one
-default instruction block (not appended, not the whole system prompt);
+`../../references/platform-facts.md`: `customInstructions` is the last
+system message before each reply and replaces the default content-scope
+block;
 `outputContract` is the format the reply must follow; both have limits under
 `tokenBudget.limits`. Read `../../references/playtest-loop.md` when the need
 comes from play evidence and `../../references/cost-and-boundaries.md` when

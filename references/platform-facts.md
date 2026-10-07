@@ -52,7 +52,7 @@ to read in `--json` output.
 | alternate openings | `welcomeAlternates` | other first messages the player can pick |
 | suggested first lines | `prologue` | player-side first lines offered as choices; never the character's first message |
 | example conversations | `talkExample` | `{roleType: user|ai, content}` pairs |
-| custom instructions | `customInstructions` | replaces one default instruction block; not appended, not the whole system prompt. Which block it replaces is not documented: a non-empty value removes platform behaviour the author cannot see, so keep it short and compare a probe with it empty and filled |
+| custom instructions | `customInstructions` | the site editor's 額外指示 ("a reminder attached at the end of every turn"). Per the provider's prompt code it is the last system message, after the history and right before the reply, prefixed `[Content scope]` / `[內容範圍]`; a non-empty value replaces the platform's default content-scope block (which, in Chinese, frames the story as mature literary writing with romance and physical intimacy). A player's own text in their persona's Advanced field replaces the card's; it is left out at the strictest safety level. Keep it short: the one or two rules replies most often forget, and the scope the card is written for |
 | output contract | `roleOutputContract` | format the reply must follow |
 | Lorebook, entry | worldbook, entries | keyword-triggered background knowledge |
 | display rules | author asset, `rules.json` | find/replace rules that turn reply text into layout, status bars, buttons |
@@ -105,6 +105,17 @@ changes it keeps their choice, and the card's note for that axis stops
 applying. A push reaches existing conversations from their next reply.
 Leave a key out to keep the platform default; `"responseDefaults": {}`
 clears the server copy, and deleting the key from `card.json` leaves it.
+Per the provider's prompt code, setting response preferences also changes
+the template around the card: a `[Roleplay]` preamble ("keep the response
+inside the story; follow the response preferences after the history"), and
+with `style` `default` or `guided` a writing guide whose last word is that
+everything written stays inside the story. Out-of-story blocks the card
+asks for (`[status]`, `[choices]`, side channels) compete with that line:
+in one test a weak model dropped them in two of three turns with `guided`,
+kept the status block in six of six and the choices in five of six with
+`card`, and three of three with no preferences set. A card that relies on
+such blocks uses `style: card` and re-runs its weak-model format probe after
+adding `responseDefaults`.
 
 One portrait, three crops: `media.portrait` (9:16) is the board cover
 (cropped to about 3:4), the chat avatar (cropped to a 1:1 circle) and, when

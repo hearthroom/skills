@@ -184,6 +184,12 @@ already show.
 
 ## Layout traps found on these screens
 
+- An on-screen keyboard shrinks the viewport, often below its width. A
+  layout chosen from the viewport's shape then switches while the player
+  types; rebuilding moves the focused input, it blurs, the keyboard closes,
+  the viewport grows back and the layout switches again: a flash and no way
+  to type. Keep the current layout while one of the card's inputs has focus
+  and recompute after it blurs.
 - The ratio alone misfiles small 16:9 phones: in a browser, after its bars
   and the site header, a 375 x 667 screen has about 375 x 510, under 1.75,
   so the table puts it in the row meant for A-series and cover screens. Add a

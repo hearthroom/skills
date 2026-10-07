@@ -109,6 +109,13 @@ written once in the script and labelled as outside the story. Every such
 effect must serve what the scene is about; a feature with no tie to the
 card's core loop is decoration, whatever it costs to build.
 
+What the player said in the world (a forum post under an official account,
+a line in a group chat) is shown from the message they sent, not from the
+model repeating it: a strong model in testing answered such a post without
+echoing it, so a panel that waited for the echo lost the player's line.
+Place it at the head of the reply it led to, and skip it when the model
+did quote it.
+
 ## Reading first, choosing second
 
 A reply is read before it is answered. On every screen:

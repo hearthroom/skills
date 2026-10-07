@@ -120,7 +120,12 @@ the transport.
   in bubbles over the picture (one line, read once). A tall phone keeps a
   16:10 picture and gives the rest to the story; a near-square or wide
   screen, an unfolded or half-folded device, splits in half (on the hinge
-  when there is one); fill the picture's box instead of letterboxing.
+  when there is one); fill the picture's box instead of letterboxing. Keep
+  √2:1 handsets (a Surface Duo's single screen) as their own case: stacked,
+  the meters, tabs and controls leave the story two lines; put the picture
+  and the story in one column and the meters and tabs in a narrow rail
+  beside them. Tell them apart by a coarse pointer and the ratio, not by
+  width alone.
 - `container-type` (and other containment) makes an element the containing
   block for its fixed-position descendants: a "full screen" child of a
   pinned container query box scrolls with the page on Android and collapses

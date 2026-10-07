@@ -489,6 +489,15 @@ drives it headless with the system Chrome: screenshots per size, a
 `snapshot.json` (bubbles, panels, debug log) and, with `--interact`, a real
 tap on a choice and on the dock. It is the real `sdk`, sanitizer, Markdown and
 event order; it is not the host's rendering path, the real model or a device.
+`hearthroom card preview --check --sizes A,B,…` names the shots of the first
+size `phone-*` and of the last `desktop-*` and the rest by `WxH`; read
+`findings.json` for the size of each. Its `freeInputVisible` looks for the
+site's composer only, so a card that hides it and draws its own input reads
+`false` there; check that input on the screenshot. The check cannot tap
+inside the page; a card with its own controls needs an interactive pass in
+the browser (`--open`) or through the DevTools protocol (trusted clicks with
+`Input.dispatchMouseEvent`; with site isolation disabled, the frame's
+document is readable from the harness page).
 Without that repository, the render report's `previewUrl` in a browser is the
 check.
 

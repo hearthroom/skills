@@ -38,135 +38,69 @@ the transport.
 - When the overlay takes the whole page, hide the site header as well and
   keep one bar, or the screen shows two title bars. Forward back and
   fullscreen to the header's own buttons (facts sheet, `data-lt` hooks), so
-  navigation and fullscreen stay the site's. Put the menu button at the
-  outer edge and the way out of the card inside the menu, as a game's exit
-  item: a back arrow beside the menu crowds the corner and is easy to hit by
-  mistake. Automatic fullscreen pays off only on an Android phone in a
-  browser tab, where the browser's bars take real height: enter it on the
-  player's first tap (once per page load), never re-enter after they leave
-  it, and offer a setting to turn it off. Skip it in the Hearthroom App and
-  in an installed web app (already full height), in WebViews and in-app
-  browsers (fullscreen rarely works there), and on iOS and desktops. Show
-  the toggle itself only in a browser tab on Android or a desktop, and only
-  where the hook exists.
-- Art chosen from the reply's words (a scene, a portrait) is chosen once the
-  reply is complete: guessing from half a streamed text flips between two
-  pictures several times a second. Change it with a short crossfade, not a
-  cut. A "running" sprite bobs; flipping it to its mirror image every few
-  frames reads as two pictures flashing. Move one layer at a time (a
-  scrolling ground under a still sprite) and keep large areas still.
-- A title or splash screen waits for the player's tap: a timer that skips
-  it takes the moment away, and a tap is also the gesture fullscreen needs.
-  Behind the title, let the game's own scene play by itself (an attract
-  loop), so the first screen already shows what the card is about.
-- A scene panel that only shows a picture is decoration. Build it from
-  layers in one fixed pixel grid (background, actors, effects, bubbles kept
-  at screen size), give each scene a small idle script that fires at random,
-  play a few beats derived from each finished reply, and let a tap on an
-  actor answer with a line and, sometimes, a draft action for the input box,
-  so the panel feeds the game's loop. Stop every timer while the panel is
-  off screen or the page is hidden, and do nothing under reduced motion.
-- Make that stage show the story's state, not only its beats. Take the cast
-  from the shown page's own prose with the side blocks removed, so it never
-  shows a character or form the story has not reached; draw what the story
-  left behind (a sign for the active rule change that falls over when the
-  character goes around it, the remains of a beaten boss, a crowd sized by
-  the forum posts); turn a counter the reply already writes ("progress 94%")
-  into the monster's health bar. A monster the story finished stays gone, and
-  the replay brings it back only to finish it again. Replay a finished turn
-  as its system lines in order, each as a caption, at most about seven beats:
-  merge repeats and drop minor hits before a defeat, a skill or a rule
-  change. Pick the title's attract episodes at random without repeating the
-  last few, and on a portrait panel (a phone, a full-screen view) switch the
-  stage to the tall backdrop layout rather than letterboxing 16:9.
-- Keep the stage and the prose on screen together, and let the reading
-  position drive it: on a phone pin the stage above the reading pane and
-  narrow it to a strip (actors and the current beat) once the reader
-  scrolls, so it never sits over unread text; a pinned slot of constant
-  height whose lower part is transparent narrows without making the text
-  jump. Play each system line's beat when that line first comes into view
-  (an IntersectionObserver rooted at the reading pane, its top margin
-  minus the pinned stage), queue beats rather than restarting, remember
-  what played by message and line (the page is re-rendered on every
-  streamed chunk), and while a reply streams leave its lines alone: the
-  stage still shows the previous page, so the lines the reader passed
-  catch up once it completes. A monster the page defeats stands until
-  that line is read.
-- Do not make the stage guess who is on screen from the prose: real replies
-  rename monsters, turn a foe into a pet, move the scene and cut to another
-  character, and no keyword table survives that. Let the model declare the
-  frame in the state block (one line: who the camera follows, where, who else
-  is in shot, with pets and mounts marked), keep prose inference only as the
-  fallback for a reply that drops the line, and test that a weak model still
-  writes it every turn. The page starts from that frame with the page's own
-  changes undone (what it tames is still hostile, what the player drops is
-  not there yet, last page's cast is still standing if the camera stayed) and
-  settles into the declared frame at the page's end; someone a line names who
-  is not in shot walks in. Read the system lines as subject, verb, target and
-  number; give speech to the nearest name before the quote (the camera's
-  focus when the paragraph only says "she"), off-stage voices to a small
-  portrait window, forum posts to danmaku, and play the player's own move of
-  that turn first. Test with real replies, not hand-written samples: feed a
-  `play --history` export back through the preview, player line then reply,
-  and scroll it.
-- A stage that animates while the reader scrolls competes for the same eyes:
-  the reader cannot read one screen while the other moves, and a pinned
-  stage that narrows hides what it plays. Prefer a handheld two-screen model
-  (NDS/3DS): the picture on one screen at full size, the story on the other,
-  advanced by the player one chunk at a time (a paragraph plus the system
-  lines that follow it; group and forum blocks on their own); the picture
-  acts first, then the text types out, a tap completes it. Keep the full
-  page as a log view and as the fallback, with a control on both views that
-  switches back. An auto mode must wait for the reader, not a clock: hold
-  each chunk for its own reading time (about four Chinese characters a second
-  or a third of a second per English word, plus a margin, counted from when
-  the text is out and the picture is still), offer ×1 and ×2, and let a tap
-  move on at any time. Speech goes in the text box, not
-  in bubbles over the picture (one line, read once). A tall phone keeps a
-  16:10 picture and gives the rest to the story; a near-square or wide
-  screen, an unfolded or half-folded device, splits in half (on the hinge
-  when there is one); fill the picture's box instead of letterboxing. Keep
-  √2:1 handsets (a Surface Duo's single screen) as their own case: stacked,
-  the meters, tabs and controls leave the story two lines; put the picture
-  and the story in one column and the meters and tabs in a narrow rail
-  beside them. Tell them apart by a coarse pointer and the physical
-  screen's ratio (`screen.width/height`), not the viewport: browser bars
-  shorten a Duo's viewport to an ordinary portrait one.
-- Never put two controls that do the same thing side by side on a small
-  screen (an alert that opens a tab next to that tab): put the alert on the
-  tab as a badge.
+  navigation and fullscreen stay the site's. Keep the way out of the card
+  easy to find and hard to hit by accident. Automatic fullscreen pays off
+  only on an Android phone in a browser tab, where the browser's bars take
+  real height: the browser grants it only on a player gesture, so enter it
+  on the first tap (once per page load), never re-enter after the player
+  leaves it, and let them turn it off. It is pointless in the Hearthroom App
+  and in an installed web app (already full height), rarely works in
+  WebViews and in-app browsers, and is unavailable on iOS; show the toggle
+  only where it can work and the hook exists.
+
+The rest of this section is principles. They say what a full-page screen
+must protect, not what it should look like: the look, the metaphor (a book,
+a console, a stage, a desk) and the mechanics are the card's own invention.
+
+- One focus at a time. Reading and spectacle compete for the same eyes: do
+  not animate one area while the player reads another, and never let two
+  things move for attention at once. Let the player set the pace (the text
+  advances when they ask; an automatic mode waits for the text to be fully
+  shown and then holds it for its own reading time, never a fixed clock),
+  and keep a full-text view of the page with an obvious way back.
+- Use the space each shape gives. The same reply fills a short phone and
+  leaves most of a tall or wide screen empty; decide per shape what earns
+  the remaining room (more of the story, context, the scene, the tools of
+  the core loop) instead of designing for one phone and stretching it. Test
+  every shape in the table below, and the traps after it.
+- Anything chosen from the reply's words (a scene, a portrait, who is on
+  screen) is chosen once that part of the reply is complete: guessing from a
+  half-streamed text flips between pictures. Change visuals gently, and
+  avoid large areas that alternate frame by frame (a figure mirrored every
+  few frames reads as flashing).
+- Do not make the page guess structured facts from prose (who is present,
+  where, what changed): real replies rename, merge and move things, and no
+  keyword table survives that. Let the model declare what the screen needs
+  in a short, closed form (a status line, a stage direction), keep inference
+  only as the fallback for a reply that drops it, and test that a weak model
+  keeps writing it. Test with real replies, not hand-written samples: feed a
+  `play --history` export through the preview.
+- A visual panel earns its space by reflecting the story or feeding the
+  loop; a picture that never changes with the story is decoration. Show
+  only what the story has established (never a character, place or form it
+  has not reached), and let numbers the reply already writes drive what
+  moves. How the panel reacts is for the card to invent.
 - What stays on screen permanently must serve the card's core loop and give
-  the player something to act on. Two meters the player cannot touch are
-  not that; in a multi-view GM card the permanent strip is the channel list
-  (who is being watched, who is in a fight, who did something odd) plus a
-  few alerts that each open the place where they are handled. Keep the meters
-  where decisions are reviewed (the turn's result, an intel page).
-- A taller version of a scene must be the same place: when a portrait or
-  full view swaps to tall art, only swap scenes that have their own tall
-  art and crop the wide one otherwise; generate the tall one from the wide
-  art as a reference.
+  the player something to act on; values the player cannot affect belong
+  where decisions are reviewed. Never put two controls that do the same
+  thing side by side on a small screen.
+- Let the player begin. An opening screen waits for a tap rather than a
+  timer, and that tap is also the gesture fullscreen and sound need.
+- When the core verb rewards precision, a small helper that drafts it into
+  the input can make it tangible. It must not predict what the model will
+  decide, and its options must respect the card's own rules.
+- A card that changes often can tell a returning player what changed since
+  their last visit, once and skippably; a first-time player needs none of it.
+- A taller or wider version of a scene must be the same place: crop the art
+  you have rather than swap in another scene that happens to be tall.
 - `container-type` (and other containment) makes an element the containing
   block for its fixed-position descendants: a "full screen" child of a
-  pinned container query box scrolls with the page on Android and collapses
-  on iOS. Move the node to the overlay's root while it is full screen.
-- A card that keeps changing is a game with versions: keep a changelog in
-  the card's own script (newest first, written for players), show the
-  version on the title, and after a player's first launch on a newer version
-  open a maintenance notice listing what changed since the version they last
-  saw, then a skippable tour that lights each new control in turn, and NEW
-  marks that clear once opened; a first-time player gets none of it.
-- Give the card's core verb its own small window that drafts one precise
-  line into the input (pick a target, a method, a number, a scope; fold
-  each decided step so the rest fits a short phone). A completeness
-  checklist is fair when the card rewards precision; a predicted meter
-  change is not, because the model decides it. Let scope options carry the
-  card's rules (no "this player only" when the rules forbid it), and keep a
-  history of what the player did and how the story answered.
+  container-query box scrolls with the page on Android and collapses on
+  iOS. Move the node to the overlay's root while it is full screen.
 - Sound can be synthesised in the page with WebAudio (no files): in the
   preview shell's sandboxed iframe the context starts suspended and runs
-  after a tap inside the frame, so start it from the title's tap and again
-  on the first touch. Give music and effects separate switches, a mute in
-  the top bar, and no music by default under reduced motion.
+  after a tap inside the frame, so start it from a tap. Give the player a
+  mute, and no music by default under reduced motion.
 - When the overlay covers the composer, hide the site's (`sdk.composer.hide()`,
   `show()` on the way back to the chat) and draw one input inside the overlay:
   a choice drafts into it, the send button calls `sdk.message.send` in the

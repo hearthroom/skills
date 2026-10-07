@@ -35,10 +35,9 @@ the transport.
 - Every component with a lookup (a portrait by name, art by chapter) needs a
   designed fallback for the miss, and a preview sample that hits it: the
   model will introduce minor characters that no table knows.
-  When the key is free text the model writes (a place, a name), match the
-  most specific term first and the container it sits in (a region, a
-  floor, a district) only when nothing more specific matched, and check the
-  lookup against the values real replies wrote.
+  When the key is free text the model writes, let the most specific match
+  win over a broader one that contains it, and check the lookup against
+  values real replies wrote.
 - When the overlay takes the whole page, hide the site header as well and
   keep one bar, or the screen shows two title bars. Forward back and
   fullscreen to the header's own buttons (facts sheet, `data-lt` hooks), so
@@ -70,8 +69,7 @@ a console, a stage, a desk) and the mechanics are the card's own invention.
 - Anything chosen from the reply's words (a scene, a portrait, who is on
   screen) is chosen once that part of the reply is complete: guessing from a
   half-streamed text flips between pictures. Change visuals gently, and
-  avoid large areas that alternate frame by frame (a figure mirrored every
-  few frames reads as flashing).
+  avoid large areas that alternate frame by frame.
 - Do not make the page guess structured facts from prose (who is present,
   where, what changed): real replies rename, merge and move things, and no
   keyword table survives that. Let the model declare what the screen needs
@@ -88,23 +86,18 @@ a console, a stage, a desk) and the mechanics are the card's own invention.
   the player something to act on; values the player cannot affect belong
   where decisions are reviewed. Never put two controls that do the same
   thing side by side on a small screen.
-- Let the player begin. An opening screen waits for a tap rather than a
-  timer, and that tap is also the gesture fullscreen and sound need.
-- When the core verb rewards precision, a small helper that drafts it into
-  the input can make it tangible. It must not predict what the model will
-  decide, and its options must respect the card's own rules.
-- A card that changes often can tell a returning player what changed since
-  their last visit, once and skippably; a first-time player needs none of it.
-- A taller or wider version of a scene must be the same place: crop the art
-  you have rather than swap in another scene that happens to be tall.
+- Do not take a moment away from the player with a timer; what the browser
+  gates behind a gesture (fullscreen, sound) starts from the player's tap.
+- A tool that helps the player compose an action must not claim to know
+  what the model will decide, and must respect the card's own rules.
+- Adapting to a screen shape changes the framing, never what is shown.
 - `container-type` (and other containment) makes an element the containing
   block for its fixed-position descendants: a "full screen" child of a
   container-query box scrolls with the page on Android and collapses on
   iOS. Move the node to the overlay's root while it is full screen.
-- Sound can be synthesised in the page with WebAudio (no files): in the
-  preview shell's sandboxed iframe the context starts suspended and runs
-  after a tap inside the frame, so start it from a tap. Give the player a
-  mute, and no music by default under reduced motion.
+- Audio in the sandboxed frame starts suspended and runs only after a tap
+  inside the frame. A card that plays sound gives the player a mute and
+  plays no music by default under reduced motion.
 - When the overlay covers the composer, hide the site's (`sdk.composer.hide()`,
   `show()` on the way back to the chat) and draw one input inside the overlay:
   a choice drafts into it, the send button calls `sdk.message.send` in the

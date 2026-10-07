@@ -122,14 +122,13 @@ the title in HTML and CSS.
 Asked for "pixel art", image models tend to return a large picture with
 soft, uneven blocks rather than a pixel grid. For true pixels, ask for a low-resolution look (about 320 px wide, limited
 palette, no anti-aliasing), then shrink the result with a box filter to that
-grid (for example 384 x 216 for a 16:9 scene, 128 x 128 for a bust), quantise
+grid, quantise
 it to 32–64 colours without dithering, save it lossless, and let the page
 scale it up with `image-rendering: pixelated`; the files stay a few tens of
 kilobytes. For a sprite over a scene, ask for one flat pure magenta
 background, key it out, crop to the figure, and drop the magenta fringe
-after shrinking. Keep characters out of scene art so one figure can stand in
-any scene, and keep the figure's design the same across scene, sprite and
-portrait.
+after shrinking. When figures are layered over scenes, keep them out of the
+scene art, and keep each figure's design the same everywhere it appears.
 
 For a fan card, where the canon look is the point, a description in words
 gets a generic costume: attach the official full-body art (a series' own

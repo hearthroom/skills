@@ -116,11 +116,9 @@ How entries reach the model in a normal conversation:
   regional translation players use (the official Taiwan release, the
   mainland streaming subtitles, common fan spellings): the same character
   can have three names.
-- A one-character name that also sits inside common words (霞 in 晚霞, 奏 in
-  演奏, 朧 in 朦朧) is better written as a regular expression that excludes
-  those words, such as `/(?<![晚雲彩朝紅])霞(?!光)/`, than as the bare
-  character, which fires on scenery. Test it against the compounds before
-  pushing.
+- A very short name that also occurs inside common words fires on ordinary
+  prose. Write it as a regular expression with lookbehind and lookahead
+  that exclude those words, and test it against them before pushing.
 - When the Lorebook holds a whole canon timeline and the card starts partway
   through it, put the canon timing in the first line of every time-bound
   entry ("canon time: after the second event") and state in the definition

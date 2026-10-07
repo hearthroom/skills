@@ -16,7 +16,8 @@ portrait alone must still say who this is and what they are up against.
 
 Images sit under `assets/` in the card folder and are referenced from
 `card.json` as `media.portrait`, `media.background` (9:16) and
-`media.backgroundLandscape` (16:9, optional) by relative path; `card push`
+`media.backgroundLandscape` (16:9, optional) and `media.share` (1200 × 630,
+optional; see The share image) by relative path; `card push`
 uploads them into the card's media-library folder. Images come from the
 author or the author's own image tool; this skill writes the prompt. The card
 is not complete while a referenced file is missing. Paths and naming follow
@@ -98,12 +99,31 @@ on internal nodes) and keep its own chat background, and then design the
 portrait for the board instead: a bigger logo and a bigger figure. Either
 way, do not trust one crop. Per the site's source every cover slot (board
 tile, card page, own cards, review list) crops 3:4 from the centre and the
-board tile zooms 4% on hover, while a shared link's preview uses the
-original image and other surfaces may show it square; so keep the logo and
+board tile zooms 4% on hover, while a shared link's preview is wide (see
+The share image) and other surfaces may show it square; so keep the logo and
 the face inside the area all of them keep, the centre square of the 9:16
 portrait, about 6% in from each side, and let sky and legs take the rest. If the model puts the face too high, move the whole
 illustration down and continue the sky above it in its own colour; don't
 let the logo cover the face.
+
+## The share image
+
+A link pasted into Discord, LINE or X shows a wide preview, about 1.91:1, with
+the card name and summary as text beside or under it. Cropping the 9:16
+portrait to that shape keeps only a thin middle strip, so the site does not
+crop it: without `media.share` it builds the preview from the whole portrait,
+centred over a blurred, enlarged copy of itself. Nothing is lost, but the
+portrait fills only the middle third and a title drawn on it comes out small.
+
+A card that wants a real preview sets `media.share` (`roleShareImage` on
+push): 1200 × 630, PNG or JPEG, its own composition rather than a crop of the
+portrait. It may carry the title, set the same way as a cover's (above).
+Platforms trim it differently (a 2:1 band, or a small square thumbnail), so
+put the title and the face in the middle, inside the central 630 × 630 square
+where possible and at least 60 px from the top and bottom edges, and let the
+sides carry the scene. Ask the image model for "a wide 1.91:1 frame, the
+subject in the centre third, the sides open scenery", without text, then add
+the title in HTML and CSS.
 
 ## Pixel art and sprites
 

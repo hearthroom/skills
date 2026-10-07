@@ -68,7 +68,8 @@ my-card/
   card.json          manifest: name, summary, tags, type, sex, playerName, nickname,
                      language, outputContract, customInstructions, talkExample,
                      prologue, cardMeta, responseDefaults, media.portrait,
-                     media.background, media.backgroundLandscape, media.folder
+                     media.background, media.backgroundLandscape, media.share,
+                     media.folder
   definition.md      the definition
   welcome.md         the opening
   openings/alt-NN.md alternate openings, file-name order
@@ -137,8 +138,11 @@ inside the central circle and the silhouette inside the middle 3:4 band.
 Backgrounds are optional: `media.background` (9:16) and
 `media.backgroundLandscape` (16:9, preferred on wide screens, falling back to
 the portrait one). All are cropped to cover the screen, so keep important
-elements inside the central 75% of each image. On push they become
-`roleAvatar`, `roleBackground` and `roleBackgroundLandscape`. The site's
+elements inside the central 75% of each image. `media.share` (1200 × 630,
+optional) is the link-preview image; without it the site builds one from the
+whole portrait over a blurred copy of itself (`visual-identity.md`, The share
+image). On push they become `roleAvatar`, `roleBackground`,
+`roleBackgroundLandscape` and `roleShareImage`. The site's
 guide calls the definition the "Persona". Per the site's source, the board
 tile and the card page show the portrait, but the author's own "my cards"
 tile shows the background first and falls back to the portrait. The chat

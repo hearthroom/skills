@@ -87,7 +87,8 @@ contradictory. Decide and record:
   omit only when both models hold without it); `outputContract` with the
   ordinary-turn example of the status block; `customInstructions` omitted
   unless a guardrail packet exists; `media.portrait`, `media.background`,
-  `media.backgroundLandscape` (file in `assets/`, prompt only, or missing);
+  `media.backgroundLandscape`, `media.share` (file in `assets/`, prompt only,
+  or missing);
   `media.folder` for a series.
 - `README.md` dossier (never sent): `uiRole`, `statusOverheadThreshold`.
 - `definition.md`, in the order `prompt-attention-architecture.md` gives:

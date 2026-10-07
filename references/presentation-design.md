@@ -109,11 +109,9 @@ written once in the script and labelled as outside the story. Every such
 effect must serve what the scene is about; a feature with no tie to the
 card's core loop is decoration, whatever it costs to build.
 
-Draw what the player said in the world (a forum post under an official
-account, a line in a group chat) from the message they sent. A strong model
-in testing answered such a post without echoing it, so a panel that waited
-for the echo lost the player's line. Place it at the head of the reply it
-led to, and skip it when the model did quote it.
+When the screen shows the player's own in-world words, take them from the
+message the player sent: a model may answer them without repeating them, so
+a display that waits for the echo loses the player's line.
 
 ## Reading first, choosing second
 

@@ -49,9 +49,8 @@ artifact, since the artifact's shape is the format.
 | Play protocol | one ordinary action resolved: state update, resource cost, consequence |
 | Relationship texture | an ordinary exchange at the card's usual closeness: one small move, one small state change; never the rupture, confession or repair beat, which stay in the definition's rules |
 
-Do not stage the move a player is most likely to make first (the canonical
-fix, the obvious offer): when the player makes it, a strong model can replay
-the sample almost word for word. Do not repeat the opening scene, and do not
+Do not stage the move a player is most likely to make first: when the
+player makes it, a strong model can replay the sample almost word for word. Do not repeat the opening scene, and do not
 use the same situation as the opening's first step: weak models copy it word
 for word. The `user` line may
 express a move; the `ai` reply must leave the player's feelings, actions,

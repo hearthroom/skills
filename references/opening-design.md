@@ -54,6 +54,14 @@ and sounds rather than adjectives, budget the ellipses, and make every
 speaker on the screen distinguishable; `prose-texture.md` has the checks and
 the repairs.
 
+The same holds for the order of blocks. When the opening puts a line of
+narration after its last side block (a group chat, a forum thread) and only
+then the status block, weak models copy "keep writing after the side block"
+and then stop before the status and choices blocks. Measured on a weak model:
+two replies in five lost both blocks; after the opening ended the side block
+directly on the status block and the skeleton said "nothing but the status
+block after the side block", ten in ten kept them.
+
 ## The beats
 
 0. Promise: the first screen pays off what the summary sold.

@@ -23,6 +23,12 @@ the transport.
   While a reply streams, draw it from `message:stream`; before the reply
   mounts, show the player's line on a pending page so the tap visibly did
   something.
+- When a script cuts a block out of the reply text (`[status]` up to
+  `[/status]`, or to the end while it streams), do not end the pattern with
+  `$` under the `m` flag: `$` then matches at the end of the opening marker's
+  own line and the block reads as empty on every page. Use `(?![\s\S])`
+  for "end of text", and test the pattern on a full reply and on one cut off
+  before the closing marker.
 - A tap that sends a line spends credits: show what will be sent and let the
   player confirm, rewrite or cancel. While the model writes, show that it is
   writing inside the overlay, because the overlay hides the list's own

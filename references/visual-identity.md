@@ -92,7 +92,10 @@ illustration only, with the top third left as open sky, and set the title
 in HTML and CSS with a web font rendered to PNG (headless Chrome). Then
 check the crops: the board cover is the middle 3:4 band, so the logo stays
 inside it; the avatar is the centre circle, so the face goes there, just
-below the logo. If the model puts the face too high, move the whole
+below the logo. A card that styles its own chat page can instead hide the
+avatar (it is the site's message avatar node; see the facts sheet's caution
+on internal nodes) and keep its own chat background, and then design the
+portrait for the 3:4 band alone: a bigger logo and a bigger figure. If the model puts the face too high, move the whole
 illustration down and continue the sky above it in its own colour; don't
 let the logo cover the face.
 

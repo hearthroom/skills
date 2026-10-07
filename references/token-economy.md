@@ -44,7 +44,7 @@ from `tokenBudget.limits` in `card validate --json`.
 | background facts needed only in some scenes | `lorebook.json` entries with keywords | admitted by keyword, or possibly by semantic search within a budget; once admitted an entry stays for later turns, so long entries keep costing |
 | facts that must always be present | a few short constant entries, or the definition | constant entries are always included while they fit; a card whose constant entries do not fit the context tier is refused with advice |
 | the reply shape the model must keep | `card.json` `outputContract` | one short contract instead of format prose everywhere |
-| one replaced default instruction block | `card.json` `customInstructions` | short; not the whole system prompt |
+| a last reminder before each reply (replaces the default content-scope block) | `card.json` `customInstructions` | short; the one or two rules replies forget |
 | layout, status bars, buttons | `rules.json` display rules | the model writes plain values; the page draws the rest |
 | first playable scene | `welcome.md` | the only place that must be read before the first reply |
 | player-side first lines | `card.json` `prologue` | reply paths without lengthening the opening |

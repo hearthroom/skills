@@ -15,11 +15,14 @@ stable stance, format, or protocol.
 
 Both live in `card.json` (`platform-facts.md`):
 
-- `customInstructions` replaces one default instruction block. It is not
-  appended and it is not the whole system prompt. Which block it replaces is
-  not documented, so a non-empty value removes platform behaviour the author
-  cannot see: keep it short, run the same probe with it empty and filled
-  (each on `--new-session`), and keep it only if the transcript improves.
+- `customInstructions` is the last system message before every reply and
+  replaces the platform's default content-scope block (`platform-facts.md`).
+  That position makes it the strongest recency slot the card has: put the
+  one or two rules replies most often forget there (the reply skeleton, the
+  thing the model must never write), plus one line on the scope the card is
+  written for, since the default scope text goes away. Keep it short, run
+  the same probe with it empty and filled (each on `--new-session`), and keep
+  it only if the transcript improves.
 - `outputContract` is the format the reply must follow. Put schema, sections,
   and state-line rules here, not in `customInstructions`.
 

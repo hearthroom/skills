@@ -68,10 +68,10 @@ story or is ignored; state not updated after the player's action.
 Summary: player position and choice pressure, or system purpose and main
 controls. Definition: rules, state schema, resources, factions, scene loop,
 failure behaviour, progression. The turn or reply format goes in the output
-contract (`outputContract` in `card.json`). `customInstructions` replaces
-one default instruction block and the block it replaces is not documented;
-use it only to replace that block, never for card rules
-(`platform-facts.md`). Opening: setup state or the first crisis with choices,
+contract (`outputContract` in `card.json`). `customInstructions` is the last
+system message before each reply and replaces the default content-scope
+block (`platform-facts.md`): use it for a short scope line and the one or
+two rules replies forget, not for the card's rules at large. Opening: setup state or the first crisis with choices,
 or a compact control surface with defaults. The sample turn teaches the turn
 format (`talk-example-design.md`). Visible state is the status block drawn by
 the sandbox kit (`state-economy-design.md`), which needs `pageMode: sandbox`.

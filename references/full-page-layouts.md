@@ -130,6 +130,11 @@ already show.
 - Focusing an input (a phone keyboard opening) or `scrollIntoView` can scroll
   an `overflow: hidden` fixed overlay and push its header out of view. Reset
   `scrollTop` on the overlay's own boxes when they scroll.
+- With `data-chrome="host"` the shell's own header is hidden (height 0) and
+  `--shell-header-h` may be unset, so an overlay placed at
+  `top: var(--shell-header-h, 45px)` leaves an empty strip. Measure the
+  header (`offsetHeight`, 0 when hidden) and set the top from it; test the
+  harness in both chrome modes.
 - A full-width column with padding needs `box-sizing: border-box`, or a
   two-page body set to `width: 100%` overflows by its padding and the control
   page is cut at the right edge.

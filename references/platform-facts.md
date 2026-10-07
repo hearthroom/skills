@@ -508,6 +508,19 @@ prose.
   `data-lt` hook) also only posts to the host, which opens its model sheet in
   `[data-chat="panels"]`; a full-page overlay above z-index auto hides that
   sheet unless it lifts the panels layer while the player picks.
+- Per the site's source, the model sheet and the response-settings sheet are
+  drawn by the host page, outside the card's frame. While one is open the
+  host copies every `<style>` from the card's rules into its own page and
+  mirrors the classes and `data-*` the card's script set on `html` and
+  `body`, so a rule scoped to such a class (`html.my-card .u-popup__content`)
+  restyles them. Site popups open in the browser's top layer and take their
+  look from `--lt-canvas-*` tokens on `.u-popup__content` (`accent`,
+  `sheet-bg`, `sheet-fg`, `sheet-item-bg`, `sheet-line`, `radius`,
+  `sheet-radius`, `pill-*`, `font`, …); the model sheet's own hooks are
+  `.model-setting-scope`, `.mp-top`, `.mp-title`, `.mp-close`, `.mp-info-bar`,
+  `.mp-model-name`, `.mp-energy-pill`, `.mp-setting-body` and `.bottom .btn`.
+  The copied stylesheet is the card's whole one, so keep its other selectors
+  scoped to the card's own nodes.
 - The Hearthroom App's WebView adds `HearthroomApp/<version>` to the user
   agent, and the card's frame reads the same string. The site treats that,
   or `display-mode: standalone` / `fullscreen` (and iOS's

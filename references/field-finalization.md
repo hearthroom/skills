@@ -16,7 +16,7 @@ written.
 | name, summary, tags, type, sex, playerName, nickname, language, cardMeta | `card.json` |
 | default reply length, perspective, agency, style and pace (each with a one-line note) | `card.json` `responseDefaults` (`platform-facts.md`) |
 | output contract, custom instructions, example conversations, suggested first lines | `card.json` (`outputContract`, `customInstructions`, `talkExample`, `prologue`) |
-| portrait, background, landscape background, media-library folder | `card.json` `media.portrait` / `media.background` / `media.backgroundLandscape` / `media.folder`, files under `assets/` |
+| portrait, background, landscape background, share image, media-library folder | `card.json` `media.portrait` / `media.background` / `media.backgroundLandscape` / `media.share` / `media.folder`, files under `assets/` |
 | definition | `definition.md` |
 | opening | `welcome.md` |
 | alternate openings | `openings/alt-NN.md`, file-name order |

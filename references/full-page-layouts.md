@@ -35,6 +35,10 @@ the transport.
 - Every component with a lookup (a portrait by name, art by chapter) needs a
   designed fallback for the miss, and a preview sample that hits it: the
   model will introduce minor characters that no table knows.
+  When the key is free text the model writes (a place, a name), match the
+  most specific term first and the container it sits in (a region, a
+  floor, a district) only when nothing more specific matched, and check the
+  lookup against the values real replies wrote.
 - When the overlay takes the whole page, hide the site header as well and
   keep one bar, or the screen shows two title bars. Forward back and
   fullscreen to the header's own buttons (facts sheet, `data-lt` hooks), so

@@ -491,6 +491,10 @@ prose.
   stage first), fullscreen toggles the host document. The browser grants
   fullscreen only after a player's gesture, so a forwarded click works
   inside a tap and does nothing on load.
+  The model chip (`.model-chip`, name in `.model-chip-name`; a class, not a
+  `data-lt` hook) also only posts to the host, which opens its model sheet in
+  `[data-chat="panels"]`; a full-page overlay above z-index auto hides that
+  sheet unless it lifts the panels layer while the player picks.
 - The Hearthroom App's WebView adds `HearthroomApp/<version>` to the user
   agent, and the card's frame reads the same string. The site treats that,
   or `display-mode: standalone` / `fullscreen` (and iOS's

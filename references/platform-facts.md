@@ -399,6 +399,12 @@ prose.
   during generation is `BUSY`; header, composer and panels are the site's
   standard components drawn inside the shell (`data-chrome="standard"`), so
   author CSS reaches them and their buttons report to the host.
+- Chrome modes: with `standard` the shell sets `--shell-header-h` from the
+  header's height; with `shell` it does not (the shell's own CSS falls back
+  to 45px); with `host` the host draws header and composer outside the page,
+  the shell hides `[data-chat="header"]` and the composer and puts the stage
+  and side slots at the top. Size an overlay from the header's `offsetHeight`
+  (0 when hidden), not from the variable's fallback.
 - `data-msg-id` is not stable across a reload: during a session a new message
   carries a local id (a millisecond timestamp), after a reload the same
   message carries the server id (a UUIDv7, whose first 48 bits are also
@@ -489,15 +495,15 @@ drives it headless with the system Chrome: screenshots per size, a
 `snapshot.json` (bubbles, panels, debug log) and, with `--interact`, a real
 tap on a choice and on the dock. It is the real `sdk`, sanitizer, Markdown and
 event order; it is not the host's rendering path, the real model or a device.
-`hearthroom card preview --check --sizes A,B,…` names the shots of the first
-size `phone-*` and of the last `desktop-*` and the rest by `WxH`; read
-`findings.json` for the size of each. Its `freeInputVisible` looks for the
-site's composer only, so a card that hides it and draws its own input reads
-`false` there; check that input on the screenshot. The check cannot tap
-inside the page; a card with its own controls needs an interactive pass in
-the browser (`--open`) or through the DevTools protocol (trusted clicks with
-`Input.dispatchMouseEvent`; with site isolation disabled, the frame's
-document is readable from the harness page).
+`hearthroom card preview --check --sizes A,B,…` names the first size's shots
+`phone-*`, the last size's `desktop-*` and the rest `WxH`; `findings.json`
+gives each size. Its `freeInputVisible` looks only for the site's composer,
+so a card that hides it and draws its own input reads `false`; check that
+input on the screenshot. The check does not tap inside the page: a card with
+its own controls needs an interactive pass, in a browser with `--open` or
+headless through the DevTools protocol (`Input.dispatchMouseEvent` gives
+trusted clicks; Chrome started with site isolation disabled lets the harness
+page read the frame's document).
 Without that repository, the render report's `previewUrl` in a browser is the
 check.
 

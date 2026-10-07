@@ -109,6 +109,28 @@ the transport.
   that turn first. Test with real replies, not hand-written samples: feed a
   `play --history` export back through the preview, player line then reply,
   and scroll it.
+- A stage that animates while the reader scrolls competes for the same eyes:
+  the reader cannot read one screen while the other moves, and a pinned
+  stage that narrows hides what it plays. Prefer a handheld two-screen model
+  (NDS/3DS): the picture on one screen at full size, the story on the other,
+  advanced by the player one chunk at a time (a paragraph plus the system
+  lines that follow it; group and forum blocks on their own); the picture
+  acts first, then the text types out, a tap completes it. Keep the full
+  page as a log view and as the fallback. Speech goes in the text box, not
+  in bubbles over the picture (one line, read once). A tall phone keeps a
+  16:10 picture and gives the rest to the story; a near-square or wide
+  screen, an unfolded or half-folded device, splits in half (on the hinge
+  when there is one); fill the picture's box instead of letterboxing.
+- `container-type` (and other containment) makes an element the containing
+  block for its fixed-position descendants: a "full screen" child of a
+  pinned container query box scrolls with the page on Android and collapses
+  on iOS. Move the node to the overlay's root while it is full screen.
+- A card that keeps changing is a game with versions: keep a changelog in
+  the card's own script (newest first, written for players), show the
+  version on the title, and after a player's first launch on a newer version
+  open a maintenance notice listing what changed since the version they last
+  saw, then a skippable tour that lights each new control in turn, and NEW
+  marks that clear once opened; a first-time player gets none of it.
 - Give the card's core verb its own small window that drafts one precise
   line into the input (pick a target, a method, a number, a scope; fold
   each decided step so the rest fits a short phone). A completeness

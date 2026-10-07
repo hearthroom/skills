@@ -9,6 +9,11 @@ funnels different replies back to the same scene.
 The character may create pressure; the player keeps authorship of their inner
 state and choices.
 
+The platform side of this is `responseDefaults.agency` (`platform-facts.md`):
+keep it `protect` for a card whose rules forbid writing the player's part,
+and put the card's own exception in `agencyNote` (for example, quoting the
+player's in-world post verbatim).
+
 ```text
 player insertion -> reply path -> consequence -> remembered boundary -> renewed hook
 ```

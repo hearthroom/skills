@@ -6,6 +6,12 @@ rewrite plan before render or play.
 
 ## Core rule
 
+Reply length has its own control: `responseDefaults.length` with a
+`lengthTarget` and a `lengthNote` (`platform-facts.md`). Set it when a
+length rule in the definition keeps being ignored; a strong model in
+testing that ran 1400–2400 characters against a written "at most 1200"
+stayed near 1100 with `target` 1200. The player can still change it.
+
 Tokens are attention budget, not a length target. Spend them where they change
 future behaviour:
 

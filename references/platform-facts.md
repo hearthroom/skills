@@ -67,8 +67,8 @@ to read in `--json` output.
 my-card/
   card.json          manifest: name, summary, tags, type, sex, playerName, nickname,
                      language, outputContract, customInstructions, talkExample,
-                     prologue, cardMeta, media.portrait, media.background,
-                     media.backgroundLandscape, media.folder
+                     prologue, cardMeta, responseDefaults, media.portrait,
+                     media.background, media.backgroundLandscape, media.folder
   definition.md      the definition
   welcome.md         the opening
   openings/alt-NN.md alternate openings, file-name order
@@ -83,6 +83,28 @@ my-card/
 the card calls the player; placeholder values such as 你 / user / you / player
 are ignored and the player's own name or a language default is used instead.
 `nickname` is what `{{char}}` expands to when it differs from `name`.
+
+`responseDefaults` (CLI 0.6.0) sets the card's defaults for the player's
+Response preferences, five axes the player can still change per
+conversation: `agency` (`protect`, the platform default: never writes the
+player's part; `assist` fills in details of actions the player stated;
+`lines` may write the player character's lines but not decisions;
+`coauthor` may write words, actions and decisions), `style` (`default`
+platform writing guide; `guided`, a lighter guide that defers to the card's
+material; `card`, no platform guide; `custom` with `customStyle`, at most
+1000 characters), `perspective` (`card`, the default; `first_character`,
+`second_user`, `third_limited`, `third_omniscient`), `length` (`auto`, the
+default; `recommended`, 2 to 5 paragraphs, about 2500 characters; `target`
+with `lengthTarget` one of 200, 300, 400, 500, 600, 800, 1000, 1200, 1500,
+2000, 2500, 3000, 4000, 5000, 7000, 10000 characters) and `pace`
+(`natural`, the default; `linger`; `advance`). Each axis takes a one-line
+note (`agencyNote`, `styleNote`, `perspectiveNote`, `lengthNote`,
+`paceNote`, at most 200 characters) that wins where it differs from the
+option. A player who has not touched an axis gets the card's value; one who
+changes it keeps their choice, and the card's note for that axis stops
+applying. A push reaches existing conversations from their next reply.
+Leave a key out to keep the platform default; `"responseDefaults": {}`
+clears the server copy, and deleting the key from `card.json` leaves it.
 
 One portrait, three crops: `media.portrait` (9:16) is the board cover
 (cropped to about 3:4), the chat avatar (cropped to a 1:1 circle) and, when
@@ -608,19 +630,14 @@ hearthroom models | tags --zone zh | search | media ls|upload|mv|rm | upgrade --
 - `push --create` makes a real private card; on a folder already linked to an
   owned card (after `pull` or `push --to <id>`), plain `push` updates that
   card and `--create` would make a second one. `card status` shows the link.
-- `card init` takes only `--name` (CLI 0.5.0): set `language` in `card.json`
-  yourself. It also selects the Lorebook entry length limit (the value is not
+- `card init` takes only `--name`: set `language` in `card.json` yourself. It also selects the Lorebook entry length limit (the value is not
   documented; read validation warnings).
-- `push --create` on a folder whose last sync was a trial card compares the
-  sections with that trial sync and may send none of them: the new private
-  card exists but is empty (`tokenBudget` all 0 in `card validate --json`,
-  no rules in `card render`). Follow it with `card push <dir> --force
-  --validate --json` and check the counts (seen with CLI 0.5.0).
-- `--greeting N` was observed not to select an alternate in CLI 0.5.0 (the
-  conversation started from the main opening with N = 1 and 2). Read the
-  first message back with `play --history` before judging an alternate; to
-  test one meanwhile, put its text in `welcome.md` on the trial card, push,
-  test, and put the main opening back.
+- CLI 0.5.0 had three bugs that 0.5.1 fixed: `push --create` after a trial
+  push could make an empty private card, `play --greeting N` started from
+  the main opening, and `card check --replay` read `play --history --json`
+  as one reply. On 0.5.0, run `hearthroom upgrade`; after a `--create` made
+  with it, check `tokenBudget` in `card validate --json` and push again with
+  `--force` if the counts are 0.
 - An MMD rules file marked `chatVersion: 1` imports as `pageMode: sandbox`;
   trial cards keep `pageMode` and `cardFormat`. Its `pageDepth` 1/0/under
   becomes `mountLayer: under`, otherwise `over`; `statusbar` becomes

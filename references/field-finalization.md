@@ -14,6 +14,7 @@ written.
 | Field | File |
 |---|---|
 | name, summary, tags, type, sex, playerName, nickname, language, cardMeta | `card.json` |
+| default reply length, perspective, agency, style and pace (each with a one-line note) | `card.json` `responseDefaults` (`platform-facts.md`) |
 | output contract, custom instructions, example conversations, suggested first lines | `card.json` (`outputContract`, `customInstructions`, `talkExample`, `prologue`) |
 | portrait, background, landscape background, media-library folder | `card.json` `media.portrait` / `media.background` / `media.backgroundLandscape` / `media.folder`, files under `assets/` |
 | definition | `definition.md` |

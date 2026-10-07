@@ -100,9 +100,13 @@ with `lengthTarget` one of 200, 300, 400, 500, 600, 800, 1000, 1200, 1500,
 (`natural`, the default; `linger`; `advance`). Each axis takes a one-line
 note (`agencyNote`, `styleNote`, `perspectiveNote`, `lengthNote`,
 `paceNote`, at most 200 characters) that wins where it differs from the
-option. A player who has not touched an axis gets the card's value; one who
-changes it keeps their choice, and the card's note for that axis stops
-applying. A push reaches existing conversations from their next reply.
+option. A player who has not touched an axis gets the card's value. One who
+picks a different option keeps their choice, and the card's note, custom
+style and length target for that axis stop applying; picking the card's own
+option (or the platform default where the card set none) keeps them. A
+player's own note replaces only the card's note on that axis. A push reaches
+existing conversations from their next reply, on every axis the player has
+not moved off the card's option.
 Leave a key out to keep the platform default; `"responseDefaults": {}`
 clears the server copy, and deleting the key from `card.json` leaves it.
 Per the provider's prompt code, setting response preferences also changes

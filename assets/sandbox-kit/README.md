@@ -142,6 +142,8 @@ that threshold (15% by default for an assist card).
   `HR.ui.stage.open(mode, render)` / `.close()`.
 - `HR.send(text)`: `sdk.message.send` in the same task as the click; resolves `true`/`false`.
 - `HR.t(text)`: the player's Chinese script (`sdk.text.convert`).
+- `HR.model()`: `{ name, cost }` from `sdk.model.get()` (empty strings on a page without it);
+  `sdk.on('model:change', fn)` fires when either changes.
 
 `extra.js` in the config runs after the kit and can use all of it: faces from a mood value,
 a map from a location, badges — derived from `HR.status.latest()` or `HR.on('state')`, never

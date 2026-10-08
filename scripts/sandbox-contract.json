@@ -25,6 +25,7 @@
       "debug",
       "input",
       "message",
+      "model",
       "on",
       "role",
       "save",
@@ -52,6 +53,7 @@
       "input.setCursor",
       "message.edit",
       "message.send",
+      "model.get",
       "on",
       "role.get",
       "save.get",
@@ -92,6 +94,12 @@
         "nickname",
         "avatarUrl",
         "locale"
+      ]
+    },
+    "model": {
+      "get": [
+        "name",
+        "cost"
       ]
     },
     "stage": {
@@ -169,7 +177,8 @@
       "theme:change",
       "back",
       "stage:close",
-      "dispose"
+      "dispose",
+      "model:change"
     ],
     "replayedToLateSubscribers": [
       "message:mount",
@@ -215,6 +224,10 @@
       ],
       "input:change": "string",
       "theme:change": "none",
+      "model:change": [
+        "cost",
+        "name"
+      ],
       "others": "none"
     },
     "roles": [

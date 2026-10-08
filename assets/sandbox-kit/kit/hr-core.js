@@ -119,6 +119,8 @@
   /* ---------- text: the player's Chinese script ---------- */
   HR.t = function (text) { try { return sdk.text.convert(String(text == null ? '' : text)); } catch (e) { return String(text == null ? '' : text); } };
   HR.locale = function () { try { return sdk.user.get().locale || ''; } catch (e) { return ''; } };
+  /* the platform's saves (sdk.archive); null on a page without them */
+  HR.archive = function () { try { return sdk.archive && typeof sdk.archive.list === 'function' ? sdk.archive : null; } catch (e) { return null; } };
   /* the player's current model and the next turn's estimated cost; empty strings on an older page */
   HR.model = function () { try { var m = sdk.model && sdk.model.get(); return { name: String((m && m.name) || ''), cost: String((m && m.cost) || '') }; } catch (e) { return { name: '', cost: '' }; } };
 

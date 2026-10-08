@@ -15,10 +15,9 @@ portrait alone must still say who this is and what they are up against.
 ## Where images live
 
 Images sit under `assets/` in the card folder and are referenced from
-`card.json` as `media.portrait`, `media.background` (9:16) and
-`media.backgroundLandscape` (16:9, optional) and `media.share` (1200 × 630,
-optional; see The share image) by relative path; `card push`
-uploads them into the card's media-library folder. Images come from the
+`card.json` as `media.portrait`, `media.background`,
+`media.backgroundLandscape` and `media.share` by relative path (sizes and
+crops in `platform-facts.md`); `card push` uploads them into the card's media-library folder. Images come from the
 author or the author's own image tool; this skill writes the prompt. The card
 is not complete while a referenced file is missing. Paths and naming follow
 Media library in `platform-facts.md`: group by job (`assets/art/portrait.webp`,
@@ -85,60 +84,37 @@ works as the chat background) may make the portrait a real cover with the
 title on it. How it looks is the card's call: the title should read as part
 of the same world as the art. Two things hold whatever the look:
 
-- Image models garble text. Ask for the art only, with room left where the
-  title will go, and set the title yourself (HTML and CSS with a web font,
-  rendered to PNG in headless Chrome, works).
-- Every crop must keep the title and the face. Per the site's source every
-  cover slot (board tile, card page, own cards, review list) crops 3:4 from
-  the centre and the board tile zooms 4% on hover, a shared link's preview
-  is wide (see The share image), and other surfaces may show it square: keep
-  the title and the face inside the area all of them keep, the centre
-  square of the 9:16 portrait, about 6% in from each side, and never let the
-  title cover the face. A card that hides the site's avatar (the message
-  avatar node; see the facts sheet's caution on internal nodes) can design
-  the portrait for the board crop alone.
+- Image models garble text. Ask for the art only, with room left for the
+  title, and set the title yourself (HTML and CSS rendered to an image works).
+- Every crop keeps the title and the face, and the title never covers the
+  face. Design inside the area all the crops keep (`platform-facts.md`, One
+  portrait, three crops). A card that hides the site's avatar can design for
+  the board crop alone.
 
 ## The share image
 
-A link pasted into Discord, LINE or X shows a wide preview, about 1.91:1, with
-the card name and summary as text beside or under it. The site picks
-`media.share`, then `media.backgroundLandscape`, then the 9:16 portrait. The
-platform crops the 16:9 background a little at the top and bottom, but the
-portrait down to a thin middle strip, so a title drawn on the portrait is cut
-off.
-
-A card that wants a real preview sets `media.share` (`roleShareImage` on
-push): 1200 × 630, PNG or JPEG, its own composition rather than a crop of the
-portrait. It may carry the title, set the same way as a cover's (above).
-Platforms trim it differently (a 2:1 band, or a small square thumbnail), so
-put the title and the face in the middle, inside the central 630 × 630 square
-where possible and at least 60 px from the top and bottom edges, and let the
-sides carry the scene. Ask the image model for "a wide 1.91:1 frame, the
-subject in the centre third, the sides open scenery", without text, then add
-the title in HTML and CSS.
+A link pasted into a chat app shows a wide preview with the card name and
+summary beside it. Without `media.share` the site falls back to the landscape
+background, then the portrait, which is cut to a thin middle strip, so a
+title drawn on the portrait is lost (`platform-facts.md`). A card that wants
+a real preview gives `media.share` its own wide composition rather than a
+crop of the portrait: the title and the face in the middle, where both a
+wide band and a square thumbnail keep them, the sides carrying the scene.
+Ask for the art without text and set the title as for a cover.
 
 ## Pixel art and sprites
 
-Asked for "pixel art", image models tend to return a large picture with
-soft, uneven blocks rather than a pixel grid. For true pixels, ask for a low-resolution look (about 320 px wide, limited
-palette, no anti-aliasing), then shrink the result with a box filter to that
-grid, quantise
-it to 32–64 colours without dithering, save it lossless, and let the page
-scale it up with `image-rendering: pixelated`; the files stay a few tens of
-kilobytes. For a sprite over a scene, ask for one flat pure magenta
-background, key it out, crop to the figure, and drop the magenta fringe
-after shrinking. When figures are layered over scenes, keep them out of the
-scene art, and keep each figure's design the same everywhere it appears.
+Asked for "pixel art", image models return a large picture with soft,
+uneven blocks rather than a pixel grid. True pixels come from shrinking a
+low-resolution, limited-palette result onto its grid, saving it lossless and
+letting the page scale it up with `image-rendering: pixelated`. Figures
+layered over scenes are generated on a flat background that can be keyed
+out, kept out of the scene art, and drawn the same wherever they appear.
 
 For a fan card, where the canon look is the point, a description in words
-gets a generic costume: attach the official full-body art (a series' own
-character page is better than an episode still, which leaves the body to be
-invented) and ask for the same hair, outfit, colours and weapon in the
-pixel style. A screen shown in portrait needs art composed for portrait;
-a landscape scene padded with a filled colour leaves half the screen empty.
-When a script runs an image CLI once per line of a job file, give the
-CLI no stdin (`< /dev/null`), or the first job reads the rest of the file as
-its prompt, and put the prompt before a flag that takes several files.
+gets a generic costume: attach the official full-body art and ask for the
+same design in the card's style. A screen shown in portrait needs art
+composed for portrait, not a landscape scene padded with colour.
 
 ## Layers
 

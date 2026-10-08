@@ -13,8 +13,8 @@ wins.
 
 - Sign in once with a one-time code: `hearthroom auth login --no-wait --json`,
   give the author `user_code` and `verification_uri`, then
-  `hearthroom auth login --resume`. It works over SSH; details in
-  `platform-facts.md`. For unattended runs set `HEARTHROOM_TOKEN`.
+  `hearthroom auth login --resume`. It works over SSH. For unattended runs
+  set `HEARTHROOM_TOKEN`.
   `HEARTHROOM_CONFIG_DIR` isolates an agent's session.
 - `hearthroom auth status` and `hearthroom whoami` show the signed-in account
   without printing secrets. Never echo tokens.
@@ -63,14 +63,9 @@ already linked to an owned card, plain `push` updates it and `--create` would
 make a second card. Trial-card expiry and slots are in
 `cost-and-boundaries.md`.
 
-A card that has passed review is played from an approved copy frozen at
-submission (text, display rules and Lorebook), so pushes change only the
-author's draft. Test a push with the draft link: `/play/<id>?mode=source`,
-which `card push` prints from CLI 0.7.2 on and the card page offers its owner
-as "Play draft". The plain `/play/<id>` and the card page's Play show what
-players see until the update is submitted and approved; the card page and My
-Cards flag unsubmitted edits, including edits to only display rules or the
-Lorebook.
+On a card that has passed review, players get the approved copy until an
+update is approved, so test a push with the draft link (`platform-facts.md`,
+Publishing).
 
 ## Reading the reports
 

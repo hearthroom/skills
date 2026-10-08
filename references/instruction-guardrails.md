@@ -15,54 +15,47 @@ stable stance, format, or protocol.
 
 Both live in `card.json` (`platform-facts.md`):
 
-- `customInstructions` is a system message after the history and replaces
-  the platform's default content-scope block (`platform-facts.md`); only
-  the platform's format guard and the response preferences follow it. That
-  late position is why it suits the one or two rules replies most often
-  forget (the reply skeleton, the thing the model must never write). Add one
-  line on the scope the card is written for, since the default scope text
-  goes away. A forgotten rule about reply length, agency or pacing belongs
-  in that axis's `responseDefaults` note instead, which comes later still. Keep it short, run
-  the same probe with it empty and filled (each on `--new-session`), and keep
-  it only if the transcript improves.
+- `customInstructions` sits after the history, so it suits the one or two
+  rules replies most often forget (the reply skeleton, the thing the model
+  must never write). A non-empty value replaces the platform's default
+  content-scope block, so add one line on the scope the card is written for.
+  Drift in reply length, agency or pacing belongs in that axis's
+  `responseDefaults` note instead. Keep it only if the same probe, each run
+  on `--new-session`, improves with it.
 - `outputContract` is the format the reply must follow. Put schema, sections,
   and state-line rules here, not in `customInstructions`.
+
+A card whose replies end in out-of-story blocks (`[status]`, `[choices]`)
+keeps `responseDefaults.style` at `default` or `card`, and reruns its
+weak-model format probe after any `responseDefaults` change.
 
 Limits for both are reported under `tokenBudget.limits` in
 `card validate --json`.
 
 ## Keeping a reply shape across models
 
-Nothing in a prompt addresses particular attention heads; what an author
-controls is where a rule sits, whether the model has literal text to copy,
-and whether drift is measured. Models copy patterns already in context
-(their own recent replies most of all), use the start and the end of a long
-prompt better than the middle, and drift from system rules over a few turns;
-weak models are far more sensitive to format details than strong ones.
+What an author controls is where a rule sits, whether the model has literal
+text to copy, and whether drift is measured. Models copy what is already in
+context (their own recent replies most of all) and drift from system rules
+over a few turns; weak models are far more sensitive to format than strong
+ones. So, inside the card:
 
-- When the card's replies have a shape, write it once as a literal skeleton
-  with placeholders and use that same text wherever the shape is stated (the
-  iron laws, the output contract, `customInstructions`). Paraphrased copies
-  drift apart and the differences become new failure points; a script can
-  check the copies are identical. The output contract may move away from the
-  end of the prompt (`platform-facts.md`), so the copy in `customInstructions`
-  is the one that reliably sits last.
+- When replies have a shape, write it once as a literal skeleton with
+  placeholders and use that same text everywhere the shape is stated;
+  paraphrased copies drift apart. The output contract may move away from the
+  end of the prompt (`platform-facts.md`), so the copy in
+  `customInstructions` is the one that reliably sits last.
 - The opening and the example replies are copied more faithfully than any
-  rule: lint them line by line against the skeleton before pushing.
-- Say what may shrink: a minimum viable reply keeps every structural part
-  and cuts story first when the player is brief, off topic or out of
-  character.
-- Phrase recovery in the same direction as the platform's latest-reply guard
-  (`platform-facts.md`): keep the last reply's order of parts and restore any
-  part it missed, rather than "do not imitate the last reply".
-- Keep structural rules (the skeleton, field formats) in the contract and
-  behaviour rules (how values move, what the story does) in the definition.
-- Measure, per turn, over ten or more turns on a weak and a strong model:
-  one boolean per structural part, scored from `play --history --json`
-  (a streamed CLI reply can be cut by a dropped connection). Include turns
-  that test the floor (a one-word reply, an off-topic line, an
-  out-of-character question, a request to drop the format) and check the
-  turn after each.
+  rule, so they follow the skeleton exactly.
+- Say what may shrink: a minimal reply keeps every structural part and cuts
+  story first.
+- Phrase recovery the way the platform's latest-reply guard runs
+  (`platform-facts.md`): keep the last reply's order of parts and restore
+  any part it missed.
+
+Measure the shape per turn over a full playtest on a weak and a strong model,
+including turns that test the floor (a one-word reply, an off-topic line, a
+request to drop the format) and the turn after each (`playtest-loop.md`).
 
 ## Use when
 

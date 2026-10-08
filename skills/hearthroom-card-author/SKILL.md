@@ -77,9 +77,8 @@ a sample: the model copies them, so they must show an ordinary turn.
    panels, themes and choice buttons are built with `hearthroom-sandbox-kit`
    (`pageMode` `sandbox`); unresolved layout goes to
    `hearthroom-presentation-director`.
-10. `customInstructions` is a late system message after the history and
-    replaces the default content-scope block; change it only with play
-    evidence (`hearthroom-instruction-guardrail`).
+10. Change `customInstructions` only with play evidence
+    (`hearthroom-instruction-guardrail`).
 11. Check, push, validate: `hearthroom card check <dir>`, then
     `hearthroom card push <dir> --validate --json`; fix blockers and push
     again. Validation proves technical readiness, not writing.

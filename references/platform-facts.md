@@ -21,9 +21,8 @@ in this order and no further: `contract/sandbox-contract.json`,
 `src/sandbox/shell.ts`, `src/sandbox/shell.css`, `src/common/native-blocks.ts`,
 `src/utils/display-rule-engine.js`, and `bench/card-preview` for the offline
 harness. Then add what you learned to this page (feed lessons back) instead
-of carrying it in your head. Three cautions from experience: read
-`origin/main`, not whatever checkout is lying around (a two-week-old checkout
-lacked `sdk.text`); the play page renders replies on the host path and the
+of carrying it in your head. Three cautions: read `origin/main`, not
+whatever checkout is lying around; the play page renders replies on the host path and the
 shell renders only its own previews, so note which path a line of code is on;
 and never depend on nodes or classes the contract lists as internal. The
 deployed site may lag `main`: `hearthroom card preview` fetches the deployed
@@ -46,14 +45,14 @@ to read in `--json` output.
 | Say | Wire name | Meaning |
 |---|---|---|
 | card | role, `roleId` | one character card |
-| definition | `roleDetailDesc` | who the character is, how they speak, the world's rules; private |
+| definition | `roleDetailDesc` | who the character is, how they speak, the world's rules; private. The site's guide calls it the "Persona" |
 | summary | `roleDesc` | short public description on the board card |
 | opening | `roleWelcome` | the first message of a conversation |
 | alternate openings | `welcomeAlternates` | other first messages the player can pick |
 | suggested first lines | `prologue` | player-side first lines offered as choices; never the character's first message |
 | example conversations | `talkExample` | `{roleType: user|ai, content}` pairs |
-| custom instructions | `customInstructions` | the site editor's 額外指示 ("a reminder attached at the end of every turn"). Per the provider's prompt code it is a system message after the history, followed only by the platform's short format guard and the `[Response preferences]` block (which carries any `responseDefaults` notes), prefixed `[Content scope]` / `[內容範圍]`; a non-empty value replaces the platform's default content-scope block (which, in Chinese, frames the story as mature literary writing with romance and physical intimacy). A player's own text in their persona's Advanced field replaces the card's; it is left out at the strictest safety level. Keep it short: the one or two rules replies most often forget, and the scope the card is written for |
-| output contract | `roleOutputContract` | format the reply must follow. Per the provider's prompt code it is sent under a `[Role Reply Format Template]` header saying platform format rules win over it; with the ordinary history policy it sits after the history (near generation), but with the cache-stable policy it moves into the stable prefix before the history, far from generation. A format rule replies must not forget therefore also belongs in `customInstructions`, which is always after the history. A near-generation guard also tells the model to keep the latest reply's visible shape, so a format change takes hold in new conversations (they copy the opening and example conversations, which must use the new format) and is pulled back toward the old shape in existing ones |
+| custom instructions | `customInstructions` | the site editor's 額外指示 ("a reminder attached at the end of every turn"). Per the provider's prompt code it is a system message after the history, followed only by the platform's short format guard and the `[Response preferences]` block (which carries any `responseDefaults` notes), prefixed `[Content scope]` / `[內容範圍]`; a non-empty value replaces the platform's default content-scope block (which, in Chinese, frames the story as mature literary writing with romance and physical intimacy). A player's own text in their persona's Advanced field replaces the card's; it is left out at the strictest safety level |
+| output contract | `roleOutputContract` | format the reply must follow. Per the provider's prompt code it is sent under a `[Role Reply Format Template]` header saying platform format rules win over it; with the ordinary history policy it sits after the history (near generation), but with the cache-stable policy it moves into the stable prefix before the history, far from generation. `customInstructions` is always after the history (`instruction-guardrails.md`). A near-generation guard also tells the model to keep the latest reply's visible shape, so a format change takes hold in new conversations (they copy the opening and example conversations, which must use the new format) and is pulled back toward the old shape in existing ones |
 | Lorebook, entry | worldbook, entries | keyword-triggered background knowledge |
 | display rules | author asset, `rules.json` | find/replace rules that turn reply text into layout, status bars, buttons |
 | function bar | `mountTrigger` | content pinned above the message list; visible to the player, never sent to the model. It is rendered once when the page loads from its own text (rules run over that text, never over a reply). A `<script>` written in the bar's text is dropped when the shell renders the bar itself (previews, the offline harness) and run once after mount when the play page's host renders it; an `<img onerror>` boot in it runs on both; put scripts in a rule, not in the bar. Anything in it that must change with the conversation is changed by a rule script |
@@ -86,10 +85,8 @@ are ignored and the player's own name or a language default is used instead.
 `nickname` is what `{{char}}` expands to when it differs from `name`.
 
 `responseDefaults` (CLI 0.6.0) sets the card's defaults for the player's
-Response preferences. Set an axis only when the card is built for a
-different reply shape than the platform default (a narrator card read in
-third person, status blocks that need long replies); leave every other key
-out, so the player starts from the platform default there.
+Response preferences; an axis left out starts the player on the platform
+default.
 
 | Key | Values (platform default first) |
 |---|---|
@@ -115,8 +112,6 @@ How the player's choices combine with the card's:
 
 The notes are the latest text the card controls: they sit in the
 `[Response preferences]` block after the history, after `customInstructions`.
-Put a rule about reply length, agency or pacing that replies keep forgetting
-in that axis's note, next to the option it bends.
 
 Per the provider's prompt code, every conversation on this provider gets a
 `[Roleplay]` preamble before the card ("keep the response inside the story;
@@ -124,25 +119,25 @@ follow the response preferences after the history"), and `style` decides
 the writing guide after it: `default` and `guided` add one whose last word
 is that everything written stays inside the story; `card` and `custom` add
 none. Out-of-story blocks the card asks for (`[status]`, `[choices]`, side
-channels) compete with that line. In one test a weak model dropped them in
-two of three turns with `guided`, and kept them with `card` (status block
-six of six, choices five of six) and with nothing set (`default`, three of
-three). A card whose replies end in such blocks leaves `style` at `default`
-or sets `card`, and re-runs its weak-model format probe after any
-`responseDefaults` change.
+channels) compete with that line: in a small test a weak model dropped them
+in two of three turns with `guided` and kept them with `card` and with
+`default`.
 
 One portrait, three crops: `media.portrait` (9:16) is the board cover
 (cropped to about 3:4), the chat avatar (cropped to a 1:1 circle) and, when
-no background is set, the chat background (cropped to cover). Keep the head
-inside the central circle and the silhouette inside the middle 3:4 band.
+no background is set, the chat background (cropped to cover). Per the site's
+source every cover slot (board tile, card page, own cards, review list) crops
+3:4 from the centre, and the board and own-cards tiles zoom 4% on hover; with
+the avatar's circle, the area every crop keeps is about the centre square of
+the portrait. Keep the head inside the central circle and the silhouette
+inside the middle 3:4 band.
 Backgrounds are optional: `media.background` (9:16) and
 `media.backgroundLandscape` (16:9, preferred on wide screens, falling back to
 the portrait one). All are cropped to cover the screen, so keep important
 elements inside the central 75% of each image. `media.share` (1200 × 630,
 optional; pushed by CLI 0.7.0 and later) is the link-preview image; without it the site uses the landscape
 background, then the portrait (`visual-identity.md`, The share image). On push they become `roleAvatar`, `roleBackground`,
-`roleBackgroundLandscape` and `roleShareImage`. The site's
-guide calls the definition the "Persona". Per the site's source, the board
+`roleBackgroundLandscape` and `roleShareImage`. Per the site's source, the board
 tile and the card page show the portrait, but the author's own "my cards"
 tile shows the background first and falls back to the portrait. The chat
 stage draws the background on `.chat-scope-box` (`--lt-bg-portrait`, and
@@ -174,8 +169,6 @@ they are.
   `art/expr/shy.webp`, `art/npc/elder.webp`, `ui/frame.webp`. Never put a hash,
   card id, date or version number in a folder or file name. Paths are
   case-sensitive; use lowercase ASCII with hyphens for any name code builds.
-- Keep one card folder for the card's whole life and iterate in it, with git
-  for history. A new local folder per draft gets a new library folder.
 - Upload the final size and format; replacing a file at the same path changes
   it for every card that uses it, which is how a shared asset is updated.
 - If the push stops because the folder already holds files this card did not
@@ -515,7 +508,7 @@ prose.
   one-to-many direction (Simplified to Traditional), take OpenCC's first
   candidate but keep a character the card itself uses as written (卷, 里, 后),
   or correct text is rewritten (卷 becomes 捲); do not drop such characters
-  from the table altogether, or strings stay half converted (青云崖·拂曉). Text the script draws itself needs `sdk.text.convert`
+  from the table altogether, or strings stay half converted. Text the script draws itself needs `sdk.text.convert`
   plus a small character table for short labels; CSS `content` strings need
   a variant per script.
 - The site header is `[data-chat="header"]`; the classes inside it are site
@@ -705,12 +698,10 @@ hearthroom models | tags --zone zh | search | media ls|upload|mv|rm | upgrade --
   card and `--create` would make a second one. `card status` shows the link.
 - `card init` takes only `--name`: set `language` in `card.json` yourself. It also selects the Lorebook entry length limit (the value is not
   documented; read validation warnings).
-- CLI 0.5.0 had three bugs that 0.5.1 fixed: `push --create` after a trial
-  push could make an empty private card, `play --greeting N` started from
-  the main opening, and `card check --replay` read `play --history --json`
-  as one reply. On 0.5.0, run `hearthroom upgrade`; after a `--create` made
-  with it, check `tokenBudget` in `card validate --json` and push again with
-  `--force` if the counts are 0.
+- CLI 0.5.0 mishandled `push --create` after a trial push (an empty private
+  card), `play --greeting N` and `card check --replay`; 0.5.1 fixed all
+  three. A card created with 0.5.0 whose `tokenBudget` counts are 0 needs a
+  push with `--force`.
 - An MMD rules file marked `chatVersion: 1` imports as `pageMode: sandbox`;
   trial cards keep `pageMode` and `cardFormat`. Its `pageDepth` 1/0/under
   becomes `mountLayer: under`, otherwise `over`; `statusbar` becomes
@@ -726,10 +717,18 @@ hearthroom models | tags --zone zh | search | media ls|upload|mv|rm | upgrade --
 inventory on the site; later plain pushes keep updating it. Submitting for
 community review happens on the site, and that is where a version is frozen:
 review applies to one frozen version of the card, submitted together with a
-content rating; changing content makes a new version that needs its own review. Reviewers see a similarity score for the
-definition against other submitted and approved cards (reviewers only; the
-author's own other cards are excluded). Originality of the definition text
-matters.
+content rating; changing content makes a new version that needs its own review.
+Players get the approved copy (text, display rules and Lorebook) until an
+update is submitted and approved, so pushes change only the author's draft.
+The draft plays at `/play/<id>?mode=source` (printed by `card push` from CLI
+0.7.2, "Play draft" on the card page for its owner); the plain `/play/<id>`
+and the card page's Play show the approved copy. The card page and My Cards
+flag unsubmitted edits, including edits to only display rules or the
+Lorebook.
+
+Reviewers see a similarity score for the definition against other submitted
+and approved cards (reviewers only; the author's own other cards are
+excluded). Originality of the definition text matters.
 
 ## Costs and boundaries
 

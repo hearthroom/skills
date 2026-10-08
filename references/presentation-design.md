@@ -115,84 +115,40 @@ a display that waits for the echo loses the player's line.
 
 A marker the model must repeat at every change (a new scene line when the
 place changes) is the line it drops most often, weak and strong models alike.
-Before adding another rule, give the screen a fallback from data the model
-writes every turn (the status block's location field, the prose after the
-transition), and use the marker only when it is there. Parse markers
-tolerantly: models in CJK cards write full-width brackets and colons
-(`［演出：命名］` for `[演出: 命名]`), extra segments in a header, or a few
-stray characters before it; a strict pattern loses the effect and shows the
-marker as prose.
+Give the screen a fallback from data the model writes every turn (the status
+block's location, the prose after the transition) and use the marker when it
+is there. Parse markers tolerantly: CJK replies bring full-width brackets and
+colons (`［演出：命名］` for `[演出: 命名]`) and stray characters, and a strict
+pattern shows the marker as prose.
 
-A title drawn in mixed sizes (large keywords, small particles) with an
-outline per glyph lets each glyph's outline paint over the one before it.
-Outline the whole word or line as one silhouette, the way print logos draw a
-shared outline: an SVG filter on the group that blurs the letters' alpha and
-cuts it at a low threshold gives a smooth ring (stack two for white then dark).
-Offset copies in four directions (`drop-shadow` chains) leave jagged corners
-on serifs and diagonals. A heavy Mincho has hairline horizontals at logo size;
-copies shifted only up and down in the ink colour thicken the horizontals and
-keep the serifs, where an even stroke blurs the whole face toward a gothic.
-Do not put an overlay (a sweeping shine box) inside the filtered group: the
-filter outlines its rectangle too.
-Do not animate `filter` on letters inside that group either (a brightness
-glint): Safari then composites them apart from the group and the group's
-outline vanishes from just those letters. Animate `color` instead, with the
-thickening shadows in `currentColor` so they follow.
+Type and art on phones:
 
-A web font loaded for a few glyphs (`fonts.googleapis.com/css2?...&text=`)
-registers under the font's real family name with no `unicode-range`, so for
-that weight it claims every character: glyphs outside the subset skip the
-rest of the family and fall to the next font in the stack, and one word
-renders half in one face, half in another. Do not load a `text=` subset of a
-family the page also uses.
-
-Give CJK cards their own web fonts instead of relying on system fallbacks:
-phones differ, and one that has a real bold in one fallback font and only a
-synthesised bold in another mixes weights inside one line. Google Fonts serves
-Noto Sans/Serif TC and SC sliced by `unicode-range`, so loading both cuts with
-the weights in use downloads only the characters on screen; list both (the
-site may show Simplified) ahead of any system font.
-
-An effect laid over something painted in the art (a glow on a window, a
-highlight on a sign) must follow its shape: if the art draws it in
-perspective, measure its four corners on the image and map a rectangle onto
-them with a CSS `matrix3d` square-to-quad transform, recomputed with the
-cover-fit scale on resize. An upright box drifts off the painted shape and
-reads as a mistake.
-
-Icon buttons: draw the icon as inline SVG centred in a grid cell, not as a
-text glyph (↺, ⤢, ⛶, an emoji). A glyph's box and baseline differ per font,
-so on some phones the symbol sits low or to one side of its button.
-
-Serif or sans on screen: Mincho/Song reads best in long text, sans is easier
-to see at small sizes. Novel-style cards set the story text in a serif at
-16px or more and display type of about 18px or more in a heavy serif. Labels,
-buttons, tabs and numbers below that are sans, because serif hairlines vanish
-at small sizes. A smaller text-size setting that drops the story below 16px
-switches it to sans.
+- Give CJK cards their own web fonts for both scripts with the weights in
+  use; system fallbacks differ by phone and mix real and synthesised bold in
+  one line. A `text=` subset loaded under a family the page also uses claims
+  every glyph of that weight and splits words between two faces.
+- Serif reads best in long text and fades at small sizes; small labels and
+  numbers are clearer in sans.
+- Icon buttons hold their icon as inline SVG; a text glyph's box differs per
+  font and sits off-centre on some phones.
+- An effect laid over something painted in the art follows the painted
+  shape, perspective included; an upright box drifting off a painted window
+  reads as a mistake.
 
 ## Reading first, choosing second
 
 A reply is read before it is answered. On every screen:
 
-- Show the choices only when the reader has reached the true end of the
-  reply (a few pixels from the bottom), or when they ask for them.
-- Revealing choices must not shrink or cover text the reader has not read.
-  Float the choice panel over the page and scroll the text up so the last
-  line sits just above it; do not re-expand a collapsed page header at the
-  same moment.
-- A panel that would cover the text beside it (a side panel) never opens by
-  itself; at the end of the reply its tab only draws attention.
-- Every panel closes by an explicit button and by swiping it back out. Once
-  the reader closes it, it does not reopen until they scroll well away (a
-  share of the scrollable distance, not a fixed pixel count, since short
-  replies barely scroll) and come back.
-- On a two-page layout the page opposite the text is the control area: it
-  keeps the scene art and state while the reader reads, and turns into the
-  choice list at the end. The reading page is never covered.
-- While the model is replying, close every panel and show one "writing"
-  indicator, in the page. A panel that reopens because the reply page is not
-  in the reading state shows a second indicator and covers the text.
+- Choices appear when the reader reaches the true end of the reply or asks
+  for them, and revealing them never shrinks or covers text not yet read.
+- A panel that would cover text never opens by itself. Every panel closes by
+  a button and by swiping it away, and stays closed until the reader has
+  moved well away and come back.
+- On a two-page layout the page opposite the text is the control area (scene
+  and state while reading, choices at the end); the reading page is never
+  covered.
+- While the model replies, panels close and one "writing" indicator shows in
+  the page.
 
 A card that covers the whole page (a book, a dossier, a stage) is planned
 with `full-page-layouts.md`, after it has passed these rules and the

@@ -32,13 +32,10 @@ chooses how to respond and never has to invent the main objective.
   conversation from alternate N. Each alternate is a different situation
   (place, problem, time); a rewrite of the main opening in another tone is
   not an alternate. An alternate that changes who the player is needs an
-  identity anchor on every turn: talk examples, lore and rules written for the
-  main opening otherwise pull a weak model back to the main player position
-  within a few turns, often as soon as the story reaches a scene the lore
-  describes from the main position. A value in the status block alone did not
-  hold; a short tag the page adds to each player message (defined in the
-  instructions), plus one line in each lore section that the main position
-  frames differently, did.
+  anchor every turn, because examples and lore written for the main position
+  pull a weak model back to it within a few turns; a short tag the page adds
+  to each player message, plus a line in each lore section the positions see
+  differently, holds where a status value alone does not.
 - `prologue` in `card.json`: suggested first lines for the player, offered as
   choices. Player side only; never the character's first message.
 - Plain text, or plain HTML with inline `style` attributes. Stylesheets and
@@ -61,13 +58,10 @@ and sounds rather than adjectives, budget the ellipses, and make every
 speaker on the screen distinguishable; `prose-texture.md` has the checks and
 the repairs.
 
-The same holds for the order of blocks. When the opening puts a line of
-narration after its last side block (a group chat, a forum thread) and only
-then the status block, weak models copy "keep writing after the side block"
-and then stop before the status and choices blocks. Measured on a weak model:
-two replies in five lost both blocks; after the opening ended the side block
-directly on the status block and the skeleton said "nothing but the status
-block after the side block", ten in ten kept them.
+The same holds for the order of blocks: end the opening with its blocks in
+the order replies should keep. Narration after a side block (a group chat, a
+forum thread) teaches weak models to keep writing there and stop before the
+status and choices blocks.
 
 ## The beats
 

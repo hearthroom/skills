@@ -108,25 +108,17 @@ editable lines, not the character's.
 
 ## Chance
 
-When a card wants dice or any other draw, let the page own it: the draw happens
-on the player's tap, and the result (the number and its outcome band) goes out
-inside the player's own message, so the model only narrates an outcome it was
-handed. Asking the model to roll, or to echo the roll back as its own line,
-fails on weak models: they narrate a result and drop the line, or invent rolls
-nobody made. Draw the number synchronously in the click handler and send it
-there (the send must stay inside the player's gesture); any animation plays
-afterwards. Screen effects read the result from the player's line, not from the
-reply. With the screen off, the bracketed result still reads as plain text.
+When a card wants dice or any other draw, let the page own it: draw on the
+player's tap and send the result inside the player's own message, so the model
+narrates an outcome it was handed. Weak models asked to roll invent rolls or
+drop the result line. Send inside the click handler (`platform-facts.md` on
+gestures); the result still reads as plain text with the screen off.
 
-The same holds for any turn the player triggers by protocol, such as declaring
-an ending: a rule that says "when the player writes X, do Y" is easy for a weak
-model to miss deep in a long conversation, so the page appends a short
-out-of-story instruction to the player's own message when it sends it (and
-shows the player their line without it). A one-off instruction can be a plain
-sentence. A reminder sent on every turn should be a short tag the instructions
-define, like the dice result: a card that also has a rule for answering
-out-of-story questions can read a repeated out-of-story sentence as a question
-and reply out of story.
+The same goes for any turn the player triggers by protocol, such as declaring
+an ending: the page adds the instruction to the player's message rather than
+relying on a rule deep in the definition. A reminder sent every turn works
+best as a short tag the instructions define; a repeated out-of-story sentence
+can be read as a question.
 
 ## Failure-forward behaviour
 

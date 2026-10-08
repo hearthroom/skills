@@ -52,26 +52,18 @@ these facts come from", names the files and the cautions.
 6. `card push <dir> --validate --json`, then `card render <dir> --json`:
    `hr-status` must be `applied` on the opening and `report.unsupported`
    empty.
-7. `hearthroom card preview --check <dir>`: drives the real shell in headless
-   Chrome, streams the samples from `preview/replies.md` (or
-   `--from-history <play history>` for real replies), and writes
-   `preview/shots/`: one screenshot per state (phone and desktop, both
-   themes, rules on and off, first and last sample), `contact.png` with all
-   of them captioned, and `findings.json` (block written but never drawn,
-   panel drawn late, sideways overflow on the phone, console errors, story
-   and UI share, choices and free input). Clear every error finding, then
-   read `contact.png` yourself: does the panel belong to the card, is the
-   story still the thing on screen, does rules-off read as prose. Change,
-   run again; two rounds usually converge. `--open` is for a person at a
-   browser; tapping a choice in its mode and opening the dock still need
-   that.
+7. `hearthroom card preview --check <dir>` (facts sheet, "Offline preview";
+   `--from-history` streams real replies) writes a screenshot of every state,
+   a captioned `contact.png` and `findings.json`. Clear the error findings,
+   then look at `contact.png` as a player would: the panel belongs to this
+   card, the story is still what the screen is about, and rules-off reads as
+   prose. Tapping a choice and opening the dock need `--open` and a person.
 8. Format probe: ten or more turns on a weak model with `hearthroom play
    --new-session --model …` (the block and the choices intact at every
    decision point), one strong-model run for emergence, then
    `hearthroom card check <dir> --replay <history>` (the text or `--json`
-   output of `play --history`; CLI 0.5.0 read the JSON as one reply, 0.5.1
-   fixed it) for the hit rate
-   per key, drift types and the overhead ratio against the threshold; then
+   output of `play --history`) for the hit rate per key, drift types and the
+   overhead ratio against the threshold; then
    `hearthroom-render-review`.
 
 Card-specific behaviour (faces from a mood value, a map from a location,

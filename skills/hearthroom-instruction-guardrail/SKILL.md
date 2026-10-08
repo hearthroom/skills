@@ -11,12 +11,9 @@ gate: the instruction layer cannot fix a boring, generic or passive card.
 
 ## Required references
 
-Read `../../references/instruction-guardrails.md`. From
-`../../references/platform-facts.md`: `customInstructions` is a late
-system message after the history and replaces the default content-scope
-block;
-`outputContract` is the format the reply must follow; both have limits under
-`tokenBudget.limits`. Read `../../references/playtest-loop.md` when the need
+Read `../../references/instruction-guardrails.md`, and the custom
+instructions and output contract rows of `../../references/platform-facts.md`
+(where each sits in the prompt, what it replaces, limits). Read `../../references/playtest-loop.md` when the need
 comes from play evidence and `../../references/cost-and-boundaries.md` when
 the instruction touches refusal or mature content.
 
@@ -31,11 +28,9 @@ the instruction touches refusal or mature content.
 3. Draft compact constraints, each with its reason (models generalise from
    the reason) and phrased as what to do. Story logic stays in
    `definition.md`, visible action in `welcome.md`, examples in `talkExample`.
-   A non-empty `customInstructions` removes the default content-scope text,
-   so state the scope the card needs in one line, keep the rest short, run
-   the same probe with it empty and filled (each on `--new-session`), and
-   keep it only if the transcript improves. Drift in reply length, agency or
-   pacing goes to that axis's `responseDefaults` note.
+   Keep `customInstructions` short and keep it only if the same probe
+   improves with it; drift in reply length, agency or pacing goes to that
+   axis's `responseDefaults` note.
 4. Set the stance (omit, draft-only, push after confirmation), then continue
    with `hearthroom-card-author` to apply the edit and
    `card push --validate --json`; replay only when behaviour changes and the

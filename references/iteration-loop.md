@@ -7,7 +7,7 @@ credits without a hypothesis.
 
 ## When to use
 
-Use it when a self-review, audit or diagnosis packet, `card validate --json`
+Use it when a card check, audit or diagnosis packet, `card validate --json`
 or `card render --json` output, play replies, author feedback, or a revised
 card needing a stop or continue decision exists.
 
@@ -54,7 +54,7 @@ Choose exactly one primary next move:
 7. Play, or replay, only when the next paid turn has a clear hypothesis.
 8. Move to author co-review when taste tradeoffs are real and evidence does
    not pick a direction.
-9. Move to publish readiness only when self-review, validation, render and
+9. Move to publish readiness only when the card checks, validation, render and
    the accepted playtest scope have no unresolved blocker.
 
 Never fill a field toward `tokenBudget.limits`; they are ceilings. Add detail
@@ -107,7 +107,7 @@ Iteration packet:
 - the remaining issue is taste, not a craft blocker
 - the next patch would add lore, mood or length without changing play
 - validation and render pass, the accepted playtest scope passes or was
-  intentionally skipped, and self-review has no structural blocker
+  intentionally skipped, and the card checks show no structural blocker
 - the author wants to play the card before more changes
 - two loops failed on the same symptom
 

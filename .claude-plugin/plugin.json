@@ -5,6 +5,6 @@
   "author": { "name": "Hearth Room", "email": "contact@hearthroom.club" },
   "homepage": "https://github.com/hearthroom/skills",
   "repository": "https://github.com/hearthroom/skills",
-  "license": "MIT",
+  "license": "FSL-1.1-ALv2",
   "keywords": ["hearthroom", "skills", "character-cards", "creator-tools", "ai-agents"]
 }

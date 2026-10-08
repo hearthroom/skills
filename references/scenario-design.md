@@ -108,7 +108,7 @@ shortcoming per version, compared with the previous version
 Pass means the card changes clue, trust, risk, access, route or pressure and
 offers a renewed hook without deciding the player's conclusion.
 
-## Self-review
+## Checks on the card
 
 - Can the player act in the first reply without reading a briefing?
 - Does each branch change state, risk, trust, clue, access or pressure?

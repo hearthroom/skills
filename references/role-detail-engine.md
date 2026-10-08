@@ -250,7 +250,7 @@ Never paste a generic formatting manual.
 - Output contract and display rules: reply shape and how it is drawn, never the
   only place a durable rule exists.
 
-## Self-review
+## Checks on the card
 
 - Would the second turn beat the first without inventing a new plot?
 - Does each section change future behaviour, state, route, voice or boundary?

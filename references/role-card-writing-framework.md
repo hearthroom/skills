@@ -210,7 +210,7 @@ longer prose.
     first. A variant needs a different playable contract, not a different
     mood or costume. Author the anchor card first.
 
-## Self-review minimums
+## Card minimums
 
 Aim above these before pushing a card for render or play.
 

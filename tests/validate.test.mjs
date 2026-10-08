@@ -63,3 +63,40 @@ test('every language README is scanned for forbidden tokens', async () => {
     assert.ok(findings.some(f => f.startsWith(`${readme}:3: forbidden token`)), `${readme}: ${findings.join('\n')}`);
   }
 });
+
+const base = () => ({ 'scripts/manifest.json': manifest, 'skills/hearthroom-a/SKILL.md': good, 'references/x.md': '# x\n', 'references/platform-facts.md': '# facts\n' });
+
+test('a description over 300 characters is reported', async () => {
+  const long = good.replace('Use when a card needs a.', `Use when a card needs ${'a, '.repeat(100)}a.`);
+  const findings = await validateRepo(await repo({ ...base(), 'skills/hearthroom-a/SKILL.md': long }));
+  assert.ok(findings.some(f => f.includes('description is') && f.includes('300')), findings.join('\n'));
+});
+
+test('instructions to review or narrate the agent\'s own reasoning are reported outside code and quotes', async () => {
+  for (const phrase of ['Run a self-review first.', 'Double-check the opening.', 'Show your reasoning before you patch.', 'Think step by step.', 'Re-verify every field.']) {
+    const findings = await validateRepo(await repo({ ...base(), 'references/x.md': `# x\n\n${phrase}\n` }));
+    assert.ok(findings.some(f => f.startsWith('references/x.md:3:')), `${phrase}\n${findings.join('\n')}`);
+  }
+  const quoted = '# x\n\n```text\nDouble-check the status block.\n```\n\n> Think step by step.\n';
+  assert.deepEqual(await validateRepo(await repo({ ...base(), 'references/x.md': quoted })), []);
+});
+
+test('line budgets: over budget, unbudgeted, stale and slack entries are reported', async () => {
+  const budget = (o) => JSON.stringify(o);
+  const lines = (n) => '# x\n' + 'line\n'.repeat(n - 1);
+  const ok = { 'skills/hearthroom-a/SKILL.md': 12, 'references/x.md': 3, 'references/platform-facts.md': 1 };
+  assert.deepEqual(await validateRepo(await repo({ ...base(), 'references/x.md': lines(3), 'scripts/line-budget.json': budget(ok) })), []);
+
+  const over = await validateRepo(await repo({ ...base(), 'references/x.md': lines(5), 'scripts/line-budget.json': budget(ok) }));
+  assert.ok(over.some(f => f.startsWith('references/x.md: 5 lines, budget 3')), over.join('\n'));
+
+  const { 'references/x.md': _, ...missing } = ok;
+  const unbudgeted = await validateRepo(await repo({ ...base(), 'references/x.md': lines(3), 'scripts/line-budget.json': budget(missing) }));
+  assert.ok(unbudgeted.some(f => f.startsWith('references/x.md: no line budget')), unbudgeted.join('\n'));
+
+  const stale = await validateRepo(await repo({ ...base(), 'references/x.md': lines(3), 'scripts/line-budget.json': budget({ ...ok, 'references/gone.md': 10 }) }));
+  assert.ok(stale.some(f => f.startsWith('references/gone.md: has a line budget but no file')), stale.join('\n'));
+
+  const slack = await validateRepo(await repo({ ...base(), 'references/x.md': lines(3), 'scripts/line-budget.json': budget({ ...ok, 'references/x.md': 30 }) }));
+  assert.ok(slack.some(f => f.startsWith('references/x.md: 3 lines, budget 30; lower the budget to 3')), slack.join('\n'));
+});

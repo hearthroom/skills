@@ -9,11 +9,17 @@
 </p>
 
 <p align="center">
-  <a href="https://hearthroom.club/guide"><img src="https://img.shields.io/badge/guide-hearthroom.club-E89064" alt="写卡指南"></a><a href="https://discord.gg/C7m85YPHmK"><img src="https://img.shields.io/badge/Discord-join%20the%20community-5865F2?logo=discord&logoColor=white" alt="Discord"></a><a href="https://github.com/hearthroom/skills/actions/workflows/validate.yml"><img src="https://github.com/hearthroom/skills/actions/workflows/validate.yml/badge.svg" alt="Validate"></a><a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue" alt="License: MIT"></a><a href="https://github.com/hearthroom/skills/commits/main"><img src="https://img.shields.io/github/last-commit/hearthroom/skills" alt="Last commit"></a>
+  <a href="https://hearthroom.club/guide"><img src="https://img.shields.io/badge/guide-hearthroom.club-E89064" alt="写卡指南"></a>
+  <a href="https://discord.gg/C7m85YPHmK"><img src="https://img.shields.io/badge/Discord-join%20the%20community-5865F2?logo=discord&logoColor=white" alt="Discord"></a>
+  <a href="https://github.com/hearthroom/skills/actions/workflows/validate.yml"><img src="https://github.com/hearthroom/skills/actions/workflows/validate.yml/badge.svg" alt="Validate"></a>
+  <a href="LICENSE.md"><img src="https://img.shields.io/badge/license-FSL--1.1--ALv2-blue" alt="License: FSL-1.1-ALv2"></a>
+  <a href="https://github.com/hearthroom/skills/commits/main"><img src="https://img.shields.io/github/last-commit/hearthroom/skills" alt="Last commit"></a>
 </p>
 
 <p align="center">
-  <a href="README.md">English</a> ·<a href="README.zh-Hant.md">繁體中文</a> ·<b>简体中文</b>
+  <a href="README.md">English</a> ·
+  <a href="README.zh-Hant.md">繁體中文</a> ·
+  <b>简体中文</b>
 </p>
 
 <p align="center">
@@ -25,7 +31,7 @@
 
 [绮梦社](https://hearthroom.club)（Hearthroom）是一个开放的 AI 角色卡社区。一张卡就是一个装着纯文本文件的文件夹，[`hearthroom` 命令行工具](https://cli.hearthroom.club)可以在终端里把文件夹推成私人试玩卡，再检查、渲染、试玩。
 
-CLI 负责搬文件，文件里写什么由这套技能决定。这里有 43 个技能和 47 份共享指南，覆盖前提、人物、关系、世界和世界书、开场白、声线、状态、界面、诊断与迭代，每一项最后都落到一个助手能自己跑的检查上。Claude Code、Codex、Cursor，以及任何能读文件、能执行命令的助手都能用。
+CLI 负责搬文件，文件里写什么由这套技能决定。这里有 43 个技能和 48 份共享指南，覆盖前提、人物、关系、世界和世界书、开场白、声线、状态、界面、诊断与迭代，每一项最后都落到一个助手能自己跑的检查上。Claude Code、Codex、Cursor，以及任何能读文件、能执行命令的助手都能用。
 
 你只要说想要什么样的卡。助手只问会改变结果的问题，然后写出文件夹，按玩家真正接触它的方式测一遍，并把自己做了哪些决定、为什么这样决定记下来。
 
@@ -211,11 +217,14 @@ SillyTavern 的 PNG、JSON、CHARX 和魅魔岛三件套都能直接导入。怎
 
 ```text
 skills/        43 个技能，每个一份 SKILL.md，从 using-hearthroom 进入
-references/    共享指南；platform-facts.md 是平台事实的唯一来源
+references/    共享指南；platform-facts.md 是平台事实的唯一来源，
+               writing-skills.md 是修改任何一份的标准
 assets/
   sandbox-kit/ 状态面板、选项按钮、主题、抽屉和钉选栏，构建成显示规则
   probe-card/  在真实聊天页外壳里核对沙盒契约的探针卡
-scripts/       check-card.mjs（和 hearthroom card check 的检查相同）、沙盒契约、校验器
+scripts/       check-card.mjs（和 hearthroom card check 的检查相同）、沙盒契约、
+               校验器、line-budget.json
+.out-of-scope/ 已经否决过的想法，每个一个文件并写明原因（见 SCOPE.md）
 examples/      虚构的需求示例和样本骨架
 evals/         对比技能改版前后用的提示词和断言
 ```
@@ -229,7 +238,7 @@ evals/         对比技能改版前后用的提示词和断言
 
 ## 让这套技能变得更好
 
-这套技能靠真实的写卡工作变好。助手发现某个技能写错了或缺了什么时，会用通用的写法修正那个技能或指南，不写卡名、ID 或任何私人内容；然后运行 `npm run validate` 和 `npm test`、提交，再告诉你改了什么、为什么改。你同意之后它才会推送。`using-hearthroom` 也会在工作时提醒助手这一点。
+这套技能靠真实的写卡工作变好。助手发现某个技能写错了或缺了什么时，会连同卡片一起修正这套技能，告诉你改了什么、为什么改，你同意之后才会推送。不管是助手还是人提的修改，都要过同样两页：[`SCOPE.md`](SCOPE.md) 定门槛（真实写卡时出过的问题，而且不是 [`.out-of-scope/`](.out-of-scope/) 里已经否决过的想法），[`references/writing-skills.md`](references/writing-skills.md) 说明教训该放哪里、怎么写给能力强的助手看：写目标、理由和边界，不写一步一步的菜谱。机器能检查的部分由校验器把关，包括每个文件的行数预算。详见 [`CONTRIBUTING.md`](CONTRIBUTING.md)。
 
 欢迎在 [issues](https://github.com/hearthroom/skills/issues) 报告问题或提出建议。报告平台事实有误时，请附上你对照的命令或页面。
 
@@ -237,7 +246,7 @@ evals/         对比技能改版前后用的提示词和断言
 
 ```bash
 npm test          # 校验器、卡片检查器、沙盒套件的解析和构建
-npm run validate  # 结构、引用、清单、禁用词
+npm run validate  # 结构、引用、清单、措辞、行数预算
 node scripts/sync-contract.mjs --check   # 沙盒契约和聊天页一致
 ```
 
@@ -253,4 +262,6 @@ node scripts/sync-contract.mjs --check   # 沙盒契约和聊天页一致
 
 ## 许可证
 
-[MIT](LICENSE)。部分内容衍生自一套以 MIT 许可发布的前身工具包，沙盒套件沿用了以 MIT 许可发布的 tavern-mmd 项目的做法。两者的署名都写在 `LICENSE` 里。
+[Functional Source License 1.1（ALv2 Future License）](LICENSE.md)，简称 FSL-1.1-ALv2，和聊天页用的是同一份许可证。你可以出于任何目的使用、复制、修改和分发这套技能，唯独不能用来做竞争性的产品或服务；副本和衍生作品都沿用同样的条款。每个版本发布满两年后转为 Apache 2.0。0.3.20 及以前的版本以 MIT 许可发布，保持不变。
+
+用这套技能写出来的卡是你自己的内容，不算这套工具的衍生作品，不受这份许可证约束；`build.mjs` 放进卡片显示规则里的沙盒套件代码也一样。名称和标志不在许可范围内。衍生自 MIT 许可项目的部分，原始署名保留在 [`THIRD-PARTY-NOTICES.md`](THIRD-PARTY-NOTICES.md)。

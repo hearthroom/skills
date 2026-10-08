@@ -130,7 +130,7 @@ choices without drowning the emotional engine. Ensemble plus anything: define
 turn ownership before adding cast. Boundary-sensitive plus anything: run
 boundary design before first-scene escalation.
 
-## Self-review probes
+## Checks on the card
 
 - Can the primary contract be named in one line, and does it match `type`?
 - Does the first screen prove that contract?

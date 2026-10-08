@@ -12,7 +12,7 @@
   <a href="https://hearthroom.club/guide"><img src="https://img.shields.io/badge/guide-hearthroom.club-E89064" alt="Card authoring guide"></a>
   <a href="https://discord.gg/C7m85YPHmK"><img src="https://img.shields.io/badge/Discord-join%20the%20community-5865F2?logo=discord&logoColor=white" alt="Discord"></a>
   <a href="https://github.com/hearthroom/skills/actions/workflows/validate.yml"><img src="https://github.com/hearthroom/skills/actions/workflows/validate.yml/badge.svg" alt="Validate"></a>
-  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue" alt="License: MIT"></a>
+  <a href="LICENSE.md"><img src="https://img.shields.io/badge/license-FSL--1.1--ALv2-blue" alt="License: FSL-1.1-ALv2"></a>
   <a href="https://github.com/hearthroom/skills/commits/main"><img src="https://img.shields.io/github/last-commit/hearthroom/skills" alt="Last commit"></a>
 </p>
 
@@ -33,7 +33,7 @@
 a folder of plain files, and the [`hearthroom` CLI](https://cli.hearthroom.club) pushes that
 folder to a private trial card, validates it, renders it and plays it from the terminal.
 
-The CLI moves the files. These skills decide what goes in them. There are 43 skills and 47
+The CLI moves the files. These skills decide what goes in them. There are 43 skills and 48
 shared guides. They cover premise, character, relationships, world and Lorebook, openings,
 voice, state, presentation, diagnosis and iteration, and each one ends in a check the agent
 can run. Claude Code, Codex, Cursor and any agent that can read files and run a shell can use them.
@@ -255,11 +255,14 @@ so a new session can pick up where the last one stopped.
 
 ```text
 skills/        43 skills, one SKILL.md each, entered through using-hearthroom
-references/    shared guides; platform-facts.md is the only source of platform facts
+references/    shared guides; platform-facts.md is the only source of platform facts,
+               writing-skills.md is the standard for changing any of them
 assets/
   sandbox-kit/ status panel, choice buttons, themes, drawer and pinned bar, built into display rules
   probe-card/  a card that checks the sandbox contract in the real chat shell
-scripts/       check-card.mjs (same checks as hearthroom card check), sandbox contract, validator
+scripts/       check-card.mjs (same checks as hearthroom card check), sandbox contract,
+               validator, line-budget.json
+.out-of-scope/ ideas already turned down, one file each with the reason (see SCOPE.md)
 examples/      synthetic briefs and sample shapes
 evals/         prompts and assertions used to compare skill revisions
 ```
@@ -277,10 +280,14 @@ evals/         prompts and assertions used to compare skill revisions
 ## Improving these skills
 
 These skills improve through real card work. When an agent finds a skill that is wrong or
-missing something, it fixes the skill or guide in general terms, with no card names, IDs or
-private content. Then it runs `npm run validate` and `npm test`, commits, and tells you what
-changed and why. It pushes only after you agree. `using-hearthroom` tells agents the same
-thing while they work.
+missing something, it fixes the toolkit as well as the card, and tells you what changed and
+why; it pushes only after you agree. Every change, from an agent or a person, meets the same
+two pages: [`SCOPE.md`](SCOPE.md) sets the bar (a failure seen in real card work, and nothing
+already turned down in [`.out-of-scope/`](.out-of-scope/)), and
+[`references/writing-skills.md`](references/writing-skills.md) says where a lesson belongs and
+how to write it for a capable agent: goals, reasons and boundaries rather than step-by-step
+recipes. The validator holds the parts a machine can check, including a line budget per file.
+See [`CONTRIBUTING.md`](CONTRIBUTING.md).
 
 Bug reports and proposals are welcome in [issues](https://github.com/hearthroom/skills/issues).
 For a wrong platform fact, name the command or page you checked it against.
@@ -289,7 +296,7 @@ For a wrong platform fact, name the command or page you checked it against.
 
 ```bash
 npm test          # validator, card checker, sandbox kit parser and build
-npm run validate  # structure, citations, manifest, forbidden vocabulary
+npm run validate  # structure, citations, manifest, wording, line budgets
 node scripts/sync-contract.mjs --check   # sandbox contract matches the chat page
 ```
 
@@ -309,6 +316,13 @@ Related projects:
 
 ## License
 
-[MIT](LICENSE). Parts are derived from an MIT-licensed predecessor toolkit, and the sandbox
-kit follows the method of the MIT-licensed tavern-mmd project. `LICENSE` carries both
-attributions.
+[Functional Source License, Version 1.1, ALv2 Future License](LICENSE.md) (FSL-1.1-ALv2), the
+same licence as the chat page. You may use, copy, modify and redistribute these skills for any
+purpose except a competing product or service, and copies and derivatives carry the same terms.
+Each version becomes Apache 2.0 two years after its release. Versions up to 0.3.20 were
+published under the MIT License and stay under it.
+
+Cards you write with these skills are your content, not derivative works of the toolkit, and
+carry no obligation under this licence; that includes the sandbox kit code that `build.mjs`
+places in a card's display rules. Names and logos are not licensed. Parts derived from
+MIT-licensed projects keep their notices in [`THIRD-PARTY-NOTICES.md`](THIRD-PARTY-NOTICES.md).

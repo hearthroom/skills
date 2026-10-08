@@ -63,6 +63,15 @@ already linked to an owned card, plain `push` updates it and `--create` would
 make a second card. Trial-card expiry and slots are in
 `cost-and-boundaries.md`.
 
+A card that has passed review is played from an approved copy frozen at
+submission (text, display rules and Lorebook), so pushes change only the
+author's draft. Test a push with the draft link: `/play/<id>?mode=source`,
+which `card push` prints from CLI 0.7.2 on and the card page offers its owner
+as "Play draft". The plain `/play/<id>` and the card page's Play show what
+players see until the update is submitted and approved; the card page and My
+Cards flag unsubmitted edits, including edits to only display rules or the
+Lorebook.
+
 ## Reading the reports
 
 `card validate --json`: `status` is `pass`, `warning` or `blocker`;

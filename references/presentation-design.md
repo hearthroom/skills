@@ -113,6 +113,12 @@ When the screen shows the player's own in-world words, take them from the
 message the player sent: a model may answer them without repeating them, so
 a display that waits for the echo loses the player's line.
 
+A marker the model must repeat at every change (a new scene line when the
+place changes) is the line it drops most often, weak and strong models alike.
+Before adding another rule, give the screen a fallback from data the model
+writes every turn (the status block's location field, the prose after the
+transition), and use the marker only when it is there.
+
 ## Reading first, choosing second
 
 A reply is read before it is answered. On every screen:

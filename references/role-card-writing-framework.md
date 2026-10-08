@@ -303,6 +303,13 @@ check. Put the facts the scene needs in the definition; never rely on the model
 "knowing" the source. Reviewers see a definition similarity score, so
 originality of the definition text matters.
 
+When the author explicitly wants a recognisable fan card, the player's
+position and the card's machinery come from structures the source already has
+(its own systems, roles, places, recurring jokes); do not import the frame of
+another card or invent an institution the source lacks. A reader who knows the
+source should recognise the premise from the first screen, and the opening's
+tone should match the source's (a bright source opens bright).
+
 ### Daily-life / slice-of-life (overlay on `companion`)
 
 One routine with hidden pressure, a small desire and a tiny disruption, a

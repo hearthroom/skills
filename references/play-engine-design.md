@@ -106,6 +106,18 @@ Typed free text must always be handled as well as any button. For first-turn
 choices prefer `prologue` lines in `card.json`: they are the player's own
 editable lines, not the character's.
 
+## Chance
+
+When a card wants dice or any other draw, let the page own it: the draw happens
+on the player's tap, and the result (the number and its outcome band) goes out
+inside the player's own message, so the model only narrates an outcome it was
+handed. Asking the model to roll, or to echo the roll back as its own line,
+fails on weak models: they narrate a result and drop the line, or invent rolls
+nobody made. Draw the number synchronously in the click handler and send it
+there (the send must stay inside the player's gesture); any animation plays
+afterwards. Screen effects read the result from the player's line, not from the
+reply. With the screen off, the bracketed result still reads as plain text.
+
 ## Failure-forward behaviour
 
 Failure changes play; it neither ends it nor vanishes: wounds, debt, damaged

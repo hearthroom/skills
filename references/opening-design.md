@@ -32,9 +32,13 @@ chooses how to respond and never has to invent the main objective.
   conversation from alternate N. Each alternate is a different situation
   (place, problem, time); a rewrite of the main opening in another tone is
   not an alternate. An alternate that changes who the player is needs an
-  identity anchor the model rewrites every turn (a value in the status block
-  works): talk examples and rules written for the main opening otherwise pull
-  a weak model back to the main player position within a few turns.
+  identity anchor on every turn: talk examples, lore and rules written for the
+  main opening otherwise pull a weak model back to the main player position
+  within a few turns, often as soon as the story reaches a scene the lore
+  describes from the main position. A value in the status block alone did not
+  hold; a short tag the page adds to each player message (defined in the
+  instructions), plus one line in each lore section that the main position
+  frames differently, did.
 - `prologue` in `card.json`: suggested first lines for the player, offered as
   choices. Player side only; never the character's first message.
 - Plain text, or plain HTML with inline `style` attributes. Stylesheets and

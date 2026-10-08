@@ -1,6 +1,6 @@
 {
   "name": "hearthroom",
-  "version": "0.3.7",
+  "version": "0.3.8",
   "description": "Card-writing skills for Hearthroom: premise, character, Lorebook, openings, voice, state, presentation, diagnosis and iteration, driven through the hearthroom CLI.",
   "author": { "name": "Hearth Room", "email": "contact@hearthroom.club", "url": "https://hearthroom.club" },
   "homepage": "https://github.com/hearthroom/skills",

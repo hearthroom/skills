@@ -146,6 +146,8 @@ that threshold (15% by default for an assist card).
   `null` on a page without it; build the card's own save screen on it and call the changing ones in the click.
 - `HR.model()`: `{ name, cost }` from `sdk.model.get()` (empty strings on a page without it);
   `sdk.on('model:change', fn)` fires when either changes.
+- `HR.phase()`: `{ phase, since }` from `sdk.generation.get()` (`''` on a page without it): what a
+  turn waits on before its first word; `sdk.on('generation:phase', fn)` fires on each change.
 
 `extra.js` in the config runs after the kit and can use all of it: faces from a mood value,
 a map from a location, badges — derived from `HR.status.latest()` or `HR.on('state')`, never

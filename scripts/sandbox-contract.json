@@ -24,6 +24,7 @@
       "cache",
       "composer",
       "debug",
+      "generation",
       "input",
       "message",
       "model",
@@ -50,6 +51,7 @@
       "composer.show",
       "composer.visible",
       "debug.log",
+      "generation.get",
       "input.add",
       "input.blur",
       "input.clear",
@@ -223,7 +225,8 @@
       "back",
       "stage:close",
       "dispose",
-      "model:change"
+      "model:change",
+      "generation:phase"
     ],
     "replayedToLateSubscribers": [
       "message:mount",
@@ -272,6 +275,10 @@
       "model:change": [
         "cost",
         "name"
+      ],
+      "generation:phase": [
+        "phase",
+        "since"
       ],
       "conversation:switch": [
         "conversationId"

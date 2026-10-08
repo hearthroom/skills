@@ -123,6 +123,9 @@
   HR.archive = function () { try { return sdk.archive && typeof sdk.archive.list === 'function' ? sdk.archive : null; } catch (e) { return null; } };
   /* the player's current model and the next turn's estimated cost; empty strings on an older page */
   HR.model = function () { try { var m = sdk.model && sdk.model.get(); return { name: String((m && m.name) || ''), cost: String((m && m.cost) || '') }; } catch (e) { return { name: '', cost: '' }; } };
+  /* what the turn waits on (sdk.generation): idle, preparing, summarizing, thinking, writing; since = when it began.
+     '' on an older page, where the card falls back to its own busy state */
+  HR.phase = function () { try { var g = sdk.generation && sdk.generation.get(); return { phase: String((g && g.phase) || ''), since: +(g && g.since) || 0 }; } catch (e) { return { phase: '', since: 0 }; } };
 
   /* ---------- store: one durable bundle per card (save → cache → memory) ----------
      save.* is cross-device but limited (10 keys, 64 KiB each) and rate limited (20 writes a

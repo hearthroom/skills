@@ -135,6 +135,27 @@ Type and art on phones:
   shape, perspective included; an upright box drifting off a painted window
   reads as a mistake.
 
+## Saves on a full-page card
+
+A card that takes over the whole page hides the site's own save list, so
+give players a save screen in the card's own style, built on `sdk.archive`
+(the platform's conversation saves; `HR.archive()` in the sandbox kit), not
+on card storage: the saves are server-side, follow the player across
+devices, count against the same 20-save limit and stay in step with the
+site's list. A screen that serves players well:
+
+- shows `count/limit`, and says that loading another save keeps the current
+  progress (every save is a conversation; loading only switches);
+- saves with a title derived from the state block (chapter, day, place),
+  which the player can rename; loads, renames and deletes per row; starts a
+  new save from a chosen opening; offers a fork from the page being read;
+- confirms inside the card (the confirming tap is the player's gesture, so
+  the shell does not ask again) and answers `LIMIT_REACHED` with "delete
+  one first".
+
+Because the screen is derived from the conversation, nothing else needs
+saving: after a switch the panels show that save's state.
+
 ## Reading first, choosing second
 
 A reply is read before it is answered. On every screen:

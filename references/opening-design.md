@@ -31,7 +31,10 @@ chooses how to respond and never has to invent the main objective.
   file-name order; `hearthroom play --new-session --greeting N` starts a
   conversation from alternate N. Each alternate is a different situation
   (place, problem, time); a rewrite of the main opening in another tone is
-  not an alternate.
+  not an alternate. An alternate that changes who the player is needs an
+  identity anchor the model rewrites every turn (a value in the status block
+  works): talk examples and rules written for the main opening otherwise pull
+  a weak model back to the main player position within a few turns.
 - `prologue` in `card.json`: suggested first lines for the player, offered as
   choices. Player side only; never the character's first message.
 - Plain text, or plain HTML with inline `style` attributes. Stylesheets and

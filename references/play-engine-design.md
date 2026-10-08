@@ -118,6 +118,12 @@ there (the send must stay inside the player's gesture); any animation plays
 afterwards. Screen effects read the result from the player's line, not from the
 reply. With the screen off, the bracketed result still reads as plain text.
 
+The same holds for any turn the player triggers by protocol, such as declaring
+an ending: a rule that says "when the player writes X, do Y" is easy for a weak
+model to miss deep in a long conversation, so the page appends a short
+out-of-story instruction to the player's own message when it sends it (and
+shows the player their line without it).
+
 ## Failure-forward behaviour
 
 Failure changes play; it neither ends it nor vanishes: wounds, debt, damaged

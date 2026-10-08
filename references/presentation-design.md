@@ -83,6 +83,10 @@ consumes `<scene>` works, a script that looks for it later does not.
 4. Build the panel, the theme, the pinned bar and the choices with
    `hearthroom-sandbox-kit`; it draws the block inside the bubble, never a
    second copy in the function bar.
+5. A full-page card hides the site's save list: give players saves in the
+   card's own screen on `sdk.archive` (server-side, across devices, the
+   site's limit; `platform-facts.md`), confirmed in the card's own tap, each
+   save titled from the state block.
 
 ## Status panels, themes and chrome: the sandbox kit
 
@@ -134,27 +138,6 @@ Type and art on phones:
 - An effect laid over something painted in the art follows the painted
   shape, perspective included; an upright box drifting off a painted window
   reads as a mistake.
-
-## Saves on a full-page card
-
-A card that takes over the whole page hides the site's own save list, so
-give players a save screen in the card's own style, built on `sdk.archive`
-(the platform's conversation saves; `HR.archive()` in the sandbox kit), not
-on card storage: the saves are server-side, follow the player across
-devices, count against the same 20-save limit and stay in step with the
-site's list. A screen that serves players well:
-
-- shows `count/limit`, and says that loading another save keeps the current
-  progress (every save is a conversation; loading only switches);
-- saves with a title derived from the state block (chapter, day, place),
-  which the player can rename; loads, renames and deletes per row; starts a
-  new save from a chosen opening; offers a fork from the page being read;
-- confirms inside the card (the confirming tap is the player's gesture, so
-  the shell does not ask again) and answers `LIMIT_REACHED` with "delete
-  one first".
-
-Because the screen is derived from the conversation, nothing else needs
-saving: after a switch the panels show that save's state.
 
 ## Reading first, choosing second
 

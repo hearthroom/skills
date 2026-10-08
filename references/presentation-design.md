@@ -125,9 +125,15 @@ marker as prose.
 
 A title drawn in mixed sizes (large keywords, small particles) with an
 outline per glyph lets each glyph's outline paint over the one before it.
-Outline the whole word or line as one silhouette (a filter on the group, the
-way print logos draw a shared outline), and give accent words with their own
-inner line a little letter spacing.
+Outline the whole word or line as one silhouette, the way print logos draw a
+shared outline: an SVG filter on the group that blurs the letters' alpha and
+cuts it at a low threshold gives a smooth ring (stack two for white then dark).
+Offset copies in four directions (`drop-shadow` chains) leave jagged corners
+on serifs and diagonals. A heavy Mincho has hairline horizontals at logo size;
+copies shifted only up and down in the ink colour thicken the horizontals and
+keep the serifs, where an even stroke blurs the whole face toward a gothic.
+Do not put an overlay (a sweeping shine box) inside the filtered group: the
+filter outlines its rectangle too.
 
 ## Reading first, choosing second
 

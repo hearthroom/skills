@@ -127,10 +127,10 @@ pattern shows the marker as prose.
 
 Type and art on phones:
 
-- Give CJK cards their own web fonts for both scripts with the weights in
-  use; system fallbacks differ by phone and mix real and synthesised bold in
-  one line. A `text=` subset loaded under a family the page also uses claims
-  every glyph of that weight and splits words between two faces.
+- Give CJK cards their own web fonts for both scripts and every weight the
+  page uses; system fallbacks mix real and fake bold. A family loaded at one
+  weight (a logo's 900) or as a `text=` subset also serves every other stack
+  naming it: body text turns bold, or words split between two faces.
 - Serif reads best in long text and fades at small sizes; small labels and
   numbers are clearer in sans.
 - Icon buttons hold their icon as inline SVG; a text glyph's box differs per

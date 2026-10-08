@@ -24,6 +24,10 @@ site's navigation underneath doing their jobs.
   what the reply is waiting on in the card's voice with the seconds counting
   (story summary, thinking: facts sheet, `sdk.generation`; the overlay hides
   the list's own indicator), and a page that starts at its top while it streams.
+- A turn that fails is the card's to show: the overlay hides the list's
+  failure card, so draw `sdk.generation`'s outcome and its buttons and press
+  them with `act` in the click (facts sheet). Resending the player's line
+  yourself sends it twice and cannot tell a dropped line from no credits.
 - A tap that sends spends credits: show what will be sent and let the player
   confirm, rewrite or cancel. When the overlay covers the composer, hide the
   site's and draw one input of your own (facts sheet, composer and send), and

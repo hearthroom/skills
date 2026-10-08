@@ -387,10 +387,20 @@ prose.
   player's current model as the header names it, and the next turn's
   estimated credits as the composer shows them, a range such as `127–251`
   for dynamic pricing; empty strings until the page sends them),
-  `sdk.generation.get()` → `{phase, since}` (what the turn waits on: `idle`,
+  `sdk.generation.get()` → `{phase, since, outcome}` (what the turn waits on: `idle`,
   `preparing`, `summarizing` = the platform compacting the story before the
   first word, often tens of seconds, `thinking` = the model reasoning, absent
-  on models that do not, `writing`; `since` in ms; never the reasoning text),
+  on models that do not, `writing`; `since` in ms; never the reasoning text;
+  `outcome` is `null` unless the last turn did not finish, then the card the
+  list draws under it: `{kind, label, sub, actions: [{action, label}]}`, `kind`
+  one of `model-error network-error server-error rate-limit quota filtered
+  length-cap stopped compact-retryable outcome-unconfirmed interrupted`
+  (`outcome-unconfirmed` has no buttons and resolves by itself), `label` and
+  `sub` in the player's language, `action` one of `retry continue switch-model
+  model-settings capacity refresh`), `sdk.generation.act(action)` (presses one
+  of those buttons as a tap on the card would, so a retry reuses the player's
+  line; only inside the player's click, otherwise `UNAUTHORIZED` with no
+  dialog; not offered → `INVALID_ARGS`; `BUSY` while generating; 3 a minute),
   `sdk.archive.list()/save(title?)/fork(messageId)/open(id)/start(opening?)/rename(id, title)/remove(id)`
   (the platform's conversation saves, 20 per card with the current one: `open`
   keeps the current progress in the list; `save` names a copy → `{id, current}`;
@@ -406,7 +416,8 @@ prose.
   `message:done`, `message:unmount`, `input:change`, `conversation:switch`,
   `theme:change`, `back`, `stage:close`, `dispose` (`conversation:switch` carries
   `{conversationId}` after a load, save, fork or new save), `model:change` (payload
-  as `sdk.model.get()`, on a change), `generation:phase` (as its `get()`, no replay).
+  as `sdk.model.get()`, on a change), `generation:phase` (`{phase, since}`, no replay),
+  `generation:outcome` (the outcome or `null`, on a change, no replay).
   Handlers get one argument:
   `{id, role, content, serverId}` for `message:*` (`message:stream` has no
   `serverId`; `serverId` is `null` for player messages and the greeting), a

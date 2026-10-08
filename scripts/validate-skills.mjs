@@ -117,6 +117,8 @@ export async function validateRepo(root) {
     ...(await listFiles(path.join(root, 'examples'), '.md')).map(f => path.join('examples', f)),
     ...assetDocs,
     'README.md',
+    'README.zh-Hant.md',
+    'README.zh-Hans.md',
   ];
   for (const rel of scan) {
     const file = path.join(root, rel);

@@ -135,6 +135,19 @@ keep the serifs, where an even stroke blurs the whole face toward a gothic.
 Do not put an overlay (a sweeping shine box) inside the filtered group: the
 filter outlines its rectangle too.
 
+A web font loaded for a few glyphs (`fonts.googleapis.com/css2?...&text=`)
+registers under the font's real family name. If the page's UI font stack
+names that family too, those few glyphs switch to the downloaded weight in
+every label while their neighbours stay in the system font, so one word
+renders half bold. Keep the subset's family name out of the UI stack.
+
+Serif or sans on screen: Mincho/Song reads best in long text, sans is easier
+to see at small sizes. Novel-style cards set the story text in a serif at
+16px or more and display type of about 18px or more in a heavy serif. Labels,
+buttons, tabs and numbers below that are sans, because serif hairlines vanish
+at small sizes. A smaller text-size setting that drops the story below 16px
+switches it to sans.
+
 ## Reading first, choosing second
 
 A reply is read before it is answered. On every screen:

@@ -517,7 +517,12 @@ prose.
   The model chip (`.model-chip`, name in `.model-chip-name`; a class, not a
   `data-lt` hook) also only posts to the host, which opens its model sheet in
   `[data-chat="panels"]`; a full-page overlay above z-index auto hides that
-  sheet unless it lifts the panels layer while the player picks.
+  sheet unless it lifts the panels layer while the player picks. Inside the
+  sandbox shell there is no model chip and the page never sees the model's
+  name: the model button is `.mind-type` in `[data-chat="composer"]` (it
+  still opens the host's model list when clicked, also while the composer is
+  hidden), and its `.mind-type-score` shows the per-turn cost. A settings row
+  should show that cost or only the button, never a "not found" name.
 - Per the site's source, the model sheet and the response-settings sheet are
   drawn by the host page, outside the card's frame. While one is open the
   host copies every `<style>` from the card's rules into its own page and

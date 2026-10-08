@@ -251,11 +251,11 @@ model never sees the result.
   256 KB or four times the input (`volume`), or matching times out (`timeout`).
 - Relative media sources (`<img src="x">`) are neutralised to `data:,` so a
   broken-image `onerror` boot still fires without hitting the site.
-- Limits: one replacement at most 128 KB; the whole rule set at most 32 MB.
-  The 128 KB counts UTF-8 bytes, so comments in Chinese cost three bytes a
-  character. A large script is easier to keep under it when the build strips
-  whole-line comments and indentation, and when script and stylesheet live in
-  two rules that the same function-bar trigger mounts.
+- Limits: one replacement at most 128 KB (UTF-8 bytes; CJK comments cost three
+  each); the whole rule set at most 32 MB. The server measures after the push
+  turns each `assets/…` path into a full asset URL (about 70 bytes more each),
+  so `card check` reads low; keep a margin or split the script into rules (one
+  function-bar trigger mounts them all), and strip comments in the build.
 - `assets/` paths written in a rule are uploaded on push and rewritten to
   their served URL. A directory reference uploads every file in that
   directory and rewrites the directory part, so the file name can come from

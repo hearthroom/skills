@@ -105,10 +105,9 @@ as something that already happened and shows up in play. Give such fields a
 neutral example ("none yet") and a `rule` that says only events the player
 caused are written.
 
-Some models drift to half-width punctuation in Chinese prose. The text the
-model reads back stays as written; a display rule can still show `,` `:` `?`
-`!` between Chinese characters full-width (lookbehind and lookahead on
-both sides, no space allowed, so `key: value` status lines are untouched).
+Some models drift to half-width punctuation in Chinese prose. A display rule
+can show it full-width between Chinese characters while the stored text stays
+as written; leave `key: value` status lines untouched.
 
 ### One owner per value
 

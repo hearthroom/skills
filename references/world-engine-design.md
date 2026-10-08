@@ -111,27 +111,15 @@ How entries reach the model in a normal conversation:
   give each entry nouns no sibling entry shares, and run a few real replies
   through every keyword list to count entries fired per sentence.
 - Whether a plain keyword matches both Chinese scripts is not documented
-  (`platform-facts.md`): for Chinese cards list both forms of a noun the
-  player might type. For a canon or IP card, also list each name in every
-  regional translation players use (the official Taiwan release, the
-  mainland streaming subtitles, common fan spellings): the same character
-  can have three names.
+  (`platform-facts.md`): list every form of a name players type, including
+  each regional translation of a canon name.
 - A very short name that also occurs inside common words fires on ordinary
-  prose. Write it as a regular expression with lookbehind and lookahead
-  that exclude those words, and test it against them before pushing.
-- When the Lorebook holds a whole canon timeline and the card starts partway
-  through it, put the canon timing in the first line of every time-bound
-  entry ("canon time: after the second event") and state in the definition
-  where the story stands at the opening. Without both, strong models too
-  narrate later canon events as already past: a pet borrowed before it
-  hatched, results of an event still five days away.
-- Names and titles are timeline facts too. A canon character who only gets
-  a name later in the story must not be called by it earlier; say in the
-  definition how to refer to them before that point.
-- For a spoiler a time-bound entry must hold back, say what to write instead
-  (the record is sealed, the witness refuses to say), not only "don't
-  mention it". A bare ban leaves a gap that weak models fill by inventing
-  a name or a backstory.
+  prose; write it as a regular expression that excludes those words.
+- When a canon card starts partway through its timeline, give each
+  time-bound entry its canon time and say in the definition where the story
+  stands, including which names are not known yet; otherwise models of every
+  strength narrate later events as past. Where an entry withholds a spoiler,
+  say what to write instead, since a bare ban invites invention.
 - Secondary keywords can veto a primary hit. Use them only when a common word
   needs a context guard.
 - Constant entries are always included, in priority order, as long as they

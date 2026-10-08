@@ -45,7 +45,6 @@ writing problem even when validation passes.
 
 ## Authentication
 
-Sign in once with a one-time code (`hearthroom auth login --no-wait`, then
-`--resume`), or use `HEARTHROOM_TOKEN` for unattended runs. Passing the author
-the one-time code and address is expected; do not ask the author to paste a
-token into the conversation.
+Sign-in uses a one-time code (`cli-workflow.md`). Passing the author the code
+and address is expected; never ask them to paste a token into the
+conversation.

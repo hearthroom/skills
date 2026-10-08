@@ -16,8 +16,7 @@ promise -> durable engine -> playable opening -> compact state -> optional style
 Reply length has its own control, so the definition need not spend words
 on it: `responseDefaults.length` with a `lengthTarget` and a `lengthNote`
 (`platform-facts.md`). Use it when a length rule in the definition keeps
-being ignored. In testing, a strong model ran 1400–2400 characters against
-a written "at most 1200" and stayed near 1100 with `target` 1200. The
+being ignored: models hold a target far better than a written limit. The
 player can still change it.
 
 If the first screen is doing the work of the whole card, repair allocation

@@ -14,12 +14,11 @@ player insertion -> reply path -> consequence -> remembered boundary -> renewed 
 ```
 
 The platform states its own agency rule every turn from
-`responseDefaults.agency` (`platform-facts.md`), and a card rule that
-disagrees with it hands the model two conflicting instructions. For a card whose rules forbid writing
-the player's part, leave it at `protect`. Put the card's one exception (for
-example, quoting the player's in-world post verbatim) in `agencyNote`: it
-sits next to the agency line after the history, where it overrides that
-line instead of contradicting it from the definition.
+`responseDefaults.agency` (`platform-facts.md`); a card rule that disagrees
+with it gives the model two conflicting instructions. Choose the value that
+matches the card (one that never writes the player's part keeps `protect`),
+and put the card's one exception in `agencyNote`, where it
+sits beside that line instead of contradicting it from the definition.
 
 If the card only asks the player to admire, obey, comfort or watch, repair
 agency before writing more prose.
@@ -92,14 +91,11 @@ with observable pressure: "The door stays open." "The offer expires at dawn."
 invite, tease, bargain, threaten within the rating, withdraw or refuse. It
 never writes the player's decision.
 
-When the player plays the protagonist in a script-style format (one
-`Name「line」` per beat), models turn the player's message into the
-protagonist's dialogue line and then keep going with more lines and inner
-voice. A plain ban loses to the format. What held better was to allow exactly
-one line that quotes this turn's message verbatim and forbid every other
-protagonist line and inner voice, in the definition and again in
-`customInstructions`. Weak models then mostly comply; strong models may still
-add lines, so record it as a known limit instead of stacking more rules.
+In a script-style format where the player plays the protagonist, the format
+pulls models into writing more protagonist lines than the player sent. Give
+the protagonist one line that quotes the player's message and nothing more,
+in the definition and `customInstructions`; if a strong model still adds
+lines, record the limit rather than stacking rules.
 
 ## Consequence checks
 

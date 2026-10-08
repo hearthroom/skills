@@ -136,10 +136,18 @@ Do not put an overlay (a sweeping shine box) inside the filtered group: the
 filter outlines its rectangle too.
 
 A web font loaded for a few glyphs (`fonts.googleapis.com/css2?...&text=`)
-registers under the font's real family name. If the page's UI font stack
-names that family too, those few glyphs switch to the downloaded weight in
-every label while their neighbours stay in the system font, so one word
-renders half bold. Keep the subset's family name out of the UI stack.
+registers under the font's real family name with no `unicode-range`, so for
+that weight it claims every character: glyphs outside the subset skip the
+rest of the family and fall to the next font in the stack, and one word
+renders half in one face, half in another. Do not load a `text=` subset of a
+family the page also uses.
+
+Give CJK cards their own web fonts instead of relying on system fallbacks:
+phones differ, and one that has a real bold in one fallback font and only a
+synthesised bold in another mixes weights inside one line. Google Fonts serves
+Noto Sans/Serif TC and SC sliced by `unicode-range`, so loading both cuts with
+the weights in use downloads only the characters on screen; list both (the
+site may show Simplified) ahead of any system font.
 
 Serif or sans on screen: Mincho/Song reads best in long text, sans is easier
 to see at small sizes. Novel-style cards set the story text in a serif at

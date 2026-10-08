@@ -134,6 +134,10 @@ copies shifted only up and down in the ink colour thicken the horizontals and
 keep the serifs, where an even stroke blurs the whole face toward a gothic.
 Do not put an overlay (a sweeping shine box) inside the filtered group: the
 filter outlines its rectangle too.
+Do not animate `filter` on letters inside that group either (a brightness
+glint): Safari then composites them apart from the group and the group's
+outline vanishes from just those letters. Animate `color` instead, with the
+thickening shadows in `currentColor` so they follow.
 
 A web font loaded for a few glyphs (`fonts.googleapis.com/css2?...&text=`)
 registers under the font's real family name with no `unicode-range`, so for

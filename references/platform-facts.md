@@ -394,14 +394,25 @@ prose.
   player's current model as the header names it, and the next turn's
   estimated credits as the composer shows them, a range such as `127–251`
   for dynamic pricing; empty strings until the page sends them),
-  `sdk.on(event, handler)` (`sdk.off` and `sdk.once` do not
+  `sdk.archive.list()/save(title?)/fork(messageId)/open(id)/start(opening?)/rename(id, title)/remove(id)`
+  (the platform's conversation saves, up to 20 per card including the current
+  one, across devices: `open` loads a save and the current progress stays in the
+  list; `save` keeps a named copy of the current progress, returning
+  `{id, current}`; `fork` starts a save from a message's `serverId`; `start`
+  begins a new save from opening 0 or an alternate; `list` returns `{items,
+  count, limit}` with `id, title, isCurrent, messageCount, lastMessage,
+  createTime, lastUpdateTime`; changes run directly inside a user gesture, so
+  the card confirms with its own screen, and outside one the shell asks first;
+  a full list rejects with `LIMIT_REACHED` and `err.data = {count, limit}`;
+  10 changes a minute), `sdk.on(event, handler)` (`sdk.off` and `sdk.once` do not
   exist; a misspelled event or capability never fires and never errors),
   `sdk.debug.log(...)` (`?sdkDebug=1` shows the panel). `sdk.version` is the
   string `'1'`. Rate limits per minute: `save.set` 20, `message.send` 3 by
   gesture and 3 automatic, `message.edit` 10 → `RATE_LIMITED`.
 - Events: `ready`, `message:new`, `message:mount`, `message:stream`,
   `message:done`, `message:unmount`, `input:change`, `conversation:switch`,
-  `theme:change`, `back`, `stage:close`, `dispose`, `model:change` (payload
+  `theme:change`, `back`, `stage:close`, `dispose` (`conversation:switch` carries
+  `{conversationId}` after a load, save, fork or new save), `model:change` (payload
   as `sdk.model.get()`, fired only when the name or the cost changes).
   Handlers get one argument:
   `{id, role, content, serverId}` for `message:*` (`message:stream` has no

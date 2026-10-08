@@ -142,6 +142,8 @@ that threshold (15% by default for an assist card).
   `HR.ui.stage.open(mode, render)` / `.close()`.
 - `HR.send(text)`: `sdk.message.send` in the same task as the click; resolves `true`/`false`.
 - `HR.t(text)`: the player's Chinese script (`sdk.text.convert`).
+- `HR.archive()`: `sdk.archive` (the platform's saves: list, save, fork, open, start, rename, remove), or
+  `null` on a page without it; build the card's own save screen on it and call the changing ones in the click.
 - `HR.model()`: `{ name, cost }` from `sdk.model.get()` (empty strings on a page without it);
   `sdk.on('model:change', fn)` fires when either changes.
 

@@ -5,7 +5,7 @@ result per claim into `window.__probe.results` (`{ ok, note }`) and the event se
 `window.__probe.events`; `sdk.debug.log` lines show in the debug panel (`?sdkDebug=1`).
 
 What it checks (each key is a claim from `scripts/sandbox-contract.json`): scripts run before
-the DOM; `document.currentScript` is the running script element; the sdk has 13 keys (`model` is the newest) and no `off`/`once`;
+the DOM; `document.currentScript` is the running script element; the sdk has 14 keys (`archive` is the newest) and no `off`/`once`;
 `sdk.version === '1'`; `user.get()` has `nickname` and `locale`; `save.get` before load
 throws `HOST_DENIED`; cache round-trips; `stage.el()` returns a node while closed; an
 unknown event name is silent; cold start order `new → mount → done`, `ready` last and not

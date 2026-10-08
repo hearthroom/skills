@@ -20,6 +20,7 @@
   ],
   "sdk": {
     "keys": [
+      "archive",
       "cache",
       "composer",
       "debug",
@@ -35,6 +36,13 @@
       "version"
     ],
     "capabilities": [
+      "archive.fork",
+      "archive.list",
+      "archive.open",
+      "archive.remove",
+      "archive.rename",
+      "archive.save",
+      "archive.start",
       "cache.get",
       "cache.remove",
       "cache.set",
@@ -74,7 +82,14 @@
       "message.edit",
       "save.set",
       "save.remove",
-      "text.ready"
+      "text.ready",
+      "archive.list",
+      "archive.save",
+      "archive.fork",
+      "archive.open",
+      "archive.start",
+      "archive.rename",
+      "archive.remove"
     ],
     "notProvided": [
       "sdk.off",
@@ -101,6 +116,31 @@
         "name",
         "cost"
       ]
+    },
+    "archive": {
+      "item": [
+        "id",
+        "title",
+        "isCurrent",
+        "messageCount",
+        "lastMessage",
+        "createTime",
+        "lastUpdateTime"
+      ],
+      "list": [
+        "items",
+        "count",
+        "limit"
+      ],
+      "limitError": {
+        "code": "LIMIT_REACHED",
+        "data": [
+          "count",
+          "limit"
+        ]
+      },
+      "gesture": "save/fork/open/start/rename/remove run directly inside a user gesture; outside one the shell asks first",
+      "rateLimit": "archive.write 10/min"
     },
     "stage": {
       "modes": [
@@ -152,6 +192,10 @@
     "message.edit": {
       "count": 10,
       "windowMs": 60000
+    },
+    "archive.write": {
+      "count": 10,
+      "windowMs": 60000
     }
   },
   "errorCodes": [
@@ -162,7 +206,8 @@
     "NETWORK",
     "NOT_SUPPORTED",
     "BUSY",
-    "UNKNOWN_CAPABILITY"
+    "UNKNOWN_CAPABILITY",
+    "LIMIT_REACHED"
   ],
   "events": {
     "names": [
@@ -227,6 +272,9 @@
       "model:change": [
         "cost",
         "name"
+      ],
+      "conversation:switch": [
+        "conversationId"
       ],
       "others": "none"
     },

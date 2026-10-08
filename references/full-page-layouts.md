@@ -21,9 +21,9 @@ site's navigation underneath doing their jobs.
   sheet). Run the same hydration on a page as on the bubble it came from, or
   portraits and badges added later go missing.
 - The player sees that a tap did something: their line on a pending page,
-  the model writing inside the overlay (it hides the list's own indicator),
-  and a page that starts at its top while the reply streams rather than
-  chasing the bottom.
+  what the reply is waiting on in the card's voice with the seconds counting
+  (story summary, thinking: facts sheet, `sdk.generation`; the overlay hides
+  the list's own indicator), and a page that starts at its top while it streams.
 - A tap that sends spends credits: show what will be sent and let the player
   confirm, rewrite or cancel. When the overlay covers the composer, hide the
   site's and draw one input of your own (facts sheet, composer and send), and

@@ -51,6 +51,7 @@
       "composer.show",
       "composer.visible",
       "debug.log",
+      "generation.act",
       "generation.get",
       "input.add",
       "input.blur",
@@ -91,7 +92,8 @@
       "archive.open",
       "archive.start",
       "archive.rename",
-      "archive.remove"
+      "archive.remove",
+      "generation.act"
     ],
     "notProvided": [
       "sdk.off",
@@ -118,6 +120,56 @@
         "name",
         "cost"
       ]
+    },
+    "generation": {
+      "get": [
+        "phase",
+        "since",
+        "outcome"
+      ],
+      "phases": [
+        "idle",
+        "preparing",
+        "summarizing",
+        "thinking",
+        "writing"
+      ],
+      "outcome": [
+        "kind",
+        "label",
+        "sub",
+        "actions"
+      ],
+      "outcomeKinds": [
+        "model-error",
+        "network-error",
+        "server-error",
+        "rate-limit",
+        "quota",
+        "filtered",
+        "length-cap",
+        "stopped",
+        "compact-retryable",
+        "outcome-unconfirmed",
+        "interrupted"
+      ],
+      "actions": [
+        "retry",
+        "continue",
+        "switch-model",
+        "model-settings",
+        "capacity",
+        "refresh"
+      ],
+      "outcomeIsNullWhile": "a reply is being generated, or the last turn ended normally",
+      "labelsAre": "the same player-language text as the platform card under that row",
+      "act": {
+        "gestureOnly": "UNAUTHORIZED outside a trusted click (no dialog)",
+        "unknownAction": "INVALID_ARGS",
+        "whileGenerating": "BUSY",
+        "withoutSend": "NOT_SUPPORTED",
+        "rateLimit": "generation.act 3/min"
+      }
     },
     "archive": {
       "item": [
@@ -198,6 +250,10 @@
     "archive.write": {
       "count": 10,
       "windowMs": 60000
+    },
+    "generation.act": {
+      "count": 3,
+      "windowMs": 60000
     }
   },
   "errorCodes": [
@@ -226,7 +282,8 @@
       "stage:close",
       "dispose",
       "model:change",
-      "generation:phase"
+      "generation:phase",
+      "generation:outcome"
     ],
     "replayedToLateSubscribers": [
       "message:mount",
@@ -279,6 +336,12 @@
       "generation:phase": [
         "phase",
         "since"
+      ],
+      "generation:outcome": [
+        "actions",
+        "kind",
+        "label",
+        "sub"
       ],
       "conversation:switch": [
         "conversationId"

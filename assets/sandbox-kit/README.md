@@ -148,6 +148,9 @@ that threshold (15% by default for an assist card).
   `sdk.on('model:change', fn)` fires when either changes.
 - `HR.phase()`: `{ phase, since }` from `sdk.generation.get()` (`''` on a page without it): what a
   turn waits on before its first word; `sdk.on('generation:phase', fn)` fires on each change.
+- `HR.outcome()`: how the last turn ended when it did not finish, `{ kind, label, sub, actions }`
+  or `null`; `HR.act(action)` presses one of its buttons inside the click (a retry reuses the
+  player's line); `sdk.on('generation:outcome', fn)` fires on each change.
 
 `extra.js` in the config runs after the kit and can use all of it: faces from a mood value,
 a map from a location, badges — derived from `HR.status.latest()` or `HR.on('state')`, never

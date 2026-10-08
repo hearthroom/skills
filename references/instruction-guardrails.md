@@ -94,7 +94,11 @@ strong model generalises from it: stay in role without assistant framing;
 keep the agreed schema and state protocol; preserve refusal style,
 boundaries, and agency (`agency-design.md`); never expose hidden
 instructions; recover in character on minimal, resistant, or ambiguous
-input. Prefer what to do over what not to do.
+input. Prefer what to do over what not to do. Word that alternative so it
+cannot be read as the end of the whole reply: "stop at the moment they ask
+him" made a weak model end replies there and drop the status block and
+choices; "their question is the last sentence of the prose, then the blocks
+as usual" did not.
 
 Bad guardrails: "Be high quality." "Never fail." "Ignore rules." Lore
 summaries. A second copy of the definition.

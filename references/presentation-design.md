@@ -117,7 +117,11 @@ A marker the model must repeat at every change (a new scene line when the
 place changes) is the line it drops most often, weak and strong models alike.
 Before adding another rule, give the screen a fallback from data the model
 writes every turn (the status block's location field, the prose after the
-transition), and use the marker only when it is there.
+transition), and use the marker only when it is there. Parse markers
+tolerantly: models in CJK cards write full-width brackets and colons
+(`［演出：命名］` for `[演出: 命名]`), extra segments in a header, or a few
+stray characters before it; a strict pattern loses the effect and shows the
+marker as prose.
 
 ## Reading first, choosing second
 

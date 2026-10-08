@@ -127,14 +127,14 @@ pattern shows the marker as prose.
 
 Type and art on phones:
 
-- Give CJK cards their own web fonts for both scripts and every weight the
-  page uses; system fallbacks mix real and fake bold. A family loaded at one
-  weight (a logo's 900) or as a `text=` subset also serves every other stack
-  naming it: body text turns bold, or words split between two faces.
-- Serif reads best in long text and fades at small sizes; small labels and
-  numbers are clearer in sans.
-- Icon buttons hold their icon as inline SVG; a text glyph's box differs per
-  font and sits off-centre on some phones.
+- Give CJK cards web fonts for both scripts and every weight in use; system
+  fallbacks mix real and fake bold. One weight (a logo's 900) or a `text=`
+  subset serves every stack naming the family: body text goes bold or splits.
+- Serif suits long text and fades small; labels and numbers read best in sans.
+- Icon buttons hold their icon as inline SVG; a text glyph sits off-centre
+  on some phones.
+- Safari drops a group's outline filter, at random, from a child still
+  animating inside it: animate the filtered element, keep its children still.
 - An effect laid over something painted in the art follows the painted
   shape, perspective included; an upright box drifting off a painted window
   reads as a mistake.

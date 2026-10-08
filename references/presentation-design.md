@@ -149,6 +149,10 @@ Noto Sans/Serif TC and SC sliced by `unicode-range`, so loading both cuts with
 the weights in use downloads only the characters on screen; list both (the
 site may show Simplified) ahead of any system font.
 
+Icon buttons: draw the icon as inline SVG centred in a grid cell, not as a
+text glyph (↺, ⤢, ⛶, an emoji). A glyph's box and baseline differ per font,
+so on some phones the symbol sits low or to one side of its button.
+
 Serif or sans on screen: Mincho/Song reads best in long text, sans is easier
 to see at small sizes. Novel-style cards set the story text in a serif at
 16px or more and display type of about 18px or more in a heavy serif. Labels,

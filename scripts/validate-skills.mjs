@@ -2,7 +2,10 @@
 // Structure check for the toolkit: every skill has frontmatter with a matching
 // name and a description, cites only references that exist, the manifest and
 // the tree agree, and nothing from the platform this toolkit was distilled from
-// leaks through (its tool names, its runtime vocabulary, its URLs).
+// leaks through (its tool names, its runtime vocabulary, its URLs). It also holds
+// the writing standard in references/writing-skills.md where a machine can: short
+// descriptions, no instructions that make the agent review or narrate its own
+// reasoning, and a line budget per file so growth is a visible decision.
 import { readdir, readFile, stat } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -12,6 +15,14 @@ const FORBIDDEN = [
   'role_patch_', 'role_create', 'render_preview', 'validate_role', 'theme_validate',
   'structuredContent', 'api.lunatalk', 'creator_analytics', 'packet stack',
 ];
+const DESCRIPTION_MAX = 300;
+// Agent-facing rituals current models do on their own or decline (reasoning
+// extraction). Checks on the card itself are fine; name them as such.
+const RITUALS = [
+  /\bself-review/i, /\bdouble-check/i, /\bre-verify\b/i, /\bthink step by step\b/i,
+  /\b(show|explain|write out|write down) your (reasoning|thinking|thought process)\b/i,
+];
+const BUDGET_SLACK = 10;
 const REF_LINK = /\.\.\/\.\.\/references\/([A-Za-z0-9._-]+\.md)/g;
 
 async function exists(p) { try { await stat(p); return true; } catch { return false; } }
@@ -77,6 +88,7 @@ export async function validateRepo(root) {
       if (!fm.description) findings.push(`skills/${dir}/SKILL.md: frontmatter description missing`);
       else if (!/^Use when\b/.test(fm.description)) findings.push(`skills/${dir}/SKILL.md: description should start with "Use when"`);
       else if (/: /.test(fm.description)) findings.push(`skills/${dir}/SKILL.md: description contains ": " which breaks YAML plain scalars`);
+      else if (fm.description.length > DESCRIPTION_MAX) findings.push(`skills/${dir}/SKILL.md: description is ${fm.description.length} characters; keep it under ${DESCRIPTION_MAX} by naming only when to use the skill`);
     }
     for (const m of text.matchAll(REF_LINK)) {
       if (!refFiles.includes(m[1])) findings.push(`skills/${dir}/SKILL.md: cites references/${m[1]} which does not exist`);
@@ -131,6 +143,40 @@ export async function validateRepo(root) {
         findings.push(`${rel}:${line}: forbidden token "${token}"`);
       }
     }
+  }
+  const prose = [
+    ...skillDirs.map(d => path.join('skills', d, 'SKILL.md')),
+    ...refFiles.map(f => path.join('references', f)),
+    ...(await listFiles(path.join(root, 'examples'), '.md')).map(f => path.join('examples', f)),
+  ];
+  for (const rel of prose) {
+    const file = path.join(root, rel);
+    if (!(await exists(file))) continue;
+    let fenced = false;
+    (await readFile(file, 'utf8')).split('\n').forEach((line, i) => {
+      if (/^\s*```/.test(line)) { fenced = !fenced; return; }
+      if (fenced || /^\s*>/.test(line)) return;
+      const hit = RITUALS.find(re => re.test(line));
+      if (hit) findings.push(`${rel}:${i + 1}: asks the agent to review or narrate its own reasoning ("${line.match(hit)[0]}"); name the check on the card instead (references/writing-skills.md)`);
+    });
+  }
+
+  // Line budgets: growth is allowed, but only as a change to scripts/line-budget.json in the
+  // same commit, so a reviewer sees it. A cut lowers the budget so the space is not refilled.
+  const budgetFile = path.join(root, 'scripts/line-budget.json');
+  if (await exists(budgetFile)) {
+    const budget = JSON.parse(await readFile(budgetFile, 'utf8'));
+    for (const rel of prose) {
+      const file = path.join(root, rel);
+      if (!(await exists(file))) continue;
+      const text = await readFile(file, 'utf8');
+      const lines = text.split('\n').length - (text.endsWith('\n') ? 1 : 0);
+      const max = budget[rel];
+      if (max === undefined) findings.push(`${rel}: no line budget; add "${rel}": ${lines} to scripts/line-budget.json`);
+      else if (lines > max) findings.push(`${rel}: ${lines} lines, budget ${max}. Cut it back, or raise the budget in scripts/line-budget.json in the same commit and say why in the message`);
+      else if (max - lines > BUDGET_SLACK) findings.push(`${rel}: ${lines} lines, budget ${max}; lower the budget to ${lines} so the cut stays cut`);
+    }
+    for (const rel of Object.keys(budget)) if (!prose.includes(rel)) findings.push(`${rel}: has a line budget but no file; remove the entry`);
   }
   return findings;
 }

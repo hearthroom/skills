@@ -361,6 +361,10 @@
     "full-page-layouts.md": {
       "batch": "G",
       "source": "split out of presentation-design.md; browser and vendor documentation, not facts"
+    },
+    "writing-skills.md": {
+      "batch": "H",
+      "source": null
     }
   },
   "examples": {
@@ -410,6 +414,10 @@
     "sync-contract.mjs": {
       "batch": "G",
       "source": "keeps sandbox-contract.json equal to the chat page's generated contract (CI runs --check)"
+    },
+    "line-budget.json": {
+      "batch": "H",
+      "source": "line budget per skill, reference and example; the validator fails growth that does not raise it"
     }
   }
 }

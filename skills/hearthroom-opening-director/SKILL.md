@@ -1,6 +1,6 @@
 ---
 name: hearthroom-opening-director
-description: Use when a card's opening does not start play (greeting-only, mood without a task, lore before action, unclear first action, a dead second turn, an opening that is already the climax), when alternate openings or suggested first lines are needed, or when the author says "nobody sends a first message".
+description: Use when a card's opening does not start play (greeting only, mood without a task, lore before action, unclear first action, a dead second turn, an opening that is already the climax), when alternate openings are needed, or when "nobody sends a first message".
 ---
 
 # Hearthroom Opening Director

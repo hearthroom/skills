@@ -110,15 +110,15 @@ point here.
 
 ## Feed lessons back into these skills
 
-When a skill or reference here was wrong, missing, or only learned the hard
-way (a platform fact, a layout rule, a model behaviour, a test that would
-have caught it earlier), update the toolkit as well as the card: edit the
-skill or reference that should have told you, in general terms (no card
-names, ids, private content or credit balances); confirm a platform fact in
-the chat page's source first (`platform-facts.md`, "Where these facts come
-from") and write it into `platform-facts.md`; run `npm run validate` and
-`npm test`; commit with the toolkit repository's own git identity; tell the
-person you work with what changed and why, and push only after they agree.
+When a skill or reference here was wrong, missing something, or only taught
+you the hard way, improve the toolkit as well as the card. Read
+`../../references/writing-skills.md` before you edit: a platform fact goes in
+`platform-facts.md` once the chat page's source confirms it, one card's recipe
+stays in that card's `README.md`, and a lesson for every card is a sentence in
+the file that owns the topic. `../../SCOPE.md` lists ideas already turned
+down. Then run `npm run validate` and `npm test`, commit with the toolkit
+repository's own git identity, and tell the person you work with what changed
+and why; push only after they agree.
 
 ## Do not
 

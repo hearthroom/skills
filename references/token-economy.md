@@ -152,7 +152,7 @@ they cost nothing when absent (`state-economy-design.md`).
 8. Rebuild the opening from the five beats instead of shrinking a bad screen.
 9. Add compact state only for values that change future replies.
 10. Preserve pressure behaviour before preserving decoration.
-11. Re-run self-review, then `card push --validate --json`, then render or
+11. Re-run the checks below, then `card push --validate --json`, then render or
     play only when the draft is worth testing.
 
 ## Visual budget
@@ -164,7 +164,7 @@ only the current beat, changed values, consequences and next actions. Check the
 result with `hearthroom card render --json`: `rendered` and `report.tags` show
 what the opening uses, and per-rule statuses show which rules actually fire.
 
-## Self-review
+## Checks on the card
 
 - Does each long section change future behaviour, state, voice or route?
 - Is the opening a playable scene, and can the definition sustain turn two?

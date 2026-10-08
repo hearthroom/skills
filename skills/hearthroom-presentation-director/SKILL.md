@@ -1,6 +1,6 @@
 ---
 name: hearthroom-presentation-director
-description: Use when deciding how a card looks and behaves on screen before it is written (whether UI assists the story or is part of the game, plain text vs HTML, what state to show, display rules, sandbox vs classic page, status panels, choices, themes), or when the author asks for "a nice UI" or says the screen is too busy.
+description: Use when deciding how a card looks and behaves on screen before it is written (whether UI assists the story or is the game, plain text vs HTML, what state to show, sandbox vs classic page, panels, choices, themes), or when the author asks for "a nice UI" or the screen is too busy.
 ---
 
 # Hearthroom presentation director

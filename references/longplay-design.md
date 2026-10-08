@@ -186,7 +186,7 @@ probes inside one 10–20-turn conversation per model (`playtest-loop.md`).
 | Lore never becomes action | convert lore into clue, risk, place, faction or cost |
 | Ensemble loses focus | turn ownership and group-tension memory |
 
-## Self-review
+## Checks on the card
 
 - Can the character create a next beat when the player is passive?
 - Does at least one state field change every few turns?

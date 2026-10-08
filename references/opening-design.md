@@ -159,7 +159,7 @@ premise, the opening is weak.
 | Opening is already the climax | open on the moment before or the morning after; keep the crisis as pressure (`prose-texture.md`) |
 | Trembling, adjective-stacked, narrated player feelings | texture pass: objects before feelings, whole sentences, ellipsis budget (`prose-texture.md`) |
 
-## Self-review
+## Checks on the card
 
 - Can the player reply in under ten seconds?
 - Does the character act before the player speaks?

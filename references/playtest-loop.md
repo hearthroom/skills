@@ -35,7 +35,7 @@ Play when the card is new and the author wants confidence before creating
 it, when the opening, voice, boundaries or game loop changed, when the author
 reports it feels boring, passive, inconsistent, unsafe, verbose or
 controlling, or when render passed but behaviour is unchecked. Do not spend
-credits on a draft that still fails self-review or has `blockers` in
+credits on a draft that still fails the card checks or has `blockers` in
 `card validate --json`.
 
 ## Before the first turn

@@ -1,6 +1,6 @@
 ---
 name: hearthroom-language-stylist
-description: Use when a card's language surface is the problem (Traditional and Simplified Chinese mixing, translated-sounding prose, register, pronouns and address terms, punctuation, mixed-language tags, file-to-file mismatch), or when the author says it "reads like a translation", before authoring, render or publishing.
+description: Use when a card's language surface is the problem (Traditional and Simplified Chinese mixing, translated-sounding prose, register, address terms, punctuation, mixed-language tags, files that disagree), or when the author says it "reads like a translation".
 ---
 
 # Hearthroom Language Stylist

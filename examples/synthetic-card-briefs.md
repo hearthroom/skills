@@ -8,7 +8,7 @@ not card content to copy. Each run should produce a fresh original card.
 
 1. Pick a brief and start a folder with `hearthroom card init <dir>`, setting
    the matching `type` in `card.json`.
-2. Author the files with the toolkit and run its self-review against the
+2. Author the files with the toolkit and hold the card to the
    quality checks below.
 3. `node <toolkit>/scripts/check-card.mjs <dir>`; fix errors, read
    warnings.
@@ -20,7 +20,7 @@ not card content to copy. Each run should produce a fresh original card.
 6. If play cost is acceptable, run the probes as 10–20-turn conversations on
    a weak model and a strong model, each started with
    `hearthroom play <dir> --new-session -m "…" --allow-spend --json`.
-7. A pass means: self-review passes, check-card has no errors, validation has
+7. A pass means: the quality checks hold, check-card has no errors, validation has
    no blockers, render shows no rolled-back rules, the probes behave as the
    checks expect on both models, the result is compared with the previous
    version on the same probes, and the field character counts stay

@@ -149,6 +149,13 @@ Noto Sans/Serif TC and SC sliced by `unicode-range`, so loading both cuts with
 the weights in use downloads only the characters on screen; list both (the
 site may show Simplified) ahead of any system font.
 
+An effect laid over something painted in the art (a glow on a window, a
+highlight on a sign) must follow its shape: if the art draws it in
+perspective, measure its four corners on the image and map a rectangle onto
+them with a CSS `matrix3d` square-to-quad transform, recomputed with the
+cover-fit scale on resize. An upright box drifts off the painted shape and
+reads as a mistake.
+
 Icon buttons: draw the icon as inline SVG centred in a grid cell, not as a
 text glyph (↺, ⤢, ⛶, an emoji). A glyph's box and baseline differ per font,
 so on some phones the symbol sits low or to one side of its button.

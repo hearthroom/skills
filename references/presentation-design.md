@@ -123,6 +123,12 @@ tolerantly: models in CJK cards write full-width brackets and colons
 stray characters before it; a strict pattern loses the effect and shows the
 marker as prose.
 
+A title drawn in mixed sizes (large keywords, small particles) with an
+outline per glyph lets each glyph's outline paint over the one before it.
+Outline the whole word or line as one silhouette (a filter on the group, the
+way print logos draw a shared outline), and give accent words with their own
+inner line a little letter spacing.
+
 ## Reading first, choosing second
 
 A reply is read before it is answered. On every screen:

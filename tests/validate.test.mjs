@@ -55,3 +55,11 @@ test('manifest entries without files and files outside the manifest are both rep
   assert.ok(findings.some(f => f.includes('hearthroom-a') && f.includes('manifest')), findings.join('\n'));
   assert.ok(findings.some(f => f.includes('hearthroom-zzz')), findings.join('\n'));
 });
+
+test('every language README is scanned for forbidden tokens', async () => {
+  const base = { 'scripts/manifest.json': manifest, 'skills/hearthroom-a/SKILL.md': good, 'references/x.md': '', 'references/platform-facts.md': '' };
+  for (const readme of ['README.md', 'README.zh-Hant.md', 'README.zh-Hans.md']) {
+    const findings = await validateRepo(await repo({ ...base, [readme]: '# Skills\n\nPorted from Moonloom.\n' }));
+    assert.ok(findings.some(f => f.startsWith(`${readme}:3: forbidden token`)), `${readme}: ${findings.join('\n')}`);
+  }
+});

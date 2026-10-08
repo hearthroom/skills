@@ -390,14 +390,20 @@ prose.
   own `close()` does not emit `stage:close`), `sdk.role.get()` → `{name,
   avatarUrl}`, `sdk.user.get()` → `{nickname, avatarUrl, locale}` (the key is
   `nickname`, not `name`), `sdk.text.convert(text)` and `sdk.text.ready()`
-  (see Chinese script below), `sdk.on(event, handler)` (`sdk.off` and `sdk.once` do not
+  (see Chinese script below), `sdk.model.get()` → `{name, cost}` (the
+  player's current model as the header names it, and the next turn's
+  estimated credits as the composer shows them, a range such as `127–251`
+  for dynamic pricing; empty strings until the page sends them),
+  `sdk.on(event, handler)` (`sdk.off` and `sdk.once` do not
   exist; a misspelled event or capability never fires and never errors),
   `sdk.debug.log(...)` (`?sdkDebug=1` shows the panel). `sdk.version` is the
   string `'1'`. Rate limits per minute: `save.set` 20, `message.send` 3 by
   gesture and 3 automatic, `message.edit` 10 → `RATE_LIMITED`.
 - Events: `ready`, `message:new`, `message:mount`, `message:stream`,
   `message:done`, `message:unmount`, `input:change`, `conversation:switch`,
-  `theme:change`, `back`, `stage:close`, `dispose`. Handlers get one argument:
+  `theme:change`, `back`, `stage:close`, `dispose`, `model:change` (payload
+  as `sdk.model.get()`, fired only when the name or the cost changes).
+  Handlers get one argument:
   `{id, role, content, serverId}` for `message:*` (`message:stream` has no
   `serverId`; `serverId` is `null` for player messages and the greeting), a
   string for `input:change`, nothing for the rest. On a cold start every
@@ -518,11 +524,11 @@ prose.
   `data-lt` hook) also only posts to the host, which opens its model sheet in
   `[data-chat="panels"]`; a full-page overlay above z-index auto hides that
   sheet unless it lifts the panels layer while the player picks. Inside the
-  sandbox shell there is no model chip and the page never sees the model's
-  name: the model button is `.mind-type` in `[data-chat="composer"]` (it
-  still opens the host's model list when clicked, also while the composer is
-  hidden), and its `.mind-type-score` shows the per-turn cost. A settings row
-  should show that cost or only the button, never a "not found" name.
+  sandbox shell there is no model chip: the model button is `.mind-type` in
+  `[data-chat="composer"]` and still opens the host's model list when clicked
+  (also while the composer is hidden). Read the model's name and the next
+  turn's cost from `sdk.model.get()` (and `model:change`), not from the DOM;
+  a settings row shows the name when it is there and never a "not found".
 - Per the site's source, the model sheet and the response-settings sheet are
   drawn by the host page, outside the card's frame. While one is open the
   host copies every `<style>` from the card's rules into its own page and

@@ -23,7 +23,7 @@ wins.
 
 ## A card is a folder
 
-`hearthroom card init <dir>` creates `card.json`, `definition.md`,
+`hearthroom card init <dir> --language zh-Hant` creates `card.json`, `definition.md`,
 `welcome.md`, `assets/` and an `AGENTS.md` (never sent) that points to this
 toolkit. `hearthroom card import <file…>` turns a SillyTavern PNG / JSON /
 CHARX card or an MMD three-file set into a folder, writes the same

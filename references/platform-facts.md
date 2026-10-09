@@ -52,7 +52,7 @@ to read in `--json` output.
 | suggested first lines | `prologue` | player-side first lines offered as choices; never the character's first message |
 | example conversations | `talkExample` | `{roleType: user|ai, content}` pairs |
 | custom instructions | `customInstructions` | the site editor's 額外指示 ("a reminder attached at the end of every turn"). Per the provider's prompt code it is a system message after the history, followed only by the platform's short format guard and the `[Response preferences]` block (which carries any `responseDefaults` notes), prefixed `[Content scope]` / `[內容範圍]`; a non-empty value replaces the platform's default content-scope block (which, in Chinese, frames the story as mature literary writing with romance and physical intimacy). A player's own text in their persona's Advanced field replaces the card's; it is left out at the strictest safety level |
-| output contract | `roleOutputContract` | format the reply must follow. Per the provider's prompt code it is sent under a `[Role Reply Format Template]` header saying platform format rules win over it; with the ordinary history policy it sits after the history (near generation), but with the cache-stable policy it moves into the stable prefix before the history, far from generation. `customInstructions` is always after the history (`instruction-guardrails.md`). A near-generation guard also tells the model to keep the latest reply's visible shape, so a format change takes hold in new conversations (they copy the opening and example conversations, which must use the new format) and is pulled back toward the old shape in existing ones |
+| output contract | `roleOutputContract` | format the reply must follow. Per the provider's prompt code it is sent under a `[Role Reply Format Template]` header saying platform format rules win over it; with the ordinary history policy it sits after the history (near generation), but with the cache-stable policy it moves into the stable prefix before the history, far from generation, which the provider uses once the history holds a recalled entry or a summary (Lorebook). `customInstructions` is always after the history (`instruction-guardrails.md`). A near-generation guard also tells the model to keep the latest reply's visible shape, so a format change takes hold in new conversations (they copy the opening and example conversations, which must use the new format) and is pulled back toward the old shape in existing ones |
 | Lorebook, entry | worldbook, entries | keyword-triggered background knowledge |
 | display rules | author asset, `rules.json` | find/replace rules that turn reply text into layout, status bars, buttons |
 | function bar | `mountTrigger` | content pinned above the message list; visible to the player, never sent to the model. It is rendered once when the page loads from its own text (rules run over that text, never over a reply). A `<script>` written in the bar's text is dropped when the shell renders the bar itself (previews, the offline harness) and run once after mount when the play page's host renders it; an `<img onerror>` boot in it runs on both; put scripts in a rule, not in the bar. Anything in it that must change with the conversation is changed by a rule script |
@@ -220,8 +220,15 @@ How entries reach the model in a normal conversation:
 - Entries that did not match keywords may still be admitted by semantic search
   plus a reranker, within a token budget. Do not rely on it for facts that must
   appear: give those entries keywords or make them constant.
-- Once admitted, an entry stays in place for later turns until the source is
-  edited, deleted or reclaimed; scores do not shuffle old content.
+- Constant entries sit in the cached prefix before the history; a recalled
+  entry is a system row inserted into the history where it was admitted and
+  stays there until the source is edited, deleted or reclaimed, so recalls and
+  turns interleave and an early recall sinks far from generation (a later hit
+  does not move it). The player's message is scanned too, so
+  words a card script writes there recall entries. Once the history holds a
+  recall or a summary, the provider switches to its cache-stable policy: the
+  output contract moves before the history, so `customInstructions` is the
+  skeleton copy that stays near generation.
 - Long entries are split into ordered groups internally; admission keeps a
   group whole. The API still exposes the stored pieces.
 - Not supported from other platforms: insertion depth, prompt role, outlets,

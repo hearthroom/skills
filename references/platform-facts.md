@@ -515,20 +515,23 @@ prose.
   (the server widens each Chinese character to a class). The converter loads
   on demand; `sdk.text.ready()` resolves once it has, and
   `sdk.text.convert(text)` converts a string the same way.
-- A card script that reads reply text back sees the player's script, not the
-  one the card was written in. Normalise it to the card's script before
-  matching or hashing, with a complete single-character table so the result
-  is not half one script and half the other (the converter will not convert
-  a mixed string back). Normalisation runs in both directions and only on a
-  mismatch: a Traditional card read by a Simplified player normalises to
-  Traditional, a Simplified card read by a Traditional player normalises to
-  Simplified, and a same-script player sees the text untouched. For the
-  one-to-many direction (Simplified to Traditional), take OpenCC's first
-  candidate but keep a character the card itself uses as written (卷, 里, 后),
-  or correct text is rewritten (卷 becomes 捲); do not drop such characters
-  from the table altogether, or strings stay half converted. Text the script draws itself needs `sdk.text.convert`
-  plus a small character table for short labels; CSS `content` strings need
-  a variant per script.
+- A card script that matches reply text must accept both scripts: the model
+  may write in the player's script, and DOM text read back is the player's.
+  Do not rewrite text into the card's script with a character table: many
+  one-to-many characters are also correct in the other script (面 制 干 后
+  里 准 卷), so a per-character table corrupts correct text (斷面 becomes
+  斷麵, 制服 becomes 製服). Match the way the platform matches display-rule
+  `find`: widen each Han character of the pattern into a class of all its
+  forms from OpenCC's character tables (STCharacters, TSCharacters,
+  TWVariants; both directions, one level), match the original text, map the
+  matched word back to the card's own spelling, and display the original.
+  Text the script draws itself needs `sdk.text.convert` (it converts only
+  text it can tell is the other script); CSS `content` strings need a
+  variant per script.
+- Media library assets are served with `Access-Control-Allow-Origin: *`, so
+  WebGL and canvas can read them (`img.crossOrigin = 'anonymous'`). The
+  offline preview's server does not send the header: canvas readback fails
+  there, so test such effects on the play page or a same-origin test page.
 - The site header is `[data-chat="header"]`; the classes inside it are site
   internals. A card that moves its own bar into the header must fall back to
   `[data-slot="statusbar"]` when the header is hidden or changes.

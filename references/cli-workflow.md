@@ -88,7 +88,7 @@ anything.
 stopped or failed reply is still charged. Calls on the same folder continue
 one conversation; `--new-session` starts a fresh one, and `--greeting N`
 applies only when a new conversation is created. `--history` reads the
-conversation back. Turns sent with `play` do not pass through the play page,
+conversation back newest first (sort by `id` before pairing a line with its reply). Turns sent with `play` do not pass through the play page,
 so display rules and scripts are not exercised by them.
 
 ## Spend discipline

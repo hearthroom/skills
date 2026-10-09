@@ -717,7 +717,7 @@ hearthroom models | tags --zone zh | search | media ls|upload|mv|rm | upgrade --
 - `push --create` makes a real private card; on a folder already linked to an
   owned card (after `pull` or `push --to <id>`), plain `push` updates that
   card and `--create` would make a second one. `card status` shows the link.
-- `card.json` `language` is required (CLI 0.7.5+: `push` and `check` refuse a missing value or bare `zh`). It also selects the Lorebook
+- `card.json` `language` is required (CLI 0.7.5+: `push` and `check` refuse a missing value or bare `zh`); a Chinese card can switch `zh-Hant` ↔ `zh-Hans` after creation (CLI 0.7.7+ pushes it). It also selects the Lorebook
   entry length limit (the value is not documented; read validation warnings).
 - CLI 0.5.0 mishandled `push --create` after a trial push (an empty private
   card), `play --greeting N` and `card check --replay`; 0.5.1 fixed all

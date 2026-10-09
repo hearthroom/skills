@@ -904,11 +904,13 @@
     "externalScripts": {
       "httpsOnly": true,
       "orderedNotAwaited": true,
-      "dedupedByUrl": true
+      "dedupedByUrl": true,
+      "typeModuleKept": true,
+      "nomoduleSkipped": true
     },
     "messageBodyScripts": "run once per distinct code string after the message is done; code already run at install does not run again",
-    "moduleScripts": "run as classic scripts",
-    "documentCurrentScript": "the running <script> element for an inline rule script (they run as real script elements); null only for the wrapped-function fallback",
+    "moduleScripts": "type=\"module\" is kept for src and inline scripts: they run as ES modules (import, import()) after every inline classic script; external module scripts keep rule order with the other external scripts, inline module scripts run once their imports load; a nomodule script does not run",
+    "documentCurrentScript": "the running <script> element for an inline classic rule script (they run as real script elements); null in module scripts and in the wrapped-function fallback",
     "previewRerunsScripts": "the card editor preview re-runs scripts on every edit: boot must be idempotent",
     "gestureRequired": [
       "message.send outside a trusted click asks the player",
@@ -916,7 +918,7 @@
       "send/continue/assist/favorite/rewrite/system-card buttons ignore synthetic clicks"
     ],
     "csp": {
-      "connectSrc": "'self'",
+      "connectSrc": "'self' https://assets.harperharbor.com",
       "frameSrc": "'self' about: blob:",
       "scriptSrc": "'self' 'unsafe-inline' 'unsafe-eval' https:",
       "styleSrc": "'self' 'unsafe-inline' https:",
@@ -924,6 +926,11 @@
       "fontSrc": "'self' data: https:",
       "formAction": "'none'",
       "baseUri": "'none'"
+    },
+    "assetsLibrary": {
+      "origin": "https://assets.harperharbor.com",
+      "fetch": "connect-src: fetch JSON, WASM (WebAssembly.instantiateStreaming) and other files",
+      "scripts": "script-src https:: <script src>, <script type=\"module\" src>, import()"
     },
     "links": "http(s) links in author HTML are intercepted and opened by the host in a new tab",
     "localStorage": "available, scoped to the card subdomain; author rule output is cached in IndexedDB keyed by storageScope"

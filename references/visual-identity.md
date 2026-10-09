@@ -116,6 +116,17 @@ gets a generic costume: attach the official full-body art and ask for the
 same design in the card's style. A screen shown in portrait needs art
 composed for portrait, not a landscape scene padded with colour.
 
+Standing sprites are usually cut at the thigh; keep that edge below the
+frame or behind the text box on every screen shape, with a fade as a guard,
+or the figure floats. With several on stage, stand them on one floor line
+below the frame, size them by their canon heights, push a third figure back a
+step (smaller, feet higher) and keep two on a narrow phone. An image editor
+asked for one layer at a time can split a sprite into back hair (completed
+where the body hid it), a hairless body (completed under the hair) and front
+hair that recompose to the original; with a hair, face and body mask that is
+enough for a runtime mesh rig: head turn by a cylindrical warp, front and
+back hair at different parallax, spring chains for the hair.
+
 ## Layers
 
 Profile packaging decides the promise in words and owns the title. Visual

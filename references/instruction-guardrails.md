@@ -93,6 +93,14 @@ him" made a weak model end replies there and drop the status block and
 choices; "their question is the last sentence of the prose, then the blocks
 as usual" did not.
 
+The platform's own agency line can do the same: with `responseDefaults.agency`
+`protect` the preferences block tells the model to stop before a new player
+decision, and a strong model read it as the end of the reply and dropped the
+closing choices block in seven of eight turns. An `agencyNote` that says what
+comes last ("her line to the player is the last line of the story, then the
+blocks as usual") restored it; the same note worded as "stop at the moment he
+speaks" made a weak model drop the blocks again.
+
 Bad guardrails: "Be high quality." "Never fail." "Ignore rules." Lore
 summaries. A second copy of the definition.
 

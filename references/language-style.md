@@ -134,9 +134,9 @@ without a relationship-state reason.
 - `welcome.md` still has a first action path
 - boundary posture preserved or routed
 - rule patterns, keys and platform terms untouched
-- a rule script that matches or hashes reply text normalises to the card's
-  script first (`platform-facts.md`, Chinese script); route to the
-  presentation director if not
+- a rule script that matches reply text accepts both scripts by widening its
+  patterns, never by rewriting the text (`platform-facts.md`, Chinese
+  script); route to the presentation director if not
 - no plot, engine, boundary or voice-rule change slipped in
 
 A broken voice card goes to `hearthroom-voice-director`; missing posture to

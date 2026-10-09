@@ -504,8 +504,9 @@ prose.
 - The page runs in a cross-origin iframe. Browser automation can take
   screenshots and accessibility snapshots of it but cannot script it, and
   device APIs such as viewport segments may report a single segment there.
-- Chinese script (Simplified or Traditional) follows the player's interface
-  language, as a display step only: stored and sent text stays as written.
+- Chinese script converts from the card's `language` (empty or `zh` is stored
+  as `zh-Hant`) to the player's interface script, display only; same script,
+  no conversion. Stored and sent text stays as written.
   After the rules run, the page converts visible text nodes of replies and of
   the function bar. It does not convert attributes (`title`), CSS `content`,
   `<script>` / `<style>`, subtrees marked `translate="no"` or
@@ -525,9 +526,8 @@ prose.
   forms from OpenCC's character tables (STCharacters, TSCharacters,
   TWVariants; both directions, one level), match the original text, map the
   matched word back to the card's own spelling, and display the original.
-  Text the script draws itself needs `sdk.text.convert` (it converts only
-  text it can tell is the other script); CSS `content` strings need a
-  variant per script.
+  Text the script draws itself needs `sdk.text.convert` (same rules, a no-op
+  when scripts match); CSS `content` strings need a variant per script.
 - Media library assets are served with `Access-Control-Allow-Origin: *`, so
   WebGL and canvas can read them (`img.crossOrigin = 'anonymous'`). The
   offline preview's server does not send the header: canvas readback fails

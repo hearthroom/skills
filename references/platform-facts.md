@@ -661,7 +661,7 @@ with a non-zero exit code (no other error identifiers are documented: read
 
 ```
 hearthroom auth login --no-wait --json            # one-time code; then auth login --resume; HEARTHROOM_TOKEN for unattended runs
-hearthroom card init <dir> | card import <file…>   # SillyTavern PNG/JSON/CHARX, MMD three-file set; both write AGENTS.md (never sent)
+hearthroom card init <dir> --language L | card import <file…> --language L   # L: zh-Hant zh-Hans en ja ko; ST PNG/JSON/CHARX, MMD set; both write AGENTS.md
 hearthroom card check <dir> [--replay f…] --json   # local, free: rules, markers, sdk use, protocol health per marker (same numbers as the toolkit's check-card.mjs)
 hearthroom card preview --check <dir> [--from-history f…] [--json]   # local, free, needs Chrome: screenshots of every state, contact.png, findings.json under preview/shots/
 hearthroom card preview <dir> [--open]             # offline preview with the real chat shell (fetched from the site and cached; same CLI release; shows the deployed shell's behaviour)
@@ -717,8 +717,8 @@ hearthroom models | tags --zone zh | search | media ls|upload|mv|rm | upgrade --
 - `push --create` makes a real private card; on a folder already linked to an
   owned card (after `pull` or `push --to <id>`), plain `push` updates that
   card and `--create` would make a second one. `card status` shows the link.
-- `card init` takes only `--name`: set `language` in `card.json` yourself. It also selects the Lorebook entry length limit (the value is not
-  documented; read validation warnings).
+- `card.json` `language` is required (CLI 0.7.5+: `push` and `check` refuse a missing value or bare `zh`). It also selects the Lorebook
+  entry length limit (the value is not documented; read validation warnings).
 - CLI 0.5.0 mishandled `push --create` after a trial push (an empty private
   card), `play --greeting N` and `card check --replay`; 0.5.1 fixed all
   three. A card created with 0.5.0 whose `tokenBudget` counts are 0 needs a

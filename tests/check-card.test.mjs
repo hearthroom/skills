@@ -128,3 +128,13 @@ test('README declarations and the replay health report', async () => {
   const dir = await card({ 'README.md': 'uiRole: core\n', 'rules.json': { pageMode: 'sandbox', rules: [] } });
   assert.ok(checkCard(dir).some((f) => f.msg.includes('statusOverheadThreshold')));
 });
+
+test('module syntax is fine in a sandbox <script type="module">, not in a classic one', async () => {
+  const dir = await card({
+    'rules.json': { pageMode: 'sandbox', rules: [
+      { id: 'm', name: 'm', find: '[[m]]', replace: '<script type="module">import { go } from "https://assets.harperharbor.com/u/x/lib.mjs"; go()</script>', enabled: true },
+      { id: 'c', name: 'c', find: '[[c]]', replace: '<script>import x from "y"</script>', enabled: true },
+    ] },
+  });
+  assert.equal(msgs(checkCard(dir)).filter((x) => x.includes('ES module syntax')).length, 1);
+});

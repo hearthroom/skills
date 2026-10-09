@@ -36,7 +36,7 @@ const SDK_CAP = /\bsdk\.([a-zA-Z]+)(?:\.([a-zA-Z]+))?/g;
 const SDK_ON = /\bsdk\.on\(\s*(['"`])([^'"`]+)\1/g;
 const HR_ON = /\bHR\.on\(\s*(['"`])([^'"`]+)\1/g;
 
-function scanScript(code, where, out) {
+function scanScript(code, where, out, module = false) {
   const caps = new Set(CONTRACT.sdk.capabilities);
   const keys = new Set(CONTRACT.sdk.keys);
   for (const m of code.matchAll(SDK_CAP)) {
@@ -63,7 +63,7 @@ function scanScript(code, where, out) {
   }
   if (/\bawait\b[\s\S]{0,200}\bsdk\.message\.send\(/.test(code)) out.warn(where, 'an await before sdk.message.send leaves the click gesture: the player will be asked to confirm');
   if (/document\.currentScript/.test(code)) out.info(where, 'document.currentScript is the running element for inline rule scripts but null in the wrapped fallback; do not depend on it');
-  if (/\bimport\s+[\w{*]/.test(code) || /\bexport\s+(default|const|function)/.test(code)) out.error(where, 'ES module syntax: rule scripts run as classic scripts');
+  if (!module && (/\bimport\s+[\w{*]/.test(code) || /\bexport\s+(default|const|function)/.test(code))) out.error(where, 'ES module syntax in a classic script: use <script type="module"> (sandbox page only)');
   for (const m of code.matchAll(/<script[^>]+src=["']http:\/\//g)) out.warn(where, `${m[0]}…: http:// external scripts are skipped; use https://`);
 }
 
@@ -229,7 +229,8 @@ export function checkCard(dir) {
       if (/\bsdk\.|\[data-chat|\[data-slot|--chat-/.test(replace)) usesSdk = true;
       for (const m of replace.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script\s*>/gi)) {
         if (/\bsrc\s*=/.test(m[1])) continue;
-        scanScript(m[2], where, out);
+        // The sandbox shell keeps type="module" on rule scripts; the classic page does not.
+        scanScript(m[2], where, out, sandbox && /\btype\s*=\s*["']?module\b/i.test(m[1]));
       }
       scanHtml(replace, where, out, { isRule: true });
     });

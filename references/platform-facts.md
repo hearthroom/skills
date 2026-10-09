@@ -323,8 +323,8 @@ visible on the play page or in the offline preview below.
 **Sandbox** (default for new cards): the card's rules and scripts run in an
 isolated page. Styles and scripts can restyle the whole chat screen; scripts
 cannot read the player's login state or make requests to external URLs
-(`<script src>`, images, fonts load; `fetch` is same-origin only; wasm compiles if
-it rides in the rules). Credit-spending actions answer only the player's clicks.
+(`<script src>`, images, fonts load; `fetch` reaches only the media library, so
+keep JSON and WASM there). Credit-spending actions answer only the player's clicks.
 
 The sandbox author API has the same shape as the new-style sandbox on Meimo
 Island (MMD), so a script written for that page runs here; the differences are
@@ -447,7 +447,7 @@ prose.
   before any message is in the DOM and after the function bar is mounted.
   Inline scripts run as real `<script>` elements (top-level declarations are
   globals); a `SyntaxError` such as a top-level `return` is retried wrapped in
-  a function. `type="module"` runs as a classic script; `document.currentScript`
+  a function. `type="module"` runs as a module (`import` from https URLs); `document.currentScript`
   is the running script element (inline rule scripts are real `<script>`
   elements), null only in the wrapped fallback. External `<script src>` must be `https:` and is not awaited. A
   `<script>` inside a reply runs once per distinct code string after the
@@ -528,7 +528,7 @@ prose.
   matched word back to the card's own spelling, and display the original.
   Text the script draws itself needs `sdk.text.convert` (same rules, a no-op
   when scripts match); CSS `content` strings need a variant per script.
-- Media library assets are served with `Access-Control-Allow-Origin: *`, so
+- The media library takes SVG, JS/MJS, WASM and JSON too (not .mov: export MP4); assets are served with `Access-Control-Allow-Origin: *`, so
   WebGL and canvas can read them (`img.crossOrigin = 'anonymous'`). The
   offline preview's server does not send the header: canvas readback fails
   there, so test such effects on the play page or a same-origin test page.
@@ -643,7 +643,7 @@ locally) reads `rules.json`,
 against `scripts/sandbox-contract.json`: invalid patterns and flags, patterns
 that match the empty string, replacements over 128 KiB (UTF-8 bytes) and rule
 sets over 32 MiB, blank `find`, duplicate ids, unknown `sdk` capabilities and
-event names, `sdk.off`/`once`, `sdk.vars`, module syntax, `await` before a
+event names, `sdk.off`/`once`, `sdk.vars`, module syntax outside `type="module"`, `await` before a
 send, invalid save keys, `data-*`/`aria-*`/`role` on author elements, `on*`
 inside `<svg>`, CJK angle-bracket tags, `hc-*` components, `{{random}}` with
 the wrong separator, concatenated asset paths and missing asset files, the

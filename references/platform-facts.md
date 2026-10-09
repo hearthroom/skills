@@ -261,8 +261,8 @@ model never sees the result.
 - Limits: one replacement at most 128 KB (UTF-8 bytes; CJK comments cost three
   each); the whole rule set at most 32 MB. The server measures after the push
   turns each `assets/…` path into a full asset URL (about 70 bytes more each),
-  so `card check` reads low; keep a margin or split the script into rules (one
-  function-bar trigger mounts them all), and strip comments in the build.
+  so `card check` reads low; keep a margin, strip comments, split big scripts:
+  in a sandbox every enabled rule's `<script>` runs once at install, matched or not.
 - `assets/` paths written in a rule are uploaded on push and rewritten to
   their served URL. A directory reference uploads every file in that
   directory and rewrites the directory part, so the file name can come from
@@ -323,8 +323,8 @@ visible on the play page or in the offline preview below.
 **Sandbox** (default for new cards): the card's rules and scripts run in an
 isolated page. Styles and scripts can restyle the whole chat screen; scripts
 cannot read the player's login state or make requests to external URLs
-(external `<script src>`, images and fonts load). Actions that spend credits
-respond only to the player's own clicks.
+(`<script src>`, images, fonts load; `fetch` is same-origin only; wasm compiles if
+it rides in the rules). Credit-spending actions answer only the player's clicks.
 
 The sandbox author API has the same shape as the new-style sandbox on Meimo
 Island (MMD), so a script written for that page runs here; the differences are

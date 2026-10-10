@@ -120,6 +120,11 @@ How entries reach the model in a normal conversation:
   stands, including which names are not known yet; otherwise models of every
   strength narrate later events as past. Where an entry withholds a spoiler,
   say what to write instead, since a bare ban invites invention.
+- A canon card whose Lorebook holds only character sheets leaves the plot to
+  the model's memory of the source, which drifts. Give the story the card
+  plays at the detail a scene needs, keyed so each part arrives when the
+  card's own events reach it; where the card departs from canon, give both
+  and say which wins. Agent mode browses by name, so names carry canon time.
 - Secondary keywords can veto a primary hit. Use them only when a common word
   needs a context guard.
 - Constant entries are always included, in priority order, as long as they

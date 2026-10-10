@@ -620,8 +620,10 @@ unfolded, tablet and desktop sizes and both themes; assets resolve to the
 folder. `node scripts/preview-shots.mjs --url … --out <dir> [--interact]`
 drives it headless with the system Chrome: screenshots per size, a
 `snapshot.json` (bubbles, panels, debug log) and, with `--interact`, a real
-tap on a choice and on the dock. It is the real `sdk`, sanitizer, Markdown and
-event order; it is not the host's rendering path, the real model or a device.
+tap on a choice and on the dock. Saves (`sdk.archive`) are kept in memory and
+`start(n)` opens `openings/alt-NN.md` (CLI 0.8.1 on), so save screens work
+offline. It is the real `sdk`, sanitizer, Markdown and event order; it is not
+the host's rendering path, the real model or a device.
 `hearthroom card preview --check --sizes A,B,…` names the first size's shots
 `phone-*`, the last size's `desktop-*` and the rest `WxH`; `findings.json`
 gives each size. Its `freeInputVisible` looks only for the site's composer,

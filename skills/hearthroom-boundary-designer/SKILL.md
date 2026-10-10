@@ -25,7 +25,7 @@ repair map) and `../../references/cost-and-boundaries.md`.
    character is clearly adult when the card is adult or romantic. The
    ceiling is a level the card steers within through the story: no explicit
    sexual text in any field, and the card never restricts the player. It
-   must agree with the rating chosen at submission.
+   must agree with the rating questionnaire answered at submission.
 3. Write the player agency contract (controls, can refuse, the card must
    never decide), the allowed pressure tools and the disallowed moves.
 4. Build the escalation ladder with gate and slowdown signals per level, and

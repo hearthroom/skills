@@ -47,9 +47,9 @@ score, `../../references/card-diagnosis.md` for several risks,
    shown, one easy first action, a pull to reply); the weakest layer caps
    the card. An `assist` card reads well with rules off; a `core` card's
    mechanics are legible in the text. Route a weak layer to its skill
-   before continuing. For boundary-sensitive cards confirm rating intent,
-   ceiling, escalation ladder, refusal route and stop conditions are in the
-   definition. Reviewers see a similarity score for the definition, so
+   before continuing. Draft the rating questionnaire answers from the content
+   (`platform-facts.md`, Publishing); for boundary-sensitive cards confirm the
+   ceiling, escalation, refusal and stop conditions agree with them. Reviewers see a similarity score for the definition, so
    copied or lightly adapted text goes to `hearthroom-originality-adapter`.
 5. Run a playtest through `hearthroom-chat-simulation` (10–20 turns, a weak
    and a strong model, `--new-session`; at least one `--agent on` probe for

@@ -102,7 +102,15 @@ Choices are drafts, not a menu. On the sandbox page a tap puts the line into
 the composer (`sdk.input.set(text)` then `sdk.input.focus()`,
 `platform-facts.md`) so the player can edit before sending; only a one-tap
 default start may send directly, inside the click handler with no `await`.
-Typed free text must always be handled as well as any button. For first-turn
+Typed free text must always be handled as well as any button.
+
+A paid turn can carry free choices: the model writes a short fork inside
+the reply with both branches written out, the page lets the player pick,
+plays that branch and reports the pick in the next player message.
+Interactions the page handles alone (tapping the character while waiting)
+work the same way: immediate on screen, reported as one data line so the
+next reply acknowledges them. Parse forks tolerantly; models relabel A/B
+(甲／乙, ①／②) and put a branch's reaction on the following lines. For first-turn
 choices prefer `prologue` lines in `card.json`: they are the player's own
 editable lines, not the character's.
 

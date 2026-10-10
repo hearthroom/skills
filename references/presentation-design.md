@@ -123,7 +123,20 @@ Give the screen a fallback from data the model writes every turn (the status
 block's location, the prose after the transition) and use the marker when it
 is there. Parse markers tolerantly: CJK replies bring full-width brackets and
 colons (`［演出：命名］` for `[演出: 命名]`) and stray characters, and a strict
-pattern shows the marker as prose.
+pattern shows the marker as prose. Normalise half-width punctuation next to
+CJK text (models differ, and a model switch mid-story shows), and drop lines
+carrying HTML: models invent status panels that print the hidden numbers.
+
+Generated music follows the same split as the screen: write a score (each
+part its own line: chord tones on strong beats, passing tones between, the
+countermelody moving when the melody holds, no parallel fifths with the
+bass) and orchestrate it separately, so a mood change re-voices the same
+score instead of cutting to another tune. Change key over several bars
+(the old theme thins out, a pivot chord, a dominant pedal) and cross-fade
+ensembles over bars, not seconds. Balance by orchestration (doubling,
+divisi, register spacing) and check band energy of a recording: a part that
+sounds too bright is often the only one living in its register. Interface
+glow breathes slowly; pulsing it on the beat reads as a broken light.
 
 Type and art on phones:
 

@@ -28,6 +28,9 @@ turn costs the player credits: let them choose the length knowingly (more
 story per turn, longer wait) and pass the choice in the player message.
 When testing length, pass a turn on beats or characters: some models write
 many short lines, others few long paragraphs, and both can give the story.
+A card-wide character target also caps a longer per-turn length: tested
+models wrapped up just under it and dropped the choices that close the
+turn. When the engine sends the length each turn, set the length axis to auto.
 
 If the first screen is doing the work of the whole card, repair allocation
 before polishing prose.

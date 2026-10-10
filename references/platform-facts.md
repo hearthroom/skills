@@ -668,7 +668,7 @@ hearthroom card check <dir> [--replay f…] --json   # local, free: rules, marke
 hearthroom card preview --check <dir> [--from-history f…] [--json]   # local, free, needs Chrome: screenshots of every state, contact.png, findings.json under preview/shots/
 hearthroom card preview <dir> [--open]             # offline preview with the real chat shell (fetched from the site and cached; same CLI release; shows the deployed shell's behaviour)
 hearthroom lorebook build <dir> | lorebook check <dir>   # worldbook/*.md sources → lorebook.json; drift, keyword collisions (same CLI release)
-hearthroom card status <dir> --json                # what the folder is linked to, which sections changed
+hearthroom card status <dir> --json                # what the folder is linked to, which sections changed (before CLI 0.8.2, rules that build asset paths at runtime showed authorAsset changed right after a push; submit warned the same)
 hearthroom card push <dir> --dry-run --json        # what would be sent, without sending
 hearthroom card push <dir> --validate --json       # private trial card + validation report
 hearthroom card validate <dir> --push --strict --json   # re-push and fail on warnings too

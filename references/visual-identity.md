@@ -143,6 +143,14 @@ rotates whole, with light as its only effect; a held object sits in front of
 the front hair. Refine drawn regions against the original (GrabCut) before
 cutting, or the old outline stays behind. Review close crops of eyes and
 moving pieces at every extreme pose; contact sheets hide these faults.
+Thin lines that appear only at rest come from layer seams: a feathered edge
+over AI fill shows the fill, so keep original pixels in a band under every
+cut edge; a band of one region inside another's mask (the face outline in
+the hair mask, a hair gap in a cutout) goes to the layer it moves with; an
+edit-difference mask keeps only the components you expect. Find the layer
+by rendering with each one switched off. A character cut from full key art
+needs a plate painted without her and an AI cutout made on the unpadded
+crop (padding invites recomposition); visible pixels stay the original's.
 
 ## Layers
 

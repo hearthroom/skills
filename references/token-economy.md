@@ -19,6 +19,14 @@ on it: `responseDefaults.length` with a `lengthTarget` and a `lengthNote`
 being ignored: models hold a target far better than a written limit. The
 player can still change it.
 
+A character target is coarse for replies built from short lines: tested
+models stayed near 300–500 characters under a 1200 target. Counting beats
+(one line of dialogue or narration) and sending a short per-turn storyboard
+from the engine ("her reaction (3) → a development using a scene object
+(4) → a hook") holds the length and fills it with events, not padding. Each
+turn costs the player credits: let them choose the length knowingly (more
+story per turn, longer wait) and pass the choice in the player message.
+
 If the first screen is doing the work of the whole card, repair allocation
 before polishing prose.
 

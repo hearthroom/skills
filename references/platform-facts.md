@@ -411,8 +411,8 @@ prose.
   `sdk.archive.list()/save(title?)/fork(messageId)/open(id)/start(opening?)/rename(id, title)/remove(id)`
   (the platform's conversation saves, 20 per card with the current one: `open`
   keeps the current progress in the list; `save` names a copy → `{id, current}`;
-  `fork` from a `serverId`; `start` from opening 0 or an alternate; `list` →
-  `{items, count, limit}`; inside a gesture changes run at once (confirm on your
+  `fork` from a `serverId`; `start(n)` from opening n (0 main, 1+ alternates, current kept);
+  `list` → `{items, count, limit}`, items `{id, title, isCurrent, messageCount, lastUpdateTime}`; inside a gesture changes run at once (confirm on your
   own screen), outside one the shell asks; full → `LIMIT_REACHED` with
   `err.data = {count, limit}`; 10 a minute), `sdk.on(event, handler)` (`sdk.off` and `sdk.once` do not
   exist; a misspelled event or capability never fires and never errors),

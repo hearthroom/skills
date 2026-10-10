@@ -145,6 +145,12 @@ entanglement, reversal, mastery or endgame, renewal from remembered state. For
 each, name trigger, system pressure, player leverage, unlocks and risk. Do not
 force a fixed order unless the card is a linear scenario.
 
+A signature moment that changes how a character is named (she receives her
+name from the player) keeps the identifier the engine, assets and lore use:
+let the player choose how it is said, hold a flag in state, and keep the name
+out of every engine-written line until then. Close each arc with a short
+aftermath turn and the last arc with a finale and a recap the player keeps.
+
 ## Opening contract
 
 The first screen combines setup and action: one place and its pressure, one

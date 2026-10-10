@@ -86,7 +86,8 @@ consumes `<scene>` works, a script that looks for it later does not.
 5. A full-page card hides the site's save list: give players saves in the
    card's own screen on `sdk.archive` (server-side, across devices, the
    site's limit; `platform-facts.md`), confirmed in the card's own tap, each
-   save titled from the state block.
+   save titled from the state block. Players fill the slots fast: offer a
+   name field, rename and delete (two taps) as well as load.
 
 ## Status panels, themes and chrome: the sandbox kit
 
@@ -126,6 +127,11 @@ colons (`［演出：命名］` for `[演出: 命名]`) and stray characters, an
 pattern shows the marker as prose. Normalise half-width punctuation next to
 CJK text (models differ, and a model switch mid-story shows), and drop lines
 carrying HTML: models invent status panels that print the hidden numbers.
+A speaker the cast table does not know must not leave the spotlight on the
+previous speaker: map the labels a model uses for an unnamed lead ("the
+girl", "???") to her sprite, and light no one for anyone else. When the
+engine sends a numbered storyboard, ask for the order without the labels
+and drop copied heading lines.
 
 Generated music follows the same split as the screen: write a score (each
 part its own line: chord tones on strong beats, passing tones between, the

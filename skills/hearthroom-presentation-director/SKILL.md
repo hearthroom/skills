@@ -19,7 +19,8 @@ of UI, the packet) and the display rules, chat pages and HTML sections of
 `../../references/platform-facts.md`. Read `../../references/sandbox-kit.md`
 when a panel, choices, a theme or a drawer is on the table, and
 `../../references/full-page-layouts.md` only when the card covers the whole
-page.
+page. Read `../../references/generated-music.md` when the card composes
+its own music.
 
 ## Workflow
 

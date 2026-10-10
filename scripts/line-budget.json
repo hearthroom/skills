@@ -24,7 +24,7 @@
   "skills/hearthroom-originality-adapter/SKILL.md": 52,
   "skills/hearthroom-play-engineer/SKILL.md": 69,
   "skills/hearthroom-premise-workshop/SKILL.md": 58,
-  "skills/hearthroom-presentation-director/SKILL.md": 62,
+  "skills/hearthroom-presentation-director/SKILL.md": 63,
   "skills/hearthroom-profile-packager/SKILL.md": 50,
   "skills/hearthroom-publish-readiness/SKILL.md": 73,
   "skills/hearthroom-quality-auditor/SKILL.md": 60,
@@ -69,7 +69,7 @@
   "references/play-engine-design.md": 205,
   "references/playtest-loop.md": 333,
   "references/premise-workshop.md": 134,
-  "references/presentation-design.md": 239,
+  "references/presentation-design.md": 231,
   "references/profile-packaging.md": 121,
   "references/prompt-attention-architecture.md": 239,
   "references/prose-texture.md": 207,
@@ -91,5 +91,6 @@
   "references/world-engine-design.md": 183,
   "references/writing-skills.md": 84,
   "examples/sample-card-packets.md": 392,
-  "examples/synthetic-card-briefs.md": 344
+  "examples/synthetic-card-briefs.md": 344,
+  "references/generated-music.md": 70
 }

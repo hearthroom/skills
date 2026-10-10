@@ -365,6 +365,10 @@
     "writing-skills.md": {
       "batch": "H",
       "source": null
+    },
+    "generated-music.md": {
+      "batch": "H",
+      "source": "split out of presentation-design.md; lessons from a card's generated score checked by metrics and model readers"
     }
   },
   "examples": {

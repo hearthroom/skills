@@ -139,6 +139,21 @@ Type and art on phones:
   shape, perspective included; an upright box drifting off a painted window
   reads as a mistake.
 
+## The wait is part of the turn
+
+A long-context turn takes tens of seconds to minutes; whatever the page
+decides at the click (roll, reaction, event) is known then, only the prose
+waits. Spend the wait from that same data, so the text cannot contradict it:
+the character reacts at the click (face, posture, a camera push or shake);
+crew lines follow the result; an optional costed action (observe her, a
+reading that leans true but is not the answer); `message:stream` plays as
+it arrives, accepting only replies newer than this send; a long wait earns a
+summary of what the player has already seen. Signals to read rather than
+numbers (where she stands, what her eyes return to) come from the same draw
+as any text about them and can be acted on (a noted lead becomes a choice
+that fills the draft). An idle player gets one nudge in character, then one
+from the crew, outside the story. Keep the honest status line.
+
 ## Reading first, choosing second
 
 A reply is read before it is answered. On every screen:

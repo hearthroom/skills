@@ -152,6 +152,11 @@ Type and art on phones:
 - Serif suits long text and fades small; labels and numbers read best in sans.
 - Icon buttons hold their icon as inline SVG; a text glyph sits off-centre
   on some phones.
+- Android Chrome flickers a WebGL canvas when it or an ancestor carries a
+  filter, mask or backdrop-filter, when an ancestor's transform changes by
+  fractions every frame (gyroscope parallax: round, write on change, add a
+  dead zone), or when the canvas is sized from getBoundingClientRect during
+  a transform animation (use offsetWidth). Fade with the canvas's opacity.
 - Safari drops a group's outline filter, at random, from a child still
   animating inside it: animate the filtered element, keep its children still.
 - An effect laid over something painted in the art follows the painted

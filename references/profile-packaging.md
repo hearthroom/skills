@@ -1,7 +1,7 @@
 # Profile Packaging
 
 Use this when the card's engine is coherent but the public surface is weak:
-`name`, `summary`, `tags`, or the reason a player should open the card.
+`name`, `summary`, `tags`, `intro.md`, or the reason a player should open the card.
 
 Packaging is the promise layer, not publish readiness. It is also the first
 two layers of the funnel (`role-card-writing-framework.md`): L0, the cover
@@ -51,13 +51,20 @@ fix a cover by lengthening the title.
 
 ## Summary
 
-At most about 260 characters, for every card shape. The first sentence is the
-hook and must work alone, because the board may cut the rest. Within the
-summary, say who I am, what I am up against, why it is fun, and what I can
-change. A system card puts its rules in the opening, not the summary. The
-provider limit (500 characters, or 2500 only if `language` is exactly `en`,
-read from `tokenBudget.limits` in `card validate --json`) is a ceiling, not a
-target.
+One line: about 80 characters in Chinese, Japanese or Korean, about 150 in
+English. It is the hook on the board tile and under the title on the card
+page, which clamps it to three lines. Say who I am, what I am up against and
+why it is fun; everything else goes in the introduction. The provider limit
+(`platform-facts.md`) is a ceiling, not a target.
+
+## Introduction
+
+`intro.md` is the card page a player reads before the first message: how to
+play, the characters, what makes this card different, images from `assets/`,
+a changelog. Lead with what the player does in the first turns, keep it to
+a screen or two (the page folds the rest), and keep the definition's hidden
+rules out of it; it is public and never reaches the model. A system card
+still puts the rules the model must follow in the definition and the opening.
 
 Pattern: a hook sentence (a contrast, a question, or a stake the player feels)
 followed by a "you are / you face / you can change" sentence.
@@ -106,7 +113,7 @@ claims.
 |---|---|
 | Title is only a trope | rewrite with a gap, an anchor or a contrast |
 | Summary is a synopsis | keep one relation, one tension, one loop; hook first |
-| Summary over 260 characters | cut rules and lore; a system card explains itself in the opening |
+| Summary longer than a line | keep the hook; move rules, lore and how to play into `intro.md` |
 | Tags are mood-only or coined | pick from `hearthroom tags` by shape, setting and loop |
 | First impression overpromises | align the summary with the opening |
 | Cover and title disagree | route the hook to visual identity |

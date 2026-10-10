@@ -127,6 +127,23 @@ hair that recompose to the original; with a hair, face and body mask that is
 enough for a runtime mesh rig: head turn by a cylindrical warp, front and
 back hair at different parallax, spring chains for the hair.
 
+## Animated sprites
+
+A mesh rig is judged against its still. At rest the composite equals the
+original pixels: AI edits only locate things and paint what is hidden;
+visible pixels from an edit lose the likeness. Keep a sidecar of facts per
+image (face and eye boxes, pupil room, head roll and yaw, parts), made by the
+pipeline and overridable, and read it instead of re-measuring at load. A
+turned or tilted source moves along its own axis; a pupil never passes the
+white it has at rest; one thing drawn on two layers moves as one or doubles;
+eyes translate as blocks. Declare each moving object's material, joint,
+driver, depth in a named layer stack and effects: rigid things never bend, so
+each piece that moves on its own gets a layer split at its narrow neck and
+rotates whole, with light as its only effect; a held object sits in front of
+the front hair. Refine drawn regions against the original (GrabCut) before
+cutting, or the old outline stays behind. Review close crops of eyes and
+moving pieces at every extreme pose; contact sheets hide these faults.
+
 ## Layers
 
 Profile packaging decides the promise in words and owns the title. Visual

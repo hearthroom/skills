@@ -413,7 +413,7 @@ prose.
   keeps the current progress in the list; `save` names a copy → `{id, current}`;
   `fork` from a `serverId`; `start(n)` from opening n (0 main, 1+ alternates, current kept);
   `list` → `{items, count, limit}`, items `{id, title, isCurrent, messageCount, lastUpdateTime}`; inside a gesture changes run at once (confirm on your
-  own screen), outside one the shell asks; full → `LIMIT_REACHED` with
+  own screen), outside one the shell asks (also a change chained after awaiting another); full → `LIMIT_REACHED` with
   `err.data = {count, limit}`; 10 a minute), `sdk.on(event, handler)` (`sdk.off` and `sdk.once` do not
   exist; a misspelled event or capability never fires and never errors),
   `sdk.debug.log(...)` (`?sdkDebug=1` shows the panel). `sdk.version` is the

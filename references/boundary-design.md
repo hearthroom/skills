@@ -30,8 +30,8 @@ Never write explicit sexual text into the definition, openings, examples or
 Lorebook. A ceiling is stated as a level, not demonstrated. Default to SFW.
 The card does not restrict the player: it responds within its ceiling and
 steers through the story, never with a refusal lecture or a rule recited at
-the player. A content rating is chosen when the card is submitted for review
-(`platform-facts.md`, Publishing); the ceiling and the rating must agree.
+the player. The rating questionnaire answered at submission must agree with
+the ceiling (`platform-facts.md`, Publishing).
 
 ## Player agency contract
 

@@ -738,7 +738,17 @@ hearthroom models | tags --zone zh | search | media ls|upload|mv|rm | upgrade --
 inventory on the site; later plain pushes keep updating it. Submitting for
 community review happens on the site, and that is where a version is frozen:
 review applies to one frozen version of the card, submitted together with a
-content rating; changing content makes a new version that needs its own review.
+content-rating questionnaire; changing content makes a new version that needs
+its own review. The questionnaire follows Taiwan's game software rating (All
+ages, 6+, 12+, 15+, Adults only): the site computes the rating from the
+answers, shows it on the card page, and hides only Adults-only cards from
+viewers who have not turned adult content on. `GET /v1/rating/questionnaire`
+on the site lists each question and the rating every answer leads to; answer
+for the strongest content the card is built to produce, counting the
+definition, openings, Lorebook, images and what it steers the AI to write. A
+card that lets the player date or marry a character is at least 12+.
+Reviewers reject a rating lower than the content. From CLI 0.8.0, `card rate`
+writes the answers to `rating.json` and `card submit` sends the card.
 Players get the approved copy (text, display rules and Lorebook) until an
 update is submitted and approved, so pushes change only the author's draft.
 The draft plays at `/play/<id>?mode=source` (printed by `card push` from CLI

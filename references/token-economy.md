@@ -26,6 +26,8 @@ from the engine ("her reaction (3) → a development using a scene object
 (4) → a hook") holds the length and fills it with events, not padding. Each
 turn costs the player credits: let them choose the length knowingly (more
 story per turn, longer wait) and pass the choice in the player message.
+When testing length, pass a turn on beats or characters: some models write
+many short lines, others few long paragraphs, and both can give the story.
 
 If the first screen is doing the work of the whole card, repair allocation
 before polishing prose.

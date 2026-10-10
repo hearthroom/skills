@@ -165,7 +165,10 @@ summary of what the player has already seen. Signals to read rather than
 numbers (where she stands, what her eyes return to) come from the same draw
 as any text about them and can be acted on (a noted lead becomes a choice
 that fills the draft). An idle player gets one nudge in character, then one
-from the crew, outside the story. Keep the honest status line.
+from the crew, outside the story. Keep the honest status line. Generated
+music can wait too: past a few seconds stop advancing the form and hover
+without the tonic (subdominant, then a dominant pedal), and cadence home on
+the bar the reply lands, so the arrival is heard as well as seen.
 
 ## Reading first, choosing second
 

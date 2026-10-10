@@ -133,15 +133,8 @@ girl", "???") to her sprite, and light no one for anyone else. When the
 engine sends a numbered storyboard, ask for the order without the labels
 and drop copied heading lines.
 
-Generated music follows the same split as the screen: write a score (each
-part its own line: chord tones on strong beats, passing tones between, the
-countermelody moving when the melody holds, no parallel fifths with the
-bass) and orchestrate it separately, so a mood change re-voices the same
-score instead of cutting to another tune. Change key over several bars
-(the old theme thins out, a pivot chord, a dominant pedal) and cross-fade
-ensembles over bars, not seconds. Balance by orchestration (doubling,
-divisi, register spacing) and check band energy of a recording: a part that
-sounds too bright is often the only one living in its register. Interface
+Generated music follows the same split as the screen, a score played by an
+ensemble the story chooses; plan it with `generated-music.md`. Interface
 glow breathes slowly; pulsing it on the beat reads as a broken light.
 
 Type and art on phones:

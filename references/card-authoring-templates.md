@@ -80,7 +80,7 @@ contradictory. Decide and record:
 - Mode (draft-only, new trial card, patch), push now or not, language,
   visibility (trial card, private card, public submission later: the
   author's call), and which packets were preserved, resolved or delayed.
-- `card.json`: `name`; `summary` (about 260 characters, hook first); `tags`
+- `card.json`: `name`; `summary` (one line, hook first; `profile-packaging.md`); `tags`
   from `hearthroom tags`; `type`; `sex`, `language`, `cardMeta`;
   `playerName` and `nickname` if used; `prologue`; `talkExample` (one
   ordinary-turn sample at full length and format; more for a pressure case;
@@ -90,6 +90,8 @@ contradictory. Decide and record:
   `media.backgroundLandscape`, `media.share` (file in `assets/`, prompt only,
   or missing);
   `media.folder` for a series.
+- `intro.md` (public card page, never sent to the model): how to play, the
+  characters, images from `assets/`; `profile-packaging.md`, Introduction.
 - `README.md` dossier (never sent): `uiRole`, `statusOverheadThreshold`.
 - `definition.md`, in the order `prompt-attention-architecture.md` gives:
   every-turn iron laws; card contract; player position and agency; engine;

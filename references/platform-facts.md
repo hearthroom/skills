@@ -46,7 +46,8 @@ to read in `--json` output.
 |---|---|---|
 | card | role, `roleId` | one character card |
 | definition | `roleDetailDesc` | who the character is, how they speak, the world's rules; private. The site's guide calls it the "Persona" |
-| summary | `roleDesc` | short public description on the board card |
+| summary | `roleDesc` | one-line public description on the board tile, the search results and under the title on the card page (clamped to three lines there) |
+| introduction | `roleReadme` | Markdown shown on the public card page before a chat starts, like a README: how to play, characters, images, changelog. The page renders Markdown only (inline HTML shows as text), loads only `https` images, and shifts headings down so `#` sits under the card name. Never sent to the model. Without one, a summary over about 120 characters is shown in its place |
 | opening | `roleWelcome` | the first message of a conversation |
 | alternate openings | `welcomeAlternates` | other first messages the player can pick |
 | suggested first lines | `prologue` | player-side first lines offered as choices; never the character's first message |
@@ -70,6 +71,8 @@ my-card/
                      media.background, media.backgroundLandscape, media.share,
                      media.folder
   definition.md      the definition
+  intro.md           the introduction (CLI 0.8.4 and later); missing = left as is,
+                     empty = cleared. Not README.md, which stays private
   welcome.md         the opening
   openings/alt-NN.md alternate openings, file-name order
   lorebook.json      { name, entries: [ … ] }
@@ -137,7 +140,11 @@ the portrait one). All are cropped to cover the screen, so keep important
 elements inside the central 75% of each image. `media.share` (1200 × 630,
 optional; pushed by CLI 0.7.0 and later) is the link-preview image; without it the site uses the landscape
 background, then the portrait (`visual-identity.md`, The share image). On push they become `roleAvatar`, `roleBackground`,
-`roleBackgroundLandscape` and `roleShareImage`. Per the site's source, the board
+`roleBackgroundLandscape` and `roleShareImage`. The card page shows
+`media.backgroundLandscape` as a full-width banner above the title, cropped
+toward the top and fading into the page from about its middle, so keep faces
+in the upper half; without it the page tints itself with a blur of the
+portrait. Per the site's source, the board
 tile and the card page show the portrait, but the author's own "my cards"
 tile shows the background first and falls back to the portrait. The chat
 stage draws the background on `.chat-scope-box` (`--lt-bg-portrait`, and
@@ -186,6 +193,7 @@ validation report rather than hard-coding them.
 | Field | Not English | English |
 |---|---|---|
 | summary (`roleDesc`) | 500 | 2500 |
+| introduction (`roleReadme`) | 20000 | 40000 |
 | definition (`roleDetailDesc`) | 10000 | 50000 |
 | opening (`roleWelcome`) | 8000 | 10000 |
 | custom instructions | 2000 | 4000 |
@@ -711,7 +719,9 @@ hearthroom models | tags --zone zh | search | media ls|upload|mv|rm | upgrade --
   `blockers`, `warnings`, `suggestedFixes` and `tokenBudget` with
   `roleDescChars`, `roleDetailDescChars`, `roleWelcomeChars`,
   `customInstructionsChars`, `roleOutputContractChars`, `totalChars`,
-  `estimatedTokens`, `welcomeToDetailRatio` and `limits`. There is no count
+  `estimatedTokens`, `welcomeToDetailRatio` and `limits`. `roleReadmeChars`
+  (CLI 0.8.4 prints it as `intro`) is reported but left out of `totalChars`
+  and `estimatedTokens`, since the introduction never reaches the model. There is no count
   or limit for `talkExample` in the report.
 - `card pull` takes the card id, not the folder: `card pull <roleId> [dir]`;
   an existing folder needs `--force`, which overwrites local files, so run

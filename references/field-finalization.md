@@ -18,6 +18,7 @@ written.
 | output contract, custom instructions, example conversations, suggested first lines | `card.json` (`outputContract`, `customInstructions`, `talkExample`, `prologue`) |
 | portrait, background, landscape background, share image, media-library folder | `card.json` `media.portrait` / `media.background` / `media.backgroundLandscape` / `media.share` / `media.folder`, files under `assets/` |
 | definition | `definition.md` |
+| introduction (public card page, Markdown) | `intro.md` |
 | opening | `welcome.md` |
 | alternate openings | `openings/alt-NN.md`, file-name order |
 | Lorebook | `lorebook.json` |
@@ -97,7 +98,7 @@ Field finalization packet:
 - check-card: no errors | warnings read
 - format checks: Markdown | HTML (plain, no unregistered custom elements) | JSON files | status block declared and consumed
 - placeholder / meta check:
-- file mapping: card.json | definition.md | welcome.md and openings | lorebook.json | rules.json | assets/ | README.md dossier (uiRole, threshold)
+- file mapping: card.json | definition.md | intro.md | welcome.md and openings | lorebook.json | rules.json | assets/ | README.md dossier (uiRole, threshold)
 - validate / render / play hand-off:
   - validate focus:
   - render focus:

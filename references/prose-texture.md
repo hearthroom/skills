@@ -133,6 +133,48 @@ protagonist whose inner voice undercuts the scene she is standing in. One
 dry line on the first screen sets the ceiling and lets the intense moments
 land when they come.
 
+## The polished register
+
+A second generated register passes every check above: no ellipsis storm, no
+stacked adjectives, no narrated feelings, and still reads machine-written at
+a glance. It is restrained literary minimalism, and the tell is that every
+beat is trying. Each device is fine once; a reader recognises the template
+when every block closes on one.
+
+- **Quotable dialogue.** Balanced antithesis, a semicolon inside speech, a
+  dash before a moral twist (「贏了算你的，輸了算我的；平手——就當今天沒見過。」).
+  Nobody talks in parallel clauses.
+- **Abstract reframes and vows.** 「他不是X，是Y」 lifting a fact into a theme;
+  「這件事，誰也拿不走」. The same shape stays natural when it corrects
+  something literal (a name, a category) and is said once.
+- **Characters stating the theme.** A line that says what the scene means
+  belongs to no one in it.
+- **Narration that decodes.** 「那就是答案了。」, pointing at the key word she
+  used, flagging 第一次. Shown, then explained.
+- **Negative beats and timed pauses.** 「她沒有回答。」「他沒有回頭。」,
+  安靜了一秒, 看了很久: narrating what did not happen, counting the silence.
+- **Afterthought fragments.** 「她笑了。很淡，但是是真的。」「只有一下。」 These
+  are English emphasis fragments carried into Chinese, where narration
+  normally runs as one chain of actions under one subject.
+- **Interpretive similes.** 像在確認、像第一次聽到: the narrator guessing intent.
+- **The interface read aloud.** A character reciting the choice menu or the
+  rules; the same closing line reused across alternate openings becomes a
+  catchphrase the model repeats.
+
+Two tests decide it. The **swap test**: give the line to another character;
+if it still works, it is the author talking. The **source test**: does the
+genre or source material ever write like this? A noisy light-novel comedy, a
+hard-boiled procedural or a chatty slice-of-life has its own register;
+minimalist gravity imported into it is what the reader notices. Count per
+block, not per file: three of these devices in one short block is where a
+reader stops believing a person wrote it.
+
+Repairs: route a rule explanation through characters arguing about it or
+through a gag the card already set up, instead of a fresh aphorism; let the
+counterweight layer interrupt every solemn beat; write choice lines as what
+the player character would plausibly blurt, not as vows; keep narration to
+what can be seen and heard.
+
 ## The loop is texture too
 
 A card whose turn twenty reads like its turn two has a texture problem the
@@ -186,6 +228,9 @@ and the output contract sample:
 - Speech is at least as present as narration; two or more speakers are
   distinguishable without names.
 - One line refuses the mood.
+- No block stacks three polished devices (quotable line, decoding
+  narration, negative beat, timed pause, afterthought fragment); every line
+  fails the swap test.
 - The player has at least two defensible next moves, and the second turn can
   change something the first screen planted.
 - The sample ends with the status block if the card has one, in the
@@ -202,6 +247,7 @@ and the output contract sample:
 | Stock gesture (嘴角勾起、眼中閃過) | what does this character do with hands, distance or timing |
 | Simile with no object | cut it, or make the comparison bring a new thing into the room |
 | Everyone sounds the same | give each speaker a different target and sentence length |
+| Quotable lines, decoding narration, "她沒有回答。只有一下。" | swap test and source test; let characters argue or reuse an existing gag; cut the explanation |
 | Uniformly earnest | add one unimpressed line, a dry aside or a reader's commentary layer |
 | Static replies after turn ten | plant a variable on the first screen (`state-economy-design.md`) |
 | Style rules in the definition contradict the opening | fix the opening; delete the rule |

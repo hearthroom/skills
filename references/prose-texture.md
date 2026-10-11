@@ -55,6 +55,21 @@ voices shows it those instead. Write the sample you want copied; cut style
 rules that the sample already demonstrates, and never rely on a rule to undo
 what the sample shows.
 
+Instructions are read as samples too. A weak model copied a banned phrase
+quoted in a style rule (「不寫『沒有回答』」 came back as 她沒有回答) and a
+simile in a per-turn beat sheet (「口氣像在報告」 came back as 說得像在報告天氣).
+Phrase style instructions positively, with no quoted bad examples and no
+figures of speech. Keep any per-turn style line above the format instruction
+that ends the message: a style line placed after "end with the choices"
+pushed it off the end, and a weak model stopped writing the choices.
+
+When one route reads more generated than others, measure how much of each
+reply is narration. A laconic character alone with the player leaves the
+turn length to be filled by narration, where most of these devices live.
+Give the beat sheet speakers instead (bystanders, a counterweight voice, a
+question or demand from the character); telling the model to write less of
+something moves the numbers far less than giving it someone to talk to.
+
 ## Intensity curve
 
 Open at a low or middle setting. The pressure is real and visible, but the

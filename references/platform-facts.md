@@ -771,10 +771,10 @@ The draft plays at `/play/<id>?mode=source` (printed by `card push` from CLI
 0.7.2, "Play draft" on the card page for its owner); the plain `/play/<id>`
 and the card page's Play show the approved copy. The card page and My Cards
 flag unsubmitted edits, including edits to only display rules or the
-Lorebook. `card submit` (CLI 0.8.4) has answered with a version id it
-returned before while the page still flagged unsubmitted edits; compare the
-id with the last one, and if it repeats, push a change to a card field (for
-example `cardMeta.characterVersion`) and submit again.
+Lorebook. Before CLI 0.8.5, `card submit` could resend an unconfirmed
+submission's operation id after a new push, and the site answers a known id
+with the version it made then (the old version id, edits still flagged).
+From 0.8.5 a push in between starts a new submission.
 
 Reviewers see a similarity score for the definition against other submitted
 and approved cards (reviewers only; the author's own other cards are

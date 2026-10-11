@@ -90,8 +90,8 @@ contradictory. Decide and record:
   `media.backgroundLandscape`, `media.share` (file in `assets/`, prompt only,
   or missing);
   `media.folder` for a series.
-- `intro.md` (public card page, never sent to the model): how to play, the
-  characters, images from `assets/`; `profile-packaging.md`, Introduction.
+- `intro.md` (public card page, never sent): a blurb and preface in the
+  story's voice with the card's art; `profile-packaging.md`, Introduction.
 - `README.md` dossier (never sent): `uiRole`, `statusOverheadThreshold`.
 - `definition.md`, in the order `prompt-attention-architecture.md` gives:
   every-turn iron laws; card contract; player position and agency; engine;

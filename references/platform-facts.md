@@ -271,6 +271,17 @@ model never sees the result.
   turns each `assets/…` path into a full asset URL (about 70 bytes more each),
   so `card check` reads low; keep a margin, strip comments, split big scripts:
   in a sandbox every enabled rule's `<script>` runs once at install, matched or not.
+- A script too big for one rule can live in the media library: put it under
+  `assets/` and load it from a rule with `<script src="assets/…">`; the push
+  uploads it and the 128 KB limit no longer applies. Name the file by a hash of
+  its content so an update gets a new URL instead of a stale cache, and since an
+  external script is not awaited, let a small inline stub take the calls other
+  scripts make before it arrives.
+- `media rm` refuses only files a card uses as portrait or background. A file
+  a rule loads by URL is deleted even while the approved copy still loads it,
+  so old hashed copies are pruned by checking what the draft, the approved copy
+  (`card view` gives its role id; pull it into a scratch folder) and any
+  submission still in review refer to, keeping recent ones for open pages.
 - `assets/` paths written in a rule are uploaded on push and rewritten to
   their served URL. A directory reference uploads every file in that
   directory and rewrites the directory part, so the file name can come from

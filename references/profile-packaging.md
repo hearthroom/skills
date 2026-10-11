@@ -59,12 +59,17 @@ why it is fun; everything else goes in the introduction. The provider limit
 
 ## Introduction
 
-`intro.md` is the card page a player reads before the first message: how to
-play, the characters, what makes this card different, images from `assets/`,
-a changelog. Lead with what the player does in the first turns, keep it to
-a screen or two (the page folds the rest), and keep the definition's hidden
-rules out of it; it is public and never reaches the model. A system card
-still puts the rules the model must follow in the definition and the opening.
+`intro.md` is the card's page on the shelf of a role-play community. Write it
+the way a light novel sells itself: a back-cover blurb that opens on a moment,
+then a short preface in the story's own voice saying who you are, what you
+face and what you can do, told as a story. It is public and
+never reaches the model (no hidden rules); a screen or two, the page folds
+the rest.
+
+- A fan work's credit goes first, in one plain sentence; then a scene, not a slogan.
+- Play in the fiction's terms, no numbered steps; the cast inside the prose, no headshot roster.
+- The card's art (key art, a scene still), not interface collages; practical notes last, a changelog stays in the card.
+- Read it aloud and cut what sounds machine-written: slogan headings, bold taglines, triads, "not X but Y".
 
 Pattern: a hook sentence (a contrast, a question, or a stake the player feels)
 followed by a "you are / you face / you can change" sentence.
@@ -113,7 +118,8 @@ claims.
 |---|---|
 | Title is only a trope | rewrite with a gap, an anchor or a contrast |
 | Summary is a synopsis | keep one relation, one tension, one loop; hook first |
-| Summary longer than a line | keep the hook; move rules, lore and how to play into `intro.md` |
+| Summary longer than a line | keep the hook; move the premise and how play feels into `intro.md` |
+| Introduction reads like a product page | rewrite as a blurb and preface in the story's voice; art instead of UI collages |
 | Tags are mood-only or coined | pick from `hearthroom tags` by shape, setting and loop |
 | First impression overpromises | align the summary with the opening |
 | Cover and title disagree | route the hook to visual identity |

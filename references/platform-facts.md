@@ -47,7 +47,7 @@ to read in `--json` output.
 | card | role, `roleId` | one character card |
 | definition | `roleDetailDesc` | who the character is, how they speak, the world's rules; private. The site's guide calls it the "Persona" |
 | summary | `roleDesc` | one-line public description on the board tile, the search results and under the title on the card page (clamped to three lines there) |
-| introduction | `roleReadme` | Markdown shown on the public card page before a chat starts, like a README: how to play, characters, images, changelog. The page renders Markdown only (inline HTML shows as text), loads only `https` images, and shifts headings down so `#` sits under the card name. Never sent to the model. Without one, a summary over about 120 characters is shown in its place |
+| introduction | `roleReadme` | Markdown shown on the public card page before a chat starts: the card's blurb and preface, with its art (how to write it: `profile-packaging.md`, Introduction). The page renders Markdown only (inline HTML shows as text), loads only `https` images, and shifts headings down so `#` sits under the card name. Never sent to the model. Without one, a summary over about 120 characters is shown in its place |
 | opening | `roleWelcome` | the first message of a conversation |
 | alternate openings | `welcomeAlternates` | other first messages the player can pick |
 | suggested first lines | `prologue` | player-side first lines offered as choices; never the character's first message |

@@ -401,9 +401,14 @@ prose.
   `await` before it) and `sdk.message.edit(id, text)` (`id` is the bubble's
   `data-msg-id`, the server id; same confirmation rule),
   `sdk.save.get/set/remove/keys` (keys `[A-Za-z0-9_-]{1,64}`, at most 10 keys
-  per card per player, 64 KiB each as the UTF-8 bytes of the JSON value, kept
-  across devices; `get` and `keys` throw `HOST_DENIED` synchronously until the
-  saves have loaded, so wrap them in `try`), `sdk.cache.*` (this page load
+  per card per player, shared by every save slot of the card, 64 KiB each as
+  the UTF-8 bytes of the JSON value, kept across devices; the host loads them
+  before any rule script runs and never reloads them during the page, so a
+  write from another device shows up only after a reload; when they could not
+  be loaded (signed out, network) `get` and `keys` throw `HOST_DENIED` for the
+  whole page, so wrap them in `try`; a `set` over 64 KiB or an eleventh key
+  rejects with `INVALID_ARGS` and nothing is kept; a `set` called in a `back`
+  handler reaches the host, one called in `dispose` is lost), `sdk.cache.*` (this page load
   only, 1 MiB in all), `sdk.stage.open('content'|'full')/close/el/visible`
   (`el()` returns the node even when closed, so decide by `visible()`; your
   own `close()` does not emit `stage:close`), `sdk.role.get()` → `{name,
@@ -513,6 +518,13 @@ prose.
   message carries the server id (a UUIDv7, whose first 48 bits are also
   milliseconds). Key anything you store per conversation on message content,
   not on ids; to order messages, read the time from either kind of id.
+- A cold start hands the page only the latest 30 messages, each with its
+  full text in `message:new` and `message:done` whether or not it mounts;
+  older ones arrive only when the player scrolls up. State that is rebuilt by
+  replaying the conversation needs a snapshot in `sdk.save` that falls
+  inside those 30 messages; replaying the tail alone gives a different
+  state, and each device can show a different one. The conversation that
+  opens is the player's current one on the server, the same on every device.
 - The message list is virtualised: recent messages mount first and older ones
   mount as the player scrolls, not always contiguously. A layout that shows
   the whole conversation (pages, a timeline) keeps its own copy in

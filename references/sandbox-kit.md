@@ -211,13 +211,16 @@ while the model writes shows a toast instead of sending.
 | a stat the model narrates and a script also stores | the numbers disagree after a rewind |
 | `data-*` attributes on your own elements | gone after the sanitizer; selectors never match |
 | `on*` inside `<svg>` | the icon button does nothing |
-| reading `sdk.save` before saves load, without `try` | the whole script dies with HOST_DENIED |
+| reading `sdk.save` without `try` | the whole script dies with HOST_DENIED when the saves could not load |
+| growing data (per-turn snapshots, logs) in the kit's one store bundle | after a few dozen turns the bundle passes 64 KiB, every write is refused with INVALID_ARGS (the kit only warns), and settings, read marks and snapshots stop persisting; give growing data its own keys, cap each by bytes, keep the bundle for small settings |
+| saving progress only on `dispose` | lost: the host stops listening first; write when the state changes, flush on `back` and `visibilitychange` |
 | a pattern that can match the empty string | the rule is rolled back; the marker stays visible |
 | a replacement over 128 KiB (UTF-8; CJK comments cost three bytes) | the push is refused |
 | one `sdk.save` key per setting | RATE_LIMITED after twenty writes a minute; the eleventh key fails |
 | a path built as `"assets/" + id` | the file is never uploaded |
 | `{{random:a|b}}` | the literal text; the engine wants `{{random:a::b}}` |
 | a block the model is never told to write | the panel shows on the opening and never again |
+| a full-page screen drawn only at `settled` | the raw chat page flashes while the history loads; cover it from the first script run with a loading screen in the card's own style, show real progress (messages received), hand over at `settled`, and remove it on a timeout so a broken script never leaves it up |
 | `message:new` read as "a reply started" before the history settled | every stored message replays `new` on a cold start; the screen opens as if a reply were generating |
 | a status value shown from the kit's parsed value | full-width punctuation becomes ASCII (`｜` → `|`); show text values from the block as written |
 

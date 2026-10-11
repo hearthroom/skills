@@ -20,6 +20,13 @@ matches the card (one that never writes the player's part keeps `protect`),
 and put the card's one exception in `agencyNote`, where it
 sits beside that line instead of contradicting it from the definition.
 
+A named protagonist in long one-on-one turns is where `protect` fails: with
+only her and the narration to fill dozens of beats, her questions go
+unanswered and the model invents incidents. Use `lines`, as visual novels
+do: he answers and banters in the voice of the chosen line, capped in
+`agencyNote` (about a third of the dialogue in a romance), while feelings
+and decisions stay with the player. Show one such line in the examples.
+
 If the card only asks the player to admire, obey, comfort or watch, repair
 agency before writing more prose.
 

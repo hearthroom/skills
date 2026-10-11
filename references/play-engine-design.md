@@ -114,6 +114,18 @@ next reply acknowledges them. Parse forks tolerantly; models relabel A/B
 choices prefer `prologue` lines in `card.json`: they are the player's own
 editable lines, not the character's.
 
+Engine data the model must obey, not merely colour it may use:
+
+- Time: send the part of day with the clock and let only events change the
+  day; a storyboard asking for "a new place or a time skip" every long turn
+  reaches the next morning while the engine is still on the first night.
+- A beat the player avoids (a name she asked for): a standing line every
+  turn until it resolves. Asked once, the model fills the gap itself.
+- Background-art props: rotate, keep optional, drop time-bound ones (a
+  sunset at midnight) and those of an image reused for other places.
+- Reported taps: put the line beside the judgement and say which beat
+  answers it, or its tone fights the judged attitude.
+
 ## Chance
 
 When a card wants dice or any other draw, let the page own it: draw on the

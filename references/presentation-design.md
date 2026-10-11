@@ -133,6 +133,12 @@ girl", "???") to her sprite, and light no one for anyone else. When the
 engine sends a numbered storyboard, ask for the order without the labels
 and drop copied heading lines.
 
+Switch at the beat, not at the send. The engine knows the turn's event when
+the player sends; the reply may reach it many lines later. Keep music,
+outfit and danger effects in the old state until the first beat carrying
+the event (a cue word; else the last scene's start), from the saved reading
+position, with one gate for every consumer.
+
 Generated music follows the same split as the screen, a score played by an
 ensemble the story chooses; plan it with `generated-music.md`. Interface
 glow breathes slowly; pulsing it on the beat reads as a broken light.

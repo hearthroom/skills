@@ -167,7 +167,8 @@ From `check-card.mjs` and `card render --json`:
 
 Probe design, the two-model standard and transcript triage are in
 `playtest-loop.md`: 10–20 turns per run, covering compliance, off-script,
-passive, meta (an out-of-character question) and ending/goodbye probes, on a
+passive, stalling at a gate, meta (an out-of-character question) and
+ending/goodbye probes, on a
 weak model (the format floor: the status block, the choices and the voice
 are intact at the last turn) and a strong model (emergence), each run started
 with `--new-session`. One run is not evidence of improvement; compare with

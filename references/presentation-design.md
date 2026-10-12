@@ -135,9 +135,24 @@ and drop copied heading lines.
 
 Switch at the beat, not at the send. The engine knows the turn's event when
 the player sends; the reply may reach it many lines later. Keep music,
-outfit and danger effects in the old state until the first beat carrying
-the event (a cue word; else the last scene's start), from the saved reading
-position, with one gate for every consumer.
+outfit and danger effects, and any notice of the event, in the old state
+until its beat, from the saved reading position, with one gate for every
+consumer. Find the beat with a marker, not by searching prose: a data line
+asks the model to write one line in the card's existing effect format where
+the thing happens, and the screen switches there. While the reply streams,
+only the marker counts; once it is complete, fall back to keywords, then to
+the end. The screen can then only be late, never early.
+
+State the model decides in the story (who wears what) works the same way.
+Keep one catalog of names that serves as the definition's whitelist, the
+engine's validation and the fallback keywords, so adding an item is one
+edit. The model declares a change with a marker naming who and what; the
+next player message echoes what was declared, always present (`none` when
+empty, so its absence marks an older message); replay restores it from that
+line, on any device, without reading old replies. Declarations lapse when
+the day changes, and engine-owned forms (power-ups, transformations) win.
+Put the marker instruction on the echo line itself: away from the data,
+models reuse a familiar effect name instead.
 
 Generated music follows the same split as the screen, a score played by an
 ensemble the story chooses; plan it with `generated-music.md`. Interface

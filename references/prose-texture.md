@@ -99,7 +99,8 @@ naming the feeling wastes the sentence and takes it from the player.
 Never narrate the player's inner state. "你驚恐地", "你渾身冰冷", "你不禁",
 "你感到" are agency takeovers as well as texture failures; `agency-design.md`
 covers the first, this reference the second. Give the player the object and
-let them decide what it means.
+let them decide what it means. A visual-novel protagonist's inner voice (what
+he notices, his retorts) is the exception; `agency-design.md` draws the line.
 
 Adjectives come one at a time. A noun with three modifiers (淒厲、瘋狂、
 病態的視線) is a mood label wearing a costume; pick the one that changes what
@@ -112,7 +113,8 @@ happens next, or replace all three with an action.
   for the rest of the session. Budget the ellipsis: one or two on a screen,
   placed where a specific character is specifically failing to say a specific
   thing. A trembling line that ends with a decision reads better than one
-  that trails off.
+  that trails off. Inner-voice lines are where it creeps back: write them as
+  whole spoken sentences.
 - One beat per paragraph. A paragraph does one thing: an action, a line, a
   detail, a change. Short paragraphs are fine; a wall of paragraphs that each
   describe another millimetre of the same held breath is not, because the
@@ -240,7 +242,8 @@ and the output contract sample:
 - Every emotion on the screen is carried by an object, a sound, a distance or
   an action; adjectives arrive singly.
 - At most one simile per screen, and it brings a new object.
-- Speech is at least as present as narration; two or more speakers are
+- Speech (counting a protagonist's inner voice) is at least as present as
+  narration; two or more speakers are
   distinguishable without names.
 - One line refuses the mood.
 - No block stacks three polished devices (quotable line, decoding

@@ -51,9 +51,10 @@ counted in lines does not hold a group scene by itself: in playtests a pair
 who answer each other line for line, plus whoever stood nearby, and a reply
 that cut between places ran two to four times the target. Give the beat plan a
 share per speaker and keep one turn in one scene. A one-on-one pair stays
-long even then; when what fills the length is the scene itself, label the
-length menu with what replies measure and treat the numbers in the prompt
-as a knob, rather than truncating the scene to match the label. Put these rules in the
+long even then, and that length is the scene, not padding: set the length
+instruction to what a scene of the genre holds, since a target far below it
+is ignored and only stretches each line, and fill it with material such as
+the protagonist's inner voice (`agency-design.md`). Put these rules in the
 definition and, if replies must mark who is speaking, that format in the
 output contract.
 

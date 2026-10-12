@@ -659,6 +659,9 @@ A line the card sends (`sdk.message.send`) never becomes a player message in the
 generating phase shows), so state rebuilt from player lines sees none: paste it, "add player line", then
 stream a sample. A send from a script's own `element.click()` is no gesture and the shell asks to allow
 it first; drive taps with real input events (CDP `Input.dispatchMouseEvent`, `preview-shots.mjs --interact`).
+The preview's host offers no editing (`capabilities.edit` is false), so `sdk.message.edit` rejects with
+`HOST_DENIED` there: anything that rewrites a bubble, such as appending the next opening to the last reply,
+is tested on the play link.
 `hearthroom card preview --check --sizes A,B,…` names the first size's shots
 `phone-*`, the last size's `desktop-*` and the rest `WxH`; `findings.json`
 gives each size. Its `freeInputVisible` looks only for the site's composer,

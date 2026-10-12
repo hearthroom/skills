@@ -20,7 +20,8 @@ Every independent probe set and every retest starts with
 `hearthroom play <dir> --new-session` (an alternate opening needs
 `--new-session --greeting N`; without it the turns pile into the old
 conversation and `--greeting` does nothing). Cover compliance, off-script,
-passive, meta (an out-of-character question) and ending/goodbye. Fix one
+passive, stalling at a gate the story waits on, meta (an out-of-character
+question) and ending/goodbye. Fix one
 shortcoming per version; before a paid retest run the pre-check
 (`check-card.mjs`, `card push --validate`, `card render`, the offline preview
 with the failing reply in `preview/replies.md`); rerun the same probes on the
@@ -71,6 +72,11 @@ Each independent probe set and every retest starts with `--new-session`;
 messages when the transcript is long. `--stop` cancels a reply the author
 does not want to wait for.
 
+The current conversation is stored in the folder (`.hearthroom/state.json`).
+Two agents testing from the same folder share it, and either one's
+`--new-session` archives the other's run mid-way. Give each parallel tester
+its own copy of the folder, or take turns.
+
 There is no report command. The agent judges the reply text itself against
 the checks below and `quality-rubric.md`.
 
@@ -100,11 +106,27 @@ conversation on both models:
    short, off-path, meta and ending moves, then a check that route, scene,
    location, clue, risk or obligation actually moved, that turn two beat turn
    one, and that something accumulated
+9. stalled gate: for each beat the story waits on the player for (a name,
+   an answer, a confession, a route pick), 3–5 turns in a row that delay
+   it, refuse it or take the other choices, then one turn that gives it.
+   Healthy: the character keeps the beat alive in new ways, the scene keeps
+   its place and time, and the beat still lands when it is finally given.
+   Failures: invented incidents to fill the gap, the character resolving
+   the beat herself, a jump to the next day, the scene ending on its own.
 
 The long-arc probe exists because a lively turn can still leave the
 conversation in the same place. Same location, repeated opening beats, or no
 movement toward the intended route map is a warning even when single turns
 look good.
+
+The stalled-gate probe exists because a run that takes the suggested path
+opens every gate on the first try, so the writing around a held gate is
+never read. List the gates from the card's engine, script or storyboard
+and give each its own probe, on the model players actually pick as well as
+the test pair. Start it from a real path: a harness that skips ahead with
+synthetic state also skips the gate's scenes, and the model then fills the
+gap from what the card knows (a name not yet given) or meets state the skip
+never set.
 
 ## Action-path closure
 
@@ -246,6 +268,7 @@ Read the transcript first. Map the observed problem to a patch.
 | One reviewed reply lacks closure although later ones pass | agency, route reply protocol | definition and opening next-move rules |
 | Reply restates the opening or asks another generic question | second-turn engine | opening second-turn move |
 | Reply ignores the player's choice | consequence loop | definition state and route rules |
+| While the player withholds a gated beat, replies invent incidents, skip time or resolve it themselves | gate not restated each turn | `play-engine-design.md` (data the model must obey); a storyboard slot for the gate |
 | Reply forgets the route or restarts the premise | longplay engine | continuity spine, memory threads, return-later behaviour |
 | Reply decides the player's feelings or actions | agency boundary | definition do/avoid and opening phrasing |
 | Reply escalates sensitive content too fast | boundary design | explicitness ceiling, escalation ladder, pacing, stop conditions |

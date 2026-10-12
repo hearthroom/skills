@@ -33,7 +33,10 @@ turn. Read a craft reference only when the transcript points there
 3. Plan before the first turn and keep it in the dossier: target risks, probe
    scope (spot-check or behaviour-complete), the probes in real player
    wording, which run with `--agent on`, the alternate opening if any, the
-   two models, whether the previous version's probe set is reused.
+   two models, whether the previous version's probe set is reused. List
+   the beats the story waits on the player for and plan a stalled-gate
+   probe for each (delay or refuse it for several turns); a run that only
+   takes the suggested path never reads that writing.
 4. Start each independent probe set and each retest with `--new-session`
    (`--greeting N` only takes effect with it). Read each reply before
    sending the next probe; `--history` for long conversations, `--stop` when

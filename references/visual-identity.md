@@ -113,8 +113,12 @@ out, kept out of the scene art, and drawn the same wherever they appear.
 
 For a fan card, where the canon look is the point, a description in words
 gets a generic costume: attach the official full-body art and ask for the
-same design in the card's style. A screen shown in portrait needs art
-composed for portrait, not a landscape scene padded with colour.
+same design in the card's style. Sides are where it slips: "her left hand"
+on a figure facing the viewer keeps coming back mirrored, and flipping the
+result also flips the cast's order and every one-sided detail. A sketch of the
+sprites already placed as wanted, attached first, with positions named by the
+picture's sides, holds them. A screen shown in portrait needs art composed
+for portrait, not a landscape scene padded with colour.
 
 Standing sprites are usually cut at the thigh; keep that edge below the
 frame or behind the text box on every screen shape, with a fade as a guard,

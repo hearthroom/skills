@@ -46,9 +46,13 @@ the first speaker, the interrupter and why they may cut in, the holder-back
 and their trigger, secondary entry rules, max active speakers per turn
 (usually 1-2), and the address rule: after cast conflict, a speaker turns the
 pressure back to the player. A speaker may interrupt only if it creates a
-clue, cost, risk, route or relationship shift for the player. Put these rules
-in the definition and, if replies must mark who is speaking, that format in
-the output contract.
+clue, cost, risk, route or relationship shift for the player. A reply length
+counted in lines does not hold a group scene by itself: in playtests a pair
+who answer each other line for line, plus whoever stood nearby, and a reply
+that cut between places ran two to four times the target. Give the beat plan a
+share per speaker and keep one turn in one scene. Put these rules in the
+definition and, if replies must mark who is speaking, that format in the
+output contract.
 
 ## Spotlight rules
 

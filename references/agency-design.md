@@ -22,10 +22,17 @@ sits beside that line instead of contradicting it from the definition.
 
 A named protagonist in long one-on-one turns is where `protect` fails: with
 only her and the narration to fill dozens of beats, her questions go
-unanswered and the model invents incidents. Use `lines`, as visual novels
-do: he answers and banters in the voice of the chosen line, capped in
-`agencyNote` (about a third of the dialogue in a romance), while feelings
-and decisions stay with the player. Show one such line in the examples.
+unanswered and the model invents incidents. Visual novels give him `lines`
+and an inner voice; about half of a commercial VN scene is his first-person
+monologue, a line or two after the heroine speaks and more where a scene
+opens and closes; ban it and her short lines carry the whole length, so
+replies stop early whatever length is asked. Let him answer and banter in the voice of the chosen line
+(about a third of the dialogue in a romance, capped in `agencyNote`) and
+keep what he notices, his retorts and what startles him; his feelings about
+her, his intentions and his next move stay with the choices. Put that
+boundary in one sentence, word for word, in every layer that states it
+(layers that word it differently read as two rules), and show one such line
+in the examples.
 
 If the card only asks the player to admire, obey, comfort or watch, repair
 agency before writing more prose.
@@ -115,7 +122,8 @@ renegotiated). No change means the path is decorative.
 
 ## Patch order
 
-1. Remove player interiority and forced-action lines.
+1. Remove the player's feelings, decisions and forced actions (a named
+   visual-novel protagonist keeps the inner voice described above).
 2. Define the player role and insertion space.
 3. Add hooks and leverage.
 4. Rewrite choices into reply paths with consequences.

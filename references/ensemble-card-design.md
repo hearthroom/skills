@@ -50,7 +50,10 @@ clue, cost, risk, route or relationship shift for the player. A reply length
 counted in lines does not hold a group scene by itself: in playtests a pair
 who answer each other line for line, plus whoever stood nearby, and a reply
 that cut between places ran two to four times the target. Give the beat plan a
-share per speaker and keep one turn in one scene. Put these rules in the
+share per speaker and keep one turn in one scene. A one-on-one pair stays
+long even then; when what fills the length is the scene itself, label the
+length menu with what replies measure and treat the numbers in the prompt
+as a knob, rather than truncating the scene to match the label. Put these rules in the
 definition and, if replies must mark who is speaking, that format in the
 output contract.
 

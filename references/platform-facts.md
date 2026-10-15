@@ -93,8 +93,8 @@ default.
 
 | Key | Values (platform default first) |
 |---|---|
-| `agency` | `protect` never writes the player's part; `assist` fills in details of actions the player stated; `lines` may write the player character's lines but not decisions; `coauthor` may write words, actions and decisions |
-| `style` | `default` platform writing guide; `guided` a lighter guide that defers to the card's material; `card` no platform guide; `custom` with `customStyle` (at most 1000 characters) |
+| `agency` | `protect` never writes the player's part; `coauthor` may write the player character's words, actions and decisions. The older `assist` and `lines` are read as `protect` and `coauthor` |
+| `style` | `default` platform writing guide (dialogue carries the scene, narration does only its own job); `vivid` the former default (full sensory description, dialogue and narration side by side); `guided` a lighter guide that defers to the card's material; `card` no platform guide; `custom` with `customStyle` (at most 1000 characters) |
 | `perspective` | `card` follow the material; `first_character`; `second_user`; `third_limited`; `third_omniscient` |
 | `length` | `auto`; `recommended` 2 to 5 paragraphs, about 2500 characters; `target` with `lengthTarget`, one of 200, 300, 400, 500, 600, 800, 1000, 1200, 1500, 2000, 2500, 3000, 4000, 5000, 7000, 10000 characters |
 | `pace` | `natural`; `linger`; `advance` |

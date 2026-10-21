@@ -28,7 +28,7 @@ with the failing reply in `preview/replies.md`); rerun the same probes on the
 same models and compare with the previous version layer by layer (better /
 same / worse, with the line that shows it). One reply cannot separate
 improvement from noise. Agree the credit stance first (`hearthroom wallet`);
-stopped turns are still charged.
+stopped turns may still cost credits (see `platform-facts.md`).
 
 ## When to playtest
 

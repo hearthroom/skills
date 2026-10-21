@@ -45,9 +45,9 @@ credits on a draft that still fails the card checks or has `blockers` in
   `hearthroom card push <dir> --validate --json` (trial-card expiry is in
   `cost-and-boundaries.md`). Confirm `card.json` has `language`; without it
   the provider replies in English.
-- Every `play -m` turn spends the author's credits at the model's rate. Agent
-  mode turns are billed on actual usage, including turns that fail or are
-  stopped. State the cost stance for the whole run (turns, both models) and
+- `play -m` may spend the author's credits at the model's rate; usage charges
+  and platform-error waivers follow `platform-facts.md`, CLI commands.
+  State the cost stance for the whole run (turns, both models) and
   get the author's consent before the first turn. A request for a test plan
   alone means no turn is sent.
 - Pick the weak and the strong model with the author from `hearthroom models`

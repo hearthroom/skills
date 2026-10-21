@@ -201,20 +201,7 @@ validation report rather than hard-coding them.
 
 ## Lorebook
 
-An entry has `name`, `content`, `keywords`, `secondaryKeywords`, `constant`,
-`disabled`, `triggerRegion` (stored and exported, not used by recall) and
-`matchOptions`: `selective` (whether secondary keywords apply),
-`selectiveLogic` 0–3 (any secondary present, not all present, none present,
-all present), `caseSensitive`, `matchWholeWords`, `scanDepth` (0–100),
-`order` (stable author order among newly admitted entries), `groupId` /
-`groupOrder` (pieces of one long entry) and `extensions` (kept from imports,
-never executed). A keyword written as `/pattern/flags` is a regular
-expression; lookaround and backreferences work but run under a timeout; an
-invalid pattern is not treated as literal text. Whether a plain keyword
-matches both Chinese scripts is not documented (display-rule `find` does):
-for Chinese cards list both forms of a noun the player might type. Entry
-length is limited per card language (`language` in `card.json`; the
-numbers are not documented, so read the validation warnings).
+An entry has `name`, `content`, `keywords`, `secondaryKeywords`, `constant`, `disabled`, `triggerRegion` (stored and exported, not used by recall) and `matchOptions`: `selective` (whether secondary keywords apply), `selectiveLogic` 0–3 (any secondary present, not all present, none present, all present), `caseSensitive`, `matchWholeWords`, `scanDepth` (0–100), `order` (stable author order among newly admitted entries), `groupId` / `groupOrder` (pieces of one long entry) and `extensions` (kept from imports, never executed). A keyword written as `/pattern/flags` is a regular expression; lookaround and backreferences work but run under a timeout; an invalid pattern is not treated as literal text. Whether a plain keyword matches both Chinese scripts is not documented (display-rule `find` does): for Chinese cards list both forms of a noun the player might type. Entry length is limited per card language (`language` in `card.json`; the provider publishes upload limits at `/open/v1/worldbook/limits`; a bound book's `entryContentMax` is available from its detail response).
 
 How entries reach the model in a normal conversation:
 
@@ -719,6 +706,13 @@ hearthroom card push <dir> --create                # keep it: a real private car
 hearthroom models | tags --zone zh | search | media ls|upload|mv|rm | upgrade --check
 ```
 
+- CLI 0.10.1 and later batch Lorebook writes and save card/book IDs and progress in
+  `.hearthroom/state.json`; keep it and rerun the same command to resume. Unknown
+  outcomes are read back first; ambiguous results stop for inspection.
+- Long entries without author groups split for upload without losing text; local files
+  stay unsplit and existing `groupId` / `groupOrder` values are preserved. Parts count
+  toward the trial limit (currently 1000); `card push --create` saves a private draft.
+  Private access is for the author and authorized clients; unlisted also allows link access.
 - Pushing, validating, rendering, importing, pulling and browsing are free.
   Only `play -m` generates and needs `--allow-spend`.
 - A trial card expires three days after its last push; an account holds at

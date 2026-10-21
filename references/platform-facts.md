@@ -730,10 +730,12 @@ hearthroom models | tags --zone zh | search | media ls|upload|mv|rm | upgrade --
   `--model` picks a model from `hearthroom models`, `--thinking` sets a
   thinking depth where the model supports it, `--show-thinking` prints
   reasoning deltas, `--stop` cancels a reply. With `--json`, every server
-  event is printed as one JSON object per line; a stopped or failed reply is
-  still charged for the calls it made. A provider outage ends the turn with
-  `state: failed_retryable`, `failureCause: service_unavailable` and
-  `chargeCredits: 0`. A reply left incomplete keeps the conversation busy:
+  event is printed as one JSON object per line. Model usage is charged even
+  if a reply is safety-blocked, refused for its content, reaches the output
+  limit, or is stopped, including when no reply text is shown. Platform errors
+  (including deployment interruptions) and service errors with no model usage
+  are not charged; read final `settled` and `chargeCredits` values rather than
+  inferring the charge from the reply state. A reply left incomplete keeps the conversation busy:
   further sends and `--new-session` return `409 chat_operation_conflict` until
   the server lets go (about two to three minutes in CLI 0.5.0; `--stop` did
   not release it sooner), so poll `--history` before retrying. Turns sent with `play` do not pass
@@ -802,8 +804,8 @@ excluded). Originality of the definition text matters.
 
 ## Costs and boundaries
 
-Generation spends the player's credits at the provider's model rates; agent
-mode turns are billed on actual usage, including turns that fail or are
-stopped. Drafting, validating and rendering cost nothing beyond the agent's own
+Generation spends the player's credits at the provider's model rates; the
+`play` billing rules above apply to ordinary and agent mode turns.
+Drafting, validating and rendering cost nothing beyond the agent's own
 usage. Keep all work on trial cards or the author's private cards; never
 publish or submit on the author's behalf without an explicit request.

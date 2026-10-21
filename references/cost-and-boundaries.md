@@ -8,9 +8,9 @@ from `platform-facts.md`.
 - `hearthroom play -m` generates a real turn and spends the signed-in
   account's credits (the author's, during testing) at the provider's model
   rates. It requires `--allow-spend`; `hearthroom wallet` shows the balance.
-- An agent-mode turn (`--agent on`) is billed on actual usage, including turns
-  that fail or are stopped with `--stop`, so a turn that does more work costs
-  more.
+- Ordinary and agent-mode turns (`--agent on`) may still cost credits when
+  stopped or failed. Actual-usage charges and platform-error waivers are
+  described in `platform-facts.md`, CLI commands.
 - Before running probes, make sure the author asked for play testing or
   understands the cost. Pick probes deliberately; do not replay a whole matrix
   in both agent and normal mode. A standard run is 10–20 turns on a weak and

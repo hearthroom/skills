@@ -84,8 +84,8 @@ when rolled back; `report` has `tags`, `components`, `scripts`, `styles`,
 rule engine: `applied` means the rule matched, not that a script drew
 anything.
 
-`play --json`: every server event is printed as one JSON object per line; a
-stopped or failed reply is still charged. Calls on the same folder continue
+`play --json`: every server event is printed as one JSON object per line;
+read final billing under `platform-facts.md`, CLI commands. Calls on the same folder continue
 one conversation; `--new-session` starts a fresh one, and `--greeting N`
 applies only when a new conversation is created. `--history` reads the
 conversation back newest first (sort by `id` before pairing a line with its reply). Turns sent with `play` do not pass through the play page,
@@ -96,6 +96,6 @@ so display rules and scripts are not exercised by them.
 Only `play -m` generates a reply and spends the author's credits. Before the
 first turn, state the cost stance (how many turns, which models) with
 `hearthroom wallet --json` and get the author's agreement. A stopped or
-failed turn is still billed for the calls it made. Never loop turns
+failed turn may still cost credits; see `platform-facts.md`. Never loop turns
 unattended. The playtest standard (10–20 turns, a weak and a strong model,
 `--new-session`, one shortcoming per version) is in `playtest-loop.md`.

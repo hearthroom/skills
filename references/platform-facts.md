@@ -703,6 +703,7 @@ hearthroom play <dir> --history --limit 20          # read the conversation back
 hearthroom wallet --json                           # balance before a cost stance
 hearthroom card pull <roleId> [dir] --force        # bring the provider's copy back; --force overwrites local files
 hearthroom card push <dir> --create                # keep it: a real private card on the site
+hearthroom card push <dir> --prune                 # delete CLI-managed Lorebook entries removed from the local file
 hearthroom models | tags --zone zh | search | media ls|upload|mv|rm | upgrade --check
 ```
 

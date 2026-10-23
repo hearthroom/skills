@@ -332,6 +332,18 @@ cannot read the player's login state or make requests to external URLs
 (`<script src>`, images, fonts load; `fetch` reaches only the media library, so
 keep JSON and WASM there). Credit-spending actions answer only the player's clicks.
 
+**Image sharing and clipboard writes:** the HTTPS host delegates `web-share` and
+`clipboard-write` to card frames (including frontend blocks), not `clipboard-read`.
+These are native browser APIs, not `sdk` calls. Prepare an image `File` before a
+player click; call `navigator.share({ files: [file], text })` directly in its
+handler after checking `navigator.share` and `navigator.canShare({ files: [file] })`.
+For copying, feature-detect `navigator.clipboard.write` and `ClipboardItem` for
+PNG, or `navigator.clipboard.writeText` for captions; act from the player's click.
+HTTPS, browser/OS support and permission still apply; opaque local previews may
+reject the call. Catch denial/cancellation, offer image download and selectable
+caption text, and do not reopen a cancelled share sheet. A receiving app may drop
+image or text; only a real target-device check proves its behaviour.
+
 The sandbox author API has the same shape as the new-style sandbox on Meimo
 Island (MMD), so a script written for that page runs here; the differences are
 listed at the end of this section. The complete, generated inventory (every

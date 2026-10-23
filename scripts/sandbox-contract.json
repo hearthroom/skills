@@ -162,7 +162,8 @@
         "refresh",
         "retry-stream-off",
         "edit-message",
-        "switch-lane"
+        "switch-lane",
+        "resend-traditional"
       ],
       "outcomeIsNullWhile": "a reply is being generated, or the last turn ended normally",
       "labelsAre": "the same player-language text as the platform card under that row",

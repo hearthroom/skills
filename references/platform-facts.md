@@ -414,10 +414,10 @@ prose.
   one of `model-error network-error server-error rate-limit quota filtered
   length-cap stopped compact-retryable outcome-unconfirmed interrupted`
   (`outcome-unconfirmed` has no buttons and resolves by itself), `label` and
-  `sub` in the player's language, `action` one of `retry continue switch-model
-  model-settings capacity refresh retry-stream-off edit-message switch-lane`;
-  the last three only on `filtered`: streaming off then retry, edit the blocked
-  message (sending replaces it), model menu on the current model's lanes),
+  `sub` in the player's language, `action` one of `retry continue switch-model model-settings capacity
+  refresh retry-stream-off edit-message switch-lane resend-traditional`; the last four only on
+  `filtered`: streaming off then retry, edit the blocked message (sending replaces it), the
+  model menu on its lanes, resend it in Traditional Chinese (once, if it has Simplified)),
   `sdk.generation.act(action)` (presses one
   of those buttons as a tap on the card would, so a retry reuses the player's
   line; only inside the player's click, otherwise `UNAUTHORIZED` with no

@@ -21,7 +21,9 @@ Read `../../references/sandbox-kit.md` (the method), the sandbox section of
 `../../scripts/sandbox-contract.json` lists every capability, event, node,
 variable and limit; cite it rather than memory. When neither explains a
 misbehaviour, the chat page is open source: `platform-facts.md`, "Where
-these facts come from", names the files and the cautions.
+these facts come from", names the files and the cautions. For export, sharing
+or clipboard actions, read "Image sharing and clipboard writes" there and
+verify a real player click on the target device.
 
 ## Workflow
 

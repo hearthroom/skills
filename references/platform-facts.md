@@ -788,6 +788,37 @@ hearthroom models | tags --zone zh | search | media ls|upload|mv|rm | upgrade --
 
 ## Publishing
 
+### Community visibility
+
+For a folder linked to an owned card, `hearthroom card visibility get <dir>
+--json` reads the server's current `workVisibility`. Change it with `hearthroom
+card visibility set private <dir>`, `set unlisted <dir>` or `set public <dir>`:
+
+| Value | Who can use it |
+|---|---|
+| `private` | Only the author; other players retain readable conversation history but cannot continue |
+| `unlisted` | Anyone with the link can play and comment; the card stays out of Discover, rankings and search. Sharing exposes the latest saved content, including changes that have not passed review |
+| `public` | Players use the approved version. An unchanged, still-approved version can be restored; changed or unprovable content requires review |
+
+Changing access preserves the card, heat, comments and favorites and does not
+repeat first-publication rewards. Ordinary `card push` updates content without
+changing access or submitting for review. A `review_required` response from
+`visibility set public` keeps the current access; only an explicit author request
+allows `card rate` and `card submit` to continue the review workflow.
+
+The CLI saves the operation key and original intent before sending. A 202,
+timeout or 503 leaves the result unconfirmed. Keep `.hearthroom/state.json`, run
+`card visibility get <dir> --json` to read back the saved operation, and repeat
+the same `set` only to resume with that key. Do not replace an unresolved intent
+with another target. Unconfirmed results have a nonzero exit code and structured
+`visibility_unconfirmed` plus a hint; they are not confirmed failures.
+
+These are community sharing controls. HarperHarbor Console retains its own SaaS
+configuration workflow and has no community visibility picker. The provider
+has no tool-protocol transport for these controls; use the CLI from a shell.
+
+### Review and publication
+
 `card push --create` makes a real private card that appears in the author's
 inventory on the site; later plain pushes keep updating it. Submitting for
 community review happens on the site, and that is where a version is frozen:

@@ -820,8 +820,8 @@ has no tool-protocol transport for these controls; use the CLI from a shell.
 ### Review and publication
 
 `card push --create` makes a real private card that appears in the author's
-inventory on the site; later plain pushes keep updating it. Submitting for
-community review happens on the site, and that is where a version is frozen:
+inventory on the site; later plain pushes keep updating it. The community service
+freezes a version when you submit it for review through the website or `card submit`:
 review applies to one frozen version of the card, submitted together with a
 content-rating questionnaire; changing content makes a new version that needs
 its own review. The questionnaire follows Taiwan's game software rating (All
@@ -834,11 +834,16 @@ definition, openings, Lorebook, images and what it steers the AI to write. A
 card that lets the player date or marry a character is at least 12+.
 Reviewers reject a rating lower than the content. From CLI 0.8.0, `card rate`
 writes the answers to `rating.json` and `card submit` sends the card.
-Players get the approved copy (text, display rules and Lorebook) until an
-update is submitted and approved, so pushes change only the author's draft.
-The draft plays at `/play/<id>?mode=source` (printed by `card push` from CLI
-0.7.2, "Play draft" on the card page for its owner); the plain `/play/<id>`
-and the card page's Play show the approved copy. The card page and My Cards
+For public cards, players get the approved copy (text, display rules and
+Lorebook) until an update is submitted and approved. Pushes update the author's
+draft without changing the public version. For unlisted cards, anyone with the
+link can play the latest saved content, including changes that have not passed
+review. Private cards remain available only to the author; other players can
+read their existing conversations but cannot continue.
+The author can play the draft at `/play/<id>?mode=source` (printed by `card push`
+from CLI 0.7.2, "Play draft" on the card page). The plain `/play/<id>` and the
+card page's Play follow the card's current community visibility. The card page
+and My Cards
 flag unsubmitted edits, including edits to only display rules or the
 Lorebook. Before CLI 0.8.5, `card submit` could resend an unconfirmed
 submission's operation id after a new push, and the site answers a known id

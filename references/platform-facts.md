@@ -796,10 +796,11 @@ card visibility set private <dir>`, `set unlisted <dir>` or `set public <dir>`:
 
 | Value | Who can use it |
 |---|---|
-| `private` | Only the author; other players retain readable conversation history but cannot continue |
+| `private` | The author and players who have already played this card can continue conversations or start new ones, with normal charges. People who have never played it cannot open it; it stays out of public listings. |
 | `unlisted` | Anyone with the link can play and comment; the card stays out of Discover, rankings and search. Sharing exposes the latest saved content, including changes that have not passed review |
 | `public` | Players use the approved version. An unchanged, still-approved version can be restored; changed or unprovable content requires review |
 
+Previous players retain play access to versions they have played and approved versions of the same work. If they played the source version while it was unlisted, they keep access to that source version. Other drafts or versions awaiting review that they have not played remain private. Play access does not grant access to the author's private instructions or permission to export the configuration.
 Changing access preserves the card, heat, comments and favorites and does not
 repeat first-publication rewards. Ordinary `card push` updates content without
 changing access or submitting for review. A `review_required` response from
@@ -838,8 +839,7 @@ For public cards, players get the approved copy (text, display rules and
 Lorebook) until an update is submitted and approved. Pushes update the author's
 draft without changing the public version. For unlisted cards, anyone with the
 link can play the latest saved content, including changes that have not passed
-review. Private cards remain available only to the author; other players can
-read their existing conversations but cannot continue.
+review. Private cards remain playable by the author and previous players, under the version boundaries described in Community visibility above.
 The author can play the draft at `/play/<id>?mode=source` (printed by `card push`
 from CLI 0.7.2, "Play draft" on the card page). The plain `/play/<id>` and the
 card page's Play follow the card's current community visibility. The card page

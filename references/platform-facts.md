@@ -494,7 +494,8 @@ prose.
   `sdk.debug.log(...)` (`?sdkDebug=1` shows the panel). `sdk.version` is the
   string `'1'`. Rate limits per minute: `save.set` 20, `message.send` 3 by
   gesture and 3 automatic, `message.edit` 10 → `RATE_LIMITED`.
-- Events: `ready`, `message:new`, `message:mount`, `message:stream`,
+- Named `sdk.on` events (history uses `history.onChange`, see Authoritative message history below):
+  `ready`, `message:new`, `message:mount`, `message:stream`,
   `message:done`, `message:unmount`, `input:change`, `conversation:switch`,
   `theme:change`, `back`, `stage:close`, `dispose` (`conversation:switch` carries
   `{conversationId}` after a load, save, fork or new save), `model:change` (payload
@@ -940,15 +941,30 @@ bodies; thinking, streaming body and moderation-withheld content are absent.
 Use `item.complete` before accepting an AI reply as a complete state checkpoint.
 A failed or partially stopped reply is not complete merely because it ended.
 
-`history.onChange(callback)` returns an unsubscribe function. The first event
-is reset, then committed append/update/remove/truncate/replace events carry
-opaque IDs and the same conversation revision as the index. They include real
-removals of never-mounted and hollow messages; viewport unmount is not deletion.
-A revision may arrive in parts (at most 200 changes each); invalidate derived
-state on its first part and rebuild from a complete index rather than applying
-an incomplete group as final. Old change ranges produce reset, not a fabricated
-list of removed IDs. Other devices are checked every 15 seconds while visible
-and when returning to the foreground. Unsubscribe when the author scope exits.
+`sdk.history.onChange(callback)` / `stage.history.onChange(callback)` returns an
+unsubscribe function. It is a separate subscription, not `sdk.on('history:change')`.
+There is no named `message:remove` event. The callback receives:
+```ts
+{ conversationKey: string | null, previousRevision: string | null,
+  revision: string | null,
+  kind: 'append' | 'update' | 'remove' | 'truncate' | 'replace' | 'reset' | 'unavailable',
+  changes: Array<{ op: 'add' | 'update' | 'remove'; id: string; replacementId?: string }>,
+  part: number, final: boolean }
+```
+Revisions are decimal strings; `part` is zero-based. An available subscription
+starts with `reset`; reset/unavailable may have null keys/revisions and empty
+changes: mark derived state unknown until the authoritative list is re-read. A true deletion is a `changes` entry with
+`op: 'remove'` and the same opaque `id` used by `list()`, including never-mounted
+and hollow messages. `message:unmount` only describes viewport/DOM removal;
+its IDs/serverIds are not history IDs. Rewriting may keep the same history ID
+and emit `kind: 'replace'`, `op: 'update'`; re-read `contentVersion` and content.
+Do not require `replacementId` or infer all removals from an event's `kind`.
+A revision may arrive in parts (at most 200 changes each): invalidate on its
+first part, wait for `final: true`, then rebuild from the complete pinned-revision
+`list()` chain. Changes are invalidations, not a complete snapshot; an event
+alone cannot reconstruct history after a cold load. Old change ranges produce
+reset, not invented removed IDs. Other devices are checked every 15 seconds
+while visible and on return to foreground. Unsubscribe when author scope exits.
 The message-level frontend-block iframe does not gain a separate history SDK.
 This read-only API spends no generation credits, cannot change messages and
 must never be forwarded into share context, QR, model prompts or logs.

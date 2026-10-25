@@ -7,6 +7,7 @@
     "src/sandbox/sdk/create-sdk.ts",
     "src/sandbox/sdk/events.ts",
     "src/sandbox/sdk/errors.ts",
+    "src/common/share-context.ts",
     "src/sandbox/sanitize.ts",
     "src/sandbox/render/shell-dom.ts",
     "src/sandbox/shell.css",
@@ -31,6 +32,7 @@
       "on",
       "role",
       "save",
+      "share",
       "stage",
       "text",
       "user",
@@ -71,6 +73,8 @@
       "save.keys",
       "save.remove",
       "save.set",
+      "share.link",
+      "share.qr",
       "stage.close",
       "stage.el",
       "stage.open",
@@ -93,7 +97,8 @@
       "archive.start",
       "archive.rename",
       "archive.remove",
-      "generation.act"
+      "generation.act",
+      "share.qr"
     ],
     "notProvided": [
       "sdk.off",
@@ -200,6 +205,40 @@
       "gesture": "save/fork/open/start/rename/remove run directly inside a user gesture; outside one the shell asks first",
       "rateLimit": "archive.write 10/min"
     },
+    "share": {
+      "properties": [
+        "enabled",
+        "context",
+        "audience"
+      ],
+      "contextPattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$",
+      "param": "share",
+      "audiences": [
+        "author",
+        "link",
+        "public"
+      ],
+      "link": {
+        "sync": true,
+        "invalidContext": "SHARE_CONTEXT_INVALID",
+        "withoutHost": "HOST_DENIED",
+        "whenDisabled": "returns the card link without the context (no error)",
+        "keepsReferral": true
+      },
+      "qr": {
+        "maxChars": 1024,
+        "returns": [
+          "size",
+          "path"
+        ],
+        "pathIs": "SVG path in a size x size viewBox",
+        "invalidText": "INVALID_ARGS",
+        "withoutHost": "HOST_DENIED"
+      },
+      "contextIsNullWhile": "the page was not opened from a link with a valid context, the platform switch is off, or the player is viewing a past conversation",
+      "neverSentToTheModel": true,
+      "changeEvent": "share:change"
+    },
     "stage": {
       "modes": [
         "content",
@@ -269,7 +308,8 @@
     "NOT_SUPPORTED",
     "BUSY",
     "UNKNOWN_CAPABILITY",
-    "LIMIT_REACHED"
+    "LIMIT_REACHED",
+    "SHARE_CONTEXT_INVALID"
   ],
   "events": {
     "names": [
@@ -287,7 +327,8 @@
       "dispose",
       "model:change",
       "generation:phase",
-      "generation:outcome"
+      "generation:outcome",
+      "share:change"
     ],
     "replayedToLateSubscribers": [
       "message:mount",
@@ -347,6 +388,7 @@
         "label",
         "sub"
       ],
+      "share:change": "none",
       "conversation:switch": [
         "conversationId"
       ],

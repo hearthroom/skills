@@ -344,6 +344,23 @@ reject the call. Catch denial/cancellation, offer image download and selectable
 caption text, and do not reopen a cancelled share sheet. A receiving app may drop
 image or text; only a real target-device check proves its behaviour.
 
+**Share links that carry a context:** `sdk.share.link(code?)` (classic cards:
+`window.stage.share.link`) returns this card's share link synchronously, the
+card page `/cards/<number>` with the signed-in player's referral code, plus
+`?share=<code>` when given; build it before the click and pass it to
+`navigator.share`. A friend who opens that link reads the code back as
+`sdk.share.context` (otherwise `null`; also `null` while viewing a past
+conversation). The code is 1–64 ASCII letters, digits, `.`, `_` or `-`,
+starting with a letter or digit (`SHARE_CONTEXT_INVALID` in sandbox, `null` in
+classic). The platform only delivers it: it never reaches the model, carries no
+player data, and anyone can type one, so accept only codes your card defines.
+Whether the friend already has a save is the card's call (check
+`sdk.archive.list()`; a guest has none). `sdk.share.audience` is who can open
+the link (`author`: private, a new friend cannot; `link`; `public`). With the
+platform switch off (`sdk.share.enabled` false) `context` is `null` and `link()`
+returns the plain card link. `sdk.share.qr(text)` → `{size, path}` (an SVG path
+in a `size`×`size` grid) draws a QR code for your share image.
+
 The sandbox author API has the same shape as the new-style sandbox on Meimo
 Island (MMD), so a script written for that page runs here; the differences are
 listed at the end of this section. The complete, generated inventory (every
@@ -442,6 +459,8 @@ prose.
   own screen), outside one the shell asks (also a change chained after awaiting another); full → `LIMIT_REACHED` with
   `err.data = {count, limit}`; 10 a minute), `sdk.on(event, handler)` (`sdk.off` and `sdk.once` do not
   exist; a misspelled event or capability never fires and never errors),
+  `sdk.share.enabled/context/audience`, `sdk.share.link(code?)` and
+  `sdk.share.qr(text)` (see share links above; `qr` takes 1–1024 characters),
   `sdk.debug.log(...)` (`?sdkDebug=1` shows the panel). `sdk.version` is the
   string `'1'`. Rate limits per minute: `save.set` 20, `message.send` 3 by
   gesture and 3 automatic, `message.edit` 10 → `RATE_LIMITED`.
@@ -450,7 +469,9 @@ prose.
   `theme:change`, `back`, `stage:close`, `dispose` (`conversation:switch` carries
   `{conversationId}` after a load, save, fork or new save), `model:change` (payload
   as `sdk.model.get()`, on a change), `generation:phase` (`{phase, since}`, no replay),
-  `generation:outcome` (the outcome or `null`, on a change, no replay).
+  `generation:outcome` (the outcome or `null`, on a change, no replay),
+  `share:change` (no payload; re-read `sdk.share`, for example when the
+  referral code arrives after the first script run).
   Handlers get one argument:
   `{id, role, content, serverId}` for `message:*` (`message:stream` has no
   `serverId`; `serverId` is `null` for player messages and the greeting), a
@@ -842,7 +863,9 @@ link can play the latest saved content, including changes that have not passed
 review. Private cards remain playable by the author and previous players, under the version boundaries described in Community visibility above.
 The author can play the draft at `/play/<id>?mode=source` (printed by `card push`
 from CLI 0.7.2, "Play draft" on the card page). The plain `/play/<id>` and the
-card page's Play follow the card's current community visibility. The card page
+card page's Play follow the card's current community visibility; a `?share=<code>`
+on either reaches the card's scripts (see share links under Chat pages), so the
+author can test a context on the draft with `?mode=source&share=<code>`. The card page
 and My Cards
 flag unsubmitted edits, including edits to only display rules or the
 Lorebook. Before CLI 0.8.5, `card submit` could resend an unconfirmed

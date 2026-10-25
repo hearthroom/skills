@@ -884,3 +884,46 @@ Generation spends the player's credits at the provider's model rates; the
 Drafting, validating and rendering cost nothing beyond the agent's own
 usage. Keep all work on trial cards or the author's private cards; never
 publish or submit on the author's behalf without an explicit request.
+
+
+## Authoritative message history
+
+The page-level APIs are `sdk.history` for sandbox cards and `stage.history` for
+classic cards. Probe `history?.capabilities().available`; an older host or the
+CLI's offline preview may not have an authoritative conversation. Missing,
+unavailable, reset and failed reads mean unknown state, not an empty history.
+
+`history.list({cursor?, revision?, limit?, content?})` returns
+`{conversationKey, revision, items, complete, cursor}` for the current player,
+card and conversation only. Pages are oldest first, at most 200 rows. Pin the
+first page's revision for all continuation pages and discard the entire partial
+chain on `HISTORY_STALE`. Only the final page has `complete: true` and a null
+cursor. Revisions, order and contentVersion are decimal strings; opaque IDs are
+conversation-scoped keys, not player identities or the old DOM `lN/h…/serverId`.
+Do not pass raw conversation or role IDs to this author API.
+
+An item has `id`, `order`, `role` (`user`/`ai`), `kind` (`opening`/`message`),
+`state` (`streaming`/`complete`/`partial`/`failed`), `complete`, and
+`contentVersion`. Optional `content: true` returns visible original terminal
+bodies; thinking, streaming body and moderation-withheld content are absent.
+Use `item.complete` before accepting an AI reply as a complete state checkpoint.
+A failed or partially stopped reply is not complete merely because it ended.
+
+`history.onChange(callback)` returns an unsubscribe function. The first event
+is reset, then committed append/update/remove/truncate/replace events carry
+opaque IDs and the same conversation revision as the index. They include real
+removals of never-mounted and hollow messages; viewport unmount is not deletion.
+A revision may arrive in parts (at most 200 changes each); invalidate derived
+state on its first part and rebuild from a complete index rather than applying
+an incomplete group as final. Old change ranges produce reset, not a fabricated
+list of removed IDs. Other devices are checked every 15 seconds while visible
+and when returning to the foreground. Unsubscribe when the author scope exits.
+The message-level frontend-block iframe does not gain a separate history SDK.
+This read-only API spends no generation credits, cannot change messages and
+must never be forwarded into share context, QR, model prompts or logs.
+
+The literal capability names are `sdk.history.capabilities()`,
+`sdk.history.list()` and `sdk.history.onChange(callback)`. Errors are
+`HISTORY_UNAVAILABLE` (keep a readable unknown state), `HISTORY_STALE` (restart
+the whole page chain), `HISTORY_CURSOR_INVALID` (discard the cursor), and
+`HISTORY_LIMIT` (reduce page size or use metadata-only reads).

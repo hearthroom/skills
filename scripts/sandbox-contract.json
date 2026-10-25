@@ -19,6 +19,10 @@
     "src/pages/canvas/canvas-platform-defaults.ts",
     "docs/sandbox-chat-page.md"
   ],
+  "supportedProtocols": [
+    1,
+    2
+  ],
   "sdk": {
     "keys": [
       "archive",
@@ -26,6 +30,7 @@
       "composer",
       "debug",
       "generation",
+      "history",
       "input",
       "message",
       "model",
@@ -55,6 +60,9 @@
       "debug.log",
       "generation.act",
       "generation.get",
+      "history.capabilities",
+      "history.list",
+      "history.onChange",
       "input.add",
       "input.blur",
       "input.clear",
@@ -98,7 +106,8 @@
       "archive.rename",
       "archive.remove",
       "generation.act",
-      "share.qr"
+      "share.qr",
+      "history.list"
     ],
     "notProvided": [
       "sdk.off",
@@ -205,6 +214,50 @@
       "gesture": "save/fork/open/start/rename/remove run directly inside a user gesture; outside one the shell asks first",
       "rateLimit": "archive.write 10/min"
     },
+    "history": {
+      "featureVersion": 1,
+      "requiresProtocol": 2,
+      "classic": "stage.history",
+      "capabilities": [
+        "version",
+        "available",
+        "reason"
+      ],
+      "page": [
+        "conversationKey",
+        "revision",
+        "items",
+        "complete",
+        "cursor"
+      ],
+      "item": [
+        "id",
+        "order",
+        "role",
+        "kind",
+        "state",
+        "complete",
+        "contentVersion",
+        "content?"
+      ],
+      "changes": [
+        "conversationKey",
+        "previousRevision",
+        "revision",
+        "kind",
+        "changes",
+        "part",
+        "final"
+      ],
+      "streamContent": false,
+      "rawIdentities": false,
+      "subscribeReturnsUnsubscribe": true,
+      "pageLimit": 200,
+      "contentPageBytes": 524288,
+      "foregroundPollMs": 15000,
+      "revisions": "decimal strings; stale continuation rejects; only the final page is complete",
+      "lifecycle": "independent of mount/unmount; switch/dispose fences old responses"
+    },
     "share": {
       "properties": [
         "enabled",
@@ -309,7 +362,11 @@
     "BUSY",
     "UNKNOWN_CAPABILITY",
     "LIMIT_REACHED",
-    "SHARE_CONTEXT_INVALID"
+    "SHARE_CONTEXT_INVALID",
+    "HISTORY_UNAVAILABLE",
+    "HISTORY_STALE",
+    "HISTORY_CURSOR_INVALID",
+    "HISTORY_LIMIT"
   ],
   "events": {
     "names": [

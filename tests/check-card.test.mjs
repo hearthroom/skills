@@ -155,3 +155,12 @@ test('sharedState: the declaration rules the provider enforces on push (one-opti
   const shape = await card({ ...base, 'rules.json': { pageMode: 'sandbox', rules: [], sharedState: { polls: {}, extra: true } } });
   assert.ok(msgs(checkCard(shape)).some((x) => x.startsWith('error:') && x.includes('sharedState must be')));
 });
+
+test('reading sdk.share properties is not a missing capability; a misspelled one still is', async () => {
+  const base = { 'definition.md': '# Role\nStay in character.', 'welcome.md': 'Hello.' };
+  const rule = (script) => ({ pageMode: 'sandbox', rules: [{ id: 's', name: 's', find: '/^$x/', replace: `<script>${script}</script>`, enabled: true }] });
+  const ok = await card({ ...base, 'rules.json': rule('if(sdk.share.enabled&&sdk.share.context&&sdk.share.audience&&sdk.share.poll){}') });
+  assert.deepEqual(checkCard(ok).filter((f) => f.level === 'error'), []);
+  const typo = await card({ ...base, 'rules.json': rule('if(sdk.share.contxt){}') });
+  assert.ok(msgs(checkCard(typo)).some((x) => x.startsWith('error:') && x.includes('sdk.share.contxt does not exist')));
+});

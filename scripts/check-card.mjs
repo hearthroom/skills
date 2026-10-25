@@ -39,6 +39,8 @@ const HR_ON = /\bHR\.on\(\s*(['"`])([^'"`]+)\1/g;
 function scanScript(code, where, out, module = false) {
   const caps = new Set(CONTRACT.sdk.capabilities);
   const keys = new Set(CONTRACT.sdk.keys);
+  // values read off sdk.share (enabled, context, audience, poll) are not capabilities you call
+  for (const p of CONTRACT.sdk.share?.properties ?? []) caps.add(`share.${p}`);
   for (const m of code.matchAll(SDK_CAP)) {
     const key = m[1], method = m[2];
     if (key === 'on' || key === 'version') continue;

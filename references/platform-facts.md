@@ -76,7 +76,7 @@ my-card/
   welcome.md         the opening
   openings/alt-NN.md alternate openings, file-name order
   lorebook.json      { name, entries: [ … ] }
-  rules.json         { rules: [{id,name,find,replace,enabled}], mountTrigger, mountLayer, pageMode, cardFormat }
+  rules.json         { rules: [{id,name,find,replace,enabled}], mountTrigger, mountLayer, pageMode, cardFormat, sharedState }
   assets/            media referenced by relative path; uploaded on push
   README.md          notes; never sent to the provider
   .hearthroom/state.json   sync state written by the CLI
@@ -361,6 +361,35 @@ platform switch off (`sdk.share.enabled` false) `context` is `null` and `link()`
 returns the plain card link. `sdk.share.qr(text)` → `{size, path}` (an SVG path
 in a `size`×`size` grid) draws a QR code for your share image.
 
+**Polls, co-op counters and share responses:** declare them in `rules.json`
+`sharedState` (`polls: {key: {options, share?}}`, `counters: {key: {goal?,
+maxStep, perMember, period?}}`; at most 16 of each, 2–12 options, `maxStep`
+≤ 1000, `period` `none`|`day`|`week` in UTC+8; `card check` validates it, a push
+without the field keeps the server's copy, `{}` clears it). Everyone who plays
+the card shares the numbers. `sdk.shared` (classic: `window.stage.shared`):
+`read(keys)` (one key or up to 16; undeclared keys are left out) →
+`{key: {kind:'poll', counts, total, mine?} | {kind:'counter', total, mine?,
+goal?, reachedAt?, previous?}}`; `vote(key, option)` → `{mine}` (changeable 10
+times a day); `add(key, delta)` (1..`maxStep`) → `{total, mine, reachedAt}`;
+`leaderboard(key, {limit})` (10 by default, at most 50) → `{items: [{rank,
+name, value}], mine?}`, public nicknames only, no test accounts. Anyone reads;
+writing needs a signed-in player who has played the card. Nothing is pushed:
+re-read at most every 10 seconds. Share responses: `sdk.share.tallyLink(code,
+pollKey)` (async, prepare before the click; a `share: true` poll; same pair →
+same link; 20 a day; 90 days) gives a link with `?share=~XXXXXXXX`; the friend
+reads `sdk.share.context` and `sdk.share.poll` (`{key, options}` or `null`) and
+answers with `sdk.share.respond(option)`; the sharer reads
+`sdk.share.results()` → `[{context, pollKey, total, counts, updatedAt}]`
+(`total` live; `counts` from 3 answers, updated daily). Neither side learns who
+the other is. A card may unlock its own content from these numbers; they never
+grant platform credits. Errors in both page modes: `SHARED_DISABLED`,
+`NOT_DECLARED`, `OPTION_INVALID`, `NOT_ELIGIBLE` (not played, or your own
+link), `UNAUTHORIZED`, `RATE_LIMITED`, `LIMIT_REACHED` (`err.data.reason` `goal`
+or `limit`), `HOST_DENIED` (older player page; read-only while viewing a past
+conversation or a review playtest). Author playtests (`?mode=source`) and test
+accounts keep their own numbers; `hearthroom card state` shows, pauses and
+resets them.
+
 The sandbox author API has the same shape as the new-style sandbox on Meimo
 Island (MMD), so a script written for that page runs here; the differences are
 listed at the end of this section. The complete, generated inventory (every
@@ -461,6 +490,7 @@ prose.
   exist; a misspelled event or capability never fires and never errors),
   `sdk.share.enabled/context/audience`, `sdk.share.link(code?)` and
   `sdk.share.qr(text)` (see share links above; `qr` takes 1–1024 characters),
+  `sdk.shared.read/vote/add/leaderboard`, `sdk.share.poll/tallyLink/respond/results` (see polls above),
   `sdk.debug.log(...)` (`?sdkDebug=1` shows the panel). `sdk.version` is the
   string `'1'`. Rate limits per minute: `save.set` 20, `message.send` 3 by
   gesture and 3 automatic, `message.edit` 10 → `RATE_LIMITED`.
@@ -521,7 +551,8 @@ prose.
   children change (a `MutationObserver` for a few seconds), and binds buttons
   by delegation on `document`, not on the container.
 - Error codes: `UNAUTHORIZED`, `RATE_LIMITED`, `INVALID_ARGS`, `HOST_DENIED`,
-  `NETWORK`, `NOT_SUPPORTED`, `BUSY`, `UNKNOWN_CAPABILITY`. Synchronous
+  `NETWORK`, `NOT_SUPPORTED`, `BUSY`, `UNKNOWN_CAPABILITY`, and the shared-state
+  codes above. Synchronous
   capabilities throw an `SdkError` with `.code`; asynchronous ones reject.
 - Differences from MMD's page: no platform state variables (`sdk.vars`,
   `vars:change`, `<abc_vars>`; `card render` reports them under

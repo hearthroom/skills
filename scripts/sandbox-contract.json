@@ -8,6 +8,7 @@
     "src/sandbox/sdk/events.ts",
     "src/sandbox/sdk/errors.ts",
     "src/common/share-context.ts",
+    "src/common/shared-state.ts",
     "src/sandbox/sanitize.ts",
     "src/sandbox/render/shell-dom.ts",
     "src/sandbox/shell.css",
@@ -38,6 +39,7 @@
       "role",
       "save",
       "share",
+      "shared",
       "stage",
       "text",
       "user",
@@ -83,6 +85,13 @@
       "save.set",
       "share.link",
       "share.qr",
+      "share.respond",
+      "share.results",
+      "share.tallyLink",
+      "shared.add",
+      "shared.leaderboard",
+      "shared.read",
+      "shared.vote",
       "stage.close",
       "stage.el",
       "stage.open",
@@ -107,7 +116,14 @@
       "archive.remove",
       "generation.act",
       "share.qr",
-      "history.list"
+      "history.list",
+      "shared.read",
+      "shared.vote",
+      "shared.add",
+      "shared.leaderboard",
+      "share.tallyLink",
+      "share.respond",
+      "share.results"
     ],
     "notProvided": [
       "sdk.off",
@@ -262,7 +278,8 @@
       "properties": [
         "enabled",
         "context",
-        "audience"
+        "audience",
+        "poll"
       ],
       "contextPattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$",
       "param": "share",
@@ -290,7 +307,131 @@
       },
       "contextIsNullWhile": "the page was not opened from a link with a valid context, the platform switch is off, or the player is viewing a past conversation",
       "neverSentToTheModel": true,
-      "changeEvent": "share:change"
+      "changeEvent": "share:change",
+      "poll": {
+        "shape": [
+          "key",
+          "options"
+        ],
+        "maxOptions": 12,
+        "isNullWhile": "the page was not opened from a platform share-response link, the platform switch is off, or the player is viewing a past conversation",
+        "tokenVisibleToCard": false
+      },
+      "tally": {
+        "requiresProtocol": 2,
+        "tallyLink": {
+          "args": [
+            "context",
+            "pollKey"
+          ],
+          "returns": "url with ?share=~TOKEN and the sharer referral",
+          "async": true,
+          "prepareBeforeClick": true
+        },
+        "respond": {
+          "args": [
+            "option"
+          ],
+          "returns": [
+            "ok"
+          ],
+          "ownLink": "NOT_ELIGIBLE"
+        },
+        "results": {
+          "item": [
+            "context",
+            "pollKey",
+            "total",
+            "counts",
+            "updatedAt"
+          ],
+          "countsAreNullBelow": 3,
+          "countsUpdate": "daily",
+          "totalIsLive": true,
+          "ownerOnly": true
+        }
+      }
+    },
+    "shared": {
+      "requiresProtocol": 2,
+      "classic": "stage.shared",
+      "keyPattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$",
+      "read": {
+        "args": "key or list of keys",
+        "maxKeys": 16,
+        "undeclaredKeys": "omitted",
+        "poll": [
+          "kind",
+          "counts",
+          "total",
+          "mine?"
+        ],
+        "counter": [
+          "kind",
+          "total",
+          "mine?",
+          "goal?",
+          "reachedAt?",
+          "previous?"
+        ]
+      },
+      "vote": {
+        "args": [
+          "key",
+          "option"
+        ],
+        "returns": [
+          "mine"
+        ]
+      },
+      "add": {
+        "args": [
+          "key",
+          "delta"
+        ],
+        "deltaRange": [
+          1,
+          1000
+        ],
+        "returns": [
+          "total",
+          "mine",
+          "reachedAt"
+        ]
+      },
+      "leaderboard": {
+        "args": [
+          "key",
+          "{ limit? }"
+        ],
+        "defaultLimit": 10,
+        "maxLimit": 50,
+        "item": [
+          "rank",
+          "name",
+          "value"
+        ],
+        "mine": [
+          "rank",
+          "value"
+        ]
+      },
+      "errors": [
+        "SHARED_DISABLED",
+        "NOT_DECLARED",
+        "OPTION_INVALID",
+        "NOT_ELIGIBLE",
+        "RATE_LIMITED",
+        "LIMIT_REACHED",
+        "HOST_DENIED",
+        "UNAUTHORIZED",
+        "INVALID_ARGS",
+        "NETWORK",
+        "SHARE_CONTEXT_INVALID"
+      ],
+      "writesWhileViewingHistory": "HOST_DENIED",
+      "withoutHost": "HOST_DENIED",
+      "neverSentToTheModel": true
     },
     "stage": {
       "modes": [
@@ -363,6 +504,10 @@
     "UNKNOWN_CAPABILITY",
     "LIMIT_REACHED",
     "SHARE_CONTEXT_INVALID",
+    "SHARED_DISABLED",
+    "NOT_DECLARED",
+    "OPTION_INVALID",
+    "NOT_ELIGIBLE",
     "HISTORY_UNAVAILABLE",
     "HISTORY_STALE",
     "HISTORY_CURSOR_INVALID",

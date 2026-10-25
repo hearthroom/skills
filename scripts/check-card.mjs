@@ -166,6 +166,36 @@ export function repliesFrom(text) {
   return t.split(/\n\s*\n(?=\S)/).filter((s) => STATUS_BLOCK.test(s) || s.length > 40).map((s) => { STATUS_BLOCK.lastIndex = 0; return s; });
 }
 
+/**
+ * The sharedState declaration rules the provider applies when the card is pushed (and the CLI's
+ * `card check` reports), so a bad declaration shows up before the push. Returns problem strings.
+ */
+export function sharedStateProblems(decl) {
+  if (decl == null) return [];
+  if (typeof decl !== 'object' || Array.isArray(decl) || Object.keys(decl).some((k) => k !== 'polls' && k !== 'counters')) return ['sharedState must be {"polls": {...}, "counters": {...}}'];
+  const key = new RegExp(CONTRACT.sdk.shared.keyPattern);
+  const polls = decl.polls ?? {}, counters = decl.counters ?? {};
+  const out = [];
+  if (Object.keys(polls).length > 16 || Object.keys(counters).length > 16) out.push('sharedState allows at most 16 polls and 16 counters');
+  const int = (v) => Number.isSafeInteger(v);
+  for (const [k, p] of Object.entries(polls)) {
+    if (!key.test(k)) out.push(`sharedState poll key "${k}" must be 1-64 letters, digits, '.', '_' or '-', starting with a letter or digit`);
+    const options = Array.isArray(p?.options) ? p.options : [];
+    if (options.length < 2 || options.length > 12) out.push(`sharedState poll "${k}" needs 2-12 options`);
+    const seen = new Set();
+    for (const o of options) { if (typeof o !== 'string' || !key.test(o) || seen.has(o)) out.push(`sharedState poll "${k}" option "${o}" must be unique and use the same characters as keys`); seen.add(o); }
+  }
+  for (const [k, c] of Object.entries(counters)) {
+    if (!key.test(k)) out.push(`sharedState counter key "${k}" must be 1-64 letters, digits, '.', '_' or '-', starting with a letter or digit`);
+    if (k in polls) out.push(`sharedState counter "${k}" has the same key as a poll`);
+    if (!int(c?.maxStep) || c.maxStep < 1 || c.maxStep > 1000) out.push(`sharedState counter "${k}" maxStep must be 1-1000`);
+    if (!int(c?.perMember) || c.perMember < 1 || c.perMember > 1_000_000_000) out.push(`sharedState counter "${k}" perMember must be 1-1000000000`);
+    if (c?.goal !== undefined && (!int(c.goal) || c.goal < 0 || c.goal > 1_000_000_000_000)) out.push(`sharedState counter "${k}" goal must be 0-1000000000000`);
+    if (c?.period !== undefined && !['none', 'day', 'week'].includes(c.period)) out.push(`sharedState counter "${k}" period must be none, day or week`);
+  }
+  return out;
+}
+
 export function checkCard(dir) {
   const findings = [];
   const out = {
@@ -198,6 +228,7 @@ export function checkCard(dir) {
     if (rules.pageMode && !CONTRACT.provider.pageMode.includes(rules.pageMode)) out.error('rules.json', `pageMode "${rules.pageMode}" is not one of ${CONTRACT.provider.pageMode.join(', ')}`);
     if (rules.mountLayer && !CONTRACT.provider.mountLayer.includes(rules.mountLayer)) out.error('rules.json', `mountLayer "${rules.mountLayer}" is not one of ${CONTRACT.provider.mountLayer.join(', ')}`);
     if (rules.cardFormat && !CONTRACT.provider.cardFormat.includes(rules.cardFormat)) out.error('rules.json', `cardFormat "${rules.cardFormat}" is not one of mmd, tavern`);
+    for (const problem of sharedStateProblems(rules.sharedState)) out.error('rules.json', problem);
     const sandbox = rules.pageMode === 'sandbox';
     let total = 0, usesSdk = false;
     const ids = new Set();

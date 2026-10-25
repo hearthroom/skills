@@ -138,3 +138,20 @@ test('module syntax is fine in a sandbox <script type="module">, not in a classi
   });
   assert.equal(msgs(checkCard(dir)).filter((x) => x.includes('ES module syntax')).length, 1);
 });
+
+test('sharedState: the declaration rules the provider enforces on push (one-option poll, maxStep 1001, …)', async () => {
+  const base = { 'definition.md': '# Role\nStay in character.', 'welcome.md': 'Hello.' };
+  const ok = await card({ ...base, 'rules.json': { pageMode: 'sandbox', rules: [], sharedState: { polls: { p1: { options: ['a', 'b'], share: true } }, counters: { boss: { goal: 1000, maxStep: 10, perMember: 100, period: 'week' } } } } });
+  assert.deepEqual(checkCard(ok).filter((f) => f.level === 'error'), []);
+  const bad = await card({ ...base, 'rules.json': { pageMode: 'sandbox', rules: [], sharedState: {
+    polls: { p1: { options: ['a'] }, 'a b': { options: ['x', 'x'] }, boss: { options: ['a', 'b'] } },
+    counters: { boss: { maxStep: 1001, perMember: 0, goal: -1, period: 'month' } },
+  } } });
+  const m = msgs(checkCard(bad));
+  for (const part of ['poll "p1" needs 2-12 options', 'poll key "a b"', 'option "x" must be unique', 'counter "boss" has the same key as a poll', 'counter "boss" maxStep must be 1-1000', 'counter "boss" perMember must be', 'counter "boss" goal must be', 'counter "boss" period must be none, day or week']) {
+    assert.ok(m.some((x) => x.startsWith('error:') && x.includes(part)), `missing "${part}" in ${m.join(' | ')}`);
+  }
+  // an unknown field is a shape error on its own, as the provider decodes with unknown fields disallowed
+  const shape = await card({ ...base, 'rules.json': { pageMode: 'sandbox', rules: [], sharedState: { polls: {}, extra: true } } });
+  assert.ok(msgs(checkCard(shape)).some((x) => x.startsWith('error:') && x.includes('sharedState must be')));
+});

@@ -369,16 +369,25 @@ without the field keeps the server's copy, `{}` clears it). Everyone who plays
 the card shares the numbers. `sdk.shared` (classic: `window.stage.shared`):
 `read(keys)` (one key or up to 16; undeclared keys are left out) →
 `{key: {kind:'poll', counts, total, mine?} | {kind:'counter', total, mine?,
-goal?, reachedAt?, previous?}}`; `vote(key, option)` → `{mine}` (changeable 10
-times a day); `add(key, delta)` (1..`maxStep`) → `{total, mine, reachedAt}`;
-`leaderboard(key, {limit})` (10 by default, at most 50) → `{items: [{rank,
-name, value}], mine?}`, public nicknames only, no test accounts. Anyone reads;
-writing needs a signed-in player who has played the card. Nothing is pushed:
-re-read at most every 10 seconds. Share responses: `sdk.share.tallyLink(code,
+goal?, reachedAt?, previous?}}` (a counter's `total`, `mine` and leaderboard
+are this period only; `previous` is the last period's total); `vote(key,
+option)` → `{mine}` (at most 10 votes or changes per poll a day, the first vote
+included; the same option again is free); `add(key, delta)` (1..`maxStep`) →
+`{total, mine, reachedAt}` (past `perMember` the remainder is added, then
+`LIMIT_REACHED`); `leaderboard(key, {limit})` (10 by default, at most 50) →
+`{items: [{rank, name, value}], mine?}`, public nicknames only, no test accounts.
+Anyone reads; writing needs a signed-in player who has played the card (a
+conversation exists; no message needed; authors skip this). Writes are limited
+to 30 a minute per player across cards. Nothing is pushed: re-read at most every
+10 seconds. The author can use them on any card they author, including a new
+private card and a CLI trial card; their numbers stay separate (draft, or test
+for test accounts). Share responses: `sdk.share.tallyLink(code,
 pollKey)` (async, prepare before the click; a `share: true` poll; same pair →
 same link; 20 a day; 90 days) gives a link with `?share=~XXXXXXXX`; the friend
 reads `sdk.share.context` and `sdk.share.poll` (`{key, options}` or `null`) and
-answers with `sdk.share.respond(option)`; the sharer reads
+answers with `sdk.share.respond(option)` (separate from the poll's own `vote`:
+each link keeps its own answers, one per player, changeable like a vote); the
+sharer reads
 `sdk.share.results()` → `[{context, pollKey, total, counts, updatedAt}]`
 (`total` live; `counts` from 3 answers, updated daily). Neither side learns who
 the other is. A card may unlock its own content from these numbers; they never
@@ -386,7 +395,8 @@ grant platform credits. Errors in both page modes: `SHARED_DISABLED`,
 `NOT_DECLARED`, `OPTION_INVALID`, `NOT_ELIGIBLE` (not played, or your own
 link), `UNAUTHORIZED`, `RATE_LIMITED`, `LIMIT_REACHED` (`err.data.reason` `goal`
 or `limit`), `HOST_DENIED` (older player page; read-only while viewing a past
-conversation or a review playtest). Author playtests (`?mode=source`) and test
+conversation or a review playtest; `tallyLink` on a card never submitted and
+never given a visibility, such as a CLI trial card, since nobody else can open it). Author playtests (`?mode=source`) and test
 accounts keep their own numbers; `hearthroom card state` shows, pauses and
 resets them.
 

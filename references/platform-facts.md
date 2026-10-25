@@ -876,7 +876,7 @@ timeout or 503 leaves the result unconfirmed. Keep `.hearthroom/state.json`, run
 the same `set` only to resume with that key. Do not replace an unresolved intent
 with another target. Unconfirmed results have a nonzero exit code and structured
 `visibility_unconfirmed` plus a hint; they are not confirmed failures.
-
+ A Creator Season reward can require the card to stay public for a configured period. The owner's `workVisibility.rewardRetention` reports `publicUntil`, `days` and actual `recoveryCredits`. During that period, private and unlisted changes return `card_reward_public_locked` with the deadline. Read the returned date rather than calculating it from a campaign's current settings. Deleting through the website or API requires explicit confirmation of the actual reward recovery; insufficient eligible available credits prevent deletion. Platform moderation follows its separate rules. Do not promise a visibility change or reward-free deletion before the server's deadline.
 These are community sharing controls. HarperHarbor Console retains its own SaaS
 configuration workflow and has no community visibility picker. The provider
 has no tool-protocol transport for these controls; use the CLI from a shell.

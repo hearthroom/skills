@@ -777,7 +777,8 @@ hearthroom card push <dir> --validate --json       # private trial card + valida
 hearthroom card validate <dir> --push --strict --json   # re-push and fail on warnings too
 hearthroom card render <dir> --push --opening N --json  # one opening after display rules; --html f writes the raw string
 hearthroom play <dir> --new-session --greeting N -m "…" --allow-spend --json   # one real turn; spends credits
-hearthroom play <dir> --history --limit 20          # read the conversation back (free)
+hearthroom play <dir> --history --limit 20          # read the conversation and latest operation back (free)
+hearthroom play <dir> --continue --allow-spend --json  # CLI 0.12.7+: continue saved Agent preparation; charges new usage
 hearthroom wallet --json                           # balance before a cost stance
 hearthroom card pull <roleId> [dir] --force        # bring the provider's copy back; --force overwrites local files
 hearthroom card push <dir> --create                # only when asked: keep it as an owned card, unlisted by default
@@ -793,7 +794,7 @@ hearthroom models | tags --zone zh | search | media ls|upload|mv|rm | upgrade --
   saves a larger owned card, unlisted by default; anyone with the link can
   play its latest saved content, including changes that have not passed review.
 - Pushing, validating, rendering, importing, pulling and browsing are free.
-  Only `play -m` generates and needs `--allow-spend`.
+  `play -m` and `play --continue` generate and need `--allow-spend`.
 - A trial card expires three days after its last push; an account holds at
   most five (`--evict` frees the oldest). The site's inventory does not list
   trial cards, but their play link works for the author.
@@ -804,6 +805,15 @@ hearthroom models | tags --zone zh | search | media ls|upload|mv|rm | upgrade --
   new conversation is created, so an alternate is tested with
   `--new-session --greeting N`. Every independent probe and every retest
   starts with `--new-session`.
+- CLI 0.12.7+ `play --continue` uses only the latest operation when its state
+  is `failed_retryable` or `stopped`, it is an Agent turn, and `allowedActions`
+  includes `continue`. It carries the original user message and saved preparation
+  into a new operation; it does not add another user message. Missing status,
+  progress or source text fails closed. Use `--history --json` to inspect the
+  operation first. Do not combine Continue with `-m`, `--new-session`, `--history`,
+  `--stop`, `--agent` or `--greeting`. Omit `--model` to keep the interrupted model,
+  or pass another supported model. New usage is charged even if continuation
+  fails; earlier charges remain. Do not loop Continue against unchanged failures.
 - Turns carry the card's `language` from `card.json`; without one the
   provider replies in English. `--language` overrides it for the turn,
   `--model` picks a model from `hearthroom models`, `--thinking` sets a

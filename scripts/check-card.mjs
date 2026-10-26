@@ -11,7 +11,7 @@
 import { readFileSync, existsSync, readdirSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { scriptViews, activeHTML } from './script-context.mjs';
+import { scriptViews, activeHTML, htmlSDKUsage } from './script-context.mjs';
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 export const CONTRACT = JSON.parse(readFileSync(path.join(HERE, 'sandbox-contract.json'), 'utf8'));
@@ -263,7 +263,7 @@ export function checkCard(dir) {
         if (marker) consumedMarkers.push({ name: marker[1], angle: c.literal.trim().startsWith('<'), where });
       }
       const replace = activeHTML(String(r.replace ?? ''));
-      const sdkUsage = replace.replace(/<script\b[^>]*>([\s\S]*?)<\/script\s*>/gi, (_, body) => scriptViews(body).code);
+      const sdkUsage = htmlSDKUsage(replace);
       if (/\bsdk\.|\[data-chat|\[data-slot|--chat-/.test(sdkUsage)) usesSdk = true;
       for (const m of replace.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script\s*>/gi)) {
         if (/\bsrc\s*=/.test(m[1])) continue;

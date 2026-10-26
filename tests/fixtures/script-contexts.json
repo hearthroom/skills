@@ -211,5 +211,36 @@
     "html": "<script>const yield = n; yield / sdk.archive.isCurrent() / total;</script>",
     "error": true,
     "want": "sdk.archive.isCurrent"
+  },
+  {
+    "name": "keyword method division",
+    "html": "<script>const n = row.if() / sdk.archive.isCurrent();</script>",
+    "error": true,
+    "want": "sdk.archive.isCurrent"
+  },
+  {
+    "name": "classic inline comment",
+    "html": "<button onclick=\"/* sdk.message.send() */ void 0\">Send</button>",
+    "error": false,
+    "pageMode": "classic"
+  },
+  {
+    "name": "classic inline string",
+    "html": "<button onclick=\"void 'sdk.message.send()'\">Send</button>",
+    "error": false,
+    "pageMode": "classic"
+  },
+  {
+    "name": "classic inline encoded string",
+    "html": "<button onclick=\"void &quot;sdk.message.send()&quot;\">Send</button>",
+    "error": false,
+    "pageMode": "classic"
+  },
+  {
+    "name": "classic inline comment then call",
+    "html": "<button onclick=\"/* sdk.message.send() */ sdk.message.send('hi')\">Send</button>",
+    "error": true,
+    "want": "pageMode is not",
+    "pageMode": "classic"
   }
 ]

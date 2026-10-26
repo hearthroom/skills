@@ -59,9 +59,9 @@ export function scriptViews(source) {
       }
       if (ident(c)) {
         while (ident(source[i])) i++;
-        word = source.slice(start, i);
+        word = property ? '' : source.slice(start, i);
         // Contextual words (await/yield/of) can also be ordinary identifiers.
-        regexAllowed = !property && /^(return|throw|case|delete|void|typeof|new|in|else|do|instanceof)$/.test(word);
+        regexAllowed = /^(return|throw|case|delete|void|typeof|new|in|else|do|instanceof)$/.test(word);
         property = false;
         continue;
       }
@@ -88,4 +88,20 @@ export function scriptViews(source) {
 export function activeHTML(html) {
   return html.replace(/<!--[\s\S]*?(?:-->|$)|<script\b[^>]*>[\s\S]*?<\/script\s*>/gi,
     part => part.startsWith('<!--') ? part.replace(/[^\r\n]/g, ' ') : part);
+}
+
+const entityChars = { quot: '"', apos: "'", amp: '&', lt: '<', gt: '>' };
+function decodeAttribute(value) {
+  return value.replace(/&(?:#(x[0-9a-f]+|[0-9]+)|(quot|apos|amp|lt|gt));/gi, (entity, numeric, named) => {
+    if (named) return entityChars[named.toLowerCase()];
+    const point = numeric[0].toLowerCase() === 'x' ? parseInt(numeric.slice(1), 16) : Number(numeric);
+    return point > 0 && point <= 0x10ffff ? String.fromCodePoint(point) : '\ufffd';
+  });
+}
+
+// Keep HTML SDK uses, but give scripts and inline handlers their JS context.
+export function htmlSDKUsage(markup) {
+  return markup.replace(/<script\b[^>]*>([\s\S]*?)<\/script\s*>/gi, (_, body) => scriptViews(body).code)
+    .replace(/\bon[a-z]+\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s>]+))/gi,
+      (_, double, single, unquoted) => scriptViews(decodeAttribute(double ?? single ?? unquoted)).code);
 }

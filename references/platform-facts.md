@@ -780,7 +780,7 @@ hearthroom play <dir> --new-session --greeting N -m "…" --allow-spend --json  
 hearthroom play <dir> --history --limit 20          # read the conversation back (free)
 hearthroom wallet --json                           # balance before a cost stance
 hearthroom card pull <roleId> [dir] --force        # bring the provider's copy back; --force overwrites local files
-hearthroom card push <dir> --create                # keep it: a real private card on the site
+hearthroom card push <dir> --create                # only when asked: keep it as an owned card, unlisted by default
 hearthroom card push <dir> --prune                 # delete CLI-managed Lorebook entries removed from the local file
 hearthroom models | tags --zone zh | search | media ls|upload|mv|rm | upgrade --check
 ```
@@ -789,9 +789,9 @@ hearthroom models | tags --zone zh | search | media ls|upload|mv|rm | upgrade --
   `.hearthroom/state.json`; keep it and rerun the same command to resume. Unknown
   outcomes are read back first; ambiguous results stop for inspection.
 - Long entries without author groups split for upload without losing text; local files
-  stay unsplit and existing `groupId` / `groupOrder` values are preserved. Parts count
-  toward the trial limit (currently 1000); `card push --create` saves a private draft.
-  Private access is for the author and authorized clients; unlisted also allows link access.
+  stay unsplit and existing `groupId` / `groupOrder` values are preserved. Parts count toward the trial limit (currently 1000). `card push --create`
+  saves a larger owned card, unlisted by default; anyone with the link can
+  play its latest saved content, including changes that have not passed review.
 - Pushing, validating, rendering, importing, pulling and browsing are free.
   Only `play -m` generates and needs `--allow-spend`.
 - A trial card expires three days after its last push; an account holds at
@@ -831,9 +831,7 @@ hearthroom models | tags --zone zh | search | media ls|upload|mv|rm | upgrade --
 - `card pull` takes the card id, not the folder: `card pull <roleId> [dir]`;
   an existing folder needs `--force`, which overwrites local files, so run
   `card status` first and pull only when the site copy is the newer one.
-- `push --create` makes a real private card; on a folder already linked to an
-  owned card (after `pull` or `push --to <id>`), plain `push` updates that
-  card and `--create` would make a second one. `card status` shows the link.
+- `push --create` makes an owned card, unlisted by default. Anyone with the link can play its latest saved content, including changes that have not passed review. On a folder already linked to an owned card (after `pull` or `push --to <id>`), plain `push` updates that card and preserves its visibility; `--create` would make a second one. `card status` shows the link.
 - `card.json` `language` is required (CLI 0.7.5+: `push` and `check` refuse a missing value or bare `zh`); a Chinese card can switch `zh-Hant` ↔ `zh-Hans` after creation (CLI 0.7.7+ pushes it). It also selects the Lorebook
   entry length limit (the value is not documented; read validation warnings).
 - CLI 0.5.0 mishandled `push --create` after a trial push (an empty private
@@ -883,8 +881,7 @@ has no tool-protocol transport for these controls; use the CLI from a shell.
 
 ### Review and publication
 
-`card push --create` makes a real private card that appears in the author's
-inventory on the site; later plain pushes keep updating it. The community service
+`card push --create` makes an owned card that appears in the author's inventory, unlisted by default. Anyone with the link can play its latest saved content, including changes that have not passed review; it stays out of public listings. Trial cards remain private. Later plain pushes preserve the owned card's visibility. Creating a card does not submit it for review. The community service
 freezes a version when you submit it for review through the website or `card submit`:
 review applies to one frozen version of the card, submitted together with a
 content-rating questionnaire; changing content makes a new version that needs
@@ -924,8 +921,11 @@ excluded). Originality of the definition text matters.
 Generation spends the player's credits at the provider's model rates; the
 `play` billing rules above apply to ordinary and agent mode turns.
 Drafting, validating and rendering cost nothing beyond the agent's own
-usage. Keep all work on trial cards or the author's private cards; never
-publish or submit on the author's behalf without an explicit request.
+usage. Work on trial cards or cards the author has authorized you to edit. New owned
+cards default to unlisted, so anyone with the link can play the latest saved
+content before review. Follow the author's existing editing authorization;
+run --create only when asked, and do not submit for review or change visibility
+automatically.
 
 
 ## Authoritative message history

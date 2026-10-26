@@ -24,16 +24,14 @@ beyond the agent's own usage. Iterate on `card push --validate --json` and
 
 ## Where work stays
 
-- Keep all work on trial cards or the author's private cards.
+- Work on trial cards or cards the author has authorized you to edit. For unlisted cards, anyone with the link can play the latest saved content, including changes that have not passed review. Follow the author's existing editing authorization.
 - A trial card expires three days after its last push; an account holds at
   most five (`--evict` frees the oldest). Trial cards do not appear in the
   site's inventory, but their play link works for the author. This is the
   only place in the toolkit that states it; other files point here.
-- `card push --create` makes a real private card. Do it when the author wants
-  to keep the card, not by default.
-- Never publish or submit on the author's behalf without an explicit request.
-  Submission happens on the site and reviews one frozen version; any later
-  content change needs its own review.
+- `card push --create` makes an owned card, unlisted by default. Run it only when the author asks to keep a new card. Creating it does not submit it for review or add it to public listings; later pushes preserve its visibility.
+- Do not submit for review or change visibility automatically.
+  Review freezes one version; later content changes need their own review.
 
 ## Content boundaries
 

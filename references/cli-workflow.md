@@ -55,13 +55,13 @@ naming rules are under Media library in the facts sheet.
 | Play one turn in a fresh conversation | `hearthroom play <dir> --new-session -m "…" --allow-spend --json` | yes |
 | Read the conversation so far | `hearthroom play <dir> --history --limit 20` | no |
 | Bring the provider's copy back to files | `hearthroom card pull <roleId> [dir] --force` (overwrites local files) | no |
-| Keep it as a real private card | `hearthroom card push <dir> --create` | no |
+| Keep it as an owned card (unlisted by default) | `hearthroom card push <dir> --create` | no |
 
-`push` sends only sections whose content changed and uploads assets once.
-`push --to <id>` writes into a card the author already owns; on a folder
+`push` sends only sections whose content changed and uploads assets once. `push --to <id>` writes into a card the author already owns; on a folder
 already linked to an owned card, plain `push` updates it and `--create` would
-make a second card. Trial-card expiry and slots are in
-`cost-and-boundaries.md`.
+make a second card. Trial-card expiry and slots are in `cost-and-boundaries.md`. Plain pushes preserve the card's visibility.
+
+Run --create only when the author asks. Anyone with an unlisted card's link can play the latest saved content, including changes that have not passed review. Trial cards remain private. Follow the author's existing editing authorization.
 
 On a card that has passed review, players get the approved copy until an
 update is approved, so test a push with the draft link (`platform-facts.md`,

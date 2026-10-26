@@ -142,8 +142,7 @@ and saying what counts as done) is in the [prompting guide](https://hearthroom.c
    as a stronger one, because weaker models fail first.
 7. **Fix one thing per version.** The agent repairs the weakest layer, replays the same
    probe, and compares the result with the previous version.
-8. **Keep it.** Once you're happy, `card push --create` saves a private card under My cards.
-   Submitting for review and publishing stay with you on the site.
+8. **Keep it.** When you ask to keep the card, `card push --create` saves it under My cards, unlisted by default. Anyone with the link can play its latest saved content, including changes that have not passed review. It stays out of public listings; submitting for review remains your separate step.
 
 Every step is written to the card folder's `README.md`. That file is never sent to the
 provider. It holds the decisions, the rejected directions and the evidence for each version,
@@ -249,7 +248,7 @@ so a new session can pick up where the last one stopped.
 | `hearthroom-card-doctor` | Several symptoms at once, and the question of what to fix first. |
 | `hearthroom-iteration-director` | Choosing the next step from the evidence: one patch, a replay, or stop. |
 | `hearthroom-collaboration-director` | Turning "almost right but off" into concrete decisions. |
-| `hearthroom-publish-readiness` | Turning a trial card into a private card and checking it before review. |
+| `hearthroom-publish-readiness` | Keeping a trial card as an owned card, unlisted by default, and checking it before review. |
 
 ### Repository layout
 
@@ -274,8 +273,7 @@ evals/         prompts and assertions used to compare skill revisions
 - Only `play -m` generates a reply. It spends your credits, needs `--allow-spend`, and the
   agent asks before the first turn.
 - A trial card expires three days after its last push, and an account can hold five.
-- The agent works only on trial cards and your own private cards. It never submits a card
-  for review or publishes one.
+- The agent works on trial cards or cards you have authorized it to edit. New owned cards default to unlisted, so anyone with the link can play the latest saved content before review. The agent follows your existing editing authorization, uses `--create` only when you ask, and does not submit for review or change visibility automatically.
 
 ## Improving these skills
 

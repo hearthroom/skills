@@ -47,8 +47,7 @@ A card task is done when the folder is pushed as a trial card, validate
 passes, render shows the opening as intended, the dossier (`README.md`)
 records the decisions and evidence, and anything that costs credits or
 publishes has been agreed with the author. Stop earlier only to ask about
-those. Keep all work on a trial card or the author's own private card; never
-submit for review or make a card public on the author's behalf.
+those. Work on trial cards or cards the author has authorized you to edit. New owned cards default to unlisted: anyone with the link can play the latest saved content, including changes that have not passed review. Follow the author's existing editing authorization; run --create only when asked, and do not submit for review or change visibility automatically.
 
 ## Routing table
 

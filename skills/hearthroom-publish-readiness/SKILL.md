@@ -1,6 +1,6 @@
 ---
 name: hearthroom-publish-readiness
-description: Use when a trial card should become a real private card with card push --create, when the author asks whether a card is ready to submit for community review, or when they say "keep it", "ship it" or "is it done", and the final validate, render and playtest checks must be confirmed first.
+description: Use when a trial card should become an owned card (unlisted by default) with card push --create, when the author asks whether a card is ready to submit for community review, or when they say "keep it", "ship it" or "is it done", and the validate, render and playtest checks must be confirmed first.
 ---
 
 # Publish readiness
@@ -9,8 +9,7 @@ Decide whether a card is ready to keep, and run
 `hearthroom card push <dir> --create` only after the author explicitly asks.
 Submission for community review happens on the site, by the author, and
 freezes a version; a later change needs a new review. So every check
-happens before they submit; `--create` only makes the card permanent, and
-later plain pushes keep updating it.
+happens before they submit; `--create` makes an owned card, unlisted by default: anyone with the link can play its latest saved content, including changes that have not passed review. It does not submit the card for review or add it to public listings. Later plain pushes update it and preserve its visibility.
 
 Ready means: `card check` has no errors; `card validate --push --strict
 --json` passes; `card render --opening N --json` for every opening has no
@@ -58,11 +57,7 @@ score, `../../references/card-diagnosis.md` for several risks,
 6. Summarise remaining warnings and tradeoffs in plain language and ask for
    confirmation if not already given. Sufficient: "Create the card", "Push
    it for real". Not sufficient: "Looks good", "What do you think?".
-7. On confirmation run `card push <dir> --create`; tell the author the card
-   is now a real private card in their inventory and that submitting for
-   review is their step on the site. Report validation, render, playtest
-   status and agent-mode coverage, unresolved warnings, and whether
-   `--create` ran.
+7. On confirmation run `card push <dir> --create`; tell the author the card is now in their inventory and report its confirmed visibility. For unlisted cards, explain that anyone with the link can play the latest saved content, including changes that have not passed review. Review submission remains the author's separate step. Report validation, render, playtest status and agent-mode coverage, unresolved warnings, and whether `--create` ran.
 
 ## Do not
 

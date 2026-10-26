@@ -1,6 +1,6 @@
 # Creation workflow
 
-The end-to-end route from an author's seed to a private card on Hearthroom:
+The end-to-end route from an author's seed to a card on Hearthroom:
 draft the folder, push a trial card, validate, render, play, iterate, and
 hand the card back to the author for publishing. Narrow craft skills own
 each layer; this page is the runway.
@@ -53,9 +53,7 @@ until validation passes and the author accepts the credit cost. Do not run
 | Iteration | choose exactly one next repair | `hearthroom-iteration-director` | evidence is missing or mixed |
 | Publish readiness | decide whether the card is worth keeping | `hearthroom-publish-readiness` | the author has not asked |
 
-Publishing itself belongs to the author: `card push --create` makes a real
-private card in their inventory, and review submission happens on the site,
-where the version is frozen.
+Run `card push --create` only when the author asks to keep a new card. It creates an owned card in their inventory, unlisted by default: anyone with the link can play its latest saved content, including changes that have not passed review. Creating it does not submit it for review or add it to public listings. Review submission remains the author's separate step.
 
 ## Creation runway
 

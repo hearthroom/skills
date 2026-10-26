@@ -804,7 +804,8 @@ hearthroom models | tags --zone zh | search | media ls|upload|mv|rm | upgrade --
   a fresh one; `--greeting N` (0 = main, 1.. = alternates) applies only when a
   new conversation is created, so an alternate is tested with
   `--new-session --greeting N`. Every independent probe and every retest
-  starts with `--new-session`.
+  starts with `--new-session`, except Continue probes, which must retain
+  the interrupted conversation and its saved preparation.
 - CLI 0.12.7+ `play --continue` uses only the latest operation when its state
   is `failed_retryable` or `stopped`, it is an Agent turn, and `allowedActions`
   includes `continue`. It carries the original user message and saved preparation

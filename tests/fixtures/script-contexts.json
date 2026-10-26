@@ -168,5 +168,48 @@
     "html": "<script>/* sdk.archive.isCurrent\n sdk.once() */\nsdk.archive.isCurrent();</script>",
     "error": true,
     "want": "sdk.archive.isCurrent"
+  },
+  {
+    "name": "keyword property division",
+    "html": "<script>const n = row.return / sdk.archive.isCurrent();</script>",
+    "error": true,
+    "want": "sdk.archive.isCurrent"
+  },
+  {
+    "name": "keyword property two divisions",
+    "html": "<script>const n = row.return / sdk.archive.isCurrent() / total;</script>",
+    "error": true,
+    "want": "sdk.archive.isCurrent"
+  },
+  {
+    "name": "keyword property comment division",
+    "html": "<script>const n = row.throw /* note */ / sdk.archive.isCurrent();</script>",
+    "error": true,
+    "want": "sdk.archive.isCurrent"
+  },
+  {
+    "name": "classic inline handler",
+    "html": "<button onclick=\"sdk.message.send('hi')\">Send</button>",
+    "error": true,
+    "want": "pageMode is not",
+    "pageMode": "classic"
+  },
+  {
+    "name": "of identifier division",
+    "html": "<script>const of = n; of / sdk.archive.isCurrent() / total;</script>",
+    "error": true,
+    "want": "sdk.archive.isCurrent"
+  },
+  {
+    "name": "await identifier division",
+    "html": "<script>const await = n; await / sdk.archive.isCurrent() / total;</script>",
+    "error": true,
+    "want": "sdk.archive.isCurrent"
+  },
+  {
+    "name": "yield identifier division",
+    "html": "<script>const yield = n; yield / sdk.archive.isCurrent() / total;</script>",
+    "error": true,
+    "want": "sdk.archive.isCurrent"
   }
 ]

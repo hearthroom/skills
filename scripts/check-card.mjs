@@ -263,11 +263,11 @@ export function checkCard(dir) {
         if (marker) consumedMarkers.push({ name: marker[1], angle: c.literal.trim().startsWith('<'), where });
       }
       const replace = activeHTML(String(r.replace ?? ''));
-      if (/\[data-chat|\[data-slot|--chat-/.test(replace)) usesSdk = true;
+      const sdkUsage = replace.replace(/<script\b[^>]*>([\s\S]*?)<\/script\s*>/gi, (_, body) => scriptViews(body).code);
+      if (/\bsdk\.|\[data-chat|\[data-slot|--chat-/.test(sdkUsage)) usesSdk = true;
       for (const m of replace.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script\s*>/gi)) {
         if (/\bsrc\s*=/.test(m[1])) continue;
         // The sandbox shell keeps type="module" on rule scripts; the classic page does not.
-        if (/\bsdk\./.test(scriptViews(m[2]).code)) usesSdk = true;
         scanScript(m[2], where, out, sandbox && /\btype\s*=\s*["']?module\b/i.test(m[1]));
       }
       scanHtml(replace, where, out, { isRule: true });

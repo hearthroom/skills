@@ -11,7 +11,7 @@ export function scriptViews(source) {
   const ident = c => c !== undefined && /[\w$\u0080-\uffff]/.test(c);
   const lineEnd = c => c === undefined || /[\r\n\u2028\u2029]/.test(c);
   function walk(i, interpolation = false) {
-    let depth = 0, regexAllowed = true, word = '';
+    let depth = 0, regexAllowed = true, word = '', property = false;
     const parens = [];
     while (i < source.length) {
       const start = i, c = source[i], next = source[i + 1];
@@ -60,7 +60,9 @@ export function scriptViews(source) {
       if (ident(c)) {
         while (ident(source[i])) i++;
         word = source.slice(start, i);
-        regexAllowed = /^(return|throw|case|delete|void|typeof|new|in|of|yield|await|else|do|instanceof)$/.test(word);
+        // Contextual words (await/yield/of) can also be ordinary identifiers.
+        regexAllowed = !property && /^(return|throw|case|delete|void|typeof|new|in|else|do|instanceof)$/.test(word);
+        property = false;
         continue;
       }
       i++;
@@ -73,6 +75,7 @@ export function scriptViews(source) {
       if (c === ')') regexAllowed = parens.pop() ?? false;
       else if ((c === '+' || c === '-') && next === c) { i++; regexAllowed = false; }
       else regexAllowed = !/[\]}.]/.test(c);
+      property = c === '.' || (c === '#' && property);
       word = '';
     }
     return i;

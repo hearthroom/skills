@@ -1,13 +1,15 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { mkdtemp, mkdir, writeFile } from 'node:fs/promises';
+import { mkdtemp, mkdir, unlink, writeFile } from 'node:fs/promises';
+import { spawnSync } from 'node:child_process';
+import { fileURLToPath } from 'node:url';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { validateRepo } from '../scripts/validate-skills.mjs';
 
 async function repo(files) {
   const root = await mkdtemp(path.join(tmpdir(), 'skills-'));
-  for (const [rel, body] of Object.entries(files)) {
+  for (const [rel, body] of Object.entries({ ...releaseFiles('1.2.3'), ...files })) {
     await mkdir(path.dirname(path.join(root, rel)), { recursive: true });
     await writeFile(path.join(root, rel), body);
   }
@@ -65,6 +67,40 @@ test('every language README is scanned for forbidden tokens', async () => {
 });
 
 const base = () => ({ 'scripts/manifest.json': manifest, 'skills/hearthroom-a/SKILL.md': good, 'references/x.md': '# x\n', 'references/platform-facts.md': '# facts\n' });
+
+const releasePaths = ['package.json', '.claude-plugin/plugin.json', '.codex-plugin/plugin.json', '.claude-plugin/marketplace.json'];
+function releaseFiles(version) {
+  return Object.fromEntries(releasePaths.map(rel => [rel, JSON.stringify(
+    rel.endsWith('marketplace.json') ? { plugins: [{ name: 'hearthroom', version }] } : { version }
+  )]));
+}
+
+for (const rel of releasePaths) {
+  test(`release version mismatch in ${rel} fails validation and the CLI`, async () => {
+    const root = await repo({ ...base(), [rel]: releaseFiles('1.2.2')[rel] });
+    const findings = await validateRepo(root);
+    assert.ok(findings.some(f => f.includes('version') && f.includes(rel)), findings.join('\n'));
+    const result = spawnSync(process.execPath, [fileURLToPath(new URL('../scripts/validate-skills.mjs', import.meta.url)), root], { encoding: 'utf8' });
+    assert.equal(result.status, 1, result.stdout + result.stderr);
+    assert.match(result.stdout, /version/);
+  });
+
+  test(`release metadata in ${rel} requires a readable JSON file and version`, async () => {
+    for (const body of ['{}', '{', JSON.stringify(rel.endsWith('marketplace.json') ? { plugins: [{ name: 'hearthroom', version: 123 }] } : { version: 123 })]) {
+      const findings = await validateRepo(await repo({ ...base(), [rel]: body }));
+      assert.ok(findings.some(f => f.startsWith(`${rel}:`)), `${body}: ${findings.join('\n')}`);
+    }
+    const root = await repo(base());
+    await unlink(path.join(root, rel));
+    const findings = await validateRepo(root);
+    assert.ok(findings.some(f => f.startsWith(`${rel}:`)), findings.join('\n'));
+  });
+}
+
+test('checkout release metadata passes the validator', async () => {
+  const findings = await validateRepo(fileURLToPath(new URL('..', import.meta.url)));
+  assert.deepEqual(findings, []);
+});
 
 test('a description over 300 characters is reported', async () => {
   const long = good.replace('Use when a card needs a.', `Use when a card needs ${'a, '.repeat(100)}a.`);

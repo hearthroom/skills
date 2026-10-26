@@ -62,6 +62,23 @@ function frontmatter(text) {
 
 export async function validateRepo(root) {
   const findings = [];
+  // Both clients install the same release; a stale manifest must fail CI too.
+  const versions = new Map();
+  for (const rel of ['package.json', '.claude-plugin/plugin.json', '.codex-plugin/plugin.json', '.claude-plugin/marketplace.json']) {
+    let metadata;
+    try { metadata = JSON.parse(await readFile(path.join(root, rel), 'utf8')); }
+    catch { findings.push(`${rel}: release metadata must be readable JSON`); continue; }
+    const version = rel.endsWith('marketplace.json')
+      ? (Array.isArray(metadata?.plugins) ? metadata.plugins.find(p => p?.name === 'hearthroom')?.version : undefined)
+      : metadata?.version;
+    if (typeof version !== 'string' || !version.trim()) {
+      findings.push(`${rel}: release version must be a non-empty string${rel.endsWith('marketplace.json') ? ' on the hearthroom plugin' : ''}`);
+    } else versions.set(rel, version);
+  }
+  const expectedVersion = versions.get('package.json');
+  if (expectedVersion) for (const [rel, version] of versions) {
+    if (version !== expectedVersion) findings.push(`${rel}: version "${version}" does not match package.json version "${expectedVersion}"`);
+  }
   const manifest = JSON.parse(await readFile(path.join(root, 'scripts/manifest.json'), 'utf8'));
   const skillDirs = await listDirs(path.join(root, 'skills'));
   const refFiles = await listFiles(path.join(root, 'references'), '.md');

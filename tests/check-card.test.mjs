@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { mkdtemp, mkdir, writeFile } from 'node:fs/promises';
+import { mkdtemp, mkdir, writeFile, readFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { checkCard, CONTRACT } from '../scripts/check-card.mjs';
@@ -164,3 +164,13 @@ test('reading sdk.share properties is not a missing capability; a misspelled one
   const typo = await card({ ...base, 'rules.json': rule('if(sdk.share.contxt){}') });
   assert.ok(msgs(checkCard(typo)).some((x) => x.startsWith('error:') && x.includes('sdk.share.contxt does not exist')));
 });
+
+const scriptContexts = JSON.parse(await readFile(new URL('./fixtures/script-contexts.json', import.meta.url), 'utf8'));
+for (const tc of scriptContexts) {
+  test(`SDK script context: ${tc.name}`, async () => {
+    const dir = await card({ 'rules.json': { pageMode: tc.pageMode ?? 'sandbox', rules: [{ id: 'probe', find: '{{probe}}', replace: tc.html }] } });
+    const errors = checkCard(dir).filter(f => f.level === 'error');
+    assert.equal(errors.length > 0, tc.error, JSON.stringify(errors));
+    if (tc.error) assert.ok(errors.some(f => f.msg.includes(tc.want)), JSON.stringify(errors));
+  });
+}

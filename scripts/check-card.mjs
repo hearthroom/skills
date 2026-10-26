@@ -11,6 +11,7 @@
 import { readFileSync, existsSync, readdirSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { scriptViews, activeHTML } from './script-context.mjs';
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 export const CONTRACT = JSON.parse(readFileSync(path.join(HERE, 'sandbox-contract.json'), 'utf8'));
@@ -37,6 +38,9 @@ const SDK_ON = /\bsdk\.on\(\s*(['"`])([^'"`]+)\1/g;
 const HR_ON = /\bHR\.on\(\s*(['"`])([^'"`]+)\1/g;
 
 function scanScript(code, where, out, module = false) {
+  const views = scriptViews(code);
+  code = views.code;
+  const literalMatches = (pattern) => [...views.text.matchAll(pattern)].filter(m => code.slice(m.index, m.index + 1).trim());
   const caps = new Set(CONTRACT.sdk.capabilities);
   const keys = new Set(CONTRACT.sdk.keys);
   // values read off sdk.share (enabled, context, audience, poll) are not capabilities you call
@@ -47,21 +51,21 @@ function scanScript(code, where, out, module = false) {
     if (!keys.has(key)) { out.error(where, `sdk.${key} does not exist on the sandbox page (keys: ${CONTRACT.sdk.keys.join(', ')})`); continue; }
     if (method && !caps.has(`${key}.${method}`)) out.error(where, `sdk.${key}.${method} does not exist; a misspelled capability never runs and never errors`);
   }
-  for (const m of code.matchAll(SDK_ON)) {
+  for (const m of literalMatches(SDK_ON)) {
     if (!CONTRACT.events.names.includes(m[2])) out.error(where, `sdk.on("${m[2]}") is not an event; it never fires (events: ${CONTRACT.events.names.join(', ')})`);
   }
-  for (const m of code.matchAll(HR_ON)) {
+  for (const m of literalMatches(HR_ON)) {
     if (m[2].includes(':') && !CONTRACT.events.names.includes(m[2]) && !['send:busy', 'dock:open', 'dock:close', 'stage:closed'].includes(m[2])) out.warn(where, `HR.on("${m[2]}") is not a platform event or a kit event`);
   }
   if (/\bsdk\.(off|once)\b/.test(code)) out.error(where, 'sdk.off / sdk.once do not exist; keep your own registry (the kit\'s HR.on returns an unsubscribe)');
   for (const api of ['sdk.vars', 'vars:change', '<abc_vars']) if (code.includes(api)) out.error(where, `${api} is not provided by any Hearthroom chat page`);
   // sdk.on inside a message:mount handler multiplies subscriptions on every mount.
   const mountHandler = /sdk\.on\(\s*['"`]message:mount['"`]\s*,\s*function[^{]*\{([\s\S]*?)\n\s*\}\s*\)/g;
-  for (const m of code.matchAll(mountHandler)) if (/\bsdk\.on\(/.test(m[1])) out.warn(where, 'sdk.on inside a message:mount handler subscribes again on every mount');
+  for (const m of literalMatches(mountHandler)) if (/\bsdk\.on\(/.test(m[1])) out.warn(where, 'sdk.on inside a message:mount handler subscribes again on every mount');
   const doneHandler = /sdk\.on\(\s*['"`]message:done['"`]\s*,\s*function[^{]*\{([\s\S]*?)\n\s*\}\s*\)/g;
-  for (const m of code.matchAll(doneHandler)) if (/\bsdk\.message\.send\(/.test(m[1]) && !/if\s*\(/.test(m[1])) out.warn(where, 'sdk.message.send inside a message:done handler with no condition loops the conversation');
-  if (/\bsave\.set\(\s*['"`]([^'"`]*)['"`]/.test(code)) {
-    for (const m of code.matchAll(/\bsave\.set\(\s*['"`]([^'"`]*)['"`]/g)) if (!new RegExp(CONTRACT.save.keyPattern).test(m[1])) out.error(where, `save key "${m[1]}" is not valid (${CONTRACT.save.keyPattern})`);
+  for (const m of literalMatches(doneHandler)) if (/\bsdk\.message\.send\(/.test(m[1]) && !/if\s*\(/.test(m[1])) out.warn(where, 'sdk.message.send inside a message:done handler with no condition loops the conversation');
+  for (const m of literalMatches(/\bsave\.set\(\s*['"`]([^'"`]*)['"`]/g)) {
+    if (!new RegExp(CONTRACT.save.keyPattern).test(m[1])) out.error(where, `save key "${m[1]}" is not valid (${CONTRACT.save.keyPattern})`);
   }
   if (/\bawait\b[\s\S]{0,200}\bsdk\.message\.send\(/.test(code)) out.warn(where, 'an await before sdk.message.send leaves the click gesture: the player will be asked to confirm');
   if (/document\.currentScript/.test(code)) out.info(where, 'document.currentScript is the running element for inline rule scripts but null in the wrapped fallback; do not depend on it');
@@ -258,11 +262,12 @@ export function checkCard(dir) {
         const marker = /^\[([^\]]+)\]$/.exec(c.literal.trim()) || /^<([^>]+)>$/.exec(c.literal.trim());
         if (marker) consumedMarkers.push({ name: marker[1], angle: c.literal.trim().startsWith('<'), where });
       }
-      const replace = String(r.replace ?? '');
-      if (/\bsdk\.|\[data-chat|\[data-slot|--chat-/.test(replace)) usesSdk = true;
+      const replace = activeHTML(String(r.replace ?? ''));
+      if (/\[data-chat|\[data-slot|--chat-/.test(replace)) usesSdk = true;
       for (const m of replace.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script\s*>/gi)) {
         if (/\bsrc\s*=/.test(m[1])) continue;
         // The sandbox shell keeps type="module" on rule scripts; the classic page does not.
+        if (/\bsdk\./.test(scriptViews(m[2]).code)) usesSdk = true;
         scanScript(m[2], where, out, sandbox && /\btype\s*=\s*["']?module\b/i.test(m[1]));
       }
       scanHtml(replace, where, out, { isRule: true });

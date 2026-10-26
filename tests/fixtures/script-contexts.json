@@ -1,0 +1,172 @@
+[
+  {
+    "name": "block comment",
+    "html": "<script>/* sdk.archive.isCurrent; sdk.on(\"bad:event\", f); sdk.once(); sdk.vars */ void sdk.archive.list;</script>",
+    "error": false
+  },
+  {
+    "name": "row comment",
+    "html": "<script>/* row.isCurrent */ void sdk.archive.list;</script>",
+    "error": false
+  },
+  {
+    "name": "line comment",
+    "html": "<script>// sdk.archive.isCurrent\nvoid sdk.archive.list;</script>",
+    "error": false
+  },
+  {
+    "name": "single quoted",
+    "html": "<script>const text = 'sdk.archive.isCurrent'; void sdk.archive.list;</script>",
+    "error": false
+  },
+  {
+    "name": "double quoted",
+    "html": "<script>const text = \"sdk.archive.isCurrent // not a comment\"; void sdk.archive.list;</script>",
+    "error": false
+  },
+  {
+    "name": "escaped quote",
+    "html": "<script>const text = 'can\\'t sdk.archive.isCurrent'; void sdk.archive.list;</script>",
+    "error": false
+  },
+  {
+    "name": "template text",
+    "html": "<script>const text = `sdk.archive.isCurrent ${sdk.archive.list}`;</script>",
+    "error": false
+  },
+  {
+    "name": "nested template",
+    "html": "<script>const text = `outer ${`inner sdk.archive.isCurrent ${sdk.archive.list}`}`;</script>",
+    "error": false
+  },
+  {
+    "name": "template expression",
+    "html": "<script>const text = `text ${sdk.archive.isCurrent()}`;</script>",
+    "error": true,
+    "want": "sdk.archive.isCurrent"
+  },
+  {
+    "name": "template expression comment",
+    "html": "<script>const text = `text ${ /* sdk.archive.isCurrent */ sdk.archive.list }`;</script>",
+    "error": false
+  },
+  {
+    "name": "template expression object",
+    "html": "<script>const text = `text ${{ value: sdk.archive.isCurrent() }.value}`;</script>",
+    "error": true,
+    "want": "sdk.archive.isCurrent"
+  },
+  {
+    "name": "regex literal",
+    "html": "<script>const pattern = /sdk.archive.isCurrent[/*]/; void sdk.archive.list;</script>",
+    "error": false
+  },
+  {
+    "name": "division",
+    "html": "<script>const x = total / count; sdk.archive.isCurrent();</script>",
+    "error": true,
+    "want": "sdk.archive.isCurrent"
+  },
+  {
+    "name": "url then typo",
+    "html": "<script>const url = \"https://example.test\"; sdk.archive.isCurrent();</script>",
+    "error": true,
+    "want": "sdk.archive.isCurrent"
+  },
+  {
+    "name": "comment then typo",
+    "html": "<script>/* sdk.archive.list */ sdk.archive.isCurrent();</script>",
+    "error": true,
+    "want": "sdk.archive.isCurrent"
+  },
+  {
+    "name": "line then typo",
+    "html": "<script>// sdk.archive.list\nsdk.archive.isCurrent();</script>",
+    "error": true,
+    "want": "sdk.archive.isCurrent"
+  },
+  {
+    "name": "html comment",
+    "html": "<!-- <script>sdk.archive.isCurrent();</script> --> <script>void sdk.archive.list;</script>",
+    "error": false
+  },
+  {
+    "name": "html comment then typo",
+    "html": "<!-- <script>sdk.archive.list();</script> --> <script>sdk.archive.isCurrent();</script>",
+    "error": true,
+    "want": "sdk.archive.isCurrent"
+  },
+  {
+    "name": "html text in script",
+    "html": "<script>const text = \"<!--\"; sdk.archive.isCurrent();</script>",
+    "error": true,
+    "want": "sdk.archive.isCurrent"
+  },
+  {
+    "name": "legacy script comment",
+    "html": "<script><!-- sdk.archive.isCurrent\nvoid sdk.archive.list;\n--> sdk.archive.isCurrent\n</script>",
+    "error": false
+  },
+  {
+    "name": "event actual",
+    "html": "<script>sdk.on(\"bad:event\", f);</script>",
+    "error": true,
+    "want": "sdk.on"
+  },
+  {
+    "name": "event inside string",
+    "html": "<script>const example = 'sdk.on(\"bad:event\", f)';</script>",
+    "error": false
+  },
+  {
+    "name": "event after comment",
+    "html": "<script>sdk.on(/* name */ \"bad:event\", f);</script>",
+    "error": true,
+    "want": "sdk.on"
+  },
+  {
+    "name": "save key actual",
+    "html": "<script>sdk.save.set(\"bad:key\", 1);</script>",
+    "error": true,
+    "want": "save key"
+  },
+  {
+    "name": "save inside string",
+    "html": "<script>const example = 'sdk.save.set(\"bad:key\", 1)';</script>",
+    "error": false
+  },
+  {
+    "name": "classic comment only",
+    "html": "<script>/* sdk.archive.isCurrent */ const example = \"sdk.archive.isCurrent\";</script>",
+    "error": false,
+    "pageMode": "classic"
+  },
+  {
+    "name": "classic executable sdk",
+    "html": "<script>void sdk.archive.list;</script>",
+    "error": true,
+    "pageMode": "classic",
+    "want": "pageMode is not"
+  },
+  {
+    "name": "regex after condition",
+    "html": "<script>if (ready) /sdk.archive.isCurrent/.test(value);</script>",
+    "error": false
+  },
+  {
+    "name": "regex after return",
+    "html": "<script>function f() { return /sdk.archive.isCurrent/; }</script>",
+    "error": false
+  },
+  {
+    "name": "escaped template",
+    "html": "<script>const text = `\\` sdk.archive.isCurrent \\${sdk.archive.isCurrent}`;</script>",
+    "error": false
+  },
+  {
+    "name": "multiline block then typo",
+    "html": "<script>/* sdk.archive.isCurrent\n sdk.once() */\nsdk.archive.isCurrent();</script>",
+    "error": true,
+    "want": "sdk.archive.isCurrent"
+  }
+]

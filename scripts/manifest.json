@@ -422,6 +422,10 @@
     "line-budget.json": {
       "batch": "H",
       "source": "line budget per skill, reference and example; the validator fails growth that does not raise it"
+    },
+    "script-context.mjs": {
+      "batch": "G",
+      "source": "lexical context for the local card checker"
     }
   }
 }

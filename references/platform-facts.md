@@ -778,7 +778,7 @@ hearthroom card validate <dir> --push --strict --json   # re-push and fail on wa
 hearthroom card render <dir> --push --opening N --json  # one opening after display rules; --html f writes the raw string
 hearthroom play <dir> --new-session --greeting N -m "…" --allow-spend --json   # one real turn; spends credits
 hearthroom play <dir> --history --limit 20          # read the conversation and latest operation back (free)
-hearthroom play <dir> --continue --allow-spend --json  # CLI 0.12.7+: continue saved Agent preparation; charges new usage
+hearthroom play <dir> --continue --allow-spend --json  # CLI 0.12.8+: continue saved Agent preparation; charges new usage
 hearthroom wallet --json                           # balance before a cost stance
 hearthroom card pull <roleId> [dir] --force        # bring the provider's copy back; --force overwrites local files
 hearthroom card push <dir> --create                # only when asked: keep it as an owned card, unlisted by default
@@ -806,7 +806,7 @@ hearthroom models | tags --zone zh | search | media ls|upload|mv|rm | upgrade --
   `--new-session --greeting N`. Every independent probe and every retest
   starts with `--new-session`, except Continue probes, which must retain
   the interrupted conversation and its saved preparation.
-- CLI 0.12.7+ `play --continue` uses only the latest operation when its state
+- CLI 0.12.8+ `play --continue` uses only the latest operation when its state
   is `failed_retryable` or `stopped`, it is an Agent turn, and `allowedActions`
   includes `continue`. It carries the original user message and saved preparation
   into a new operation; it does not add another user message. Missing status,

@@ -1,14 +1,14 @@
 {
   "name": "hearthroom-skills",
   "description": "Card-writing skills for Hearthroom.",
-  "owner": { "name": "Hearth Room", "email": "contact@hearthroom.club" },
+  "owner": { "name": "Suki", "email": "suki@sukisuki.ai" },
   "plugins": [
     {
       "name": "hearthroom",
       "description": "Card-writing skills for Hearthroom: premise, character, Lorebook, openings, voice, state, presentation, diagnosis and iteration, driven through the hearthroom CLI.",
-      "version": "0.4.64",
+      "version": "0.4.65",
       "source": "./",
-      "author": { "name": "Hearth Room", "email": "contact@hearthroom.club" }
+      "author": { "name": "Suki", "email": "suki@sukisuki.ai" }
     }
   ]
 }

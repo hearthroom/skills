@@ -923,6 +923,33 @@ submission's operation id after a new push, and the site answers a known id
 with the version it made then (the old version id, edits still flagged).
 From 0.8.5 a push in between starts a new submission.
 
+### Silent updates and changelogs
+
+Updates submitted for review are silent by default; saving a draft or running
+`card push` does not notify readers. Use `card submit <dir> --notify
+--update-note "Added two side endings and revised the opening choices."` only
+when the author explicitly chooses to notify readers. A request to fix a typo
+or bug does not imply permission to notify followers.
+
+`--notify` requires a public changelog: at least 10 non-whitespace Unicode
+code points and at most 200 code points in the complete normalized text.
+CRLF/CR become LF and surrounding Unicode White_Space is trimmed; internal
+spaces and line breaks count toward the maximum. A note without `--notify`
+is rejected. The text is not translated or rendered as HTML or Markdown.
+
+Notifications are created after the approved version actually becomes public,
+for the deduplicated union of people saving the card and people following its
+author, respecting their settings. Each card can issue one update notification
+per seven days; a cooldown refusal still permits a silent submission. Never
+silently change a notified submission into a silent one. Keep the saved
+operation and its original intent when the result is unknown instead of
+creating another submission. Rejected or withdrawn reviews do not notify.
+
+The card introduction page retains each public version's date and type, with
+the changelog on notified versions. A later silent update does not erase old
+logs. Existing access and adult-content restrictions apply. Device push and
+Discord delivery depend on subscriptions or opt-in; they are not guaranteed.
+
 Reviewers see a similarity score for the definition against other submitted
 and approved cards (reviewers only; the author's own other cards are
 excluded). Originality of the definition text matters.

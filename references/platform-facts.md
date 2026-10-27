@@ -940,7 +940,7 @@ is rejected. The text is not translated or rendered as HTML or Markdown.
 Notifications are created after the approved version actually becomes public,
 for the deduplicated union of people saving the card and people following its
 author, respecting their settings. Each card can issue one update notification
-per seven days; a cooldown refusal still permits a silent submission. Never
+per three days; a cooldown refusal still permits a silent submission. Never
 silently change a notified submission into a silent one. Keep the saved
 operation and its original intent when the result is unknown instead of
 creating another submission. Rejected or withdrawn reviews do not notify.

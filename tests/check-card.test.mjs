@@ -38,7 +38,7 @@ test('bad regex, empty match, blank find, oversize replace, bad flags', async ()
   assert.ok(m.some((x) => x.startsWith('error:invalid pattern')));
   assert.ok(m.some((x) => x.includes('empty string')));
   assert.ok(m.some((x) => x.includes('find is blank')));
-  assert.ok(m.some((x) => x.includes('over 131072')));
+  assert.ok(m.some((x) => x.includes('over 262144')));
   assert.ok(m.some((x) => x.includes('flags "v"')));
 });
 
@@ -174,3 +174,10 @@ for (const tc of scriptContexts) {
     if (tc.error) assert.ok(errors.some(f => f.msg.includes(tc.want)), JSON.stringify(errors));
   });
 }
+
+test('card checker accepts256KiB but rejects one additional byte', async () => {
+ for (const n of [256 * 1024, 256 * 1024 + 1]) {
+  const dir = await card({ 'rules.json': { pageMode: 'sandbox', rules: [{ id: 'boundary', find: 'x', replace: '界'.repeat(Math.floor(n / 3)) + 'x'.repeat(n % 3), enabled: true }] } });
+  assert.equal(msgs(checkCard(dir)).some(m => m.includes('over 262144')), n > 256 * 1024);
+ }
+});

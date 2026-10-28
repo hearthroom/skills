@@ -1185,7 +1185,7 @@
   },
   "provider": {
     "source": "hand-maintained from HarperHarbor/server provider/internal/service/role/author_asset.go and display/scan.go",
-    "replaceMaxBytes": 131072,
+    "replaceMaxBytes": 262144,
     "totalMaxBytes": 33554432,
     "bytesAre": "UTF-8 (find + replace + name per rule)",
     "findMustNotBeBlank": true,

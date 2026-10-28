@@ -175,8 +175,8 @@ for (const tc of scriptContexts) {
   });
 }
 
-test('card checker accepts256KiB but rejects one additional byte', async () => {
- for (const n of [256 * 1024, 256 * 1024 + 1]) {
+test('card checker accepts512KiB but rejects one additional byte', async () => {
+ for (const n of [256 * 1024 + 1, 512 * 1024, 512 * 1024 + 1]) {
   const dir = await card({ 'rules.json': { pageMode: 'sandbox', rules: [{ id: 'boundary', find: 'x', replace: '界'.repeat(Math.floor(n / 3)) + 'x'.repeat(n % 3), enabled: true }] } });
   assert.equal(msgs(checkCard(dir)).some(m => m.includes('over 524288')), n > 512 * 1024);
  }

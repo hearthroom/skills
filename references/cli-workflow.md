@@ -110,4 +110,4 @@ Reading saved recall details does not search again or generate another reply. De
 
 With `--continue`, recall details cover only this continuation. Entries already available from earlier preparation are marked separately; they were not necessarily read again. Normal continuation billing applies. An entry being found, read or sent to the model does not mean the model used it in its reply.
 
-The CLI keeps `recallDebug` separate from the answer in NDJSON. Incomplete, unavailable, unsupported and not-enabled captures differ from an empty entry set. Names, keys, queries and author-owned content remain private diagnostics; keep them out of public reports.
+With --json, recallDebug is kept separate from the answer. Server events are printed one JSON object per line; the final result may span multiple lines. Incomplete, unavailable, unsupported and not-enabled captures differ from an empty entry set. Names, keys, queries and author-owned content remain private diagnostics; keep them out of public reports.

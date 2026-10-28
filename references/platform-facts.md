@@ -923,6 +923,20 @@ submission's operation id after a new push, and the site answers a known id
 with the version it made then (the old version id, edits still flagged).
 From 0.8.5 a push in between starts a new submission.
 
+New review submissions require more than 3,000 effective characters (at least
+3,001) across the character definition and enabled constant Lorebook entry
+content, combined; either part can supply the content. The site counts the frozen
+version and returns each part, total and remaining amount on refusal. Add
+substantive content to either part, push, then submit again. Existing public
+cards are not removed by this rule; their next submission must meet it.
+After NFC normalization, each Unicode letter or number counts once, including
+each English letter; combining marks do not count separately. Whitespace,
+punctuation, symbols and emoji do not count. HTML tags/comments, script/style
+content, Markdown images and link destinations, and template variables
+(`{{...}}` or `${...}`) are removed; HTML entities are decoded before counting.
+Openings, example dialogue, custom instructions, entry names/keywords, disabled
+entries and nonconstant entries are excluded. Openings have no new minimum.
+
 ### Silent updates and changelogs
 
 Updates submitted for review are silent by default; saving a draft or running

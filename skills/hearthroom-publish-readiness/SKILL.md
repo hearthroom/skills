@@ -50,6 +50,8 @@ score, `../../references/card-diagnosis.md` for several risks,
    (`platform-facts.md`, Publishing); for boundary-sensitive cards confirm the
    ceiling, escalation, refusal and stop conditions agree with them. Reviewers see a similarity score for the definition, so
    copied or lightly adapted text goes to `hearthroom-originality-adapter`.
+   Before review, check the site's combined definition and constant-Lorebook
+   requirement in `platform-facts.md`, Review and publication; add substance where the card needs it.
 5. Run a playtest through `hearthroom-chat-simulation` (10–20 turns, a weak
    and a strong model, `--new-session`; at least one `--agent on` probe for
    a Lorebook-dependent card), or record that the author skipped it knowing

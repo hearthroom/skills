@@ -258,6 +258,13 @@ model never sees the result.
   turns each `assets/…` path into a full asset URL (about 70 bytes more each),
   so `card check` reads low; keep a margin, strip comments, split big scripts:
   in a sandbox every enabled rule's `<script>` runs once at install, matched or not.
+- Large-replacement warning: a replacement larger than 256 KiB and no larger
+  than 512 KiB may slow down play. The website lists the affected rules during
+  import preview and saving; this warning does not block either action.
+  `hearthroom card check`, `scripts/check-card.mjs` and the sandbox kit build
+  also show this warning, which does not cause them to fail. Consider splitting each
+  affected rule into smaller rules. A replacement larger than 512 KiB remains
+  an error. These sizes are measured in UTF-8 bytes and include disabled rules.
 - A script too big for one rule can live in the media library: put it under
   `assets/` and load it from a rule with `<script src="assets/…">`; the push
   uploads it and the 512 KB limit no longer applies. Name the file by a hash of

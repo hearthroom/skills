@@ -215,6 +215,7 @@ while the model writes shows a toast instead of sending.
 | growing data (per-turn snapshots, logs) in the kit's one store bundle | after a few dozen turns the bundle passes 64 KiB, every write is refused with INVALID_ARGS (the kit only warns), and settings, read marks and snapshots stop persisting; give growing data its own keys, cap each by bytes, keep the bundle for small settings |
 | saving progress only on `dispose` | lost: the host stops listening first; write when the state changes, flush on `back` and `visibilitychange` |
 | a pattern that can match the empty string | the rule is rolled back; the marker stays visible |
+| a replacement larger than 256 KiB and no larger than 512 KiB | the local checks and kit build warn because it may slow down play; the warning does not fail the check or build; consider splitting the rule into smaller rules |
 | a replacement over 512 KiB (UTF-8; CJK comments cost three bytes) | the push is refused |
 | one `sdk.save` key per setting | RATE_LIMITED after twenty writes a minute; the eleventh key fails |
 | a path built as `"assets/" + id` | the file is never uploaded |
@@ -223,6 +224,9 @@ while the model writes shows a toast instead of sending.
 | a full-page screen drawn only at `settled` | the raw chat page flashes while the history loads; cover it from the first script run with a loading screen in the card's own style, show real progress (messages received), hand over at `settled`, and remove it on a timeout so a broken script never leaves it up |
 | `message:new` read as "a reply started" before the history settled | every stored message replays `new` on a cold start; the screen opens as if a reply were generating |
 | a status value shown from the kit's parsed value | full-width punctuation becomes ASCII (`｜` → `|`); show text values from the block as written |
+
+Replacement sizes use UTF-8 bytes, including for disabled rules. A replacement
+larger than 512 KiB remains an error.
 
 ## Importing a kit written for another platform
 

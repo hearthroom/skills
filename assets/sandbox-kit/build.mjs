@@ -20,7 +20,7 @@ const status = require(path.join(HERE, 'kit/hr-status.js'));
 export const MODULES = ['hr-core.js', 'hr-status.js', 'hr-theme.js', 'hr-ui.js'];
 export const OPTIONAL_MODULES = { page: 'hr-page.js' };
 export const REPLACE_MAX_BYTES = 512 * 1024;
-export const WARN_BYTES = 440 * 1024;
+export const WARN_BYTES = 256 * 1024;
 const TOKEN_KEYS = ['bg', 'surface', 'surface-2', 'text', 'muted', 'border', 'accent', 'on-accent', 'hp', 'mp', 'sp', 'xp', 'good', 'warn', 'bad', 'gap', 'pad', 'radius', 'shadow', 'glow', 'font-size', 'line-height'];
 const CHAT_VARS = ['bg', 'surface', 'text', 'text-muted', 'border', 'accent', 'bubble-user-bg', 'bubble-ai-bg', 'bubble-text', 'share-pick-bg', 'composer-bg', 'composer-text', 'shortcut-bg', 'shortcut-text', 'input-bg', 'input-text', 'input-placeholder', 'input-border', 'modal-bg', 'modal-surface', 'modal-text', 'modal-muted', 'modal-accent', 'modal-input-bg', 'modal-input-text', 'modal-cancel-bg', 'modal-btn-bg', 'modal-btn-border', 'more-item-bg'];
 
@@ -272,10 +272,15 @@ export function buildRules(config, root = HERE) {
   const pinned = Array.isArray(config.modes && config.modes.pinned) && config.modes.pinned.length > 0;
   if (pinned) rules.push({ id: 'hr-pinned', name: 'hr pinned bar host', find: '[[hr-pinned]]', replace: '', enabled: true });
   const problems = [];
+  const warnings = [];
   for (const r of rules) {
     const b = bytes(r.replace);
     if (b > REPLACE_MAX_BYTES) problems.push(`${r.id}: replacement is ${b} bytes, over the ${REPLACE_MAX_BYTES / 1024} KiB limit`);
-    else if (b > WARN_BYTES) problems.push(`${r.id}: replacement is ${b} bytes, close to the ${REPLACE_MAX_BYTES / 1024} KiB limit`);
+    else if (b > WARN_BYTES) {
+      const warning = `${r.id}: replacement is ${b} bytes and may slow down play; consider splitting this rule into smaller rules.`;
+      warnings.push(warning);
+      problems.push(warning);
+    }
   }
   for (const c of report) if (!c.ok) problems.push(`${c.side}: ${c.fg} on ${c.bg} is ${c.ratio ?? c.note}, needs ${c.min}:1`);
   if (pinned && config.modes.pinned.length > 3) problems.push('modes.pinned: at most three fields');
@@ -283,7 +288,7 @@ export function buildRules(config, root = HERE) {
   if (config.uiRole && !['assist', 'core'].includes(config.uiRole)) problems.push(`uiRole must be assist or core`);
   if (config.modes && config.modes.page && !(config.gates && config.gates.page)) problems.push('modes.page is gated: set gates.page to the reason this card reads better as pages (and verify text-only and reading-first in the preview)');
   if (config.modes && config.modes.intro && !(config.gates && config.gates.intro)) problems.push('modes.intro is gated: set gates.intro to what the intro says that the opening does not');
-  return { rules, report, problems, pinned, sizes: Object.fromEntries(rules.map((r) => [r.id, bytes(r.replace)])) };
+  return { rules, report, problems, warnings, pinned, sizes: Object.fromEntries(rules.map((r) => [r.id, bytes(r.replace)])) };
 }
 
 /** Merge kit rules into an existing rules.json object: kit rules first, in order; others kept. */
@@ -316,7 +321,7 @@ if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.me
   const config = JSON.parse(readFileSync(configFile, 'utf8'));
   const built = buildRules(config);
   for (const p of built.problems) console.log((p.includes('over the') || p.includes('needs') || p.includes('unknown') || p.includes('at most')) ? `✖ ${p}` : `△ ${p}`);
-  const hard = built.problems.filter((p) => !p.includes('close to'));
+  const hard = built.problems.filter((p) => !built.warnings.includes(p));
   console.log(`rules: ${built.rules.map((r) => `${r.id} (${built.sizes[r.id]} B)`).join(', ')}`);
   if (hard.length && !args.force) { console.log(`✖ ${hard.length} problem(s); fix them or pass --force`); process.exit(1); }
   if (args['preset-from']) {

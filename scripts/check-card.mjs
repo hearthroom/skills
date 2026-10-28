@@ -247,7 +247,7 @@ export function checkCard(dir) {
       const rb = bytes(r.replace);
       total += bytes(r.find) + rb + bytes(r.name);
       if (rb > CONTRACT.provider.replaceMaxBytes) out.error(where, `replace is ${rb} bytes, over ${CONTRACT.provider.replaceMaxBytes} (UTF-8 bytes; strip comments or split script and style into two rules)`);
-      else if (rb > CONTRACT.provider.replaceMaxBytes * 0.85) out.warn(where, `replace is ${rb} bytes, close to the ${CONTRACT.provider.replaceMaxBytes} limit`);
+      else if (rb > 256 * 1024) out.warn(where, `replacement is ${rb} bytes and may slow down play; consider splitting this rule into smaller rules.`);
       if (r.enabled === false) return;
       const c = compile(r.find);
       if (c.error) out.error(where, `${c.error} (rolled back as bad_regex)`);

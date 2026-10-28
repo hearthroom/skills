@@ -181,3 +181,13 @@ test('card checker accepts512KiB but rejects one additional byte', async () => {
   assert.equal(msgs(checkCard(dir)).some(m => m.includes('over 524288')), n > 512 * 1024);
  }
 });
+
+
+test('large replacement advisory uses UTF-8 bytes and never blocks allowed sizes', async () => {
+ for (const n of [136325, 262144, 262145, 300 * 1024, 524288, 524289]) {
+  const dir = await card({ 'rules.json': { pageMode: 'sandbox', rules: [{ id: 'large', find: 'marker', replace: '界'.repeat(Math.floor(n/3)) + 'x'.repeat(n%3), enabled: false }] } });
+  const findings = checkCard(dir);
+  assert.equal(findings.some(f => f.level === 'warning' && f.msg.includes('play')), n > 262144 && n <= 524288, String(n));
+  assert.equal(findings.some(f => f.level === 'error'), n > 524288, String(n));
+ }
+});

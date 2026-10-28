@@ -1,6 +1,8 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { readFileSync } from 'node:fs';
+import { readFileSync, mkdtempSync, writeFileSync, rmSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { spawnSync } from 'node:child_process';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { buildRules, mergeInto, contrast, contrastReport, loadPreset, slim, compileCss, bytes, REPLACE_MAX_BYTES } from '../assets/sandbox-kit/build.mjs';
@@ -122,6 +124,19 @@ test('build reports 512 KiB boundaries using UTF-8 bytes', () => {
   const built = buildRules({ ...example, extra: { css: extra } }, ROOT);
   assert.equal(bytes(built.rules.find(r => r.id === 'hr-style').replace), target);
   assert.equal(built.problems.some(p => p.includes('over the 512 KiB limit')), target > 512 * 1024);
-  if (target <= 256 * 1024 + 1) assert.ok(!built.problems.some(p => p.includes('close to')));
+  assert.equal(built.problems.some(p => p.includes('play')), target > 256 * 1024 && target <= 512 * 1024);
  }
+});
+
+
+test('kit command writes output and exits zero for a large allowed replacement', () => {
+ const dir = mkdtempSync(path.join(tmpdir(), 'kit-large-warning-'));
+ try {
+  const config = path.join(dir, 'config.json');
+  writeFileSync(config, JSON.stringify({ ...example, extra: { css: 'x'.repeat(300 * 1024) } }));
+  const result = spawnSync(process.execPath, [path.join(ROOT, 'build.mjs'), '--config', config, '--out', path.join(dir, 'out')], { encoding: 'utf8' });
+  assert.equal(result.status, 0, result.stdout + result.stderr);
+  assert.match(result.stdout, /play/);
+  assert.ok(JSON.parse(readFileSync(path.join(dir, 'out'), 'utf8')).rules.length > 0);
+ } finally { rmSync(dir, { recursive: true, force: true }); }
 });

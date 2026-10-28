@@ -99,3 +99,15 @@ first turn, state the cost stance (how many turns, which models) with
 failed turn may still cost credits; see `platform-facts.md`. Never loop turns
 unattended. The playtest standard (10–20 turns, a weak and a strong model,
 `--new-session`, one shortcoming per version) is in `playtest-loop.md`.
+
+## Author Lorebook recall details
+
+On a connected provider that supports recall details, use `hearthroom play <dir> -m "…" --debug-recall --allow-spend` for a real paid turn, or add `--debug-recall` to an eligible `--continue --allow-spend` invocation.
+
+Recall details help you check how your card's Lorebook entries were found and which content was sent to the model. Only the card's author can use this feature, and both `chat.play` and `role.read` are required. Normal chat billing applies.
+
+Reading saved recall details does not search again or generate another reply. Details cannot be collected later for a turn that did not have `--debug-recall` enabled. The authenticated HTTP read is `GET /open/v1/conversation/operations/<operationId>?include=recallDebug`; it reads the same operation. Do not submit another paid turn to retrieve missing details.
+
+With `--continue`, recall details cover only this continuation. Entries already available from earlier preparation are marked separately; they were not necessarily read again. Normal continuation billing applies. An entry being found, read or sent to the model does not mean the model used it in its reply.
+
+The CLI keeps `recallDebug` separate from the answer in NDJSON. Incomplete, unavailable, unsupported and not-enabled captures differ from an empty entry set. Names, keys, queries and author-owned content remain private diagnostics; keep them out of public reports.

@@ -1,6 +1,6 @@
 # Hearthroom platform facts
 
-Every platform claim in this toolkit comes from here. If a fact is not on this
+Every platform claim in this toolkit comes from here or [author recall details](cli-workflow.md#author-lorebook-recall-details). If a fact is not on this
 page, a skill must not assert it; say "not documented" instead. The community
 site's card authoring guide (`https://sukisuki.ai/en/guide.md`, the Markdown of
 `/guide`; `/guide.md` and `/<locale>/guide.md` for other languages) and the CLI manual

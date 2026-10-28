@@ -38,7 +38,7 @@ hearthroom card push my-card --validate --json && hearthroom card render my-card
 `build.mjs` keeps every other rule in `rules.json`, puts the kit rules first (`hr-style`,
 `hr-kit`, `hr-status`, `hr-choices`, and `hr-pinned` when pinned fields are set), sets
 `pageMode: sandbox` when it is missing, and refuses to write when a replacement is over
-256 KiB or a preset pair fails the contrast checks (`--force` overrides; `--check` only
+512 KiB or a preset pair fails the contrast checks (`--force` overrides; `--check` only
 checks). `--emit-contract` prints the paragraph for `card.json` `outputContract` (or the
 definition): the required keys with their shapes, the volatile keys, how values move
 (`rule` per field), the choices instruction, and an example of an ordinary turn, in the

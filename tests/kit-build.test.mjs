@@ -22,7 +22,7 @@ test('contrast ratio matches the WCAG reference values', () => {
   assert.equal(contrast('not a colour', '#fff'), null);
 });
 
-test('the example config builds four rules, each well under 256 KiB, pageMode sandbox, kit rules first', () => {
+test('the example config builds four rules, each well under 512 KiB, pageMode sandbox, kit rules first', () => {
   const built = buildRules(example, ROOT);
   assert.deepEqual(built.rules.map((r) => r.id), ['hr-style', 'hr-kit', 'hr-status', 'hr-choices']);
   for (const r of built.rules) assert.ok(bytes(r.replace) < REPLACE_MAX_BYTES / 2, `${r.id} is ${bytes(r.replace)} bytes`);
@@ -110,18 +110,18 @@ test('page and intro are gated; a palette becomes a preset that passes the contr
   assert.throws(() => presetFromPalette({ dark: { bg: '#000' }, light: {} }));
 });
 
-test('replacement capacity follows the 256 KiB author contract', () => {
-  assert.equal(REPLACE_MAX_BYTES, 256 * 1024);
+test('replacement capacity follows the 512 KiB author contract', () => {
+  assert.equal(REPLACE_MAX_BYTES, 512 * 1024);
 });
 
-test('build reports 256 KiB boundaries using UTF-8 bytes', () => {
+test('build reports 512 KiB boundaries using UTF-8 bytes', () => {
  const base = buildRules(example, ROOT).rules.find(r => r.id === 'hr-style').replace;
- for (const target of [128 * 1024 + 1, 256 * 1024, 256 * 1024 + 1]) {
+ for (const target of [256 * 1024, 256 * 1024 + 1, 512 * 1024, 512 * 1024 + 1]) {
   const extraBytes = target - bytes(base) - 1;
   const extra = '界'.repeat(Math.floor(extraBytes / 3)) + 'x'.repeat(extraBytes % 3);
   const built = buildRules({ ...example, extra: { css: extra } }, ROOT);
   assert.equal(bytes(built.rules.find(r => r.id === 'hr-style').replace), target);
-  assert.equal(built.problems.some(p => p.includes('over the 256 KiB limit')), target > 256 * 1024);
-  if (target === 128 * 1024 + 1) assert.ok(!built.problems.some(p => p.includes('close to')));
+  assert.equal(built.problems.some(p => p.includes('over the 512 KiB limit')), target > 512 * 1024);
+  if (target <= 256 * 1024 + 1) assert.ok(!built.problems.some(p => p.includes('close to')));
  }
 });

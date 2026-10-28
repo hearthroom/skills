@@ -32,7 +32,7 @@ test('every data-chat node, slot and --chat-* variable in the contract is named 
 
 test('the not-provided list and the provider limits appear in the facts sheet', () => {
   for (const n of contract.sdk.notProvided) assert.ok(facts.includes(n), n);
-  assert.ok(facts.includes('256 KB') || facts.includes('256 KiB'));
+  assert.ok(facts.includes('512 KB') || facts.includes('512 KiB'));
   assert.ok(facts.includes('32 MB') || facts.includes('32 MiB'));
   for (const r of contract.rules.rollbackReasons) assert.ok(facts.includes(`\`${r}\``), r);
 });

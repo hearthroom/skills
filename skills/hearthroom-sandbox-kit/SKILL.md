@@ -46,7 +46,7 @@ verify a real player click on the target device.
 4. `node <toolkit>/assets/sandbox-kit/build.mjs --config <dir>/kit.config.json
    --card <dir>`: merges the kit rules into `rules.json`, keeps the author's
    other rules, sets `pageMode: sandbox`, refuses on a contrast failure or a
-   replacement over 256 KiB.
+   replacement over 512 KiB.
 5. `hearthroom card check <dir>`: fix every error; read every warning (a
    marker nobody tells the model to write, an attribute the sanitizer
    strips, an `await` before a send, a save key that is not a key, a core

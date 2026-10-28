@@ -253,14 +253,14 @@ model never sees the result.
   256 KB or four times the input (`volume`), or matching times out (`timeout`).
 - Relative media sources (`<img src="x">`) are neutralised to `data:,` so a
   broken-image `onerror` boot still fires without hitting the site.
-- Limits: one replacement at most 256 KB (UTF-8 bytes; CJK comments cost three
+- Limits: one replacement at most 512 KB (UTF-8 bytes; CJK comments cost three
   each); the whole rule set at most 32 MB. The server measures after the push
   turns each `assets/…` path into a full asset URL (about 70 bytes more each),
   so `card check` reads low; keep a margin, strip comments, split big scripts:
   in a sandbox every enabled rule's `<script>` runs once at install, matched or not.
 - A script too big for one rule can live in the media library: put it under
   `assets/` and load it from a rule with `<script src="assets/…">`; the push
-  uploads it and the 256 KB limit no longer applies. Name the file by a hash of
+  uploads it and the 512 KB limit no longer applies. Name the file by a hash of
   its content so an update gets a new URL instead of a stale cache, and since an
   external script is not awaited, let a small inline stub take the calls other
   scripts make before it arrives.
@@ -746,7 +746,7 @@ the same checks; the CLI reports lookaround and backreferences as unverified
 locally) reads `rules.json`,
 `definition.md`, `card.json`, `lorebook.json` and the openings and reports,
 against `scripts/sandbox-contract.json`: invalid patterns and flags, patterns
-that match the empty string, replacements over 256 KiB (UTF-8 bytes) and rule
+that match the empty string, replacements over 512 KiB (UTF-8 bytes) and rule
 sets over 32 MiB, blank `find`, duplicate ids, unknown `sdk` capabilities and
 event names, `sdk.off`/`once`, `sdk.vars`, module syntax outside `type="module"`, `await` before a
 send, invalid save keys, `data-*`/`aria-*`/`role` on author elements, `on*`

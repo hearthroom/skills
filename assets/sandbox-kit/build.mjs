@@ -19,8 +19,8 @@ const status = require(path.join(HERE, 'kit/hr-status.js'));
 
 export const MODULES = ['hr-core.js', 'hr-status.js', 'hr-theme.js', 'hr-ui.js'];
 export const OPTIONAL_MODULES = { page: 'hr-page.js' };
-export const REPLACE_MAX_BYTES = 256 * 1024;
-export const WARN_BYTES = 220 * 1024;
+export const REPLACE_MAX_BYTES = 512 * 1024;
+export const WARN_BYTES = 440 * 1024;
 const TOKEN_KEYS = ['bg', 'surface', 'surface-2', 'text', 'muted', 'border', 'accent', 'on-accent', 'hp', 'mp', 'sp', 'xp', 'good', 'warn', 'bad', 'gap', 'pad', 'radius', 'shadow', 'glow', 'font-size', 'line-height'];
 const CHAT_VARS = ['bg', 'surface', 'text', 'text-muted', 'border', 'accent', 'bubble-user-bg', 'bubble-ai-bg', 'bubble-text', 'share-pick-bg', 'composer-bg', 'composer-text', 'shortcut-bg', 'shortcut-text', 'input-bg', 'input-text', 'input-placeholder', 'input-border', 'modal-bg', 'modal-surface', 'modal-text', 'modal-muted', 'modal-accent', 'modal-input-bg', 'modal-input-text', 'modal-cancel-bg', 'modal-btn-bg', 'modal-btn-border', 'more-item-bg'];
 

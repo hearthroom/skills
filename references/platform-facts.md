@@ -188,11 +188,14 @@ CLI releases whose `hearthroom media --help` lists `generate` can make images
 with the author's sign-in:
 
 ```
-hearthroom media models --json                   # image models: id, name, pricing.credits per image (by price tier), capabilities.sizes, max_images, content_policy
+hearthroom media models --json                   # image models: id, name, lane, lane_name, pricing.credits per image (by price tier), capabilities.sizes, max_images, content_policy
 hearthroom media generate --model <id> --prompt "…" --size <one of sizes> -n 1 --allow-spend --json \
   [--out assets/art/portrait.png] [--dir <library path> | --folder <name or id>] [--idempotency-key K]
 ```
 
+- Several models can share a `name` and differ by `lane` (`lane_name` in the
+  terminal's language, the LANE column): each has its own `id`, price and
+  `max_images` (the most images one request may ask for with `-n`).
 - Each image costs the model's listed credits and is paid from purchased
   credits only; granted or gift credits cannot pay for it (402 says so).
   Refused prompts, failures and an unavailable model provider are not

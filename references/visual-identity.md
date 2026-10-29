@@ -40,7 +40,9 @@ decoration nobody asked for, or before the promise is stable.
    `capabilities.sizes` has the shape you need (a tall size for the
    portrait, a wide one for `backgroundLandscape`) and whose
    `content_policy` allows the card's content. A more expensive model only
-   after the cheap one actually failed the brief.
+   after the cheap one actually failed the brief. Models can share a name
+   and differ by lane (`lane_name`, the LANE column) in price, speed and
+   `max_images`; pass the `id`, and name it with its lane to the author.
 2. Show `hearthroom wallet --json`, the model, its price, the number of
    images and the exact command; run it only after the author agrees.
    Generate one image (`-n 1`), check it, then the rest.

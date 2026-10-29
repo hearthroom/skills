@@ -18,13 +18,45 @@ Images sit under `assets/` in the card folder and are referenced from
 `card.json` as `media.portrait`, `media.background`,
 `media.backgroundLandscape` and `media.share` by relative path (sizes and
 crops in `platform-facts.md`); `card push` uploads them into the card's media-library folder. Images come from the
-author or the author's own image tool; this skill writes the prompt. The card
+author, the author's own image tool, or `hearthroom media generate` (below);
+this skill writes the prompt either way. The card
 is not complete while a referenced file is missing. Paths and naming follow
 Media library in `platform-facts.md`: group by job (`assets/art/portrait.webp`,
 `assets/art/bg/<place>.webp`, `assets/art/bg/<place>-wide.webp`), readable
 names, no dates or version numbers, `media.folder` for art a series shares.
 Upload the final size and format; replacing a file at the same path changes
 it for every card that uses it.
+
+## Generating with the CLI
+
+`hearthroom media generate` (`platform-facts.md`, Generating images) spends
+the author's purchased credits per image, so it needs the author's go-ahead
+and `--allow-spend`. It is worth it for the images a stranger sees first:
+the portrait, then a background or landscape background, then a few scene
+or expression images a display rule shows. It is not worth it for
+decoration nobody asked for, or before the promise is stable.
+
+1. `hearthroom media models --json`: take the cheapest image model whose
+   `capabilities.sizes` has the shape you need (a tall size for the
+   portrait, a wide one for `backgroundLandscape`) and whose
+   `content_policy` allows the card's content. A more expensive model only
+   after the cheap one actually failed the brief.
+2. Show `hearthroom wallet --json`, the model, its price, the number of
+   images and the exact command; run it only after the author agrees.
+   Generate one image (`-n 1`), check it, then the rest.
+3. Write the prompt as below. `--out assets/art/portrait.png` puts the file
+   in the card folder under its readable name; keep the extension true to
+   the file. `--dir <media.folder or the card name>` also keeps it in the
+   library folder of the card and prints `url`, which `media.portrait` or the
+   Markdown files can use directly when no local copy is wanted.
+4. Reference it in `card.json` as usual, push, and check the crops.
+
+A prompt the model refuses for its content rules (`content_policy_violation`)
+costs nothing; rephrase it within the rules or pick a model whose policy
+fits. Do not try to slip a refused subject past the check. After a stopped
+wait, rerun with the printed `--idempotency-key` so the author is not
+charged twice. A 402 means the purchased credits do not cover it; say so
+rather than retrying.
 
 ## One portrait, three crops
 

@@ -36,7 +36,8 @@ its manual page (`https://cli.hearthroom.club/manual/<command>.md` or
    on warnings too), `render --push --opening N`; paid: `play`.
 5. Before `play -m`, show `hearthroom wallet --json`, state the cost stance
    (turns, models) and the exact command with `--allow-spend` and
-   `--new-session`; run it only after the author agrees.
+   `--new-session`; run it only after the author agrees. The same holds for
+   `media generate` (purchased credits per image; price from `media models`).
 
 ## Reading errors
 
@@ -45,7 +46,8 @@ code; no other identifiers are documented. Read `detail` for the section,
 field or limit it names, fix that file, rerun the same command. A media
 item a card still uses cannot be removed with `media rm`; change the card's
 image first. A `media.folder` collision takes a new readable name, or the
-shared name only when the cards should share it. When not signed in, run
+shared name only when the cards should share it. A sign-in missing a
+permission (`media.generate`) needs `auth login` again. When not signed in, run
 the sign-in step once; never retry a command in a loop.
 
 Then continue with the writing or review skill that owns the next decision,

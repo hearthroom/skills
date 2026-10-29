@@ -182,6 +182,40 @@ they are.
   upload, pick a new `media.folder`, or set it to that folder only when the
   card is meant to share it.
 
+## Generating images
+
+CLI releases whose `hearthroom media --help` lists `generate` can make images
+with the author's sign-in:
+
+```
+hearthroom media models --json                   # image models: id, name, pricing.credits per image (by price tier), capabilities.sizes, max_images, content_policy
+hearthroom media generate --model <id> --prompt "…" --size <one of sizes> -n 1 --allow-spend --json \
+  [--out assets/art/portrait.png] [--dir <library path> | --folder <name or id>] [--idempotency-key K]
+```
+
+- Each image costs the model's listed credits and is paid from purchased
+  credits only; granted or gift credits cannot pay for it (402 says so).
+  Refused prompts, failures and an unavailable model provider are not
+  charged. The same `--idempotency-key` returns the same generation and is
+  charged once, so rerun a stopped wait with the printed key, never a new one.
+- A generation takes from under a minute to a few; the CLI waits (`--timeout`,
+  default 10 minutes) and prints `images[]`: `resultUrl` (deleted after 7
+  days), `file` with `--out`, and with `--dir`/`--folder` the saved library
+  item's `assetId` and `url`. `--dir` creates the path; `--folder` must exist.
+  A saved file is named `<model>-<task id prefix>-<n>` by the provider, counts
+  toward the author's storage and is never deleted automatically.
+- A card references an image as usual: a file under `assets/` by relative
+  path (pushed into the card's folder with its readable name), or a saved
+  `url` directly in `media.portrait` or the Markdown files.
+- Content rules are enforced before the request reaches the model provider:
+  `content_policy.nsfw` is `none` (no adult content), `suggestive` (adult but
+  not explicit) or `explicit`; sexual content involving minors is refused on
+  every model; `real_person` reports whether the model was found to draw
+  real people. A refused prompt returns `content_policy_violation` and costs nothing.
+- Sign-ins from CLI releases before this feature lack the `media.generate`
+  permission (saving also needs `role.write`); the command then says to run
+  `hearthroom auth login` again.
+
 ## Field limits (characters)
 
 The provider enforces these on push and reports them under
@@ -790,6 +824,7 @@ hearthroom wallet --json                           # balance before a cost stanc
 hearthroom card pull <roleId> [dir] --force        # bring the provider's copy back; --force overwrites local files
 hearthroom card push <dir> --create                # only when asked: keep it as an owned card, unlisted by default
 hearthroom card push <dir> --prune                 # delete CLI-managed Lorebook entries removed from the local file
+hearthroom media models | media generate … --allow-spend   # image models and paid generation (Generating images)
 hearthroom models | tags --zone zh | search | media ls|upload|mv|rm | upgrade --check
 ```
 
@@ -801,7 +836,8 @@ hearthroom models | tags --zone zh | search | media ls|upload|mv|rm | upgrade --
   saves a larger owned card, unlisted by default; anyone with the link can
   play its latest saved content, including changes that have not passed review.
 - Pushing, validating, rendering, importing, pulling and browsing are free.
-  `play -m` and `play --continue` generate and need `--allow-spend`.
+  `play -m` and `play --continue` generate and need `--allow-spend`; so does
+  `media generate`, which spends purchased credits per image.
 - A trial card expires three days after its last push; an account holds at
   most five (`--evict` frees the oldest). The site's inventory does not list
   trial cards, but their play link works for the author.

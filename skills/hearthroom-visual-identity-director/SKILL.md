@@ -7,13 +7,16 @@ description: Use when the portrait, background image, key art or art brief is th
 
 Turn the card's promise into image prompts for the portrait and the
 optional backgrounds, and say whether the image files are ready. Images
-come from the author or their own image tool; this skill writes the prompt
-and checks the result against the funnel's L0 (cover and title as a pair).
+come from the author, their own image tool, or `hearthroom media generate`
+when the author agrees to spend purchased credits; this skill writes the
+prompt and checks the result against the funnel's L0 (cover and title as a
+pair).
 
 ## Required references
 
-Read `../../references/visual-identity.md` (one portrait with three crops,
-the cover and title as a pair, visual proof, writing the prompt, repairs).
+Read `../../references/visual-identity.md` (generating with the CLI, one
+portrait with three crops, the cover and title as a pair, visual proof,
+writing the prompt, repairs).
 From `../../references/platform-facts.md`: the portrait is the board cover,
 the chat avatar and the default background; the Media library gives paths,
 names and `media.folder`. Read `../../references/profile-packaging.md` when
@@ -36,6 +39,9 @@ the promise in `name` or `summary` is weak.
    head; nothing important near the edges"); end with "No text, letters,
    logos or watermarks anywhere in the image." Name a failure to avoid only
    after an earlier generation showed it.
+   To generate, follow Generating with the CLI: cheapest model with the
+   right size, cost and command shown to the author first, one image, then
+   `--out assets/art/...` (and `--dir` for the card's library folder).
 4. Check the portrait in all three crops (board 3:4, avatar circle, chat
    background) before calling it ready; a background also at landscape
    16:9 with the subject in the central 75%.
@@ -58,3 +64,4 @@ the render.
 - Do not put text, letters or logos in an image; the title belongs to the
   board.
 - Do not call a card complete while the referenced image files are missing.
+- Do not run `media generate` without the author's agreement to the cost.

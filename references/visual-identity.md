@@ -43,6 +43,7 @@ decoration nobody asked for, or before the promise is stable.
    after the cheap one actually failed the brief. Models can share a name
    and differ by lane (`lane_name`, the LANE column) in price, speed and
    `max_images`; pass the `id`, and name it with its lane to the author.
+   After the portrait, prefer a model with REFS above 0 (below).
 2. Show `hearthroom wallet --json`, the model, its price, the number of
    images and the exact command; run it only after the author agrees.
    Generate one image (`-n 1`), check it, then the rest.
@@ -59,6 +60,21 @@ fits. Do not try to slip a refused subject past the check. After a stopped
 wait, rerun with the printed `--idempotency-key` so the author is not
 charged twice. A 402 means the purchased credits do not cover it; say so
 rather than retrying.
+
+## Keep the character the same
+
+Each generation starts from noise; pin the character in words and by picture.
+
+1. Write one fixed appearance paragraph (age, build, face, eyes, hair and
+   accessories, outfit and colours, one or two marks, the art style), keep it
+   in the folder (`assets/art/character.md`) and paste it verbatim into every
+   prompt; only the scene sentences change.
+2. Generate the portrait from it until the author accepts it; save it (`--dir`).
+3. Every later image passes the portrait with `--image <library path or URL>`
+   on a model with REFS above 0, same paragraph, "the same character as the
+   reference image" before the new pose and place. References cost nothing.
+4. Compare face, hair, outfit and marks with the portrait; regenerate a drifted
+   image rather than keep it. For a cast, one paragraph and portrait each.
 
 ## One portrait, three crops
 

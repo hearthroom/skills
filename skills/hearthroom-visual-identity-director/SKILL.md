@@ -14,8 +14,8 @@ pair).
 
 ## Required references
 
-Read `../../references/visual-identity.md` (generating with the CLI, one
-portrait with three crops, the cover and title as a pair, visual proof,
+Read `../../references/visual-identity.md` (generating with the CLI, keeping
+the character the same, one portrait with three crops, the cover and title as a pair, visual proof,
 writing the prompt, repairs).
 From `../../references/platform-facts.md`: the portrait is the board cover,
 the chat avatar and the default background; the Media library gives paths,
@@ -41,7 +41,8 @@ the promise in `name` or `summary` is weak.
    after an earlier generation showed it.
    To generate, follow Generating with the CLI: cheapest model with the
    right size, cost and command shown to the author first, one image, then
-   `--out assets/art/...` (and `--dir` for the card's library folder).
+   `--out assets/art/...` (and `--dir` for the card's library folder);
+   later images pass the portrait with `--image` (Keep the character the same).
 4. Check the portrait in all three crops (board 3:4, avatar circle, chat
    background) before calling it ready; a background also at landscape
    16:9 with the subject in the central 75%.

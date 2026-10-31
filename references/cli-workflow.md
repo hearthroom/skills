@@ -53,7 +53,7 @@ naming rules are under Media library in the facts sheet.
 | See the real chat shell draw it | `hearthroom card preview <dir> --open` (the shell is fetched from the site and cached; `platform-facts.md`, Offline preview) | no |
 | Build `lorebook.json` from `worldbook/*.md`; find keyword collisions | `hearthroom lorebook build <dir>` / `hearthroom lorebook check <dir>` | no |
 | Play one turn in a fresh conversation | `hearthroom play <dir> --new-session -m "…" --allow-spend --json` | yes |
-| Generate an image for the card | `hearthroom media generate --model <id> --prompt "…" --out assets/art/portrait.png --allow-spend --json` (`media models` for prices and sizes; `platform-facts.md`, Generating images) | yes, purchased credits per image |
+| Generate an image for the card | `hearthroom media generate --model <id> --prompt "…" --out assets/art/portrait.png --allow-spend --json` (`media models` for prices and sizes; to let the author choose first, `media generations` then `media save --pick`; `platform-facts.md`, Generating images) | yes, purchased credits per image |
 | Read the conversation so far | `hearthroom play <dir> --history --limit 20` | no |
 | Bring the provider's copy back to files | `hearthroom card pull <roleId> [dir] --force` (overwrites local files) | no |
 | Keep it as an owned card (unlisted by default) | `hearthroom card push <dir> --create` | no |

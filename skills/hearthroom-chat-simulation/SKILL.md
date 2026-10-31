@@ -38,9 +38,10 @@ turn. Read a craft reference only when the transcript points there
    probe for each (delay or refuse it for several turns); a run that only
    takes the suggested path never reads that writing.
 4. Start each independent probe set and each retest with `--new-session`
-   (`--greeting N` only takes effect with it). Read each reply before
-   sending the next probe; `--history` for long conversations, `--stop` when
-   the author stops waiting.
+   (`--greeting N` only takes effect with it). A card has one current
+   conversation per account, so run the two models in turn or on a second
+   trial card. Read each reply before sending the next probe; `--history`
+   for long conversations, `--stop` when the author stops waiting.
 5. Judge each reply with the playtest checks: in character; desire,
    contradiction and boundary visible under trust, resistance, passivity and
    refusal; the scene moves; the player can tell what they could do next and

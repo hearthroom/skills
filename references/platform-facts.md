@@ -845,14 +845,14 @@ hearthroom models | tags --zone zh | search | media ls|upload|mv|rm | upgrade --
 - A trial card expires three days after its last push; an account holds at
   most five (`--evict` frees the oldest). The site's inventory does not list
   trial cards, but their play link works for the author.
-- Consecutive `play` calls on the same folder continue one conversation: the
-  first call opens it, later calls resume it, and the folder's sync state
-  remembers it. `--new-session` archives the current conversation and starts
-  a fresh one; `--greeting N` (0 = main, 1.. = alternates) applies only when a
-  new conversation is created, so an alternate is tested with
-  `--new-session --greeting N`. Every independent probe and every retest
-  starts with `--new-session`, except Continue probes, which must retain
-  the interrupted conversation and its saved preparation.
+- `play` calls on a folder continue one conversation. The provider keeps one
+  current conversation per card and account, whichever folder or client opens
+  it: a second folder on the card shares it, and a parallel `--new-session`
+  gets `409 chat_operation_conflict`. Run probe sets in turn, or push a folder
+  copy without `.hearthroom/` as a second trial card. `--new-session` archives
+  it and starts a fresh one; `--greeting N` (0 = main, 1.. = alternates) only
+  applies then. Every independent probe and retest starts with `--new-session`,
+  except Continue probes, which keep the interrupted conversation and its preparation.
 - CLI 0.12.8+ `play --continue` uses only the latest operation when its state
   is `failed_retryable` or `stopped`, it is an Agent turn, and `allowedActions`
   includes `continue`. It carries the original user message and saved preparation

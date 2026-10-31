@@ -86,9 +86,9 @@ rule engine: `applied` means the rule matched, not that a script drew
 anything.
 
 `play --json`: every server event is printed as one JSON object per line;
-read final billing under `platform-facts.md`, CLI commands. Calls on the same folder continue
-one conversation; `--new-session` starts a fresh one, and `--greeting N`
-applies only when a new conversation is created. `--history` reads the
+read final billing under `platform-facts.md`, CLI commands. A card has one current conversation
+per account, shared by every folder on it (run in turn, or push a second trial card);
+`--new-session` starts a fresh one, `--greeting N` only a new one. `--history` reads the
 conversation back newest first (sort by `id` before pairing a line with its reply). Turns sent with `play` do not pass through the play page,
 so display rules and scripts are not exercised by them.
 

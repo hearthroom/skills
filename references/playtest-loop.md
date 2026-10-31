@@ -19,10 +19,11 @@ world reacts), chosen with `hearthroom play --model` from `hearthroom models`.
 Every independent probe set and every retest starts with
 `hearthroom play <dir> --new-session` (an alternate opening needs
 `--new-session --greeting N`; without it the turns pile into the old
-conversation and `--greeting` does nothing). Cover compliance, off-script,
-passive, stalling at a gate the story waits on, meta (an out-of-character
-question) and ending/goodbye. Fix one
-shortcoming per version; before a paid retest run the pre-check
+conversation and `--greeting` does nothing). A card has one conversation per
+account, so run its two models in turn or on a second trial card. Cover
+compliance, off-script, passive, stalling at a gate the story waits on, meta
+(an out-of-character question) and ending/goodbye. Fix one shortcoming per
+version; before a paid retest run the pre-check
 (`check-card.mjs`, `card push --validate`, `card render`, the offline preview
 with the failing reply in `preview/replies.md`); rerun the same probes on the
 same models and compare with the previous version layer by layer (better /

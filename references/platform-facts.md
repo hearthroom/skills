@@ -206,8 +206,13 @@ hearthroom media generate --model <id> --prompt "…" --size <one of sizes> -n 1
   default 10 minutes) and prints `images[]`: `resultUrl` (deleted after 7
   days), `file` with `--out`, and with `--dir`/`--folder` the saved library
   item's `assetId` and `url`. `--dir` creates the path; `--folder` must exist.
-  A saved file is named `<model>-<task id prefix>-<n>` by the provider, counts
-  toward the author's storage and is never deleted automatically.
+  A saved file is named `<model>-<part of the task id>-<n>` by the provider
+  unless `media save --name` chooses the name, counts toward the author's
+  storage and is never deleted automatically.
+- To let the author choose first (if `media --help` lists `generations`, `save`): generate without
+  `--dir`; `media generations --json` lists 7 days of generations from every client, `data[i].url`
+  and `asset_id` once saved; `media save <id> --pick N --name … --dir … --json` keeps the chosen
+  ones (`--pick` from 1; a taken name is refused, not replaced; saving is free).
 - A card references an image as usual: a file under `assets/` by relative
   path (pushed into the card's folder with its readable name), or a saved
   `url` directly in `media.portrait` or the Markdown files.

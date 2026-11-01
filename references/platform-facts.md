@@ -250,9 +250,9 @@ How entries reach the model in a normal conversation:
   A card whose constant entries do not fit the context tier is refused with
   advice; the player can choose a smaller "trimmed" set. Keep constant entries
   few and short.
-- Entries that did not match keywords may still be admitted by semantic search
-  plus a reranker, within a token budget. Do not rely on it for facts that must
-  appear: give those entries keywords or make them constant.
+- Entries that did not match keywords may still be admitted by semantic search plus a reranker, within a token budget. Do not rely on it for facts that must appear: give those entries keywords or make them constant.
+- Each turn, newly triggered entries can take up to about one-eighth of the model's context; entries matching the current message come first, and an entry too long to fit is skipped for the next one.
+  The allowance follows the selected context tier, measured in tokens, and includes the entry's formatting. Always-on entries and entries retained from earlier turns do not use this new-entry allowance. Among new entries, current-message keyword matches come before matches from recent messages, followed by semantic candidates; competing entries are ordered by reranker score when available. Selected entries are sent in author order. Keep each entry to roughly 500 characters where possible, and keep always-on entries concise; this is writing advice, not an upload limit.
 - Constant entries sit in the cached prefix before the history; a recalled
   entry is a system row inserted into the history where it was admitted and
   stays there until the source is edited, deleted or reclaimed, so recalls and

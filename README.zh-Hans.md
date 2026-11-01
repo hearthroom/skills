@@ -33,7 +33,7 @@
 
 - `sukisuki.ai` 是社区主站；`hearthroom.club`、`sukisuki.chat`、`sukisuki.pro` 直接提供同一社区服务，不会跳转至主站。各 `www` 跳转至其同名根域名；登录会话按域名分开。
 - `play.sukisuki.ai`、`play.hearthroom.club`、`play.sukisuki.chat`、`play.sukisuki.pro` 提供角色卡应用，不会跳转至主站。
-- `cli.hearthroom.club`、`cli.sukisuki.ai`、`cli.sukisuki.chat` 直接提供 CLI 文档，不会跳转至社区主站。
+- `cli.hearthroom.club`、`cli.sukisuki.ai`、`cli.sukisuki.chat`、`cli.sukisuki.pro` 直接提供 CLI 文档，不会跳转至社区主站。
 - 四个社区根域名的 `downloads` 子域名提供应用下载，`playground` 提供游乐场，`c<card-id>` 提供隔离的角色卡沙盒；不会跳转至主站。沙盒内容由角色卡作者编写。
 - `api.harperharbor.com` 是连接服务的 API，`console.harperharbor.com` 是账户和账务控制台，`assets.harperharbor.com` 提供媒体；均不会跳转至社区主站。
 

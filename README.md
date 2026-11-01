@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="https://hearthroom.club"><img src="https://raw.githubusercontent.com/hearthroom/hearthroom/main/web/public/icons/icon-192.png" width="96" alt=""></a>
+  <a href="https://sukisuki.ai"><img src="https://raw.githubusercontent.com/hearthroom/hearthroom/main/web/public/icons/icon-192.png" width="96" alt=""></a>
 </p>
 
 <h1 align="center">Hearthroom skills</h1>
@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  <a href="https://hearthroom.club/guide"><img src="https://img.shields.io/badge/guide-hearthroom.club-E89064" alt="Card authoring guide"></a>
+  <a href="https://sukisuki.ai/guide"><img src="https://img.shields.io/badge/guide-sukisuki.ai-E89064" alt="Card authoring guide"></a>
   <a href="https://discord.gg/C7m85YPHmK"><img src="https://img.shields.io/badge/Discord-join%20the%20community-5865F2?logo=discord&logoColor=white" alt="Discord"></a>
   <a href="https://github.com/hearthroom/skills/actions/workflows/validate.yml"><img src="https://github.com/hearthroom/skills/actions/workflows/validate.yml/badge.svg" alt="Validate"></a>
   <a href="LICENSE.md"><img src="https://img.shields.io/badge/license-FSL--1.1--ALv2-blue" alt="License: FSL-1.1-ALv2"></a>
@@ -27,9 +27,19 @@
 </p>
 <p align="center"><sub>A card written with these skills and the sandbox kit, in the CLI's offline preview.</sub></p>
 
+## Official domains
+
+These exact hosts belong to the same Hearthroom community and its connected services; a different host is not automatically official.
+
+- `sukisuki.ai` is the primary community site. `hearthroom.club`, `sukisuki.chat`, and `sukisuki.pro` serve the same community directly, without redirecting to the primary site; each `www` redirects to its own root. Sign-in sessions are separate by origin.
+- `play.sukisuki.ai`, `play.hearthroom.club`, `play.sukisuki.chat`, and `play.sukisuki.pro` host card apps; they do not redirect to the primary site.
+- `cli.hearthroom.club`, `cli.sukisuki.ai`, and `cli.sukisuki.chat` serve the CLI documentation directly; they do not redirect to the primary community site.
+- The `downloads` subdomain of each of the four community roots serves app downloads; `playground` serves the playground; `c<card-id>` hosts an isolated card sandbox. These hosts do not redirect to the primary site. Sandbox content is authored by card creators.
+- `api.harperharbor.com` is the connected service API, `console.harperharbor.com` its account and billing console, and `assets.harperharbor.com` its media host. They do not redirect to the community site.
+
 ## Overview
 
-[Hearthroom](https://hearthroom.club) is an open community for AI character cards. A card is
+[Hearthroom](https://sukisuki.ai) is an open community for AI character cards. A card is
 a folder of plain files, and the [`hearthroom` CLI](https://cli.hearthroom.club) pushes that
 folder to a private trial card, validates it, renders it and plays it from the terminal.
 
@@ -48,7 +58,7 @@ Paste this into your agent. It installs the CLI and these skills, and signs you 
 one-time code:
 
 ```text
-Fetch and follow the instructions at https://hearthroom.club/agent-setup.md to set me up for writing character cards on Hearthroom.
+Fetch and follow the instructions at https://sukisuki.ai/agent-setup.md to set me up for writing character cards on Hearthroom.
 ```
 
 Then load the skills: run `/reload-plugins` in Claude Code, or start a new session in Codex
@@ -120,7 +130,7 @@ Screenshot checks (`card preview --check`) also need Chrome, Chromium or Edge.
 
 SillyTavern PNG, JSON and CHARX cards and MMD three-file sets import directly. What makes a
 prompt work well (giving a situation instead of a genre, a sample line instead of adjectives,
-and saying what counts as done) is in the [prompting guide](https://hearthroom.club/guide).
+and saying what counts as done) is in the [prompting guide](https://sukisuki.ai/guide).
 
 ## How a card gets made
 

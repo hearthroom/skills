@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="https://hearthroom.club"><img src="https://raw.githubusercontent.com/hearthroom/hearthroom/main/web/public/icons/icon-192.png" width="96" alt=""></a>
+  <a href="https://sukisuki.ai"><img src="https://raw.githubusercontent.com/hearthroom/hearthroom/main/web/public/icons/icon-192.png" width="96" alt=""></a>
 </p>
 
 <h1 align="center">Hearthroom skills</h1>
@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  <a href="https://hearthroom.club/guide"><img src="https://img.shields.io/badge/guide-hearthroom.club-E89064" alt="写卡指南"></a>
+  <a href="https://sukisuki.ai/guide"><img src="https://img.shields.io/badge/guide-sukisuki.ai-E89064" alt="写卡指南"></a>
   <a href="https://discord.gg/C7m85YPHmK"><img src="https://img.shields.io/badge/Discord-join%20the%20community-5865F2?logo=discord&logoColor=white" alt="Discord"></a>
   <a href="https://github.com/hearthroom/skills/actions/workflows/validate.yml"><img src="https://github.com/hearthroom/skills/actions/workflows/validate.yml/badge.svg" alt="Validate"></a>
   <a href="LICENSE.md"><img src="https://img.shields.io/badge/license-FSL--1.1--ALv2-blue" alt="License: FSL-1.1-ALv2"></a>
@@ -27,9 +27,19 @@
 </p>
 <p align="center"><sub>用这套技能和沙盒套件写成的卡，截图来自 CLI 的离线预览。</sub></p>
 
+## 官方域名
+
+以下确切的域名属于同一个绮梦社社区及其连接服务；其他域名不会自动成为官方网站。
+
+- `sukisuki.ai` 是社区主站；`hearthroom.club`、`sukisuki.chat`、`sukisuki.pro` 直接提供同一社区服务，不会跳转至主站。各 `www` 跳转至其同名根域名；登录会话按域名分开。
+- `play.sukisuki.ai`、`play.hearthroom.club`、`play.sukisuki.chat`、`play.sukisuki.pro` 提供角色卡应用，不会跳转至主站。
+- `cli.hearthroom.club`、`cli.sukisuki.ai`、`cli.sukisuki.chat` 直接提供 CLI 文档，不会跳转至社区主站。
+- 四个社区根域名的 `downloads` 子域名提供应用下载，`playground` 提供游乐场，`c<card-id>` 提供隔离的角色卡沙盒；不会跳转至主站。沙盒内容由角色卡作者编写。
+- `api.harperharbor.com` 是连接服务的 API，`console.harperharbor.com` 是账户和账务控制台，`assets.harperharbor.com` 提供媒体；均不会跳转至社区主站。
+
 ## 这是什么
 
-[绮梦社](https://hearthroom.club)（Hearthroom）是一个开放的 AI 角色卡社区。一张卡就是一个装着纯文本文件的文件夹，[`hearthroom` 命令行工具](https://cli.hearthroom.club)可以在终端里把文件夹推成私人试玩卡，再检查、渲染、试玩。
+[绮梦社](https://sukisuki.ai)（Hearthroom）是一个开放的 AI 角色卡社区。一张卡就是一个装着纯文本文件的文件夹，[`hearthroom` 命令行工具](https://cli.hearthroom.club)可以在终端里把文件夹推成私人试玩卡，再检查、渲染、试玩。
 
 CLI 负责搬文件，文件里写什么由这套技能决定。这里有 43 个技能和 48 份共享指南，覆盖前提、人物、关系、世界和世界书、开场白、声线、状态、界面、诊断与迭代，每一项最后都落到一个助手能自己跑的检查上。Claude Code、Codex、Cursor，以及任何能读文件、能执行命令的助手都能用。
 
@@ -40,7 +50,7 @@ CLI 负责搬文件，文件里写什么由这套技能决定。这里有 43 个
 把这句话发给你的助手。它会装好 CLI 和这套技能，再用一次性验证码帮你登录：
 
 ```text
-从 https://hearthroom.club/agent-setup.md 读取设置步骤并照着做，帮我准备好在 Hearthroom 写酒馆角色卡的环境。
+从 https://sukisuki.ai/agent-setup.md 读取设置步骤并照着做，帮我准备好在 Hearthroom 写酒馆角色卡的环境。
 ```
 
 装好后加载技能：Claude Code 里执行 `/reload-plugins`，Codex 和其他助手新开一个会话。整个设置过程不花点数。
@@ -105,7 +115,7 @@ Windows 用 `irm https://raw.githubusercontent.com/hearthroom/cli/main/install.p
 
 > 这张卡可以送审了吗？列出还要改的地方，先别动任何文件。
 
-SillyTavern 的 PNG、JSON、CHARX 和魅魔岛三件套都能直接导入。怎样下指令效果最好（给处境而不是只给类型、给一句台词而不是一串形容词、讲清楚做到哪一步算完成），写在[写卡指南](https://hearthroom.club/guide)里。
+SillyTavern 的 PNG、JSON、CHARX 和魅魔岛三件套都能直接导入。怎样下指令效果最好（给处境而不是只给类型、给一句台词而不是一串形容词、讲清楚做到哪一步算完成），写在[写卡指南](https://sukisuki.ai/guide)里。
 
 ## 一张卡是怎么做出来的
 

@@ -735,6 +735,12 @@ has no `sdk`, no `[data-chat]` nodes and no `--chat-*` variables; a card that
 uses them must set `pageMode` to `sandbox`. `<img onerror>` boot scripts work
 on both pages.
 
+MMD's old chat bubble is `white-space: pre-line`: each newline between HTML
+tags shows as a blank line. Neither page here keeps those newlines. A card
+that cancels MMD's blank lines with negative margins (`margin-top:-60px`)
+overlaps here; put `white-space: pre-line` on the card's own container, or
+drop the negative margins.
+
 Sidebars docked flush to an edge and about 48 px wide or less get room made
 for them automatically; `--lt-dock: left|right|none` on the element overrides
 detection.

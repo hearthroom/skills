@@ -617,6 +617,16 @@ prose.
   during generation is `BUSY`; header, composer and panels are the site's
   standard components drawn inside the shell (`data-chrome="standard"`), so
   author CSS reaches them and their buttons report to the host.
+- Composer (standard chrome) carries MMD's sandbox names: `[data-chat=
+  "shortcut"]`, `.composer-row > .assistant-anchor > [data-chat="assistant"]`
+  (the suggestion bulb; a script may hide it and insert its own button in the
+  anchor), `.composer-field` with `input`, `model-chip`, `send`, and
+  `[data-action="more"]`; full list: `standardComposer` in the contract.
+  Unlike MMD, every control is `div[role=button]` (no `button[...]`, no
+  `:disabled`), shortcut keys are in `data-shortcut`, input / field / more sit
+  one or two wrappers deeper (MMD's `>` and `+` selectors miss), model chip
+  and send exist twice (the collapsed one first), the bulb gets `.is-off`
+  while read-only, and there is no instruction bar or `assistant-tip`.
 - Chrome modes: with `standard` the shell sets `--shell-header-h` from the
   header's height; with `shell` it does not (the shell's own CSS falls back
   to 45px); with `host` the host draws header and composer outside the page,
@@ -690,8 +700,9 @@ prose.
   `data-lt` hook) also only posts to the host, which opens its model sheet in
   `[data-chat="panels"]`; a full-page overlay above z-index auto hides that
   sheet unless it lifts the panels layer while the player picks. Inside the
-  sandbox shell there is no model chip: the model button is `.mind-type` in
-  `[data-chat="composer"]` and still opens the host's model list when clicked
+  sandbox shell there is no `.model-chip`: the model button is `.mind-type`
+  (also `[data-chat="model-chip"]`) in `[data-chat="composer"]` and still
+  opens the host's model list when clicked
   (also while the composer is hidden). Read the model's name and the next
   turn's cost from `sdk.model.get()` (and `model:change`), not from the DOM;
   a settings row shows the name when it is there and never a "not found".

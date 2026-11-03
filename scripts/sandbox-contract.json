@@ -699,6 +699,36 @@
     "prologue": {
       "scope": ".prologue-scope[data-lt=\"prologue\"]",
       "item": ".prologue-content"
+    },
+    "standardComposer": {
+      "mmdSandboxSelectors": [
+        ".composer-shortcut-wrap",
+        "[data-chat=\"shortcut\"]",
+        ".composer-row",
+        "[data-chat=\"assistant\"][data-action=\"assistant\"]",
+        ".chat-input-scope.composer-field",
+        ".composer-field [data-chat=\"input\"]",
+        ".composer-field [data-chat=\"model-chip\"][data-action=\"model\"]",
+        ".composer-field [data-chat=\"send\"]",
+        ".composer-tools",
+        ".composer-row > .more-options-scope [data-action=\"more\"]",
+        ".composer-row > .assistant-anchor > [data-chat=\"assistant\"]",
+        "[data-chat=\"more-panel\"]"
+      ],
+      "absent": [
+        "[data-chat=instruction-bar]",
+        "[data-chat=instruction-chip]",
+        "[data-chat=instruction-back]",
+        "[data-chat=assistant-tip]"
+      ],
+      "differences": [
+        "shortcut, assistant, send, model-chip and more are div[role=button], not <button>: button[...] and :disabled do not match",
+        "shortcut buttons carry the platform feature key in data-shortcut, so [data-action=model] is only the model chip",
+        ".composer-field sits inside .uni-textarea, the textarea two levels below .composer-field, more inside .more-options-scope: child and sibling combinators from MMD miss",
+        "model-chip and send exist twice (collapsed and expanded rows); querySelector returns the collapsed one",
+        ".assistant-anchor is display: contents until the card gives it a display",
+        "in the sandbox shell the assistant node stays mounted; while read-only or without assist it has .is-off (display: none)"
+      ]
     }
   },
   "nativeBlocks": {

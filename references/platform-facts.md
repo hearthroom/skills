@@ -1062,10 +1062,22 @@ Do not pass raw conversation or role IDs to this author API.
 
 An item has `id`, `order`, `role` (`user`/`ai`), `kind` (`opening`/`message`),
 `state` (`streaming`/`complete`/`partial`/`failed`), `complete`, and
-`contentVersion`. Optional `content: true` returns visible original terminal
-bodies; thinking, streaming body and moderation-withheld content are absent.
+`contentVersion`, plus `replyTo: string | null`. Optional `content: true`
+returns visible original terminal bodies; thinking, streaming body and moderation-withheld content are absent.
 Use `item.complete` before accepting an AI reply as a complete state checkpoint.
 A failed or partially stopped reply is not complete merely because it ended.
+
+For an AI reply, `replyTo` is the triggering player message's opaque history
+`id` in the same conversation; it may be on another page. Player messages,
+openings and replies with no verifiable link have `null`. Older data and copied
+fork messages can have an unknown link; an older host may omit the field.
+Treat these as unknown and do not infer the link from adjacent messages.
+Regeneration creates new player and AI IDs, and the new reply points to the new
+player ID. Manually editing an AI reply preserves its ID and `replyTo`.
+Going back removes discarded messages. If a player message is deleted while its
+AI reply remains, that reply's `replyTo` becomes `null`. Ordinary append-to-reply
+Continue (`contine` / `continue_response`) remains unsupported; continuing saved
+Agent preparation uses the original player message ID.
 
 `sdk.history.onChange(callback)` / `stage.history.onChange(callback)` returns an
 unsubscribe function. It is a separate subscription, not `sdk.on('history:change')`.
@@ -1074,9 +1086,14 @@ There is no named `message:remove` event. The callback receives:
 { conversationKey: string | null, previousRevision: string | null,
   revision: string | null,
   kind: 'append' | 'update' | 'remove' | 'truncate' | 'replace' | 'reset' | 'unavailable',
-  changes: Array<{ op: 'add' | 'update' | 'remove'; id: string; replacementId?: string }>,
+  changes: Array<{ op: 'add' | 'update' | 'remove'; id: string; replyTo: string | null; replacementId?: string }>,
   part: number, final: boolean }
 ```
+For `add`/`update`, a change's `replyTo` is the link verifiable at read time,
+not a snapshot of the old event revision. For `remove`, it is always `null`.
+Re-read the complete list even when only a player-message removal is reported:
+an AI reply's link may also become unknown.
+
 Revisions are decimal strings; `part` is zero-based. An available subscription
 starts with `reset`; reset/unavailable may have null keys/revisions and empty
 changes: mark derived state unknown until the authoritative list is re-read. A true deletion is a `changes` entry with

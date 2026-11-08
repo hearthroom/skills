@@ -903,10 +903,9 @@ hearthroom models | tags --zone zh | search | media ls|upload|mv|rm | upgrade --
   (CLI 0.8.4 prints it as `intro`) is reported but left out of `totalChars`
   and `estimatedTokens`, since the introduction never reaches the model. There is no count
   or limit for `talkExample` in the report.
-- `card pull` takes the card id, not the folder: `card pull <roleId> [dir]`;
-  an existing folder needs `--force`, which overwrites local files, so run
-  `card status` first and pull only when the site copy is the newer one.
-- `push --create` makes an owned card, unlisted by default. Anyone with the link can play its latest saved content, including changes that have not passed review. On a folder already linked to an owned card (after `pull` or `push --to <id>`), plain `push` updates that card and preserves its visibility; `--create` would make a second one. `card status` shows the link.
+- `card pull <roleId> [dir] --force` replaces local authoring files with the remote copy; it does not merge edits. When optional reads succeed, pull removes absent Lorebook/rules files and obsolete immediate alternate-opening Markdown files; older CLI releases can leave these behind. For comparison, pull each remote card into a fresh folder and apply wanted changes to one complete, versioned source. Resolve pull warnings before pushing.
+- A folder remembers one default target. After `--create`, `--to` or pulling an owned card, plain `push` updates that owned card. Switching to another owned card requires `--to <id> --force` and sends the source's current content, including earlier edits still in its files. It does not merge remote versions. Keep a separate trial folder with its own sync state; there is no `--trial` switch. A pulled trial lacks the original trial key, so its next plain push creates a new trial slot.
+- `push --create` makes an owned card, unlisted by default. Anyone with the link can play its latest saved content, including changes that have not passed review. On a folder already linked to an owned card, `--create` makes an additional card. `card status` shows the link.
 - `card.json` `language` is required (CLI 0.7.5+: `push` and `check` refuse a missing value or bare `zh`); a Chinese card can switch `zh-Hant` ↔ `zh-Hans` after creation (CLI 0.7.7+ pushes it). It also selects the Lorebook
   entry length limit (the value is not documented; read validation warnings).
 - CLI 0.5.0 mishandled `push --create` after a trial push (an empty private

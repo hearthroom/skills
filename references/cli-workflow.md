@@ -33,12 +33,11 @@ folder format is documented in the facts sheet. The card's `README.md` is the
 dossier (`card-authoring-templates.md`): `uiRole`, the status overhead
 threshold, decisions, rejected directions and evidence by version.
 
-Keep one folder per card for its whole life: iterate, rename and publish from
-the same folder, and use git for drafts. A new folder per draft creates a new
-trial card and, unless `media.folder` is set, a new media-library folder, which
-leaves the author with copies they cannot tell apart. `hearthroom card status
-<dir>` shows what the folder is linked to and which sections changed; the
-naming rules are under Media library in the facts sheet.
+Keep one complete source folder and drafts in git. Push that source explicitly
+to a private backup and a formal owned card; keep trial testing in a separate
+folder with its own sync state. A new folder per draft creates extra copies.
+`card status <dir>` shows the link and changed sections. See `platform-facts.md`
+for target switching, pull replacement and Media library names.
 
 ## The loop
 
@@ -58,9 +57,10 @@ naming rules are under Media library in the facts sheet.
 | Bring the provider's copy back to files | `hearthroom card pull <roleId> [dir] --force` (overwrites local files) | no |
 | Keep it as an owned card (unlisted by default) | `hearthroom card push <dir> --create` | no |
 
-`push` sends only sections whose content changed and uploads assets once. `push --to <id>` writes into a card the author already owns; on a folder
-already linked to an owned card, plain `push` updates it and `--create` would
-make a second card. Trial-card expiry and slots are in `cost-and-boundaries.md`. Plain pushes preserve the card's visibility.
+`push` uploads assets once and skips unchanged sections on the same owned
+card. Check the link with `card status`; switching and pull semantics are in
+`platform-facts.md`, The CLI loop. Plain pushes preserve visibility; trial
+expiry and slots are in `cost-and-boundaries.md`.
 
 Run --create only when the author asks. Anyone with an unlisted card's link can play the latest saved content, including changes that have not passed review. Trial cards remain private. Follow the author's existing editing authorization.
 

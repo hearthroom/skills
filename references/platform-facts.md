@@ -48,9 +48,10 @@ to read in `--json` output.
 | definition | `roleDetailDesc` | who the character is, how they speak, the world's rules; private. The site's guide calls it the "Persona" |
 | summary | `roleDesc` | one-line public description on the board tile, the search results and under the title on the card page (clamped to three lines there) |
 | introduction | `roleReadme` | Markdown shown on the public card page before a chat starts: the card's store page: story, system, characters and contents with screenshots and art (how to write it: `profile-packaging.md`, Introduction). The page renders Markdown only (inline HTML shows as text), loads only `https` images, and shifts headings down so `#` sits under the card name. Never sent to the model. Without one, a summary over about 120 characters is shown in its place |
-| opening | `roleWelcome` | the first message of a conversation |
+| opening | `roleWelcome` | the first message of a conversation; may be empty when the card has suggested first lines or an opening page (the player speaks first) |
 | alternate openings | `welcomeAlternates` | other first messages the player can pick |
-| suggested first lines | `prologue` | player-side first lines offered as choices; never the character's first message |
+| suggested first lines | `prologue` | player-side first lines offered as choices; never the character's first message. Tapping one fills the input, except on `cardFormat: fengyue` cards, where it is sent |
+| opening page | author asset `openingPage`, `opening.html` | HTML (styles, scripts, handlers) shown at the top of every new chat, above the opening, in its own sandboxed frame on a light background; visible to the player, never sent to the model. Its buttons call `hearthroom.fill(text)` or `hearthroom.send(text)` (sent only right after the player clicks; otherwise filled); text it copies to the clipboard is filled too |
 | example conversations | `talkExample` | `{roleType: user|ai, content}` pairs |
 | custom instructions | `customInstructions` | the site editor's 額外指示 ("a reminder attached at the end of every turn"). Per the provider's prompt code it is a system message after the history, followed only by the platform's short format guard (cache-stable policy) and the `[Response preferences]` block (which carries any `responseDefaults` notes), then, under the ordinary policy only, the output contract, prefixed `[Content scope]` / `[內容範圍]`; a non-empty value replaces the platform's default content-scope block (which, in Chinese, frames the story as mature literary writing with romance and physical intimacy). A player's own text in their persona's Advanced field replaces the card's; it is left out at the strictest safety level |
 | output contract | `roleOutputContract` | format the reply must follow. Per the provider's prompt code it is sent under a `[Role Reply Format Template]` header saying platform format rules win over it; with the ordinary history policy it sits after the history (near generation), but with the cache-stable policy it moves into the stable prefix before the history, far from generation, which the provider uses once the history holds a recalled entry or a summary (Lorebook). `customInstructions` is always after the history (`instruction-guardrails.md`). A near-generation guard also tells the model to keep the latest reply's visible shape, so a format change takes hold in new conversations (they copy the opening and example conversations, which must use the new format) and is pulled back toward the old shape in existing ones |
@@ -73,6 +74,8 @@ my-card/
   definition.md      the definition
   intro.md           the introduction (CLI 0.8.4 and later); missing = left as is,
                      empty = cleared. Not README.md, which stays private
+  opening.html       the opening page, pushed with rules.json; missing = left as is,
+                     empty = cleared
   welcome.md         the opening
   openings/alt-NN.md alternate openings, file-name order
   lorebook.json      { name, entries: [ … ] }

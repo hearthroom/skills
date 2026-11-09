@@ -41,6 +41,7 @@
       "share",
       "shared",
       "stage",
+      "state",
       "text",
       "user",
       "version"
@@ -96,6 +97,8 @@
       "stage.el",
       "stage.open",
       "stage.visible",
+      "state.get",
+      "state.of",
       "text.convert",
       "text.ready",
       "user.get",
@@ -530,11 +533,15 @@
       "model:change",
       "generation:phase",
       "generation:outcome",
-      "share:change"
+      "share:change",
+      "state:change"
     ],
     "replayedToLateSubscribers": [
       "message:mount",
       "message:done"
+    ],
+    "latestReplayedToLateSubscribers": [
+      "state:change"
     ],
     "readyReplayed": false,
     "coldStartOrder": [
@@ -591,6 +598,11 @@
         "sub"
       ],
       "share:change": "none",
+      "state:change": [
+        "changes",
+        "data",
+        "messageId"
+      ],
       "conversation:switch": [
         "conversationId"
       ],

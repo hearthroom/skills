@@ -858,7 +858,25 @@
       "theme": "host",
       "fencedDocument": "iframe",
       "note": "<style> selectors are prefixed with \".mes_text \""
+    },
+    "fengyue": {
+      "styleScope": null,
+      "theme": "host",
+      "fencedDocument": "inline",
+      "note": "imported from AI Fengyue: page-wide styles that follow the host theme; tapping an opening choice sends it"
     }
+  },
+  "openingPage": {
+    "source": "author asset openingPage (display only, never sent to the model)",
+    "position": "above the message list at the start of a conversation, in both the classic page and the sandbox shell",
+    "frameSandbox": "allow-scripts allow-forms allow-pointer-lock",
+    "paper": "light (#fff background, #1f1f1f text) regardless of the host theme",
+    "api": {
+      "hearthroom.fill(text)": "puts text into the player input",
+      "hearthroom.send(text)": "sends text as the player message right after the player clicked the page; otherwise fills"
+    },
+    "clipboardCopyFills": true,
+    "textMaxChars": 8000
   },
   "rules": {
     "findForms": [
@@ -1234,8 +1252,10 @@
     "cardFormat": [
       "",
       "mmd",
-      "tavern"
+      "tavern",
+      "fengyue"
     ],
+    "openingPageMaxBytes": 524288,
     "render": {
       "endpoint": "GET /open/v1/role/render",
       "executesScripts": false,

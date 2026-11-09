@@ -44,7 +44,9 @@ that decides for the player.
    list. The contract's example is the most ordinary turn. Place the block
    once at the end of `welcome.md`; `hearthroom-sandbox-kit` builds the
    rule. Player-facing state that matters over a long chat gets a visible
-   surface, not only a hidden line.
+   surface, not only a hidden line. Money, items, counters and other values
+   that must stay exact can instead be card variables, which the platform
+   stores and applies (`platform-facts.md`, Card variables).
 6. Write verification probes (what a 10–20-turn run on a weak model should
    show; the overhead ratio from `card check --replay`) and name which rule
    joins the iron rules and the recency checklist.

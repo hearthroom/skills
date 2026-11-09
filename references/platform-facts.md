@@ -80,6 +80,9 @@ my-card/
   openings/alt-NN.md alternate openings, file-name order
   lorebook.json      { name, entries: [ … ] }
   rules.json         { rules: [{id,name,find,replace,enabled}], mountTrigger, mountLayer, pageMode, cardFormat, sharedState }
+  variables.json     card variables: { convention, data }; see Card variables
+  variables.md       what the variables mean and what usually changes them, for the model
+  panel.hbs          the variables panel skin
   assets/            media referenced by relative path; uploaded on push
   README.md          notes; never sent to the provider
   .hearthroom/state.json   sync state written by the CLI
@@ -371,6 +374,58 @@ provider runs only the rule engine: it does not execute scripts, simulate
 `sdk` events, or run the sanitizer or Markdown, so `applied` means the rule
 matched, not that the screen is right. Markdown, layout and contrast are only
 visible on the play page or in the offline preview below.
+
+## Card variables
+
+Numbers and lists a story must keep exact (affection, money, items, quests)
+live in `variables.json`, not in the definition. `convention` says how `data`
+is written:
+
+- `mvu` (MagVarUpdate style): each value is `[value, "rule"]`; an object with
+  `"$meta": {"extensible": true}` (or `recursiveExtensible`) may gain keys,
+  `"$meta": {"required": ["key"]}` keeps a key from being removed.
+- `plain`: bare values; an empty object `{}` may gain keys.
+
+Lists always take and lose items; every other key is fixed, and a value keeps
+its type. `variables.md` holds general rules, written as guidance about the
+story ("affection moves only on a meaningful exchange, at most ±10"), not
+output commands.
+
+Each turn the model sees the rules and the current values and ends its reply
+with a block the reader never sees:
+
+```
+<UpdateVariable>
+_.set('mood', 'calm', 'happy');//she got the gift
+_.add('money', -30);//bought a potion
+_.assign('bag', 'dagger');
+_.remove('bag', 'torch');
+</UpdateVariable>
+```
+
+`<JSONPatch>` (replace, add, remove, delta) is read too. In Agent mode the
+model records changes with a tool instead. A reply without a block leaves the
+values as they were; rewriting a reply recomputes from the turn before;
+rolling back rewinds them; editing a reply's text keeps them. A block in the
+opening sets the opening values and is not shown. Refused changes (unknown
+path, wrong type, locked object) are listed only to the author, in the
+author's own conversations.
+
+`panel.hbs` draws the values in a panel the player opens from the chat page,
+in both page modes. It is a Handlebars subset: `{{path}}`, `{{{raw}}}`,
+`#if`/`else`/`#unless`/`#each`/`#with`, the helpers `eq ne gt gte lt lte and
+or not lookup`, `@index @key @first @last @root`, and `@changes` (this turn's
+changes, with `old` and `new`). It runs no scripts: `<script>` and `on*`
+attributes are removed, `<style>` stays scoped to the panel. An element with
+`data-panel-copy` copies its value (or its text) when tapped. Scripts that need
+more use the `state:change` event (`{ messageId, data, changes }`, the latest
+replayed to late subscribers) and `stage.state.get()`; sandbox cards use
+`sdk.state.get()`, `sdk.state.of(messageId)` and the same event.
+
+Limits: values at most 16 KiB as JSON, depth 8, 400 keys, 2 KiB per text
+value; `variables.md` and the per-value rules 8 KiB each; `panel.hbs` 32 KiB.
+The current values go into every request, so keep them small. Not supported:
+expressions, `_.move`, EJS, script hooks, `$meta.template`, world cards.
 
 ## Chat pages
 

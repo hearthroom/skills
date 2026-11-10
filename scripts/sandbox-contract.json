@@ -17,6 +17,8 @@
     "src/sandbox/rules.ts",
     "src/utils/display-rule-engine.js",
     "src/common/author-style-policy.ts",
+    "src/common/rule-css-dialect.ts",
+    "src/common/fengyue-css.ts",
     "src/pages/canvas/canvas-platform-defaults.ts",
     "docs/sandbox-chat-page.md"
   ],
@@ -656,13 +658,16 @@
     "root": {
       "attributes": [
         "data-theme",
+        "data-lt-theme",
         "data-composer",
         "data-chrome",
         "data-busy"
       ],
       "classes": [
         "canvas-root",
-        "chat",
+        "chat"
+      ],
+      "mmdFormatOnlyClasses": [
         "lt-format-mmd"
       ]
     },
@@ -927,6 +932,40 @@
     "chineseVariantClasses": true,
     "userMessagesAlsoPassThroughRules": true,
     "streaming": "rules run on the streamed text too; a half-open trailing tag is hidden until the result settles"
+  },
+  "cssDialect": {
+    "source": "src/common/rule-css-dialect.ts, src/common/fengyue-css.ts",
+    "field": "cssDialect on each display rule",
+    "values": [
+      "fengyue",
+      "tavern",
+      "mmd"
+    ],
+    "whenMissing": "the card format decides (cardFormat section)",
+    "legacyRuleIdTreatedAsFengyue": "hearthroom-fengyue-inner-css",
+    "appliesTo": "<style> inside the rule replacement, outside code fences; both the classic page and the sandbox shell",
+    "tavern": "selectors prefixed with \".mes_text \"",
+    "mmd": "as written",
+    "fengyue": {
+      "layer": "lt-author-fengyue",
+      "layers": [
+        "platform defaults (lt-base)",
+        "site theme and source-platform conditions",
+        "--chat-* variables",
+        "fengyue CSS (lt-author-fengyue)",
+        "every other author <style> (unlayered, wins regardless of selector weight)"
+      ],
+      "importantStripped": true,
+      "deadSelectors": [
+        "body",
+        "html",
+        ":root"
+      ],
+      "darkBranch": ".dark / html.dark → [data-lt-theme=\"dark\"] on the chat root",
+      "unknownFengyueIdsDropped": true,
+      "authorContentIdsKept": true,
+      "buttonsKeepColourOnly": true
+    }
   },
   "sanitizer": {
     "shellPath": {
@@ -1266,6 +1305,12 @@
       "mmd",
       "tavern",
       "fengyue"
+    ],
+    "ruleCssDialect": [
+      "",
+      "fengyue",
+      "tavern",
+      "mmd"
     ],
     "openingPageMaxBytes": 524288,
     "render": {

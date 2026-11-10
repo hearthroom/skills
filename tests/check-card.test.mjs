@@ -191,3 +191,16 @@ test('large replacement advisory uses UTF-8 bytes and never blocks allowed sizes
   assert.equal(findings.some(f => f.level === 'error'), n > 524288, String(n));
  }
 });
+
+test('cssDialect must be one the site accepts; cardFormat lists every accepted value', async () => {
+  const dir = await card({
+    'rules.json': { pageMode: 'sandbox', cardFormat: 'sillytavern', rules: [
+      { id: 'ok', find: '/([\\s\\S])$/', replace: '$1<style>#ai-chat-input{color:red}</style>', enabled: true, cssDialect: 'fengyue' },
+      { id: 'bad', find: '/([\\s\\S])$/', replace: '$1<style>p{color:red}</style>', enabled: true, cssDialect: 'meimo' },
+    ] },
+  });
+  const errors = checkCard(dir).filter((f) => f.level === 'error').map((f) => `${f.where}:${f.msg}`);
+  assert.ok(errors.some((e) => e.startsWith('rules.json#bad:') && e.includes('cssDialect "meimo"') && e.includes('fengyue')), errors.join('\n'));
+  assert.ok(!errors.some((e) => e.startsWith('rules.json#ok:')), errors.join('\n'));
+  assert.ok(errors.some((e) => e.includes('cardFormat "sillytavern"') && e.includes('fengyue')), errors.join('\n'));
+});

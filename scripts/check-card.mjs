@@ -233,7 +233,7 @@ export function checkCard(dir) {
     const list = Array.isArray(rules.rules) ? rules.rules : (out.error('rules.json', '"rules" must be an array'), []);
     if (rules.pageMode && !CONTRACT.provider.pageMode.includes(rules.pageMode)) out.error('rules.json', `pageMode "${rules.pageMode}" is not one of ${CONTRACT.provider.pageMode.join(', ')}`);
     if (rules.mountLayer && !CONTRACT.provider.mountLayer.includes(rules.mountLayer)) out.error('rules.json', `mountLayer "${rules.mountLayer}" is not one of ${CONTRACT.provider.mountLayer.join(', ')}`);
-    if (rules.cardFormat && !CONTRACT.provider.cardFormat.includes(rules.cardFormat)) out.error('rules.json', `cardFormat "${rules.cardFormat}" is not one of mmd, tavern`);
+    if (rules.cardFormat && !CONTRACT.provider.cardFormat.includes(rules.cardFormat)) out.error('rules.json', `cardFormat "${rules.cardFormat}" is not one of ${CONTRACT.provider.cardFormat.filter(Boolean).join(', ')}`);
     for (const problem of sharedStateProblems(rules.sharedState)) out.error('rules.json', problem);
     const sandbox = rules.pageMode === 'sandbox';
     let total = 0, usesSdk = false;
@@ -243,6 +243,8 @@ export function checkCard(dir) {
       const where = `rules.json#${r && r.id != null ? r.id : i}`;
       if (!r || typeof r !== 'object') { out.error(where, 'rule is not an object'); return; }
       if (r.id != null) { if (ids.has(String(r.id))) out.error(where, 'duplicate rule id'); ids.add(String(r.id)); }
+      const dialects = CONTRACT.provider.ruleCssDialect || [];
+      if (r.cssDialect != null && !dialects.includes(r.cssDialect)) out.error(where, `cssDialect "${r.cssDialect}" is not one of ${dialects.filter(Boolean).join(', ')}; omit it to follow cardFormat`);
       if (!String(r.find ?? '').trim()) out.error(where, 'find is blank (the provider rejects the whole rule set)');
       const rb = bytes(r.replace);
       total += bytes(r.find) + rb + bytes(r.name);

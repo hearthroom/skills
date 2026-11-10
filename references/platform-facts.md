@@ -79,7 +79,7 @@ my-card/
   welcome.md         the opening
   openings/alt-NN.md alternate openings, file-name order
   lorebook.json      { name, entries: [ … ] }
-  rules.json         { rules: [{id,name,find,replace,enabled}], mountTrigger, mountLayer, pageMode, cardFormat, sharedState }
+  rules.json         { rules: [{id,name,find,replace,enabled,targets?,cssDialect?}], mountTrigger, mountLayer, pageMode, cardFormat, sharedState }
   variables.json     card variables: { convention, data }; see Card variables
   variables.md       what the variables mean and what usually changes them, for the model
   panel.hbs          the variables panel skin
@@ -338,8 +338,22 @@ text in a tag the page added to the player's line. Platform blocks
   tag, so write `(?:</scene>)?` or stop at the next `<`. The page's Markdown
   pass can join the lines inside a marker into one line, so parse fields by
   key name (`hp=…`), not by line breaks.
-- `mountLayer`: `under`, `over` or `cover`. `cardFormat`: `mmd` or `tavern`
-  (how `<style>` in rules is scoped).
+- `mountLayer`: `under`, `over` or `cover`. `cardFormat`: `mmd`, `tavern` or
+  `fengyue` (how `<style>` in rules is scoped by default).
+- `cssDialect` on a rule overrides that for its own `<style>`: `mmd` (as
+  written), `tavern` (selectors prefixed with `.mes_text `) or `fengyue` (CSS
+  written for the AI Fengyue chat page: its element ids such as
+  `#customized-answer-content`, `#ai-chat-input`, `#ai-send-button` map onto
+  the bubble, input box and send button; `.dark` rules follow the dark theme;
+  `body`, `html` and `:root` rules do nothing; buttons keep colour, border and
+  shadow; `!important` is removed). Omitted follows `cardFormat`; AI Fengyue
+  imports set `fengyue` on the built-in CSS. One card can mix values.
+- Where styles meet on one element, the higher level wins: 1 platform
+  defaults; 2 the site theme (MMD cards stay dark); 3 `--chat-*` variables,
+  which only recolour the defaults; 4 `fengyue` CSS (its own cascade layer);
+  5 every other rule's `<style>`, above level 4 whatever the selector weight,
+  normal CSS order among themselves. Override Fengyue CSS with a plain
+  `<style>` in another rule, without `!important`.
 
 On the sandbox page the result then passes a sanitizer before display. There
 are two render paths: on the play page the host computes each reply's HTML
@@ -551,8 +565,8 @@ prose.
   shell's own dialog 9000; use 3500–7999 for your overlays.
 - **Theme is the platform's.** A card in MMD format (`cardFormat` empty or
   `mmd`, the default) is locked to dark: `data-theme` is always `dark` and
-  `theme:change` never fires for it. A card in tavern format follows the
-  player's light or dark setting. Write both sides anyway and read
+  `theme:change` never fires for it. A card in tavern or fengyue format
+  follows the player's light or dark setting. Write both sides anyway and read
   `data-theme`; never set it.
 - `sdk.input.get/set/add/insert/clear/focus/blur/getCursor/setCursor`
   (writes throw `INVALID_ARGS` during an IME composition),

@@ -44,8 +44,9 @@ its own music.
    into the output contract and the first block into the opening. The rule
    draws; it never instructs.
 6. Choose the chat page and card format: sandbox by default, with a reason
-   for classic; `cardFormat: mmd` (the default) is dark only, `tavern`
-   follows the player's theme. A card that takes over the whole page is
+   for classic; `cardFormat: mmd` (the default) is dark only, `tavern` and
+   `fengyue` follow the player's theme. Ported Fengyue CSS keeps
+   `cssDialect: fengyue` and loses to any other rule's `<style>`. A card that takes over the whole page is
    `core` by construction and is planned with `full-page-layouts.md` after
    it passes the reading-first rules.
 7. Continue with `hearthroom-sandbox-kit` for the panel, choices, theme,

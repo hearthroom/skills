@@ -66,8 +66,11 @@ consumes `<scene>` works, a script that looks for it later does not.
 - Use the classic page only for an existing card that misbehaves in the
   sandbox. On the classic page the sandbox API does not exist.
 - `cardFormat` matters for themes: `mmd` (the default) locks the card to the
-  dark theme and never receives `theme:change`; `tavern` follows the player's
-  light or dark setting (facts sheet).
+  dark theme and never receives `theme:change`; `tavern` and `fengyue` follow
+  the player's light or dark setting (facts sheet).
+- CSS ported from AI Fengyue stays in a rule with `cssDialect: fengyue`, so
+  its chat-element ids land on this page. It sits below every other rule's
+  `<style>`; restyle on top of it in another rule (facts sheet, five levels).
 - `hearthroom card render --json` reports, under `report.unsupported`, every
   sandbox identifier a classic-page card uses, with the hint to switch. It also
   reports MMD's platform state variables, which no page provides.

@@ -42,7 +42,8 @@ wrong and `../../references/sandbox-kit.md` when the kit drew the screen.
    appear. Check: one status panel per bubble and none in the function bar;
    no overflow, clipped text or unreadable contrast; the first screen shows
    the player's next action and a way to type; dark, plus light when
-   `cardFormat` is `tavern`. An `assist` card's rules-off screens still read
+   `cardFormat` is `tavern` or `fengyue`. A style that does not show may be
+   outranked: check the five style levels in the facts sheet. An `assist` card's rules-off screens still read
    as story; a `core` card's mechanics are still legible in the text.
 4. Choose one primary repair (file, change), patch, push, render again.
    Record the evidence seen (sizes, themes, rules off) and whether it was

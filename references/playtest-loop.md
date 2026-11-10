@@ -60,13 +60,15 @@ credits on a draft that still fails the card checks or has `blockers` in
 
 ```text
 hearthroom play <dir> --new-session --model <weak> -m "<probe text>" --allow-spend --json
-hearthroom play <dir> -m "<next probe>" --allow-spend --json          # same conversation
-hearthroom play <dir> -m "<probe text>" --allow-spend --json --agent on
-hearthroom play <dir> --new-session --greeting 2 -m "<probe text>" --allow-spend --json
+hearthroom play <dir> --model <weak> -m "<next probe>" --allow-spend --json   # same conversation
+hearthroom play <dir> --model <weak> -m "<probe text>" --allow-spend --json --agent on
+hearthroom play <dir> --new-session --greeting 2 --model <weak> -m "<probe text>" --allow-spend --json
 hearthroom play <dir> --history --limit 20
 ```
 
 One call is one real turn. Send the next probe only after reading the reply.
+Name the model on every turn: without `--model` a turn runs on the card's saved
+model for the account, not on the one the last turn named.
 Each independent probe set and every retest starts with `--new-session`;
 `--greeting N` takes effect only with it. `--history` shows the recent
 messages when the transcript is long. `--stop` cancels a reply the author
@@ -154,7 +156,9 @@ what the rules `find`. Weak models imitate their own recent plain-text turns,
 so structure that survives turn three can be gone by turn ten. Choices
 usually drop first. When the marker is missing at a decision point, the run
 is not accepted; patch the output contract's ordinary-turn example and the
-recency checklist, then rerun a focused probe. Measure the status overhead
+recency checklist, then rerun a focused probe. A drop that repeats on the
+next turns is the cascade in `play-engine-design.md` (Chance); fix it with the
+per-turn tag there. Measure the status overhead
 ratio on the replies (`check-card.mjs --replay`) against the dossier's
 threshold.
 

@@ -281,8 +281,12 @@ by what they contain.
 
 ## Display rules
 
-Reply text passes through every enabled rule, in order, before display; the
-model never sees the result.
+Every message's text, the player's lines as well as replies and the opening,
+passes through every enabled rule, in order, before display; the model never
+sees the result. A rule's `targets` (`ai`, `user`, `system`) limits it to those
+messages; without it a rule that hides a reply marker also rewrites the same
+text in a tag the page added to the player's line. Platform blocks
+(`[status]`, `[choices]`) are drawn in AI messages only.
 
 - `find`: a fixed string (literal, all occurrences) or `/pattern/flags`.
   Flags `gimsuy`; `g` is always added. Leading and trailing backticks are stripped.
@@ -556,10 +560,15 @@ prose.
   sends the input box; `BUSY` while a reply generates, never queued;
   confirmation dialog unless called inside the player's own click, declined =
   `UNAUTHORIZED`; the call must be in the same task as the click, so no
-  `await` before it) and `sdk.message.edit(id, text)` (`id` is the bubble's
+  `await` before it; there is no before-send hook: a card that tags every player
+  line rewrites the input from a capture-phase listener on `[data-chat="send"]`
+  and Enter, standard chrome only; suggestion and `[choices]` taps only fill the
+  input, but a `page`-mode opening choice is sent without it, and rewrite and
+  continue reuse the stored line) and `sdk.message.edit(id, text)` (`id` is the bubble's
   `data-msg-id`, the server id; same confirmation rule),
   `sdk.save.get/set/remove/keys` (keys `[A-Za-z0-9_-]{1,64}`, at most 10 keys
-  per card per player, shared by every save slot of the card, 64 KiB each as
+  per card per player, shared by every save slot of the card (a state per slot
+  needs its own key per current `archive.list()` `id`; a fork does not roll it back), 64 KiB each as
   the UTF-8 bytes of the JSON value, kept across devices; the host loads them
   before any rule script runs and never reloads them during the page, so a
   write from another device shows up only after a reload; when they could not
@@ -595,9 +604,11 @@ prose.
   dialog; not offered → `INVALID_ARGS`; `BUSY` while generating; 3 a minute),
   `sdk.archive.list()/save(title?)/fork(messageId)/open(id)/start(opening?)/rename(id, title)/remove(id)`
   (the platform's conversation saves, 20 per card with the current one: `open`
-  keeps the current progress in the list; `save` names a copy → `{id, current}`;
+  keeps the current progress in the list; `save(title)` forks the current
+  conversation and play continues in the copy → `{id, current}`, where `id` is
+  the old conversation, kept and renamed `title`, and `current` the new one;
   `fork` from a `serverId`; `start(n)` from opening n (0 main, 1+ alternates, current kept);
-  `list` → `{items, count, limit}`, items `{id, title, isCurrent, messageCount, lastUpdateTime}`; inside a gesture changes run at once (confirm on your
+  `list` → `{items, count, limit}`, items `{id, title, isCurrent, messageCount, lastMessage, createTime, lastUpdateTime}`; inside a gesture changes run at once (confirm on your
   own screen), outside one the shell asks (also a change chained after awaiting another); full → `LIMIT_REACHED` with
   `err.data = {count, limit}`; 10 a minute), `sdk.on(event, handler)` (`sdk.off` and `sdk.once` do not
   exist; a misspelled event or capability never fires and never errors),
@@ -891,6 +902,7 @@ hearthroom card check <dir> [--replay f…] --json   # local, free: rules, marke
 hearthroom card preview --check <dir> [--from-history f…] [--json]   # local, free, needs Chrome: screenshots of every state, contact.png, findings.json under preview/shots/
 hearthroom card preview <dir> [--open]             # offline preview with the real chat shell (fetched from the site and cached; same CLI release; shows the deployed shell's behaviour)
 hearthroom lorebook build <dir> | lorebook check <dir>   # worldbook/*.md sources → lorebook.json; drift, keyword collisions (same CLI release)
+# one entry per file ("_" files skipped); a source's `order` sets the entry's place in lorebook.json and is not stored
 hearthroom card status <dir> --json                # what the folder is linked to, which sections changed (before CLI 0.8.2, rules that build asset paths at runtime showed authorAsset changed right after a push; submit warned the same)
 hearthroom card push <dir> --dry-run --json        # what would be sent, without sending
 hearthroom card push <dir> --validate --json       # private trial card + validation report

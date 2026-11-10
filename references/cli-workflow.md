@@ -50,7 +50,7 @@ for target switching, pull replacement and Media library names.
 | Re-push and fail on warnings too | `hearthroom card validate <dir> --push --strict --json` | no |
 | See one opening after the display rules | `hearthroom card render <dir> --push --opening N --json` (`--html file` writes the raw string) | no |
 | See the real chat shell draw it | `hearthroom card preview <dir> --open` (the shell is fetched from the site and cached; `platform-facts.md`, Offline preview) | no |
-| Build `lorebook.json` from `worldbook/*.md`; find keyword collisions | `hearthroom lorebook build <dir>` / `hearthroom lorebook check <dir>` | no |
+| Build `lorebook.json` from `worldbook/*.md`, one entry per file; find keyword collisions | `hearthroom lorebook build <dir>` / `hearthroom lorebook check <dir>` | no |
 | Play one turn in a fresh conversation | `hearthroom play <dir> --new-session -m "…" --allow-spend --json` | yes |
 | Generate an image for the card | `hearthroom media generate --model <id> --prompt "…" --out assets/art/portrait.png --allow-spend --json` (`media models` for prices and sizes; `platform-facts.md`, Generating images) | yes, purchased credits per image |
 | Read the conversation so far | `hearthroom play <dir> --history --limit 20` | no |

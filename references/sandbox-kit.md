@@ -215,6 +215,7 @@ while the model writes shows a toast instead of sending.
 | growing data (per-turn snapshots, logs) in the kit's one store bundle | after a few dozen turns the bundle passes 64 KiB, every write is refused with INVALID_ARGS (the kit only warns), and settings, read marks and snapshots stop persisting; give growing data its own keys, cap each by bytes, keep the bundle for small settings |
 | saving progress only on `dispose` | lost: the host stops listening first; write when the state changes, flush on `back` and `visibilitychange` |
 | a pattern that can match the empty string | the rule is rolled back; the marker stays visible |
+| a rule that hides a reply marker, while the page adds the same marker to the player's line | the player's bubble loses the tag too, or draws it as a broken panel; give the rule `targets: ["ai"]`, or turn the tag into a small chip with an earlier rule |
 | a replacement larger than 256 KiB and no larger than 512 KiB | the local checks and kit build warn because it may slow down play; the warning does not fail the check or build; consider splitting the rule into smaller rules |
 | a replacement over 512 KiB (UTF-8; CJK comments cost three bytes) | the push is refused |
 | one `sdk.save` key per setting | RATE_LIMITED after twenty writes a minute; the eleventh key fails |

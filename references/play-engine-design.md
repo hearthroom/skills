@@ -138,7 +138,9 @@ The same goes for any turn the player triggers by protocol, such as declaring
 an ending: the page adds the instruction to the player's message rather than
 relying on a rule deep in the definition. A reminder sent every turn works
 best as a short tag the instructions define; a repeated out-of-story sentence
-can be read as a question.
+can be read as a question. On a weak model the tag spells out the format
+(which blocks, in what order): once one reply drops a block the next ones copy
+that bare shape, and a tag that only names the block does not bring it back.
 
 ## Failure-forward behaviour
 

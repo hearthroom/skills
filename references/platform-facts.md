@@ -850,7 +850,10 @@ drives it headless with the system Chrome: screenshots per size, a
 tap on a choice and on the dock. Saves (`sdk.archive`) are kept in memory and
 `start(n)` opens `openings/alt-NN.md` (CLI 0.8.1 on), so save screens work
 offline. It is the real `sdk`, sanitizer, Markdown and event order; it is not
-the host's rendering path, the real model or a device.
+the host's rendering path, the real model or a device. From CLI 0.12.22 a rule's
+`<script src="assets/…">` runs inline after the inline scripts (the play page loads it
+later, so a fallback for a late script is untested here), rule `targets` are kept, and
+an unreachable site falls back to the newest cached shell, printing its date.
 A line the card sends (`sdk.message.send`) never becomes a player message in the preview (only the
 generating phase shows), so state rebuilt from player lines sees none: paste it, "add player line", then
 stream a sample. A send from a script's own `element.click()` is no gesture and the shell asks to allow
@@ -902,7 +905,8 @@ hearthroom card check <dir> [--replay f…] --json   # local, free: rules, marke
 hearthroom card preview --check <dir> [--from-history f…] [--json]   # local, free, needs Chrome: screenshots of every state, contact.png, findings.json under preview/shots/
 hearthroom card preview <dir> [--open]             # offline preview with the real chat shell (fetched from the site and cached; same CLI release; shows the deployed shell's behaviour)
 hearthroom lorebook build <dir> | lorebook check <dir>   # worldbook/*.md sources → lorebook.json; drift, keyword collisions (same CLI release)
-# one entry per file ("_" files skipped); a source's `order` sets the entry's place in lorebook.json and is not stored
+# one entry per file ("_" files skipped); a source's `order` sets the entry's place in lorebook.json and is not stored;
+# from CLI 0.12.22 subfolders are read, "_" folders skipped, and a second frontmatter block in a file is an error
 hearthroom card status <dir> --json                # what the folder is linked to, which sections changed (before CLI 0.8.2, rules that build asset paths at runtime showed authorAsset changed right after a push; submit warned the same)
 hearthroom card push <dir> --dry-run --json        # what would be sent, without sending
 hearthroom card push <dir> --validate --json       # private trial card + validation report

@@ -345,8 +345,8 @@ text in a tag the page added to the player's line. Platform blocks
   written for the AI Fengyue chat page: its element ids such as
   `#customized-answer-content`, `#ai-chat-input`, `#ai-send-button` map onto
   the bubble, input box and send button; `.dark` rules follow the dark theme;
-  `body`, `html` and `:root` rules do nothing; buttons keep colour, border and
-  shadow; `!important` is removed). Omitted follows `cardFormat`; AI Fengyue
+  `body`, `html` and `:root` rules do nothing; buttons drop position, size,
+  display, transform and margin; `!important` is removed). Omitted follows `cardFormat`; AI Fengyue
   imports set `fengyue` on the built-in CSS. One card can mix values.
 - Where styles meet on one element, the higher level wins: 1 platform
   defaults; 2 the site theme (MMD cards stay dark); 3 `--chat-*` variables,

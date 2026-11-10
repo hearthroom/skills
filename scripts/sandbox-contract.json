@@ -964,7 +964,7 @@
       "darkBranch": ".dark / html.dark → [data-lt-theme=\"dark\"] on the chat root",
       "unknownFengyueIdsDropped": true,
       "authorContentIdsKept": true,
-      "buttonsKeepColourOnly": true
+      "buttons": "position, size, display, transform and margin declarations are dropped; colour, border, radius, shadow, font and padding stay"
     }
   },
   "sanitizer": {

@@ -68,9 +68,9 @@ consumes `<scene>` works, a script that looks for it later does not.
 - `cardFormat` matters for themes: `mmd` (the default) locks the card to the
   dark theme and never receives `theme:change`; `tavern` and `fengyue` follow
   the player's light or dark setting (facts sheet).
-- Put the card's base appearance in `card.css`; display rules can override
-  it. The page automatically maps known Fengyue selectors, so authors do
-  not choose a style source. Preserve saved import settings (facts sheet).
+- Put Fengyue CSS in `card.css`, where selectors map automatically.
+  Display rules can override it and keep their original format and saved
+  settings. Authors do not choose a source (facts sheet).
 - `hearthroom card render --json` reports, under `report.unsupported`, every
   sandbox identifier a classic-page card uses, with the hint to switch. It also
   reports MMD's platform state variables, which no page provides.

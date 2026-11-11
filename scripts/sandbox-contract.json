@@ -908,7 +908,7 @@
     ],
     "compiledSampleUsesLayer": true,
     "legacyHint": "cardCssDialect preserves the existing fengyue/tavern/mmd translation and precedence; authors do not select it",
-    "legacyCarrier": "hearthroom-fengyue-inner-css: only one enabled, unchanged importer-generated carrier is moved; explicit cardCss empty clears it",
+    "legacyCarrier": "hearthroom-fengyue-inner-css: only one enabled, unchanged importer-generated carrier with no other enabled style/script peers is moved; otherwise its rule order is preserved; explicit cardCss empty clears the unchanged carrier",
     "managedAppearanceVariables": [
       "--lt-canvas-bubble-ai-bg",
       "--lt-canvas-bubble-user-bg",
@@ -920,7 +920,8 @@
       "--lt-canvas-bg"
     ],
     "appearanceMarker": "/* lt-card-appearance:start */ ... /* lt-card-appearance:end */",
-    "managedAppearancePrecedence": "native root variables at the card CSS layer; host inline aliases yield and ordinary display-rule declarations can override them"
+    "managedAppearancePrecedence": "native root variables at the card CSS layer; host inline aliases yield and ordinary display-rule declarations can override them",
+    "nativeRootVariables": "without a legacy hint, the same eight variables explicitly declared on unconditional .canvas-root selectors also make host inline aliases yield; conditional rules are not inferred"
   },
   "rules": {
     "findForms": [

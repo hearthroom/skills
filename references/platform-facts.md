@@ -378,14 +378,14 @@ text in a tag the page added to the player's line. Platform blocks
   key name (`hp=…`), not by line breaks.
 - `mountLayer`: `under`, `over` or `cover`. `cardFormat`: `mmd`, `tavern` or
   `fengyue` (how `<style>` in rules is scoped by default).
-- Authors do not choose a style source. Known Fengyue selectors
-  `#customized-answer-content`, `#ai-chat-input` and `#ai-send-button` map to
-  the bubble, input box and send button. Other selectors keep existing policy:
-  MMD/site CSS as written, Tavern CSS prefixed with `.mes_text `. One stylesheet
-  can mix Fengyue and site selectors; `.mes` alone is not a Tavern source marker.
-- Existing imports keep `cssDialect` rule settings and the `cardCssDialect`
-  stylesheet setting. These take priority over automatic compatibility;
-  preserve them on read/write. Fengyue built-in CSS imports into `card.css`.
+- Only `card.css` auto-maps Fengyue selectors (`#customized-answer-content`,
+  `#ai-chat-input`, `#ai-send-button`); other selectors stay as written,
+  including `.mes`. Authors do not choose a source.
+- Display-rule CSS keeps `cardFormat` scope: `.mes_text ` for `tavern`,
+  unchanged for other formats. Saved `cssDialect` and compiled style markers
+  take precedence; no automatic Fengyue selector mapping is added here.
+- Preserve rule `cssDialect` and stylesheet `cardCssDialect` on read/write;
+  the latter overrides automatic mapping. Fengyue imports use `card.css`.
 
 On the sandbox page the result then passes a sanitizer before display. There
 are two render paths: on the play page the host computes each reply's HTML

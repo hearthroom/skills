@@ -287,6 +287,38 @@ without a match. Its 512 KiB UTF-8 limit is measured after asset URL rewriting.
 Omit it to keep stored CSS; an empty file clears it. It sits above platform
 defaults and theme, below display rules; use rules for overrides.
 
+### Common style variables
+
+Both chat pages use these variables on `.canvas-root` in `card.css`:
+
+| Appearance | Variable |
+|---|---|
+| AI bubble background | `--lt-canvas-bubble-ai-bg` |
+| Bubble text (shared by AI and player) | `--lt-canvas-bubble-fg` |
+| Player bubble background | `--lt-canvas-bubble-user-bg` |
+| Input field background | `--lt-canvas-composer-field-bg` |
+| Send button background | `--lt-canvas-send-bg` |
+| Accent colour | `--lt-canvas-accent` |
+| Font family (a CSS font-family list) | `--lt-canvas-font` |
+| Chat background | `--lt-canvas-bg` |
+
+```css
+.canvas-root {
+  --lt-canvas-bubble-ai-bg: #243447;
+  --lt-canvas-bubble-fg: #f2f2f5;
+  --lt-canvas-bubble-user-bg: #37465b;
+  --lt-canvas-composer-field-bg: #1e2938;
+  --lt-canvas-send-bg: #355a7c;
+  --lt-canvas-accent: #8fc9ff;
+  --lt-canvas-font: system-ui, sans-serif;
+  --lt-canvas-bg: #121b28;
+}
+```
+
+MMD variables (`--background-color`, `--primary-font-color`,
+`--input-background-color`) remain supported. Variables affect elements that
+use them; direct author CSS can take priority. `--chat-*` is sandbox-only.
+
 Every message's text, the player's lines as well as replies and the opening,
 passes through every enabled rule, in order, before display; the model never
 sees the result. A rule's `targets` (`ai`, `user`, `system`) limits it to those
@@ -553,7 +585,7 @@ prose.
   `.mes_text`, `#msglistview`, `#scrollview`, `.chat-scope-box`, `#chat` are
   also present. `role: system` rows (platform notices) are drawn but emit no
   author events.
-- Theme: 29 `--chat-*` variables, defined on `[data-theme="dark"]` and
+- Sandbox-only theme: 29 `--chat-*` variables, defined on `[data-theme="dark"]` and
   `[data-theme="light"]` (not on `:root`): `bg`, `surface`, `text`,
   `text-muted`, `border`, `accent`, `bubble-user-bg`, `bubble-ai-bg`,
   `bubble-text`, `share-pick-bg`, `composer-bg`, `composer-text`,

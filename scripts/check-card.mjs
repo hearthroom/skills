@@ -212,6 +212,9 @@ export function checkCard(dir) {
     asset: (p, where) => out.assets.push({ p, where }),
   };
   const read = (name) => (existsSync(path.join(dir, name)) ? readFileSync(path.join(dir, name), 'utf8') : null);
+  const cardCss = read('card.css');
+  const cardCssMax = CONTRACT.provider.cardCssMaxBytes ?? CONTRACT.provider.replaceMaxBytes;
+  if (cardCss != null && bytes(cardCss) > cardCssMax) out.error('card.css', `card styles are ${bytes(cardCss)} bytes, over ${cardCssMax} (UTF-8 bytes; remove unused styles or comments)`);
   const rulesText = read('rules.json');
   let rules = null;
   if (rulesText != null) {

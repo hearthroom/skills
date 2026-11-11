@@ -719,6 +719,7 @@
     },
     "standardComposer": {
       "mmdSandboxSelectors": [
+        "[data-chat=\"composer\"] textarea",
         ".composer-shortcut-wrap",
         "[data-chat=\"shortcut\"]",
         ".composer-row",

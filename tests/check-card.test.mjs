@@ -24,6 +24,16 @@ test('a clean sandbox card with a status rule the definition mentions passes', a
   assert.deepEqual(checkCard(dir).filter((f) => f.level === 'error'), []);
 });
 
+test('card.css is independent of display rules and uses the CSS byte limit', async () => {
+  const dir = await card({ 'card.css': '#ai-chat-input{color:red}.mes{color:blue}' });
+  assert.deepEqual(checkCard(dir).filter((f) => f.level === 'error'), []);
+  const max = 512 * 1024;
+  await writeFile(path.join(dir, 'card.css'), 'a'.repeat(max));
+  assert.deepEqual(checkCard(dir).filter((f) => f.level === 'error'), []);
+  await writeFile(path.join(dir, 'card.css'), '中'.repeat(Math.floor(max / 3) + 1));
+  assert.ok(checkCard(dir).some((f) => f.level === 'error' && f.where === 'card.css' && f.msg.includes('524288')));
+});
+
 test('bad regex, empty match, blank find, oversize replace, bad flags', async () => {
   const dir = await card({
     'rules.json': { pageMode: 'sandbox', rules: [

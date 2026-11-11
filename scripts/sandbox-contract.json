@@ -904,6 +904,32 @@
     "clipboardCopyFills": true,
     "textMaxChars": 8000
   },
+  "cardCss": {
+    "source": "author asset cardCss (raw CSS, display only, never sent to the model)",
+    "maxBytes": 524288,
+    "mount": "one style per page in both the classic page and sandbox shell; independent of messages",
+    "layer": "lt-card-css",
+    "order": [
+      "platform defaults (lt-base)",
+      "new card CSS (lt-card-css, declaration important removed)",
+      "display rules"
+    ],
+    "compiledSampleUsesLayer": true,
+    "legacyHint": "cardCssDialect preserves the existing fengyue/tavern/mmd translation and precedence; authors do not select it",
+    "legacyCarrier": "hearthroom-fengyue-inner-css: only one enabled, unchanged importer-generated carrier is moved; explicit cardCss empty clears it",
+    "managedAppearanceVariables": [
+      "--lt-canvas-bubble-ai-bg",
+      "--lt-canvas-bubble-user-bg",
+      "--lt-canvas-bubble-fg",
+      "--lt-canvas-composer-field-bg",
+      "--lt-canvas-send-bg",
+      "--lt-canvas-accent",
+      "--lt-canvas-font",
+      "--lt-canvas-bg"
+    ],
+    "appearanceMarker": "/* lt-card-appearance:start */ ... /* lt-card-appearance:end */",
+    "managedAppearancePrecedence": "native root variables at the card CSS layer; host inline aliases yield and ordinary display-rule declarations can override them"
+  },
   "rules": {
     "findForms": [
       "literal (all occurrences)",
@@ -950,7 +976,7 @@
       "tavern",
       "mmd"
     ],
-    "whenMissing": "the card format decides (cardFormat section)",
+    "whenMissing": "known Fengyue ID selectors are adapted individually; every other selector follows the card format (cardFormat section), without classifying the whole style",
     "legacyRuleIdTreatedAsFengyue": "hearthroom-fengyue-inner-css",
     "appliesTo": "<style> inside the rule replacement, outside code fences; both the classic page and the sandbox shell",
     "tavern": "selectors prefixed with \".mes_text \"",
@@ -1322,6 +1348,7 @@
       "mmd"
     ],
     "openingPageMaxBytes": 524288,
+    "cardCssMaxBytes": 524288,
     "render": {
       "endpoint": "GET /open/v1/role/render",
       "executesScripts": false,

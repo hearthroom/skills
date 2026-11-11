@@ -909,6 +909,7 @@
     ],
     "compiledSampleUsesLayer": true,
     "legacyHint": "cardCssDialect preserves the existing fengyue/tavern/mmd translation and precedence; authors do not select it",
+    "currentImportHint": "new Fengyue imports write fengyue-v2 for source-platform base styles; raw CSS bytes are preserved; legacy hints and migrated carriers are not upgraded; reimport an old Fengyue card for current compatibility",
     "legacyCarrier": "hearthroom-fengyue-inner-css: only one enabled, unchanged importer-generated carrier with no other enabled style/script peers is moved; otherwise its rule order is preserved; explicit cardCss empty clears the unchanged carrier",
     "managedAppearanceVariables": [
       "--lt-canvas-bubble-ai-bg",

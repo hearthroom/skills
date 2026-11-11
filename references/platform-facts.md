@@ -384,8 +384,8 @@ text in a tag the page added to the player's line. Platform blocks
 - Display-rule CSS keeps `cardFormat` scope: `.mes_text ` for `tavern`,
   unchanged for other formats. Saved `cssDialect` and compiled style markers
   take precedence; no automatic Fengyue selector mapping is added here.
-- Preserve rule `cssDialect` and stylesheet `cardCssDialect` on read/write;
-  the latter overrides automatic mapping. Fengyue imports use `card.css`.
+- Preserve `cssDialect` and `cardCssDialect`; the latter overrides auto-mapping.
+  New Fengyue imports use `card.css` with hidden `fengyue-v2` source-platform base styles; legacy hints keep their rendering. Reimport older Fengyue cards for latest compatibility; authors never select or edit hints.
 
 On the sandbox page the result then passes a sanitizer before display. There
 are two render paths: on the play page the host computes each reply's HTML

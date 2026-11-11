@@ -56,7 +56,7 @@ to read in `--json` output.
 | custom instructions | `customInstructions` | the site editor's 額外指示 ("a reminder attached at the end of every turn"). Per the provider's prompt code it is a system message after the history, followed only by the platform's short format guard (cache-stable policy) and the `[Response preferences]` block (which carries any `responseDefaults` notes), then, under the ordinary policy only, the output contract, prefixed `[Content scope]` / `[內容範圍]`; a non-empty value replaces the platform's default content-scope block (which, in Chinese, frames the story as mature literary writing with romance and physical intimacy). A player's own text in their persona's Advanced field replaces the card's; it is left out at the strictest safety level |
 | output contract | `roleOutputContract` | format the reply must follow. Per the provider's prompt code it is sent under a `[Role Reply Format Template]` header saying platform format rules win over it; with the ordinary history policy it sits after the history (near generation), but with the cache-stable policy it moves into the stable prefix before the history, far from generation, which the provider uses once the history holds a recalled entry or a summary (Lorebook). `customInstructions` is always after the history (`instruction-guardrails.md`). A near-generation guard also tells the model to keep the latest reply's visible shape, so a format change takes hold in new conversations (they copy the opening and example conversations, which must use the new format) and is pulled back toward the old shape in existing ones |
 | Lorebook, entry | worldbook, entries | keyword-triggered background knowledge |
-| display rules | author asset, `rules.json` | find/replace rules that turn reply text into layout, status bars, buttons |
+| card styles and display rules | author asset, `card.css`, `rules.json` | base stylesheet and find/replace rules that turn reply text into layout, status bars, buttons |
 | function bar | `mountTrigger` | content pinned above the message list; visible to the player, never sent to the model. It is rendered once when the page loads from its own text (rules run over that text, never over a reply). A `<script>` written in the bar's text is dropped when the shell renders the bar itself (previews, the offline harness) and run once after mount when the play page's host renders it; an `<img onerror>` boot in it runs on both; put scripts in a rule, not in the bar. Anything in it that must change with the conversation is changed by a rule script |
 | chat page | `pageMode` | `sandbox` (default for new cards) or `classic`; `immersive` exists as a legacy value |
 | trial card | trial card | private, auto-expiring copy the CLI pushes to by default |
@@ -79,7 +79,8 @@ my-card/
   welcome.md         the opening
   openings/alt-NN.md alternate openings, file-name order
   lorebook.json      { name, entries: [ … ] }
-  rules.json         { rules: [{id,name,find,replace,enabled,targets?,cssDialect?}], mountTrigger, mountLayer, pageMode, cardFormat, sharedState }
+  rules.json         { rules: [{id,name,find,replace,enabled,targets?,cssDialect?}], mountTrigger, mountLayer, pageMode, cardFormat, cardCssDialect?, sharedState }
+  card.css           raw CSS for the whole card; no <style> wrapper
   variables.json     card variables: { convention, data }; see Card variables
   variables.md       what the variables mean and what usually changes them, for the model
   panel.hbs          the variables panel skin
@@ -279,7 +280,12 @@ the character can list, search and read Lorebook entries by name and content
 before replying. An entry named "Location 3" is invisible there: name entries
 by what they contain.
 
-## Display rules
+## Card styles and display rules
+
+`card.css` (the website's **Card styles**) is installed once per chat page,
+without a match. Its 512 KiB UTF-8 limit is measured after asset URL rewriting.
+Omit it to keep stored CSS; an empty file clears it. It sits above platform
+defaults and theme, below display rules; use rules for overrides.
 
 Every message's text, the player's lines as well as replies and the opening,
 passes through every enabled rule, in order, before display; the model never
@@ -340,20 +346,14 @@ text in a tag the page added to the player's line. Platform blocks
   key name (`hp=…`), not by line breaks.
 - `mountLayer`: `under`, `over` or `cover`. `cardFormat`: `mmd`, `tavern` or
   `fengyue` (how `<style>` in rules is scoped by default).
-- `cssDialect` on a rule overrides that for its own `<style>`: `mmd` (as
-  written), `tavern` (selectors prefixed with `.mes_text `) or `fengyue` (CSS
-  written for the AI Fengyue chat page: its element ids such as
-  `#customized-answer-content`, `#ai-chat-input`, `#ai-send-button` map onto
-  the bubble, input box and send button; `.dark` rules follow the dark theme;
-  `body`, `html` and `:root` rules do nothing; buttons drop position, size,
-  display, transform and margin; `!important` is removed). Omitted follows `cardFormat`; AI Fengyue
-  imports set `fengyue` on the built-in CSS. One card can mix values.
-- Where styles meet on one element, the higher level wins: 1 platform
-  defaults; 2 the site theme (MMD cards stay dark); 3 `--chat-*` variables,
-  which only recolour the defaults; 4 `fengyue` CSS (its own cascade layer);
-  5 every other rule's `<style>`, above level 4 whatever the selector weight,
-  normal CSS order among themselves. Override Fengyue CSS with a plain
-  `<style>` in another rule, without `!important`.
+- Authors do not choose a style source. Known Fengyue selectors
+  `#customized-answer-content`, `#ai-chat-input` and `#ai-send-button` map to
+  the bubble, input box and send button. Other selectors keep existing policy:
+  MMD/site CSS as written, Tavern CSS prefixed with `.mes_text `. One stylesheet
+  can mix Fengyue and site selectors; `.mes` alone is not a Tavern source marker.
+- Existing imports keep `cssDialect` rule settings and the `cardCssDialect`
+  stylesheet setting. These take priority over automatic compatibility;
+  preserve them on read/write. Fengyue built-in CSS imports into `card.css`.
 
 On the sandbox page the result then passes a sanitizer before display. There
 are two render paths: on the play page the host computes each reply's HTML
@@ -891,11 +891,11 @@ check.
 
 `hearthroom card check <dir>` (or the toolkit's `node <toolkit>/scripts/check-card.mjs <dir>`,
 the same checks; the CLI reports lookaround and backreferences as unverified
-locally) reads `rules.json`,
+locally) reads `rules.json`, `card.css`,
 `definition.md`, `card.json`, `lorebook.json` and the openings and reports,
 against `scripts/sandbox-contract.json`: invalid patterns and flags, patterns
 that match the empty string, replacements over 512 KiB (UTF-8 bytes) and rule
-sets over 32 MiB, blank `find`, duplicate ids, unknown `sdk` capabilities and
+sets over 32 MiB, card CSS over 512 KiB, blank `find`, duplicate ids, unknown `sdk` capabilities and
 event names, `sdk.off`/`once`, `sdk.vars`, module syntax outside `type="module"`, `await` before a
 send, invalid save keys, `data-*`/`aria-*`/`role` on author elements, `on*`
 inside `<svg>`, CJK angle-bracket tags, `hc-*` components, `{{random}}` with

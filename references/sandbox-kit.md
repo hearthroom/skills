@@ -42,9 +42,9 @@ are starting points, not looks.
    to create `[data-slot="statusbar"]` and to let rules expand them once.
 2. **Scripts run before the DOM, once per card, and `ready` is never replayed.**
    The first screen must be drawn from `message:mount` and `message:done`,
-   which are replayed to late subscribers for every bubble still on screen.
-   `ready` fires last on a cold start; a first-run animation that waits for
-   it alone starts before the history has settled.
+   which are replayed to late subscribers (see facts for virtualisation).
+   `ready` is not a history/state completion barrier (see platform facts);
+   a first-run animation must not treat later replays as a new turn.
 3. **There is no `sdk.off`, and the editor preview re-runs every script on
    each edit.** Every boot is re-entrant: tear down what the previous run
    mounted (by id), keep your own listener registry, never subscribe inside

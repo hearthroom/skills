@@ -369,6 +369,10 @@
     "generated-music.md": {
       "batch": "H",
       "source": "split out of presentation-design.md; lessons from a card's generated score checked by metrics and model readers"
+    },
+    "chinese-ai-isms.md": {
+      "batch": "C",
+      "source": null
     }
   },
   "examples": {

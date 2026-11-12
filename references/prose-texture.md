@@ -14,6 +14,10 @@ with `character-core-design.md`, `tension-triangle.md` or `longplay-design.md`
 first. Texture is what you fix once the engine is sound and the card still
 reads like it was generated.
 
+For Chinese replies that become dry shorthand after ornate prose is removed,
+read [chinese-ai-isms.md](chinese-ai-isms.md): diagnosis, comparison measures
+and candidate repairs that preserve the card's reply protocol.
+
 Keep the order of importance honest. A clean first screen with nothing at
 stake loses to a clumsy one that hands the player a question they want
 answered. Texture decides between two cards that both have a hook; it does

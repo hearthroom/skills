@@ -1,6 +1,6 @@
 ---
 name: hearthroom-language-stylist
-description: Use when a card's language surface is the problem (Traditional and Simplified Chinese mixing, translated-sounding prose, register, address terms, punctuation, mixed-language tags, files that disagree), or when the author says it "reads like a translation".
+description: Use when a card's language surface needs repair (script mixing, translated or AI-sounding Chinese, overcompressed replies on weaker models, register, address terms, punctuation, mixed-language tags, files that disagree), or the author wants Chinese prose comparison probes.
 ---
 
 # Hearthroom Language Stylist
@@ -19,6 +19,10 @@ register but still reads generated, `../../references/voice-calibration.md`
 only when the pass exposes a voice-rule conflict, and
 `../../references/boundary-design.md` when a mature card's rating posture is
 unclear.
+
+For Chinese telegraph-like compression, repetitive speech tags or decision
+endings, read `../../references/chinese-ai-isms.md` before tuning prompts or
+designing a strong/weak-model prose comparison.
 
 ## Workflow
 

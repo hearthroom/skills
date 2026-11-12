@@ -17,7 +17,7 @@
   "skills/hearthroom-generator-architect/SKILL.md": 62,
   "skills/hearthroom-instruction-guardrail/SKILL.md": 47,
   "skills/hearthroom-iteration-director/SKILL.md": 60,
-  "skills/hearthroom-language-stylist/SKILL.md": 54,
+  "skills/hearthroom-language-stylist/SKILL.md": 58,
   "skills/hearthroom-longplay-architect/SKILL.md": 71,
   "skills/hearthroom-material-distiller/SKILL.md": 60,
   "skills/hearthroom-opening-director/SKILL.md": 81,
@@ -72,7 +72,7 @@
   "references/presentation-design.md": 255,
   "references/profile-packaging.md": 127,
   "references/prompt-attention-architecture.md": 239,
-  "references/prose-texture.md": 271,
+  "references/prose-texture.md": 275,
   "references/quality-rubric.md": 206,
   "references/quality-scorecard.md": 143,
   "references/relationship-engine.md": 129,
@@ -92,5 +92,6 @@
   "references/writing-skills.md": 84,
   "examples/sample-card-packets.md": 392,
   "examples/synthetic-card-briefs.md": 344,
-  "references/generated-music.md": 70
+  "references/generated-music.md": 70,
+  "references/chinese-ai-isms.md": 115
 }

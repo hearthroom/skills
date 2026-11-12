@@ -43,7 +43,7 @@ These exact hosts belong to the same Hearthroom community and its connected serv
 a folder of plain files, and the [`hearthroom` CLI](https://cli.hearthroom.club) pushes that
 folder to a private trial card, validates it, renders it and plays it from the terminal.
 
-The CLI moves the files. These skills decide what goes in them. There are 43 skills and 48
+The CLI moves the files. These skills decide what goes in them. There are 43 skills and 50
 shared guides. They cover premise, character, relationships, world and Lorebook, openings,
 voice, state, presentation, diagnosis and iteration, and each one ends in a check the agent
 can run. Claude Code, Codex, Cursor and any agent that can read files and run a shell can use them.

@@ -545,6 +545,14 @@
     "latestReplayedToLateSubscribers": [
       "state:change"
     ],
+    "stateReset": {
+      "on": "conversation.switch",
+      "requiresInitialValues": true,
+      "messageId": null,
+      "changes": [],
+      "data": "initial values",
+      "replayedToLateSubscribers": true
+    },
     "readyReplayed": false,
     "coldStartOrder": [
       "message:new",

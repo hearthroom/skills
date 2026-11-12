@@ -64,14 +64,14 @@ its own engine. Shared world facts can live in a Lorebook (`lorebook.json`)
 copied between folders, with entries named by content so every variant recalls
 them the same way.
 
-Variants that reuse the same art share one media-library folder. Set
+Variants that reuse body/display art can share one media-library folder. Set
 `media.folder` to the same series name in every variant's `card.json` before
-the first push (`platform-facts.md`, Media library). Without it, each card
+the first push (`platform-facts.md`, Card images and media library). Without it, each card
 uploads its own copy under its own name. The first push into a folder this
 card did not create stops if other files are there; setting `media.folder` to
-the series name is how you share it on purpose. Replacing a shared file at the
-same path updates every variant: that is how shared art is fixed, and how it
-breaks by accident. Name variant files by what they show
+the series name is how you share it on purpose. Replacing a shared library
+file updates body/display references; legacy card-image references block
+replacement. Card images are independent copies (see the facts sheet). Name variant files by what they show
 (`art/bg/snowed-in-station.webp`), never by season, year or version. Each
 variant's opening is a different situation, never the anchor card's opening
 reworded.
@@ -88,7 +88,7 @@ reworded.
 Stop after two variants if they feel redundant. Each variant is its own folder
 and its own trial card, and keeps that folder for its whole life: iterate in
 it with git rather than making a new folder per draft, which would create a
-new library folder too. An account holds at most five trial cards and each
+new library folder for body assets too. An account holds at most five trial cards and each
 expires three days after its last push, so push in authoring order and use
 `card push --create` for cards the author keeps.
 
@@ -102,5 +102,5 @@ expires three days after its last push, so push in authoring order and use
 - Is the test order cost-aware: validate and render every variant, `play` only
   the ones whose behaviour changed (`playtest-loop.md`: 10–20 turns, a weak
   and a strong model, `--new-session`)?
-- Does every variant set `media.folder` to the series name, and does each
-  variant's opening start a different situation?
+- Do variants sharing body/display art set `media.folder` to the series name,
+  and does each variant's opening start a different situation?

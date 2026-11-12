@@ -57,8 +57,8 @@ a sample: the model copies them, so they must show an ordinary turn.
    draft-only mode stop here with the fields.
 6. Write the files: `card.json` for the short fields (The card folder in
    `platform-facts.md`), `definition.md`, `welcome.md`, `openings/alt-NN.md`,
-   `lorebook.json`, `rules.json`, media under `assets/` (named as Media
-   library says), working notes only in `README.md` (the dossier template in
+   `lorebook.json`, `rules.json`, media under `assets/` (storage and names in Media
+   library of the facts sheet), working notes only in `README.md` (the dossier template in
    `card-authoring-templates.md`). When patching, edit only the fields that
    change.
 7. Keep the definition an engine (`hearthroom-detail-engineer` for a thin

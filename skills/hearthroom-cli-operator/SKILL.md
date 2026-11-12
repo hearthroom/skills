@@ -27,7 +27,7 @@ its manual page (`https://cli.hearthroom.club/manual/<command>.md` or
 3. Choose the target: a trial card by default; `push --create` only when the
    author wants the card kept; `push --to <id>` only for a card the author
    owns and asked to update. Work in the card's one folder. Set
-   `media.folder` before the first push with images when the card should
+   `media.folder` before the first push with body/display assets when the card should
    share a series folder (`card status <dir> --json` shows the linked one).
 4. Run the smallest command for the stage and read the JSON, not the prose.
    Free and local: `card check <dir>` (`--replay` for protocol health),
@@ -44,11 +44,11 @@ its manual page (`https://cli.hearthroom.club/manual/<command>.md` or
 Errors are one JSON object `{ "error", "detail" }` with a non-zero exit
 code; no other identifiers are documented. Read `detail` for the section,
 field or limit it names, fix that file, rerun the same command. A media
-item a card still uses cannot be removed with `media rm`; change the card's
-image first. A `media.folder` collision takes a new readable name, or the
+library item still used in a protected card-image reference cannot be
+removed with `media rm`; change the card image first. New card-bound images are
+separate copies; see Card images and media library in the facts sheet. A `media.folder` collision takes a new readable name, or the
 shared name only when the cards should share it. A sign-in missing a
-permission (`media.generate`) needs `auth login` again. When not signed in, run
-the sign-in step once; never retry a command in a loop.
+permission (`media.generate`) needs `auth login` again. Run the sign-in step once; never retry a command in a loop.
 
 Then continue with the writing or review skill that owns the next decision,
 with the JSON report attached.

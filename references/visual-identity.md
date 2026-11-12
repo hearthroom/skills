@@ -17,15 +17,14 @@ portrait alone must still say who this is and what they are up against.
 Images sit under `assets/` in the card folder and are referenced from
 `card.json` as `media.portrait`, `media.background`,
 `media.backgroundLandscape` and `media.share` by relative path (sizes and
-crops in `platform-facts.md`); `card push` uploads them into the card's media-library folder. Images come from the
+crops in `platform-facts.md`); `card push` uploads them into card-bound storage. Images come from the
 author, the author's own image tool, or `hearthroom media generate` (below);
 this skill writes the prompt either way. The card
 is not complete while a referenced file is missing. Paths and naming follow
-Media library in `platform-facts.md`: group by job (`assets/art/portrait.webp`,
+Card images and media library in `platform-facts.md`: group by job (`assets/art/portrait.webp`,
 `assets/art/bg/<place>.webp`, `assets/art/bg/<place>-wide.webp`), readable
-names, no dates or version numbers, `media.folder` for art a series shares.
-Upload the final size and format; replacing a file at the same path changes
-it for every card that uses it.
+names, no dates or version numbers. `media.folder` shares body/display assets
+for a series; each card keeps its own image copies. Upload the final size and format.
 
 ## Generating with the CLI
 
@@ -49,9 +48,8 @@ decoration nobody asked for, or before the promise is stable.
    Generate one image (`-n 1`), check it, then the rest.
 3. Write the prompt as below. `--out assets/art/portrait.png` puts the file
    in the card folder under its readable name; keep the extension true to
-   the file. `--dir <media.folder or the card name>` also keeps it in the
-   library folder of the card and prints `url`, which `media.portrait` or the
-   Markdown files can use directly when no local copy is wanted.
+   the file. Add `--dir <media.folder or the card name>` only when the author
+   wants a separate library copy for body/display use; it consumes quota.
 4. Reference it in `card.json` as usual, push, and check the crops.
 
 A prompt the model refuses for its content rules (`content_policy_violation`)
@@ -69,8 +67,10 @@ Each generation starts from noise; pin the character in words and by picture.
    accessories, outfit and colours, one or two marks, the art style), keep it
    in the folder (`assets/art/character.md`) and paste it verbatim into every
    prompt; only the scene sentences change.
-2. Generate the portrait from it until the author accepts it; save it (`--dir`).
-3. Every later image passes the portrait with `--image <library path or URL>`
+2. Generate the portrait until the author accepts it; keep the local file and
+   push it. Use its owned card-image URL for references, or save a library
+   copy with `--dir` if a named library path is needed.
+3. Every later image passes the portrait with `--image <owned image URL or library path>`
    on a model with REFS above 0, same paragraph, "the same character as the
    reference image" before the new pose and place. References cost nothing.
 4. Compare face, hair, outfit and marks with the portrait; regenerate a drifted

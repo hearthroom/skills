@@ -89,7 +89,7 @@ contradictory. Decide and record:
   unless a guardrail packet exists; `media.portrait`, `media.background`,
   `media.backgroundLandscape`, `media.share` (file in `assets/`, prompt only,
   or missing);
-  `media.folder` for a series.
+  `media.folder` for shared body/display assets.
 - `intro.md` (public card page, never sent): the card's store page, plain
   sections with screenshots and art; `profile-packaging.md`, Introduction.
 - `README.md` dossier (never sent): `uiRole`, `statusOverheadThreshold`.

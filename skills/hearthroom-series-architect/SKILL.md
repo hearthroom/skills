@@ -37,7 +37,7 @@ the Media library. Read the narrow reference only when it is the blocker:
    role, same loop, same artifact, intensity drift.
 4. Set the authoring order: anchor card first, then the most distinct
    secondary variant, one folder per card for its whole life. Decide the
-   series media folder (`media.folder`, the same name in every variant) and
+   shared body/display media folder (`media.folder` for variants using it) and
    which art is shared versus per-variant (`art/bg/<variant>.webp`); name
    files by what they show, never by season, year or version. Push, render
    and play the first two before adding more.

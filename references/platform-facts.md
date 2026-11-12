@@ -162,29 +162,54 @@ when it equals the portrait.
 
 ## Media library
 
-Every file under `assets/` goes into one folder of the author's media
-library, and the served URL mirrors the path:
+Card image fields (`media.portrait`, `media.background`,
+`media.backgroundLandscape`, `media.share`) use card-bound image storage.
+The avatar aliases the portrait/background slot; an explicit `media.background`
+takes precedence. A new push obtains the private card or trial identity before
+uploading its local image files. Each upload gets an immutable key, so equal
+filenames on different cards cannot overwrite one another. These new images
+are absent from the personal library, cannot be removed through its controls,
+and do not consume its storage quota. Ownership and card review still apply.
+Picking an owned library image or another owned card's image creates an
+independent copy for this card. New external URLs require downloading the
+image and uploading the local file first; an existing external URL may remain
+unchanged or be cleared.
+
+Images follow card/version references: replacing an image or deleting a draft
+does not remove bytes still used by a retained version. Unattached completed
+uploads have a 24-hour grace period before cleanup. Existing library-backed
+card images remain library items and count toward quota until a separately
+authorized migration; do not delete or move them as a migration shortcut.
+Their card references also prevent same-path overwrite or move, even with a
+confirmation flag. Upload replacement card images through the card workflow.
+
+Body/display files under `assets/` still go into the author's media library.
+A file used both as a card image and in Markdown has separate card and library
+copies. For library files, the served URL mirrors the path:
 `assets/art/expr/happy.webp` → `<libraryPrefix>/<folder>/art/expr/happy.webp`.
 The folder is `media.folder` in `card.json`, or the card name when unset; the
 first push records it, so a later rename of the card does not move files.
 The author manages the library by these names, so they must read as what
 they are.
 
-- Choose the folder: the card name, or one shared name for a series whose
-  cards reuse the same art (set `media.folder` to it in every card).
+- Choose the library folder: the card name, or one shared name for a series
+  whose cards reuse body/display art (`media.folder`); this does not share
+  card image storage.
 - A library folder is a directory: each file is in exactly one folder, and
   its URL is its path. Renaming or moving a folder or file therefore changes
   its URLs and the old ones stop working. Rename with
   `hearthroom media mv <old> <new>`: it lists the author's cards that still
   mention the old URLs; update them or tell the author which will break, then
-  run it with `--yes` and set `media.folder` to the new name. A push follows
+  run it with `--yes` and set `media.folder` to the new name. A legacy card-image
+  reference blocks the move even with `--yes`. A push follows
   files renamed on the website and uploads again files deleted there.
 - Name files for what they show and group them by job: `art/bg/night.webp`,
   `art/expr/shy.webp`, `art/npc/elder.webp`, `ui/frame.webp`. Never put a hash,
   card id, date or version number in a folder or file name. Paths are
   case-sensitive; use lowercase ASCII with hyphens for any name code builds.
-- Upload the final size and format; replacing a file at the same path changes
-  it for every card that uses it, which is how a shared asset is updated.
+- Upload the final size and format. Replacing a library file at the same path
+  updates body/display references to it; legacy card-image references block
+  replacement. Card image uploads always create independent immutable copies.
 - If the push stops because the folder already holds files this card did not
   upload, pick a new `media.folder`, or set it to that folder only when the
   card is meant to share it.
@@ -203,7 +228,7 @@ hearthroom media generate --model <id> --prompt "…" --size <one of sizes> -n 1
 - Several models can share a `name` and differ by `lane` (`lane_name` in the
   terminal's language, the LANE column): each has its own `id`, price and
   `max_images` (the most images one request may ask for with `-n`).
-- `--image` (if `media generate --help` lists it): reference images from the author's own library, by path or URL, up to `max_reference_images` (REFS; 0 = none); others are refused uncharged; no extra cost.
+- `--image` (if `media generate --help` lists it): reference images owned by the author, using a library path or an owned library/card-image URL, up to `max_reference_images` (REFS; 0 = none). Paths are resolved through the library; arbitrary external images are refused uncharged. References have no extra cost.
 - Each image costs the model's listed credits and is paid from purchased
   credits only; granted or gift credits cannot pay for it (402 says so).
   Refused prompts, failures and an unavailable model provider are not
@@ -215,9 +240,16 @@ hearthroom media generate --model <id> --prompt "…" --size <one of sizes> -n 1
   item's `assetId` and `url`. `--dir` creates the path; `--folder` must exist.
   A saved file is named `<model>-<task id prefix>-<n>` by the provider, counts
   toward the author's storage and is never deleted automatically.
-- A card references an image as usual: a file under `assets/` by relative
-  path (pushed into the card's folder with its readable name), or a saved
-  `url` directly in `media.portrait` or the Markdown files.
+- For a card image, use `--out assets/art/portrait.png`, then put that relative
+  path in the card's media field and push. A saved owned library URL is also
+  accepted there, but the card receives an independent copy. Markdown uses
+  library URLs. Saving with `--dir`/`--folder` remains an explicit library copy
+  and consumes quota; it is unnecessary merely to keep a card image.
+- In the web editor, choose one generated result to copy from the seven-day
+  generation cache directly into the card. The optional personal-library copy
+  is off by default and independent: its failure does not discard the card
+  image. Retrying the selection does not generate or charge again. Generation
+  itself remains paid even when the resulting card storage is quota-free.
 - Content rules are enforced before the request reaches the model provider:
   `content_policy.nsfw` is `none` (no adult content), `suggestive` (adult but
   not explicit) or `explicit`; sexual content involving minors is refused on

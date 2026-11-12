@@ -354,6 +354,12 @@ text in a tag the page added to the player's line. Platform blocks
   5 every other rule's `<style>`, above level 4 whatever the selector weight,
   normal CSS order among themselves. Override Fengyue CSS with a plain
   `<style>` in another rule, without `!important`.
+- Host-rendered inline asides use `.lt-inline-aside` and role modifiers
+  `.lt-inline-aside--ai` / `.lt-inline-aside--user`, including host message views
+  sent to the sandbox (not its own Markdown fallback). Ordinary unlayered CSS
+  can override their colour, italic and weight without `!important`; or set
+  `--lt-canvas-aside-ai-color` / `--lt-canvas-aside-user-color` on the message
+  container or aside. Defaults stay AI `#C4B4A3`, player `#665b65`, italic, 400.
 
 On the sandbox page the result then passes a sanitizer before display. There
 are two render paths: on the play page the host computes each reply's HTML

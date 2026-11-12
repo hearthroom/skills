@@ -435,10 +435,10 @@ in both page modes. It is a Handlebars subset: `{{path}}`, `{{{raw}}}`,
 or not lookup`, `@index @key @first @last @root`, and `@changes` (this turn's
 changes, with `old` and `new`). It runs no scripts: `<script>` and `on*`
 attributes are removed, `<style>` stays scoped to the panel. An element with
-`data-panel-copy` copies its value (or its text) when tapped. Scripts that need
-more use the `state:change` event (`{ messageId, data, changes }`, the latest
-replayed to late subscribers) and `stage.state.get()`; sandbox cards use
-`sdk.state.get()`, `sdk.state.of(messageId)` and the same event.
+`data-panel-copy` copies an element's value or text when tapped. Scripts read `stage.state.get()`
+or sandbox `sdk.state.get()` / `sdk.state.of(messageId)` and listen to `state:change`
+(`{ messageId, data, changes }`, latest replayed to late subscribers). Sandbox conversation switches
+emit configured initial values once (`messageId: null`, `changes: []`); no initial values, no reset event.
 
 Limits: values at most 16 KiB as JSON, depth 8, 400 keys, 2 KiB per text
 value; `variables.md` and the per-value rules 8 KiB each; `panel.hbs` 32 KiB.

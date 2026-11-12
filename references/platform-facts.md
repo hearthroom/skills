@@ -650,11 +650,11 @@ prose.
   Handlers get one argument:
   `{id, role, content, serverId}` for `message:*` (`message:stream` has no
   `serverId`; `serverId` is `null` for player messages and the greeting), a
-  string for `input:change`, nothing for the rest. On a cold start every
-  existing message fires `new` → `mount` → `done`, and `ready` comes last;
-  `mount` and `done` are replayed to late subscribers for every bubble still
-  on screen, `ready` is never replayed, and each message gets exactly one
-  `done`. The list is virtualised: a bubble about two screen heights away is
+  string for `input:change`, nothing for the rest. `ready` fires once after
+  the first message-list reset; state updates and lazy mounts may follow.
+  Completed cold-start dialogue messages emit `new` then `done`; nearby bubbles also
+  emit `mount` before `done`. Late subscribers get `mount`/`done` replays;
+  `ready` is not replayed. Each message gets one `done`. A bubble about two screen heights away is
   destroyed (`message:unmount`) and rebuilt (`message:mount` again) when it
   scrolls back; long-lived panels belong on the stage. Inside a handler, and
   inside any click/input/change/keydown handler, `document.querySelector`,
@@ -739,8 +739,8 @@ prose.
   the whole conversation (pages, a timeline) keeps its own copy in
   `localStorage`, merges what mounts, drops duplicates by body text and sorts
   by id time; mount order is not conversation order.
-- Do not start a first-run animation on `ready` alone; wait until the replayed
-  messages have settled (`message:done` quiet for a moment).
+- Do not start a first-run animation on `ready` alone; hydrate from replayed
+  messages and `state:change`, and do not animate historical replays as new turns.
 - The page runs in a cross-origin iframe. Browser automation can take
   screenshots and accessibility snapshots of it but cannot script it, and
   device APIs such as viewport segments may report a single segment there.

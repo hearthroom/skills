@@ -245,7 +245,7 @@ validation report rather than hard-coding them.
 
 ## Lorebook
 
-An entry has `name`, `content`, `keywords`, `secondaryKeywords`, `constant`, `disabled`, `semanticRecall` (on by default for new entries), `triggerRegion` (stored and exported, not used by recall) and `matchOptions`: `selective` (whether secondary keywords apply), `selectiveLogic` 0–3 (any secondary present, not all present, none present, all present), `caseSensitive`, `matchWholeWords`, `scanDepth` (0–100), `order` (stable author order among newly admitted entries), `groupId` / `groupOrder` (pieces of one long entry) and `extensions` (kept from imports, never executed). Lorebook keywords and secondary keywords need `/pattern/flags` syntax for regular expressions (for example, `/chapter[4-6]/`, with flags optional); without the `/…/` delimiters, they are matched as plain text. Lookaround and backreferences work but run under a timeout; an invalid pattern is not treated as literal text. Whether a plain keyword matches both Chinese scripts is not documented (display-rule `find` does): for Chinese cards list both forms of a noun the player might type. Entry length is limited per card language (`language` in `card.json`; the provider publishes upload limits at `/open/v1/worldbook/limits`; a bound book's `entryContentMax` is available from its detail response).
+An entry has `name`, `content`, `keywords`, `secondaryKeywords`, `constant`, `disabled`, `semanticRecall` (on by default for new entries), `triggerRegion` (stored and exported, not used by recall) and `matchOptions`: `selective` (whether secondary keywords apply), `selectiveLogic` 0–3 (any secondary present, not all present, none present, all present), `caseSensitive`, `matchWholeWords`, `scanDepth` (0–100), `order` (stable author order among newly admitted entries), `groupId` / `groupOrder` (pieces of one long entry) and `extensions` (kept from imports, never executed). Lorebook keywords and secondary keywords need `/pattern/flags` syntax for regular expressions (for example, `/chapter[4-6]/`, with flags optional); without the `/…/` delimiters, they are matched as plain text. Lookaround and backreferences work but run under a timeout; an invalid pattern is not treated as literal text. Whether a plain keyword matches both Chinese scripts is not documented (display-rule `find` does): for Chinese cards list both forms of a noun the player might type. Entry upload limits are 4,000 Unicode characters for Chinese, 6,000 for Japanese/Korean and 12,000 for English (`language` in `card.json`). Read `/open/v1/worldbook/limits` and a bound book's `entryContentMax` from its detail response; multiple bound cards use the widest limit.
 
 How entries reach the model in a normal conversation:
 
@@ -946,10 +946,10 @@ hearthroom models | tags --zone zh | search | media ls|upload|mv|rm | upgrade --
 - CLI 0.10.1 and later batch Lorebook writes and save card/book IDs and progress in
   `.hearthroom/state.json`; keep it and rerun the same command to resume. Unknown
   outcomes are read back first; ambiguous results stop for inspection.
-- Long entries without author groups split for upload without losing text; local files
-  stay unsplit and existing `groupId` / `groupOrder` values are preserved. Parts count toward the trial limit (currently 1000). `card push --create`
-  saves a larger owned card, unlisted by default; anyone with the link can
-  play its latest saved content, including changes that have not passed review.
+- Long entries without author groups split for upload; push reports the entry, limit and part count.
+  The first part updates the existing entry; later parts reuse IDs from `.hearthroom/state.json`. Source files and IDs stay unchanged. Obsolete split parts are removed; other known removals need `--prune`, while unknown remote entries need explicit author cleanup.
+  Existing `groupId` / `groupOrder` values are preserved. Parts count toward the trial limit (currently 1000). `card push --create`
+  saves a larger owned card, unlisted by default; anyone with the link can play its latest saved content before review.
 - Pushing, validating, rendering, importing, pulling and browsing are free.
   `play -m` and `play --continue` generate and need `--allow-spend`; so does
   `media generate`, which spends purchased credits per image.

@@ -160,59 +160,23 @@ a card can point `media.background` at its cover and set its real chat
 background in its own stylesheet. `card pull` leaves `media.background` out
 when it equals the portrait.
 
-## Media library
+## Card images and media library
 
-Card image fields (`media.portrait`, `media.background`,
-`media.backgroundLandscape`, `media.share`) use card-bound image storage.
-The avatar aliases the portrait/background slot; an explicit `media.background`
-takes precedence. A new push obtains the private card or trial identity before
-uploading its local image files. Each upload gets an immutable key, so equal
-filenames on different cards cannot overwrite one another. These new images
-are absent from the personal library, cannot be removed through its controls,
-and do not consume its storage quota. Ownership and card review still apply.
-Picking an owned library image or another owned card's image creates an
-independent copy for this card. New external URLs require downloading the
-image and uploading the local file first; an existing external URL may remain
-unchanged or be cleared.
+`media.portrait`, `media.background`, `media.backgroundLandscape` and `media.share` use card-bound storage; avatar aliases the portrait/background slot, with explicit background taking precedence.
+Push first obtains a private card/trial identity. Uploads use immutable keys: equal filenames cannot overwrite another card. New card images are outside personal-library controls and quota; ownership and card review still apply.
+An owned library or other-card image is copied independently. Download new external images locally before upload; existing external URLs may remain unchanged or be cleared.
+Card/version references retain bytes after replacement or draft deletion; unattached completed uploads have a 24-hour cleanup grace.
+Legacy library-backed card images still occupy quota until separately authorized migration. Their references block overwrite and moves even with confirmation; upload replacements through the card workflow, never delete/move old files as a migration shortcut.
 
-Images follow card/version references: replacing an image or deleting a draft
-does not remove bytes still used by a retained version. Unattached completed
-uploads have a 24-hour grace period before cleanup. Existing library-backed
-card images remain library items and count toward quota until a separately
-authorized migration; do not delete or move them as a migration shortcut.
-Their card references also prevent same-path overwrite or move, even with a
-confirmation flag. Upload replacement card images through the card workflow.
+Body/display files under `assets/` still use the personal library. A file also used as a card image has separate card and library copies.
+Library URLs mirror paths: `assets/art/expr/happy.webp` → `<libraryPrefix>/<folder>/art/expr/happy.webp`.
+`media.folder` defaults to the card name and is recorded on first push; renaming a card does not move files. A series may share a folder for body/display art, without sharing card-image storage.
 
-Body/display files under `assets/` still go into the author's media library.
-A file used both as a card image and in Markdown has separate card and library
-copies. For library files, the served URL mirrors the path:
-`assets/art/expr/happy.webp` → `<libraryPrefix>/<folder>/art/expr/happy.webp`.
-The folder is `media.folder` in `card.json`, or the card name when unset; the
-first push records it, so a later rename of the card does not move files.
-The author manages the library by these names, so they must read as what
-they are.
-
-- Choose the library folder: the card name, or one shared name for a series
-  whose cards reuse body/display art (`media.folder`); this does not share
-  card image storage.
-- A library folder is a directory: each file is in exactly one folder, and
-  its URL is its path. Renaming or moving a folder or file therefore changes
-  its URLs and the old ones stop working. Rename with
-  `hearthroom media mv <old> <new>`: it lists the author's cards that still
-  mention the old URLs; update them or tell the author which will break, then
-  run it with `--yes` and set `media.folder` to the new name. A legacy card-image
-  reference blocks the move even with `--yes`. A push follows
-  files renamed on the website and uploads again files deleted there.
-- Name files for what they show and group them by job: `art/bg/night.webp`,
-  `art/expr/shy.webp`, `art/npc/elder.webp`, `ui/frame.webp`. Never put a hash,
-  card id, date or version number in a folder or file name. Paths are
-  case-sensitive; use lowercase ASCII with hyphens for any name code builds.
-- Upload the final size and format. Replacing a library file at the same path
-  updates body/display references to it; legacy card-image references block
-  replacement. Card image uploads always create independent immutable copies.
-- If the push stops because the folder already holds files this card did not
-  upload, pick a new `media.folder`, or set it to that folder only when the
-  card is meant to share it.
+- Moving library files/folders changes their URLs; old URLs stop working. `hearthroom media mv <old> <new>` lists affected cards: update their references or warn the author, confirm with `--yes`, then update `media.folder`. Legacy card-image references still block the move.
+- Push follows website renames and reuploads files deleted there.
+- Group readable names by job: `art/bg/night.webp`, `art/expr/shy.webp`, `art/npc/elder.webp`, `ui/frame.webp`. No hash, card ID, date or version, except content-hashed external scripts described below. Paths are case-sensitive; code-built names use lowercase ASCII with hyphens.
+- Upload final sizes/formats. Same-path library replacement updates body/display references; card uploads remain independent immutable copies.
+- If a folder already contains files this card did not upload, choose another `media.folder`, unless sharing that folder is intentional.
 
 ## Generating images
 
@@ -389,7 +353,7 @@ text in a tag the page added to the player's line. Platform blocks
   its content so an update gets a new URL instead of a stale cache, and since an
   external script is not awaited, let a small inline stub take the calls other
   scripts make before it arrives.
-- `media rm` refuses only files a card uses as portrait or background. A file
+- `media rm` refuses library assets used by any card-image slot. A file
   a rule loads by URL is deleted even while the approved copy still loads it,
   so old hashed copies are pruned by checking what the draft, the approved copy
   (`card view` gives its role id; pull it into a scratch folder) and any

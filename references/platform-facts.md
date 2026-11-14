@@ -973,7 +973,11 @@ hearthroom models | tags --zone zh | search | media ls|upload|mv|rm | upgrade --
 
 - CLI 0.10.1 and later batch Lorebook writes and save card/book IDs and progress in
   `.hearthroom/state.json`; keep it and rerun the same command to resume. Unknown
-  outcomes are read back first; ambiguous results stop for inspection.
+  outcomes are read back first; ambiguous results stop for inspection. From CLI 0.12.32,
+  `state.json` also tracks the bound Lorebook `version`, book `name` and per-entry digests:
+  `push` targets the card's latest bound Lorebook, sends only modified entries, omits book
+  metadata unless `name` changed (preserving online `description` and `tags`), and stops on
+  `409 version_conflict`, a deleted tracked entry or a bound-book change instead of overwriting online edits. Pass `--force` only when the author wants local Lorebook files to overwrite online changes; even with `--force`, `push` writes to the current online bound book rather than rebinding a detached one.
 - Long entries without author groups split for upload; push reports the entry, limit and part count.
   The first part updates the existing entry; later parts reuse IDs from `.hearthroom/state.json`. Source files and IDs stay unchanged. Obsolete split parts are removed; other known removals need `--prune`, while unknown remote entries need explicit author cleanup.
   Existing `groupId` / `groupOrder` values are preserved. Parts count toward the trial limit (currently 1000). `card push --create`
@@ -1025,7 +1029,7 @@ hearthroom models | tags --zone zh | search | media ls|upload|mv|rm | upgrade --
   (CLI 0.8.4 prints it as `intro`) is reported but left out of `totalChars`
   and `estimatedTokens`, since the introduction never reaches the model. There is no count
   or limit for `talkExample` in the report.
-- `card pull <roleId> [dir] --force` replaces local authoring files with the remote copy; it does not merge edits. When optional reads succeed, pull removes absent Lorebook/rules files and obsolete immediate alternate-opening Markdown files; older CLI releases can leave these behind. For comparison, pull each remote card into a fresh folder and apply wanted changes to one complete, versioned source. Resolve pull warnings before pushing.
+- `card pull <roleId> [dir] --force` replaces local authoring files with the remote copy; it does not merge edits. When optional reads succeed, pull removes absent Lorebook/rules files and obsolete immediate alternate-opening Markdown files; older CLI releases can leave these behind. When `worldbook/*.md` sources exist, pull updates `lorebook.json` only and warns to sync `worldbook/*.md` before running `lorebook build`. For comparison, pull each remote card into a fresh folder and apply wanted changes to one complete, versioned source. Resolve pull warnings before pushing.
 - A folder remembers one default target. After `--create`, `--to` or pulling an owned card, plain `push` updates that owned card. Switching to another owned card requires `--to <id> --force` and sends the source's current content, including earlier edits still in its files. It does not merge remote versions. Keep a separate trial folder with its own sync state; there is no `--trial` switch. A pulled trial lacks the original trial key, so its next plain push creates a new trial slot.
 - `push --create` makes an owned card, unlisted by default. Anyone with the link can play its latest saved content, including changes that have not passed review. On a folder already linked to an owned card, `--create` makes an additional card. `card status` shows the link.
 - `card.json` `language` is required (CLI 0.7.5+: `push` and `check` refuse a missing value or bare `zh`); a Chinese card can switch `zh-Hant` ↔ `zh-Hans` after creation (CLI 0.7.7+ pushes it). It also selects the Lorebook

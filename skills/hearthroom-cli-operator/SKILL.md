@@ -47,7 +47,7 @@ field or limit it names, fix that file, rerun the same command. A media
 library item still used in a protected card-image reference cannot be
 removed with `media rm`; change the card image first. New card-bound images are
 separate copies; see Card images and media library in the facts sheet. A `media.folder` collision takes a new readable name, or the
-shared name only when the cards should share it. A sign-in missing a
+shared name only when the cards should share it. A Lorebook `version_conflict` or bound-book error means the Lorebook changed online; ask the author before `pull --force` or `push --force` (see The CLI loop in the facts sheet). A sign-in missing a
 permission (`media.generate`) needs `auth login` again. Run the sign-in step once; never retry a command in a loop.
 
 Then continue with the writing or review skill that owns the next decision,

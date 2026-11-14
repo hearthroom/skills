@@ -32,7 +32,7 @@ its manual page (`https://cli.hearthroom.club/manual/<command>.md` or
 4. Run the smallest command for the stage and read the JSON, not the prose.
    Free and local: `card check <dir>` (`--replay` for protocol health),
    `card preview <dir>`, `lorebook build` / `lorebook check`, `card status`,
-   `card push --dry-run`. Remote: `push`, `validate --push --strict` (fails
+   `card push --dry-run`. Remote: `push`, `lorebook entry` (`list` / `get` / `add` / `update` / `delete`, when editing an owned card's Lorebook concurrently with the author or another session), `validate --push --strict` (fails
    on warnings too), `render --push --opening N`; paid: `play`.
 5. Before `play -m`, show `hearthroom wallet --json`, state the cost stance
    (turns, models) and the exact command with `--allow-spend` and
@@ -47,7 +47,7 @@ field or limit it names, fix that file, rerun the same command. A media
 library item still used in a protected card-image reference cannot be
 removed with `media rm`; change the card image first. New card-bound images are
 separate copies; see Card images and media library in the facts sheet. A `media.folder` collision takes a new readable name, or the
-shared name only when the cards should share it. A Lorebook `version_conflict` or bound-book error means the Lorebook changed online; ask the author before `pull --force` or `push --force` (see The CLI loop in the facts sheet). A sign-in missing a
+shared name only when the cards should share it. A Lorebook `version_conflict` or bound-book error means the Lorebook changed online: for a single-entry edit on an owned card, inspect with `lorebook entry get` and retry `lorebook entry` with `--expected-version`; for a full-folder sync, ask the author before `pull --force` or `push --force` (see The CLI loop in the facts sheet). A sign-in missing a
 permission (`media.generate`) needs `auth login` again. Run the sign-in step once; never retry a command in a loop.
 
 Then continue with the writing or review skill that owns the next decision,

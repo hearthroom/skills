@@ -51,6 +51,7 @@ for target switching, pull replacement and Media library names.
 | See one opening after the display rules | `hearthroom card render <dir> --push --opening N --json` (`--html file` writes the raw string) | no |
 | See the real chat shell draw it | `hearthroom card preview <dir> --open` (the shell is fetched from the site and cached; `platform-facts.md`, Offline preview) | no |
 | Build `lorebook.json` from `worldbook/*.md`, one entry per file; find keyword collisions | `hearthroom lorebook build <dir>` / `hearthroom lorebook check <dir>` | no |
+| Edit one Lorebook entry concurrently on an owned card | `hearthroom lorebook entry list\|get\|add\|update\|delete <dir> … --json` | no |
 | Play one turn in a fresh conversation | `hearthroom play <dir> --new-session -m "…" --allow-spend --json` | yes |
 | Generate an image for the card | `hearthroom media generate --model <id> --prompt "…" --out assets/art/portrait.png --allow-spend --json` (`media models` for prices and sizes; `platform-facts.md`, Generating images) | yes, purchased credits per image |
 | Read the conversation so far | `hearthroom play <dir> --history --limit 20` | no |
@@ -58,7 +59,7 @@ for target switching, pull replacement and Media library names.
 | Keep it as an owned card (unlisted by default) | `hearthroom card push <dir> --create` | no |
 
 `push` uploads assets once and skips unchanged sections on the same owned
-card. Check the link with `card status`; switching and pull semantics are in
+card. When the author and an agent (or multiple sessions) edit an owned card's Lorebook at the same time, use `hearthroom lorebook entry` per-entry commands instead of pushing the whole `lorebook.json`: each command patches only that entry, checks `expectedVersion`, and updates local `lorebook.json` and `.hearthroom/state.json` so a later `card push` treats it as synced. Check the link with `card status`; switching and pull semantics are in
 `platform-facts.md`, The CLI loop. Plain pushes preserve visibility; trial
 expiry and slots are in `cost-and-boundaries.md`.
 

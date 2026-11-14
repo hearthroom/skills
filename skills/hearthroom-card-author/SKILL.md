@@ -60,7 +60,7 @@ a sample: the model copies them, so they must show an ordinary turn.
    `lorebook.json`, `rules.json`, media under `assets/` (storage and names in Media
    library of the facts sheet), working notes only in `README.md` (the dossier template in
    `card-authoring-templates.md`). When patching, edit only the fields that
-   change.
+   change; when the author or another session is editing an owned card's Lorebook concurrently, patch entries one at a time with `hearthroom lorebook entry` (`cli-workflow.md`).
 7. Keep the definition an engine (`hearthroom-detail-engineer` for a thin
    biography); move scene-only facts into Lorebook entries with keywords and
    descriptive names, few and short constant entries; keep the output

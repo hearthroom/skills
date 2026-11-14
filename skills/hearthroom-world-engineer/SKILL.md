@@ -52,7 +52,7 @@ first.
    `secondaryKeywords`, `constant`, `order`), built with `hearthroom
    lorebook build <dir>`; `hearthroom lorebook check <dir>` reports drift,
    entries without keywords and keyword collisions. Never hand-edit the
-   built JSON.
+   built JSON; when multiple people or an agent edit an owned card's Lorebook concurrently, apply single-entry changes with `hearthroom lorebook entry` (`cli-workflow.md`).
 6. State opening, longplay and presentation implications, the length
    tradeoff, and which rule joins the iron rules and the recency checklist.
 

@@ -955,6 +955,7 @@ hearthroom card preview <dir> [--open]             # offline preview with the re
 hearthroom lorebook build <dir> | lorebook check <dir>   # worldbook/*.md sources → lorebook.json; drift, keyword collisions (same CLI release)
 # one entry per file ("_" files skipped); a source's `order` sets the entry's place in lorebook.json and is not stored;
 # from CLI 0.12.22 subfolders are read, "_" folders skipped, and a second frontmatter block in a file is an error
+hearthroom lorebook entry list|get|add|update|delete <dir> …  # CLI 0.12.33+: read or edit one remote Lorebook entry on an owned card without touching other entries or book metadata
 hearthroom card status <dir> --json                # what the folder is linked to, which sections changed (before CLI 0.8.2, rules that build asset paths at runtime showed authorAsset changed right after a push; submit warned the same)
 hearthroom card push <dir> --dry-run --json        # what would be sent, without sending
 hearthroom card push <dir> --validate --json       # private trial card + validation report
@@ -978,6 +979,7 @@ hearthroom models | tags --zone zh | search | media ls|upload|mv|rm | upgrade --
   `push` targets the card's latest bound Lorebook, sends only modified entries, omits book
   metadata unless `name` changed (preserving online `description` and `tags`), and stops on
   `409 version_conflict`, a deleted tracked entry or a bound-book change instead of overwriting online edits. Pass `--force` only when the author wants local Lorebook files to overwrite online changes; even with `--force`, `push` writes to the current online bound book rather than rebinding a detached one.
+- From CLI 0.12.33, `hearthroom lorebook entry list|get|add|update|delete` operates on one remote entry of an owned card's bound Lorebook (`<entry>` matches `id` or unique `name`; `--file` accepts a Markdown source or entry JSON, and field flags patch individual fields). Writes send `expectedVersion` from `.hearthroom/state.json` (or `--expected-version <n>` after inspecting live entries on a `409` conflict), never send book `metadata`, and update that entry's content, digest and `version` in local `lorebook.json` and `.hearthroom/state.json` so a subsequent `card push` treats it as already synced (`worldbook/*.md` is not rewritten automatically). Use these commands when multiple people or an agent edit the same Lorebook concurrently.
 - Long entries without author groups split for upload; push reports the entry, limit and part count.
   The first part updates the existing entry; later parts reuse IDs from `.hearthroom/state.json`. Source files and IDs stay unchanged. Obsolete split parts are removed; other known removals need `--prune`, while unknown remote entries need explicit author cleanup.
   Existing `groupId` / `groupOrder` values are preserved. Parts count toward the trial limit (currently 1000). `card push --create`

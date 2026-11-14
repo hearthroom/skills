@@ -1131,7 +1131,7 @@ when the author explicitly chooses to notify readers. A request to fix a typo
 or bug does not imply permission to notify followers.
 
 `--notify` requires a public changelog: at least 10 non-whitespace Unicode
-code points and at most 200 code points in the complete normalized text.
+code points and at most 500 code points in the complete normalized text.
 CRLF/CR become LF and surrounding Unicode White_Space is trimmed; internal
 spaces and line breaks count toward the maximum. A note without `--notify`
 is rejected. The text is not translated or rendered as HTML or Markdown.

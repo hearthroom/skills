@@ -1048,13 +1048,15 @@ hearthroom models | tags --zone zh | search | media ls|upload|mv|rm | upgrade --
   and the regex scripts' SillyTavern-only fields (`trimStrings`,
   `markdownOnly`, `promptOnly`, `runOnEdit`, `substituteRegex`, depth limits)
   are dropped without a note.
-- A Rili (`talkaicc.com`) card, chat-settings, `rili-mod` or standalone
-  `lorebook.json` export imports as `pageMode: sandbox` (with `openingMode: page`
-  for card exports), writes `injectStyles` to `card.css` (`cardCssDialect: "rili"`),
-  converts `memorySchema` into `plain` card variables plus `pathRules`, and
-  rewrites `renderTemplate` into `panel.hbs`. Source-only fields (platform image
-  keys, voice, persistent quick commands, summary rules, UI layout settings,
-  Lorebook depth/order/recursion) are listed in the import report.
+- A Rili (`talkaicc.com`) card, chat-settings or `rili-mod` export imports as
+  `pageMode: sandbox` and `openingMode: page`, writes `injectStyles` to
+  `card.css` (`cardCssDialect: "rili"`), converts `memorySchema` into `plain`
+  card variables plus `pathRules`, and rewrites `renderTemplate` into
+  `panel.hbs`; standalone `lorebook.json` imports as a Lorebook part. Source-only
+  fields (`cover`/`background` keys, `cardsVoices`, `options.items`,
+  `suggestionsPrompt`, `assistantPrefill`, `modelSettings`, `enableSafeguard`,
+  Lorebook non-chat `triggerRange`/`impactRange`/`probability`/weighted entries)
+  are listed in the import report.
 
 ## Publishing
 

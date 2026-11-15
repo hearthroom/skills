@@ -26,9 +26,9 @@ wins.
 `hearthroom card init <dir> --language zh-Hant` creates `card.json`, `definition.md`,
 `welcome.md`, `assets/` and an `AGENTS.md` (never sent) that points to this
 toolkit. `hearthroom card import <file…>` turns a SillyTavern PNG / JSON /
-CHARX card or an MMD three-file set into a folder, writes the same
-`AGENTS.md`, and reports every source field it could not place (what the MMD
-import drops is listed in the facts sheet). Edit files with any editor; the
+CHARX card, an AI Fengyue or Rili JSON export, or an MMD three-file set into a
+folder, writes the same `AGENTS.md`, and reports every source field it could
+not place (import details are in the facts sheet). Edit files with any editor; the
 folder format is documented in the facts sheet. The card's `README.md` is the
 dossier (`card-authoring-templates.md`): `uiRole`, the status overhead
 threshold, decisions, rejected directions and evidence by version.

@@ -48,7 +48,7 @@ to read in `--json` output.
 | definition | `roleDetailDesc` | who the character is, how they speak, the world's rules; private. The site's guide calls it the "Persona" |
 | summary | `roleDesc` | one-line public description on the board tile, the search results and under the title on the card page (clamped to three lines there) |
 | introduction | `roleReadme` | Markdown shown on the public card page before a chat starts: the card's store page: story, system, characters and contents with screenshots and art (how to write it: `profile-packaging.md`, Introduction). The page renders Markdown only (inline HTML shows as text), loads only `https` images, and shifts headings down so `#` sits under the card name. Never sent to the model. Without one, a summary over about 120 characters is shown in its place |
-| opening | `roleWelcome` | the first message of a conversation. Display rules apply to it like any AI message, so it can be anything from text to a full first screen. The author asset's `openingMode` (also in `rules.json`) picks how a chat opens: `greeting` (this message; a tapped suggested first line fills the input) or `page` (the opening page and the choices; a tapped choice is sent as the first line, and this may be empty). Omitted keeps the stored value; new cards default to `greeting`, AI Fengyue imports to `page`. Older cards with suggested first lines or an opening page may also leave it empty |
+| opening | `roleWelcome` | the first message of a conversation. Display rules apply to it like any AI message, so it can be anything from text to a full first screen. The author asset's `openingMode` (also in `rules.json`) picks how a chat opens: `greeting` (this message; a tapped suggested first line fills the input) or `page` (the opening page and the choices; a tapped choice is sent as the first line, and this may be empty). Omitted keeps the stored value; new cards default to `greeting`, AI Fengyue and Rili imports to `page`. Older cards with suggested first lines or an opening page may also leave it empty |
 | alternate openings | `welcomeAlternates` | other first messages the player can pick; no fixed item-count limit; blank entries are omitted |
 | suggested first lines | `prologue` | player-side first lines offered as choices; never the character's first message. Tapping one fills the input or sends it, per `openingMode` (see opening) |
 | opening page | author asset `openingPage`, `opening.html` | HTML (styles, scripts, handlers) shown at the top of every new chat, above the opening, in its own sandboxed frame on a light background; visible to the player, never sent to the model. Its buttons call `hearthroom.fill(text)` or `hearthroom.send(text)` (sent only right after the player clicks; otherwise filled); text it copies to the clipboard is filled too |
@@ -381,7 +381,7 @@ text in a tag the page added to the player's line. Platform blocks
   unchanged for other formats. Saved `cssDialect` and compiled style markers
   take precedence; no automatic Fengyue selector mapping is added here.
 - Preserve `cssDialect` and `cardCssDialect`; the latter overrides auto-mapping.
-  New Fengyue imports use `card.css` with hidden `fengyue-v2` source-platform base styles; legacy hints keep their rendering. Reimport older Fengyue cards for latest compatibility; authors never select or edit hints.
+  New Fengyue imports use `card.css` with hidden `fengyue-v2` source-platform base styles; Rili imports use `card.css` with hidden `rili`; legacy hints keep their rendering. Reimport older Fengyue cards for latest compatibility; authors never select or edit hints.
 - Host-rendered inline asides use `.lt-inline-aside` and role modifiers
   `.lt-inline-aside--ai` / `.lt-inline-aside--user`, including host message views
   sent to the sandbox (not its own Markdown fallback). Ordinary unlayered CSS
@@ -948,7 +948,7 @@ with a non-zero exit code (no other error identifiers are documented: read
 
 ```
 hearthroom auth login --no-wait --json            # one-time code; then auth login --resume; HEARTHROOM_TOKEN for unattended runs
-hearthroom card init <dir> --language L | card import <file…> --language L   # L: zh-Hant zh-Hans en ja ko; ST PNG/JSON/CHARX, MMD set; both write AGENTS.md
+hearthroom card init <dir> --language L | card import <file…> --language L   # L: zh-Hant zh-Hans en ja ko; ST PNG/JSON/CHARX, Fengyue/Rili JSON, MMD set; both write AGENTS.md
 hearthroom card check <dir> [--replay f…] --json   # local, free: rules, markers, sdk use, protocol health per marker (same numbers as the toolkit's check-card.mjs)
 hearthroom card preview --check <dir> [--from-history f…] [--json]   # local, free, needs Chrome: screenshots of every state, contact.png, findings.json under preview/shots/
 hearthroom card preview <dir> [--open]             # offline preview with the real chat shell (fetched from the site and cached; same CLI release; shows the deployed shell's behaviour)
@@ -1048,6 +1048,13 @@ hearthroom models | tags --zone zh | search | media ls|upload|mv|rm | upgrade --
   and the regex scripts' SillyTavern-only fields (`trimStrings`,
   `markdownOnly`, `promptOnly`, `runOnEdit`, `substituteRegex`, depth limits)
   are dropped without a note.
+- A Rili (`talkaicc.com`) card, chat-settings, `rili-mod` or standalone
+  `lorebook.json` export imports as `pageMode: sandbox` (with `openingMode: page`
+  for card exports), writes `injectStyles` to `card.css` (`cardCssDialect: "rili"`),
+  converts `memorySchema` into `plain` card variables plus `pathRules`, and
+  rewrites `renderTemplate` into `panel.hbs`. Source-only fields (platform image
+  keys, voice, persistent quick commands, summary rules, UI layout settings,
+  Lorebook depth/order/recursion) are listed in the import report.
 
 ## Publishing
 

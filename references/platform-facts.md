@@ -329,13 +329,13 @@ again and reconcile, not overwrite blindly. Operation IDs are required,
 1–100 UTF-8 bytes. For a retry, keep the same ID, revision and content; use a new ID for a changed request. Publication receipts
 identify the stable `workshopId` and immutable published `version`.
 
-A chat-page script can read the current conversation's effective workshop
-identities with `await sdk.workshop.list()` (classic page: `await
-window.stage.workshop.list()`). It returns `{items, openingSource}`. Each item
-has only `workshopId`, `version`, `kind` (`dlc` or `lorebook`) and
-`order` (the player's zero-based ordering, with gaps when items are excluded).
-`openingSource` is `{kind: "base", index}`,
-`{kind: "workshop", workshopId, openingId}` or `null`. The source identifies
+A chat-page script reads current-conversation effective identities with `await
+sdk.workshop.list()` (classic: `await window.stage.workshop.list()`).
+It returns `{items, openingSource}`; items only contain `workshopId`, `version`,
+`kind` (`dlc` or `lorebook`) and `order` (zero-based player order, possibly gaps).
+`version` is resolved at read time and can change after republication, not frozen
+when the conversation starts.
+`openingSource` is `{kind: "base", index}`, `{kind: "workshop", workshopId, openingId}` or `null`. The source identifies
 the opening chosen for this game, even after its workshop is closed; it is not
 proof that the item is still effective. This read provides no extension content,
 display rules, Lorebook, private instructions or opening text.

@@ -340,8 +340,9 @@ the opening chosen for this game, even after its workshop is closed; it is not
 proof that the item is still effective. This read provides no extension content,
 display rules, Lorebook, private instructions or opening text.
 Use identities and versions for behavior your card already defines. Without a
-conversation the result is `{items: [], openingSource: null}`; an older host
-rejects with `HOST_DENIED`, so catch that and keep the card playable. A card
+conversation the result is `{items: [], openingSource: null}`. For an older
+conversation, `null` can also mean its opening source was never recorded. An
+older host rejects with `HOST_DENIED`, so catch that and keep the card playable. A card
 or conversation change during the read rejects too; read again in the new
 conversation. Network or malformed-response failures are `NETWORK`, not an
 empty enabled list. This read sends no message and spends no model credits.

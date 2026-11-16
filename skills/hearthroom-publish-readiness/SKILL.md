@@ -61,6 +61,8 @@ score, `../../references/card-diagnosis.md` for several risks,
    it for real". Not sufficient: "Looks good", "What do you think?".
 7. On confirmation run `card push <dir> --create`; tell the author the card is now in their inventory and report its confirmed visibility. For unlisted cards, explain that anyone with the link can play the latest saved content, including changes that have not passed review. Review submission remains the author's separate step. Report validation, render, playtest status and agent-mode coverage, unresolved warnings, and whether `--create` ran.
 
+After an authorized submission, use the author-only review query in `platform-facts.md`, Review and publication, to report the latest decision separately from the version players can use.
+
 ## Do not
 
 - Do not submit the card for community review; the author does that.

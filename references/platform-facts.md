@@ -1177,6 +1177,7 @@ definition, openings, Lorebook, images and what it steers the AI to write. A
 card that lets the player date or marry a character is at least 12+.
 Reviewers reject a rating lower than the content. From CLI 0.8.0, `card rate`
 writes the answers to `rating.json` and `card submit` sends the card.
+`card review-status <dir> --json` (or `--role <id>` without a folder) reads only your own card: `publicVersionId` and `latestSubmission` are separate; the latter has its `id`, `versionId`, `submittedAt` (Unix milliseconds), `kind` (`first` or `re`), `status`, `rejectionReason`, `updateKind` and `silentUpdate`. No history is `null`; legacy version/update metadata can be `null`, and superseded reviews keep that status. `card submit --json` returns `submissionId` and `submissionStatus`, initially `pending`; a retry of the same operation returns its current status. The listing `status` can remain `approved` while an update waits for review. These fields require a community service with the author review-status API.
 For public cards, players get the approved copy (text, display rules and
 Lorebook) until an update is submitted and approved. Pushes update the author's
 draft without changing the public version. For unlisted cards, anyone with the

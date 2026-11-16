@@ -24,7 +24,8 @@
   ],
   "supportedProtocols": [
     1,
-    2
+    2,
+    3
   ],
   "sdk": {
     "keys": [
@@ -78,6 +79,7 @@
       "input.insert",
       "input.set",
       "input.setCursor",
+      "message.capabilities",
       "message.edit",
       "message.send",
       "model.get",
@@ -262,7 +264,9 @@
         "state",
         "complete",
         "contentVersion",
-        "content?"
+        "content?",
+        "toolCall?",
+        "reason?"
       ],
       "changes": [
         "conversationKey",
@@ -454,6 +458,24 @@
       "writesThrowWhileComposing": "INVALID_ARGS"
     },
     "message": {
+      "cardTools": {
+        "requiresProtocol": 3,
+        "capability": "message.capabilities().tools",
+        "send": "message.send(text,{tool:name})",
+        "selection": "one server-declared tool; no per-turn schema",
+        "terminal": [
+          "toolCall",
+          "reason?"
+        ],
+        "validArgs": "object",
+        "invalidArgs": "raw inert string; valid:false",
+        "missing": "toolCall:null with fixed reason",
+        "streaming": "prose only; arguments delivered at terminal",
+        "retries": 0,
+        "execution": "card owns execution and writes results in the next turn text",
+        "agentAndWorld": "reject before spending",
+        "edit": "manual prose edit clears toolCall"
+      },
       "sendBusy": "BUSY",
       "sendWithoutCapability": "NOT_SUPPORTED",
       "editWithoutCapability": "HOST_DENIED",
@@ -630,6 +652,20 @@
     "unknownEventNeverFires": true,
     "handlerErrorsIsolated": true,
     "doneOncePerMessage": true,
+    "terminalCardToolFields": {
+      "optional": [
+        "toolCall",
+        "reason"
+      ],
+      "appliesTo": [
+        "message:new",
+        "message:mount",
+        "message:done",
+        "message:unmount"
+      ],
+      "historyContentFalse": "omits result and raw arguments",
+      "legacySDK": "feature-detect message.capabilities before using options; old code may ignore extra arguments"
+    },
     "virtualisation": "bubbles about two screen heights away are destroyed (message:unmount) and rebuilt (message:mount again); done is not repeated; streaming and the last two stay mounted",
     "querySelectorScope": "inside a handler and inside user-event handlers, document.querySelector* and getElementById search the current bubble first and never other bubbles; outside handlers the whole document (Element.querySelector is not patched)",
     "idStability": "id is a host-local id (l1, l2…) that changes across reloads; serverId is null for user messages and the greeting; persist on serverId or on content"

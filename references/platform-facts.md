@@ -94,6 +94,8 @@ the card calls the player; placeholder values such as 你 / user / you / player
 are ignored and the player's own name or a language default is used instead.
 `nickname` is what `{{char}}` expands to when it differs from `name`.
 
+- Public publication (`card submit`, updating a published card, or restoring `public` visibility) requires at least one platform preset category or play-style tag in `card.json` `tags`; custom free-form tags remain optional and do not count toward this requirement. Draft saves, trial cards, `private` cards, and `unlisted` link sharing do not require a preset tag. Run `hearthroom tags --preset --lang <language>` (or `GET /v1/tags/catalog` on the community site) and add a preset tag's display name from `names`—preferring the card's `language`, not the URL `key`—before pushing and submitting.
+
 `responseDefaults` (CLI 0.6.0) sets the card's defaults for the player's
 Response preferences; an axis left out starts the player on the platform
 default.
@@ -969,7 +971,7 @@ hearthroom card pull <roleId> [dir] --force        # bring the provider's copy b
 hearthroom card push <dir> --create                # only when asked: keep it as an owned card, unlisted by default
 hearthroom card push <dir> --prune                 # delete CLI-managed Lorebook entries removed from the local file
 hearthroom media models | media generate … --allow-spend   # image models and paid generation (Generating images)
-hearthroom models | tags --zone zh | search | media ls|upload|mv|rm | upgrade --check
+hearthroom models | tags --preset [--lang <loc>] | tags --zone zh | search | media ls|upload|mv|rm | upgrade --check
 ```
 
 - CLI 0.10.1 and later batch Lorebook writes and save card/book IDs and progress in

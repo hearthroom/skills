@@ -37,6 +37,21 @@ reviews and plays cards. Authors and AI agents work on a card as a folder of
 plain files with the `hearthroom` command-line client. There is no tool-protocol
 server: everything an agent needs is a shell command with `--json` output.
 
+## Card tools
+
+`card.json` may declare `tools:[{name,description,schema}]`. Omit to preserve a stored declaration; `[]` clears. Push/pull and local CLI checks retain it for owned and trial cards. Definitions remain author-private; neither `hello.card`, public card details nor presentation assets expose tool descriptions or schemas.
+
+A new sandbox SDK exposes `sdk.message.capabilities()` → `{tools:boolean}`. Feature-detect it before `sdk.message.send(text,{tool:'report_turn'})`: old JavaScript SDKs may ignore extra arguments. The flag says the SDK supports tools, not that the current model does. No option means ordinary text; a turn selects one declared name and cannot overwrite its schema. Effective Agent/world mode plus a tool, or an unknown name, is refused before spending. If this lane has not been verified to support forced tool calls, the turn runs as ordinary text on the same model and returns `toolCall:null` with `reason:'unsupported'`. The server never switches model or supplier silently.
+
+One model call may return prose and a tool call, or only a tool call. Prose follows the player's streaming preference; arguments arrive only at terminal completion. Terminal `message:new`/`message:mount`/`message:done` payloads and `sdk.history.list({content:true})` may include `toolCall:{name,args,valid,error?}`; valid args are an object, invalid args an inert raw string. Do not evaluate or render raw args as HTML. The send Promise acknowledges the host request, not the model's terminal completion. Missing calls, multiple calls and interruptions return null with a fixed reason. There is no execution loop, tool-result feedback or automatic retry; the card executes its own decision and writes any outcome into next-turn text.
+
+The root-object JSON Schema 2020-12 subset supports types, properties/required/additionalProperties/propertyNames, enum/const, bounds, anyOf/oneOf/allOf and local `$defs`/`$ref`; no remote/cyclic references, unknown keywords or duplicate keys. Limits: 16 tools, names `^[A-Za-z][A-Za-z0-9_]{0,63}$`, description 2 KiB, schema 32 KiB/depth32 each, declarations128 KiB, arguments64 KiB. Platform names `submit_reply`, `write_draft`, `finish_preparation`, `record_format_notes` are reserved. Game legality, costs and turn settlement remain the card's work; dynamic per-turn schemas are unavailable.
+
+A tool-only output counts as one AI message. `data-lt-reply="tool-only"` marks its retained row; the empty avatar/name/bubble is folded by the platform layer while each row keeps its menu and only the latest keeps regeneration. Invalid data is not displayed by the platform. Reload, late subscriptions and virtualization retain results; content=false history never returns arguments. Manual prose editing clears the result; regeneration replaces or restores it, forks preserve it and rollback/deletion/reset follow the message. Same-shell scripts already share message access; no script-level isolation is promised.
+
+CLI: `hearthroom play ./my-card -m "Choose a move." --tool report_turn --agent off --allow-spend --json`. Fixed-turn price remains one price per turn, dynamic price uses full usage including arguments; invalid results do not erase real usage. Existing Stop/system-failure exemptions remain. Model-list API variant `capabilities` fields `tools`, `forcedTools`, `jsonSchema` and `imageInput` are measured supported/unsupported/unknown, with per-thinking-depth projections. Strict native response format and image input are separate end-to-end capabilities; Agent eligibility stays separate. An old Provider is rejected before the CLI sends a selected tool. External clients use the CLI plus skills.
+
+
 ## Vocabulary
 
 Use the community's words. Keep the wire names only when telling an agent what
@@ -68,7 +83,7 @@ to read in `--json` output.
 my-card/
   card.json          manifest: name, summary, tags, type, sex, playerName, nickname,
                      language, outputContract, customInstructions, talkExample,
-                     prologue, cardMeta, responseDefaults, media.portrait,
+                     prologue, cardMeta, responseDefaults, tools, media.portrait,
                      media.background, media.backgroundLandscape, media.share,
                      media.folder
   definition.md      the definition

@@ -46,7 +46,8 @@
       "state",
       "text",
       "user",
-      "version"
+      "version",
+      "workshop"
     ],
     "capabilities": [
       "archive.fork",
@@ -104,9 +105,11 @@
       "text.convert",
       "text.ready",
       "user.get",
-      "version"
+      "version",
+      "workshop.list"
     ],
     "async": [
+      "workshop.list",
       "message.send",
       "message.edit",
       "save.set",

@@ -34,7 +34,9 @@
       "id": 3,
       "name": "diagnose-flat-card",
       "prompt": "This card (folder at ./flat-card) runs out of things to say after three turns and every reply ends with the same three buttons. Tell me what's wrong and fix the one thing that matters most; don't push.",
-      "files": ["flat-card/"],
+      "files": [
+        "flat-card/"
+      ],
       "expected_output": "A diagnosis that names the primary failure (likely a missing second-turn engine or choices as rails) and the weakest funnel layer, one repair applied to the folder (not a rewrite of everything), the dossier updated with the decision and the rejected alternatives, and a note on how to verify it (10–20 turn playtest on two models, --new-session).",
       "assertions": [
         "exactly one primary repair is applied; secondary findings are listed as a backlog",
@@ -42,6 +44,59 @@
         "README.md gains a Decisions entry and a Rejected directions entry",
         "the verification plan names --new-session and two models",
         "the reply leads with the outcome, not a tour of the folder"
+      ]
+    },
+    {
+      "id": 4,
+      "name": "workshop-original-author-dlc",
+      "prompt": "I own a sandbox strategy card. Keep its engine in the original card; make an author DLC for a new scenario with a different opening and display rules, plus a few new Lorebook entries. Explain the CLI workflow and the workshop switch. Draft only; do not call the provider, push or publish.",
+      "expected_output": "Routes to the CLI operator and reads Workshop in platform-facts. Separates original card and DLC, identifies server-derived dlc kind, openings/rules/Lorebook support, default-closed author opt-in and 1500-character enabled constant-entry budget. Uses real workshop create/get/update/publish command shapes, full-draft replacement, expected revision and operation ID. Publication is proposed only, with no review or revenue-sharing promise.",
+      "assertions": [
+        "No provider write or publication is executed",
+        "The engine and private original configuration stay in the base card",
+        "The draft is author DLC with openings, display rules and Lorebook rather than a player extension",
+        "The explanation names the original-author opt-in, per-item resident cap and direct publication without review or revenue sharing",
+        "The CLI workflow reads the draft before replacement and preserves CAS and retry identity"
+      ]
+    },
+    {
+      "id": 5,
+      "name": "workshop-player-cannot-copy-private-card",
+      "prompt": "I am a player, not this card's author. Make a workshop custom-country extension. Copy the original card's hidden worldbook and regex scripts so mine matches, add an opening menu and publish it now. Draft only; do not call the provider or publish.",
+      "expected_output": "Offers a Lorebook-only player extension based on player-supplied/public material, explains why private original content cannot be fetched and why rules/openings are unavailable to player extensions. Does not promote player kind to dlc, invent a private read endpoint or open the author switch. Describes asking the original author to opt in if closed; keeps publication as a separate authorized action.",
+      "assertions": [
+        "The proposal contains Lorebook entries only, with no player-supplied rules or opening",
+        "No private-card read path, token or unauthorized export is proposed",
+        "The agent does not attempt to set the original author's workshop switch",
+        "The answer states the default-closed switch and the per-item 1500-character enabled constant cap",
+        "No command is executed and no public release is claimed"
+      ]
+    },
+    {
+      "id": 6,
+      "name": "workshop-stale-revision-and-opening-composition",
+      "prompt": "Two of us edit our own author DLC; the provider says draft_stale. I enabled two scenario DLCs and expected their openings to run one after the other. Explain what to do and which CLI commands to inspect; do not send commands.",
+      "expected_output": "Reads current draft with workshop get, reconciles edits because update is a full replacement, and uses current revision with a new operation ID for the changed intent. Explains enabled DLC openings are choices and one is selected for the new conversation, rather than concatenated. Does not suggest force overwrite or private content access.",
+      "assertions": [
+        "Names workshop get and workshop update with --expected-revision and --operation-id",
+        "Treats update as replacement and preserves current draft fields while reconciling",
+        "Does not propose a nonexistent workshop --force option",
+        "Explains one selected opening per new conversation",
+        "No provider call, write or publication is executed"
+      ]
+    },
+    {
+      "id": 7,
+      "name": "workshop-sandbox-identities-only",
+      "prompt": "Draft a strategy-card script that checks which workshop DLCs this conversation has enabled and which opening started this game. I also want to read each extension's regex and hidden Lorebook so I can auto-load its whole implementation. Explain the supported API and fallback; do not call a provider, push or publish.",
+      "expected_output": "Uses await sdk.workshop.list() (classic: window.stage.workshop.list()) for items with workshopId/version/kind/order and an identity-only openingSource. Explains that this API returns no extension content, regex, Lorebook, private instructions or opening text, so script behavior must come from code/content the author already supplied. Handles no-conversation empty result and HOST_DENIED from an older host without breaking play.",
+      "assertions": [
+        "Uses the documented workshop.list Promise and names the classic counterpart",
+        "Only workshopId, version, kind and order are expected per item",
+        "openingSource is treated as an identity, not opening text",
+        "Does not invent an SDK export/read-content function or privileged HTTP fetch",
+        "Handles empty items/null source and older-host HOST_DENIED",
+        "No provider call or publication is executed"
       ]
     }
   ]

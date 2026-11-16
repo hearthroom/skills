@@ -1,6 +1,6 @@
 ---
 name: hearthroom-cli-operator
-description: Use when the hearthroom CLI must be set up or driven (install, sign in, trial vs owned card, import, reading push, validate, render or play JSON, errors and exit codes), or when a step may spend credits and the cost must be settled before running it.
+description: Use when the hearthroom CLI must be set up or driven (install, sign in, trial vs owned card, import, reading push, validate, render or play JSON, workshop DLC or extensions, errors), or when a step may spend credits and the cost must be settled before running it.
 ---
 
 # Hearthroom CLI operator
@@ -19,7 +19,8 @@ its manual page (`https://cli.hearthroom.club/manual/<command>.md` or
 ## Workflow
 
 1. Name the stage: setup, draft only, first push, iterate, playtest, keep,
-   or hand to review.
+   hand to review, or workshop authoring. For the latter, read Workshop in the
+   facts sheet before choosing the layer and command.
 2. Check readiness without printing secrets: `hearthroom auth status --json`.
    If not signed in, `hearthroom auth login --no-wait --json`, give the
    author the code and address, then `hearthroom auth login --resume`; or

@@ -278,6 +278,74 @@ the character can list, search and read Lorebook entries by name and content
 before replying. An entry named "Location 3" is invisible there: name entries
 by what they contain.
 
+## Workshop: author DLC and player extensions
+
+A card's original author controls its workshop. The switch is **off by default**;
+only that author can open it. Creating or publishing an item requires it to be
+open. The provider derives `kind` from the creator's identity; a client cannot
+choose author privileges by submitting `kind`.
+
+| Layer | `kind` | What it can add |
+|---|---|---|
+| Original author's DLC | `dlc` | Openings, display rules and Lorebook entries |
+| Another player's extension | `lorebook` | Lorebook entries only; nonempty rules or openings are rejected |
+
+Each item can contain at most **1,500 characters of enabled, always-included
+Lorebook content**, counted as Unicode code points across its constant entries.
+This is a per-item resident-content cap, not a cap on its triggered entries.
+Extension entries append to the card's Lorebook recall pool; they do not replace
+its entries. Enabled DLC openings join the opening picker in player order; a
+new conversation uses one selected opening, not all DLC openings concatenated.
+
+Workshop publication is direct, without content review or revenue sharing.
+Creators choose the rating; ownership, structure, capacity and author opt-in
+checks still apply. Ask the creator before publishing or unpublishing an item.
+A workshop draft read returns only that creator's own extension draft, never
+the original card's private instructions, Lorebook or display rules. Do not
+try to read or copy another author's private configuration to build an extension.
+
+The CLI exposes the connected provider's workshop contract with `--json`;
+reads require `role.read`, writes `role.write`. These commands do not upload
+or rewrite local media paths; use the creator's already-hosted media URLs.
+
+| Action | Command |
+|---|---|
+| List your items | `hearthroom workshop list` |
+| Create an empty draft for a card | `hearthroom workshop create <roleId> --operation-id <intent-token>` |
+| Read your draft | `hearthroom workshop get <workshopId>` |
+| Save a complete draft | `hearthroom workshop update <workshopId> --file <draft.json> --expected-revision N --operation-id <intent-token>` |
+| Publish / unpublish your item | `hearthroom workshop publish\|unpublish <workshopId> --expected-revision N --operation-id <intent-token>` |
+| Read the card's workshop switch | `hearthroom workshop policy <roleId>` |
+| Set the switch as the original author | `hearthroom workshop policy-set <roleId> --allow-new=true\|false --expected-revision N` |
+
+Read `get --json` before editing; `update` replaces the editable draft rather
+than patching it. Keep the fields you want: `name`, `summary`, `readme`,
+`coverUrl`, `rating`, `ratingAnswers`, `worldbook`, `rules`, `opening` and
+`updateNote`. Player extensions omit `rules` and `opening`. `worldbook` is an
+array of entries; `rules` and `opening` are objects, with their own workshop
+wire shape rather than the card folder's filenames. Edit the returned draft,
+then use its `revision` as `--expected-revision`. A stale revision means read
+again and reconcile, not overwrite blindly. Operation IDs are required,
+1–100 UTF-8 bytes. For a retry, keep the same ID, revision and content; use a new ID for a changed request. Publication receipts
+identify the stable `workshopId` and immutable published `version`.
+
+A chat-page script can read the current conversation's effective workshop
+identities with `await sdk.workshop.list()` (classic page: `await
+window.stage.workshop.list()`). It returns `{items, openingSource}`. Each item
+has only `workshopId`, `version`, `kind` (`dlc` or `lorebook`) and
+`order` (the player's zero-based ordering, with gaps when items are excluded).
+`openingSource` is `{kind: "base", index}`,
+`{kind: "workshop", workshopId, openingId}` or `null`. The source identifies
+the opening chosen for this game, even after its workshop is closed; it is not
+proof that the item is still effective. This read provides no extension content,
+display rules, Lorebook, private instructions or opening text.
+Use identities and versions for behavior your card already defines. Without a
+conversation the result is `{items: [], openingSource: null}`; an older host
+rejects with `HOST_DENIED`, so catch that and keep the card playable. A card
+or conversation change during the read rejects too; read again in the new
+conversation. Network or malformed-response failures are `NETWORK`, not an
+empty enabled list. This read sends no message and spends no model credits.
+
 ## Card styles and display rules
 
 `card.css` (the website's **Card styles**) is installed once per chat page,

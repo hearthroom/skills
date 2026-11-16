@@ -53,7 +53,7 @@ those. Work on trial cards or cards the author has authorized you to edit. New o
 
 | The author has or asks for | Skill |
 |---|---|
-| CLI setup, sign-in, which command does what, `--json` shapes, spend gate, trial-card slots, import formats | `hearthroom-cli-operator` |
+| CLI setup, sign-in, commands, `--json` shapes, spend gate, trial-card slots, import formats, workshop DLC or extensions | `hearthroom-cli-operator` |
 | An idea from start to finish, "make me a card", coordinating several skills | `hearthroom-creation-conductor` |
 | Only a mood, trope, genre, "open this idea up", comparing directions | `hearthroom-premise-workshop` |
 | Which card type (`companion`, `story`, `game`, `generator`) or a hybrid | `hearthroom-archetype-director` |

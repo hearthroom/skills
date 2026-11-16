@@ -69,6 +69,9 @@ On a card that has passed review, players get the approved copy until an
 update is approved, so test a push with the draft link (`platform-facts.md`,
 Publishing).
 
+For workshop DLC or player extensions, use the Workshop section of
+`platform-facts.md`; workshop drafts are separate from card-folder pushes.
+
 ## Reading the reports
 
 `card validate --json`: `status` is `pass`, `warning` or `blocker`;

@@ -992,12 +992,12 @@ hearthroom models | tags --zone zh | search | media ls|upload|mv|rm | upgrade --
   trial cards, but their play link works for the author.
 - Consecutive `play` calls on the same folder continue one conversation: the
   first call opens it, later calls resume it, and the folder's sync state
-  remembers it. `--new-session` archives the current conversation and starts
-  a fresh one; `--greeting N` (0 = main, 1.. = alternates) applies only when a
-  new conversation is created, so an alternate is tested with
-  `--new-session --greeting N`. Every independent probe and every retest
-  starts with `--new-session`, except Continue probes, which must retain
-  the interrupted conversation and its saved preparation.
+  remembers it. `--new-session` starts fresh and archives the previous conversation
+  if it has a user message; otherwise it discards it. To preserve an empty failed
+  session for troubleshooting, do not follow it with `--new-session`.
+  `--greeting N` (0 = main, 1.. = alternates) applies only to new conversations:
+  use `--new-session --greeting N` for an alternate. Independent probes and retests
+  start fresh after evidence collection; Continue probes retain the interrupted conversation and preparation.
 - CLI 0.12.8+ `play --continue` uses only the latest operation when its state
   is `failed_retryable` or `stopped`, it is an Agent turn, and `allowedActions`
   includes `continue`. It carries the original user message and saved preparation

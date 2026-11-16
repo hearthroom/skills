@@ -1275,17 +1275,17 @@ returns visible original terminal bodies; thinking, streaming body and moderatio
 Use `item.complete` before accepting an AI reply as a complete state checkpoint.
 A failed or partially stopped reply is not complete merely because it ended.
 
-For an AI reply, `replyTo` is the triggering player message's opaque history
-`id` in the same conversation; it may be on another page. Player messages,
-openings and replies with no verifiable link have `null`. Older data and copied
-fork messages can have an unknown link; an older host may omit the field.
-Treat these as unknown and do not infer the link from adjacent messages.
-Regeneration creates new player and AI IDs, and the new reply points to the new
-player ID. Manually editing an AI reply preserves its ID and `replyTo`.
-Going back removes discarded messages. If a player message is deleted while its
-AI reply remains, that reply's `replyTo` becomes `null`. Ordinary append-to-reply
-Continue (`contine` / `continue_response`) remains unsupported; continuing saved
-Agent preparation uses the original player message ID.
+For AI replies, `replyTo` is the triggering player's opaque history `id`, possibly on another page.
+Players, openings and unverifiable replies have `null`. Providers preserving copy provenance
+map verified links to copied player IDs in `archive.save`/`archive.fork`, including repeated copies,
+without cloning operations or charges. After switching conversations, read history again;
+previous IDs and cursors cannot be reused. Older copies without provenance and missing/deleted
+targets remain unknown; older hosts may omit the field. Never infer links from text or adjacency.
+Regeneration creates new player and AI IDs; the new reply points to the new player ID.
+Manual AI edits preserve ID and `replyTo`; going back removes discarded messages.
+Deleting a player makes any retained reply's `replyTo` null.
+Ordinary append-to-reply Continue (`contine` / `continue_response`) remains unsupported;
+continuing saved Agent preparation uses the original player message ID.
 
 `sdk.history.onChange(callback)` / `stage.history.onChange(callback)` returns an
 unsubscribe function. It is a separate subscription, not `sdk.on('history:change')`.

@@ -726,7 +726,7 @@ prose.
   keeps the current progress in the list; `save(title)` forks the current
   conversation and play continues in the copy → `{id, current}`, where `id` is
   the old conversation, kept and renamed `title`, and `current` the new one;
-  `fork` from a `serverId`; `start(n)` from opening n (0 main, 1+ alternates, current kept);
+  `fork` from a `serverId`; `start(n)` from opening n (0 main, 1+ alternates, current kept). On the live host (classic and sandbox), before a conversation exists, `start()` preserves the player-selected opening, including author DLC; `start(0)` explicitly chooses the main opening. It creates the conversation without sending a player message or calling the model. After starting, `sdk.workshop.list().openingSource` identifies the recorded source; classic currently exposes `archive.start` only from the archive group;
   `list` → `{items, count, limit}`, items `{id, title, isCurrent, messageCount, lastMessage, createTime, lastUpdateTime}`; inside a gesture changes run at once (confirm on your
   own screen), outside one the shell asks (also a change chained after awaiting another); full → `LIMIT_REACHED` with
   `err.data = {count, limit}`; 10 a minute), `sdk.on(event, handler)` (`sdk.off` and `sdk.once` do not

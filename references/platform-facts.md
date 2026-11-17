@@ -752,6 +752,14 @@ prose.
   `sdk.debug.log(...)` (`?sdkDebug=1` shows the panel). `sdk.version` is the
   string `'1'`. Rate limits per minute: `save.set` 20, `message.send` 3 by
   gesture and 3 automatic, `message.edit` 10 → `RATE_LIMITED`.
+- **Negotiated contexts:** check `sdk.capabilities().contexts` first. When false,
+  `sdk.context.run/stop/list/instances/truncate/quote/quoteMany/models/setModel`,
+  `sdk.batch.open/close`, `sdk.state.set` and `sdk.main.onCompose` are unavailable;
+  their presence in the SDK does not enable them. These calls and context-specific
+  `message.send` options fail with `NOT_SUPPORTED`, without sending plain text.
+  Keep a normal-chat fallback. Context-only errors include `CONTEXT_UNAVAILABLE`,
+  `CONFLICT`, `INSUFFICIENT`, `CHARGE_LIMIT`, `PAUSED`, `MODEL_UNSUPPORTED` and
+  `BATCH_CLOSED`; do not start another paid call automatically after an error.
 - Named `sdk.on` events (history uses `history.onChange`, see Authoritative message history below):
   `ready`, `message:new`, `message:mount`, `message:stream`,
   `message:done`, `message:unmount`, `input:change`, `conversation:switch`,

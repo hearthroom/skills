@@ -9,6 +9,7 @@
     "src/sandbox/sdk/errors.ts",
     "src/common/share-context.ts",
     "src/common/shared-state.ts",
+    "src/common/card-context.ts",
     "src/sandbox/sanitize.ts",
     "src/sandbox/render/shell-dom.ts",
     "src/sandbox/shell.css",
@@ -30,12 +31,16 @@
   "sdk": {
     "keys": [
       "archive",
+      "batch",
       "cache",
+      "capabilities",
       "composer",
+      "context",
       "debug",
       "generation",
       "history",
       "input",
+      "main",
       "message",
       "model",
       "on",
@@ -58,12 +63,24 @@
       "archive.rename",
       "archive.save",
       "archive.start",
+      "batch.close",
+      "batch.open",
       "cache.get",
       "cache.remove",
       "cache.set",
+      "capabilities",
       "composer.hide",
       "composer.show",
       "composer.visible",
+      "context.instances",
+      "context.list",
+      "context.models",
+      "context.quote",
+      "context.quoteMany",
+      "context.run",
+      "context.setModel",
+      "context.stop",
+      "context.truncate",
       "debug.log",
       "generation.act",
       "generation.get",
@@ -79,6 +96,7 @@
       "input.insert",
       "input.set",
       "input.setCursor",
+      "main.onCompose",
       "message.capabilities",
       "message.edit",
       "message.send",
@@ -104,6 +122,7 @@
       "stage.visible",
       "state.get",
       "state.of",
+      "state.set",
       "text.convert",
       "text.ready",
       "user.get",
@@ -133,7 +152,19 @@
       "shared.leaderboard",
       "share.tallyLink",
       "share.respond",
-      "share.results"
+      "share.results",
+      "state.set",
+      "context.run",
+      "context.stop",
+      "context.list",
+      "context.instances",
+      "context.truncate",
+      "context.quote",
+      "context.quoteMany",
+      "context.models",
+      "context.setModel",
+      "batch.open",
+      "batch.close"
     ],
     "notProvided": [
       "sdk.off",
@@ -364,6 +395,94 @@
         }
       }
     },
+    "context": {
+      "requiresProtocol": 2,
+      "capability": "contexts",
+      "classic": null,
+      "negotiation": "sdk.capabilities().contexts; without it every context/batch/state.set/main.onCompose call and any new message.send option throws NOT_SUPPORTED (never sent as plain text)",
+      "idPattern": "^[A-Za-z0-9_-]{1,64}$",
+      "idReserved": [
+        "main"
+      ],
+      "instancePattern": "^[A-Za-z0-9_-]{1,64}$",
+      "source": "omitted or \"card\" for the card itself; a workshopId from sdk.workshop.list() (kind dlc) for a DLC",
+      "varsMaxBytes": 65536,
+      "labelMaxChars": 24,
+      "worldbooksMax": 64,
+      "idempotencyKeyPattern": "^[A-Za-z0-9_.:-]{1,128}$",
+      "listLimitMax": 100,
+      "quoteManyMax": 16,
+      "quoteManyMaxBytes": 2097152,
+      "quoteAcceptsMessages": true,
+      "retryAfterOn": [
+        "PAUSED",
+        "RATE_LIMITED"
+      ],
+      "run": {
+        "resolvesOn": "terminal",
+        "statuses": [
+          "complete",
+          "interrupted",
+          "stopped",
+          "failed",
+          "moderated",
+          "discarded"
+        ],
+        "returns": [
+          "callId",
+          "status",
+          "text",
+          "toolResult?",
+          "raw?",
+          "charged",
+          "settled"
+        ],
+        "options": [
+          "instance",
+          "source",
+          "label",
+          "worldbooks",
+          "batch",
+          "messages",
+          "idempotencyKey",
+          "onDelta",
+          "signal"
+        ],
+        "unknownOption": "INVALID_ARGS"
+      },
+      "clientMessages": {
+        "roles": [
+          "user",
+          "assistant"
+        ],
+        "max": 1000,
+        "maxBytes": 1048576,
+        "lastMustBe": "non-empty user"
+      },
+      "stateSetMaxBytes": 16384,
+      "messageSendOptions": [
+        "as",
+        "from",
+        "batch",
+        "messages"
+      ],
+      "noListing": "no call lists or describes declarations, lorebooks, presets or tools",
+      "errors": [
+        "NOT_SUPPORTED",
+        "INVALID_ARGS",
+        "CONTEXT_UNAVAILABLE",
+        "CONFLICT",
+        "BUSY",
+        "LIMIT_REACHED",
+        "INSUFFICIENT",
+        "CHARGE_LIMIT",
+        "PAUSED",
+        "RATE_LIMITED",
+        "MODEL_UNSUPPORTED",
+        "BATCH_CLOSED",
+        "NETWORK"
+      ]
+    },
     "shared": {
       "requiresProtocol": 2,
       "classic": "stage.shared",
@@ -541,7 +660,14 @@
     "HISTORY_UNAVAILABLE",
     "HISTORY_STALE",
     "HISTORY_CURSOR_INVALID",
-    "HISTORY_LIMIT"
+    "HISTORY_LIMIT",
+    "CONTEXT_UNAVAILABLE",
+    "CONFLICT",
+    "INSUFFICIENT",
+    "CHARGE_LIMIT",
+    "PAUSED",
+    "MODEL_UNSUPPORTED",
+    "BATCH_CLOSED"
   ],
   "events": {
     "names": [

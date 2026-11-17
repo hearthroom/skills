@@ -323,11 +323,11 @@ than patching it. Keep the fields you want: `name`, `summary`, `readme`,
 `coverUrl`, `rating`, `ratingAnswers`, `worldbook`, `rules`, `opening` and
 `updateNote`. Player extensions omit `rules` and `opening`. `worldbook` is an
 array of entries; `rules` and `opening` are objects, with their own workshop
-wire shape rather than the card folder's filenames. Edit the returned draft,
+wire shape rather than the card folder's filenames. Entry flags are `isConstant` and `isEnabled`; the folder's `constant` and `disabled` are silently ignored while `update` still succeeds, so check the flags in a `get` readback. Edit the returned draft,
 then use its `revision` as `--expected-revision`. A stale revision means read
 again and reconcile, not overwrite blindly. Operation IDs are required,
 1–100 UTF-8 bytes. For a retry, keep the same ID, revision and content; use a new ID for a changed request. Publication receipts
-identify the stable `workshopId` and immutable published `version`.
+identify the stable `workshopId` and immutable published `version`. Publishing with `rating: null` fails with 422 `rating_required`: answer the card content-rating questionnaire ("Review and publication"), `update` the draft's `rating` and `ratingAnswers`, then publish. A draft can save an opening over the card's 8,000-character limit; the publish-time limit is undocumented, so a larger opening is unproven until a publish succeeds.
 
 A chat-page script reads current-conversation effective identities with `await
 sdk.workshop.list()` (classic: `await window.stage.workshop.list()`).

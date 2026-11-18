@@ -16,7 +16,7 @@
   var HR = { version: '1', modules: {}, _disposers: [] };
   var D = W.document;
 
-  /* ---------- logging (shell debug panel, ?sdkDebug=1) ---------- */
+  /* ---------- logging (shell debug panel: author's Play draft + ?sdkDebug=1) ---------- */
   function out(level, args) {
     try { sdk.debug.log.apply(null, ['[hr:' + level + ']'].concat(Array.prototype.slice.call(args))); } catch (e) { /* ignore */ }
   }

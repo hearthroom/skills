@@ -2,7 +2,7 @@
 
 A card whose only job is to check the sandbox contract on a real page. Its script writes one
 result per claim into `window.__probe.results` (`{ ok, note }`) and the event sequence into
-`window.__probe.events`; `sdk.debug.log` lines show in the debug panel (`?sdkDebug=1`).
+`window.__probe.events`; `sdk.debug.log` lines show in the debug panel (author's Play draft plus `?sdkDebug=1`).
 
 What it checks (each key is a claim from `scripts/sandbox-contract.json`): scripts run before
 the DOM; `document.currentScript` is the running script element; the sdk has 14 keys (`archive` is the newest) and no `off`/`once`;

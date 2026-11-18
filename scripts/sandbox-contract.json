@@ -189,8 +189,22 @@
     "model": {
       "get": [
         "name",
-        "cost"
-      ]
+        "cost",
+        "capabilities"
+      ],
+      "capabilities": [
+        "tools",
+        "forcedTools",
+        "jsonSchema",
+        "imageInput"
+      ],
+      "capabilityStates": [
+        "supported",
+        "unsupported",
+        "unknown"
+      ],
+      "changeEvent": "model:change; includes capability-only changes",
+      "missingEvidence": "unknown; both tools and forcedTools must be supported before selecting a tool"
     },
     "generation": {
       "get": [

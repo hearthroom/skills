@@ -600,7 +600,8 @@
         "selection": "one server-declared tool; no per-turn schema",
         "terminal": [
           "toolCall",
-          "reason?"
+          "reason?",
+          "reasonCode?"
         ],
         "validArgs": "object",
         "invalidArgs": "raw inert string; valid:false",
@@ -805,6 +806,7 @@
         "message:done",
         "message:unmount"
       ],
+      "doneReasonCode": "service_unavailable for an unavailable upstream; toolCall:null and the existing reason (interrupted or unsupported) are preserved",
       "historyContentFalse": "omits result and raw arguments",
       "legacySDK": "feature-detect message.capabilities before using options; old code may ignore extra arguments"
     },

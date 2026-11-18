@@ -451,7 +451,7 @@
           "charged",
           "settled"
         ],
-        "toolResultShape": "same as message toolCall/reason (card tools)",
+        "toolResultShape": "message toolCall/reason (card tools), plus service_unavailable for failed or interrupted context calls",
         "options": [
           "instance",
           "source",

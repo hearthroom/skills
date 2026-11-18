@@ -662,7 +662,7 @@ prose.
   The shell's remaining nodes are internal (`author-css`, `author-script`,
   `messages`, `list`, `list-spacer`, `message-frame`, `message-avatar`,
   `header-back`, `header-title`, `header-actions`, `composer-row`, `more`,
-  `panels`, `sdk-debug`): do not depend on them.
+  `panels`, `sdk-debug`, `context-tabs`): do not depend on them.
   Select by these attributes, not by class names; the legacy selectors `.mes`,
   `.mes_text`, `#msglistview`, `#scrollview`, `.chat-scope-box`, `#chat` are
   also present. `role: system` rows (platform notices) are drawn but emit no

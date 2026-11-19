@@ -448,10 +448,11 @@
           "text",
           "toolCall?",
           "reason?",
+          "reasonCode?",
           "charged",
           "settled"
         ],
-        "toolResultShape": "message toolCall/reason (card tools), plus service_unavailable for failed or interrupted context calls",
+        "toolResultShape": "message toolCall/reason (card tools), plus reason service_unavailable or reasonCode output_limit for failed or interrupted context calls",
         "options": [
           "instance",
           "source",

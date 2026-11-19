@@ -311,7 +311,8 @@
         "contentVersion",
         "content?",
         "toolCall?",
-        "reason?"
+        "reason?",
+        "reasonCode?"
       ],
       "changes": [
         "conversationKey",
@@ -452,7 +453,7 @@
           "charged",
           "settled"
         ],
-        "toolResultShape": "message toolCall/reason (card tools), plus reason service_unavailable or reasonCode output_limit for failed or interrupted context calls",
+        "toolResultShape": "toolCall/reason (card tools); unavailable upstream uses reason service_unavailable; a tool reply cut off by the output limit has toolCall:null, reason interrupted and reasonCode output_limit, with any partial text",
         "options": [
           "instance",
           "source",
@@ -807,8 +808,8 @@
         "message:done",
         "message:unmount"
       ],
-      "doneReasonCode": "service_unavailable for an unavailable upstream; toolCall:null and the existing reason (interrupted or unsupported) are preserved",
-      "historyContentFalse": "omits result and raw arguments",
+      "doneReasonCode": "service_unavailable for an unavailable upstream, output_limit for an output cutoff; toolCall:null, the existing reason (interrupted or unsupported) and any partial content are preserved",
+      "historyContentFalse": "omits tool result, raw arguments and reasonCode",
       "legacySDK": "feature-detect message.capabilities before using options; old code may ignore extra arguments"
     },
     "virtualisation": "bubbles about two screen heights away are destroyed (message:unmount) and rebuilt (message:mount again); done is not repeated; streaming and the last two stay mounted",

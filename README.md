@@ -320,7 +320,7 @@ Related projects:
 
 - [hearthroom/hearthroom](https://github.com/hearthroom/hearthroom): the community site
 - [hearthroom/cli](https://github.com/hearthroom/cli): the `hearthroom` command-line client
-- [hearthroom/moonstage](https://github.com/hearthroom/moonstage): the open-source chat page
+- [Hearthroom sandbox contract](https://github.com/hearthroom/hearthroom/blob/main/web/public/contracts/sandbox-contract.json): published SDK, events and markup
 
 ## License
 

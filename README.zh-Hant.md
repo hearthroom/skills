@@ -268,7 +268,7 @@ node scripts/sync-contract.mjs --check   # 沙盒契約與聊天頁一致
 
 - [hearthroom/hearthroom](https://github.com/hearthroom/hearthroom)：社群網站
 - [hearthroom/cli](https://github.com/hearthroom/cli)：`hearthroom` 命令列工具
-- [hearthroom/moonstage](https://github.com/hearthroom/moonstage)：開源的聊天頁
+- [Hearthroom 沙盒契約](https://github.com/hearthroom/hearthroom/blob/main/web/public/contracts/sandbox-contract.json)：公開的 SDK、事件與標記
 
 ## 授權
 

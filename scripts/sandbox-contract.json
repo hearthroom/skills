@@ -2,27 +2,6 @@
   "name": "hearthroom-sandbox-contract",
   "protocolVersion": 1,
   "sdkVersion": "1",
-  "generatedBy": "src/sandbox/__tests__/contract.spec.ts (UPDATE_CONTRACT=1)",
-  "sources": [
-    "src/sandbox/sdk/create-sdk.ts",
-    "src/sandbox/sdk/events.ts",
-    "src/sandbox/sdk/errors.ts",
-    "src/common/share-context.ts",
-    "src/common/shared-state.ts",
-    "src/common/card-context.ts",
-    "src/sandbox/sanitize.ts",
-    "src/sandbox/render/shell-dom.ts",
-    "src/sandbox/shell.css",
-    "src/sandbox/shell.ts",
-    "src/sandbox/author-scripts.ts",
-    "src/sandbox/rules.ts",
-    "src/utils/display-rule-engine.js",
-    "src/common/author-style-policy.ts",
-    "src/common/rule-css-dialect.ts",
-    "src/common/fengyue-css.ts",
-    "src/pages/canvas/canvas-platform-defaults.ts",
-    "docs/sandbox-chat-page.md"
-  ],
   "supportedProtocols": [
     1,
     2,
@@ -945,7 +924,6 @@
     }
   },
   "nativeBlocks": {
-    "source": "src/common/native-blocks.ts (drawNativeBlocks); applied in src/sandbox/rules.ts and src/pages/canvas/canvas.vue",
     "blocks": [
       "[status]…[/status]",
       "[choices]…[/choices]"
@@ -987,7 +965,6 @@
     "css": "canvas.css inside @layer lt-base, --chat-* variables only; an unlayered author stylesheet overrides it"
   },
   "functionBar": {
-    "source": "hand-maintained from src/sandbox/shell.ts (statusbar branch) and rules.ts",
     "field": "mountTrigger",
     "renderedOnceAtLoad": true,
     "rulesRunOver": "the function bar text itself, never a reply",
@@ -1159,7 +1136,6 @@
     "streaming": "rules run on the streamed text too; a half-open trailing tag is hidden until the result settles"
   },
   "cssDialect": {
-    "source": "src/common/rule-css-dialect.ts, src/common/fengyue-css.ts",
     "field": "cssDialect on each display rule",
     "values": [
       "fengyue",
@@ -1324,7 +1300,6 @@
       ]
     },
     "hostPath": {
-      "source": "hand-maintained from src/utils/rich-text-renderer.js and canvas-platform-defaults.ts; not derived by this spec",
       "appliesWhen": "the host computes message HTML with the ordinary card pipeline and sends it as view.html (the normal play page)",
       "standardHtmlTagsKept": [
         "a",
@@ -1467,7 +1442,6 @@
     ]
   },
   "scripts": {
-    "source": "hand-maintained from src/sandbox/author-scripts.ts, rules.ts, shell.ts and index.html; the sdk.spec and shell.spec cover the testable parts",
     "extractedAtInstall": "every <style> and <script> in every enabled rule, matched or not; fenced code blocks protected",
     "runsOncePerCard": true,
     "runsBeforeDom": true,
@@ -1508,7 +1482,6 @@
     "localStorage": "available, scoped to the card subdomain; author rule output is cached in IndexedDB keyed by storageScope"
   },
   "provider": {
-    "source": "hand-maintained from HarperHarbor/server provider/internal/service/role/author_asset.go and display/scan.go",
     "replaceMaxBytes": 524288,
     "totalMaxBytes": 33554432,
     "bytesAre": "UTF-8 (find + replace + name per rule)",
@@ -1575,7 +1548,6 @@
     }
   },
   "import": {
-    "source": "hand-maintained from hearthroom/cli internal/importer/mmd.go",
     "mmdSixKey": {
       "keys": [
         "chatVersion",
@@ -1604,5 +1576,6 @@
         "id"
       ]
     }
-  }
+  },
+  "stageCommit": "63a7768414952cdb371ac60ac4bfedc789aa08f8"
 }

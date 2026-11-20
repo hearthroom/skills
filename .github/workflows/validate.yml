@@ -4,7 +4,7 @@ on:
     branches: [main]
   pull_request:
   schedule:
-    - cron: '17 3 * * 1'   # weekly: catch a chat-page contract that moved
+    - cron: '17 3 * * 1'   # weekly: catch a published contract that moved
 jobs:
   validate:
     runs-on: ubuntu-latest
@@ -15,6 +15,6 @@ jobs:
           node-version: '22'
       - run: npm run validate
       - run: npm test
-      - name: contract matches the chat page
+      - name: contract matches the public Hearthroom snapshot
         run: node scripts/sync-contract.mjs --check
         continue-on-error: ${{ github.event_name == 'pull_request' }}

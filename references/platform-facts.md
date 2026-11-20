@@ -8,26 +8,14 @@ site's card authoring guide (`https://sukisuki.ai/en/guide.md`, the Markdown of
 
 ## Where these facts come from
 
-The chat page is open source: `https://github.com/hearthroom/moonstage`
-(the `stage` submodule of the community site, `hearthroom/hearthroom`). The
-sandbox section of this page is prose over `scripts/sandbox-contract.json`,
-which that repository generates from its runtime objects
-(`src/sandbox/__tests__/contract.spec.ts`). When a fact you need is not on
-this page, or a card contradicts it, read the source rather than guessing,
-in this order and no further: `contract/sandbox-contract.json`,
-`docs/sandbox-chat-page.md`, `src/sandbox/sdk/create-sdk.ts`,
-`src/sandbox/sdk/events.ts`, `src/sandbox/sanitize.ts`, `src/sandbox/rules.ts`,
-`src/sandbox/scope.ts`, `src/sandbox/author-scripts.ts`,
-`src/sandbox/shell.ts`, `src/sandbox/shell.css`, `src/common/native-blocks.ts`,
-`src/utils/display-rule-engine.js`, and `bench/card-preview` for the offline
-harness. Then add what you learned to this page (feed lessons back) instead
-of carrying it in your head. Three cautions: read `origin/main`, not
-whatever checkout is lying around; the play page renders replies on the host path and the
-shell renders only its own previews, so note which path a line of code is on;
-and never depend on nodes or classes the contract lists as internal. The
-deployed site may lag `main`: `hearthroom card preview` fetches the deployed
-shell, so what it shows is what players get today. The rule engine's source
-is shared byte for byte with the provider's `card render`.
+The [public Hearthroom sandbox contract](https://github.com/hearthroom/hearthroom/blob/main/web/public/contracts/sandbox-contract.json)
+describes the pinned Stage version. This toolkit keeps a copy in
+`scripts/sandbox-contract.json`. For author-facing details, use the contract,
+the card authoring guide and the CLI manual. Report uncovered behavior as
+undocumented. Use `hearthroom card check` and `hearthroom card preview` to
+confirm a specific card. Host replies and shell previews follow different
+rendering paths. The deployed preview is the evidence for what players see
+today, and authors should use the documented nodes and classes.
 
 ## What Hearthroom is
 

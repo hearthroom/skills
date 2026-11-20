@@ -301,74 +301,74 @@ the character can list, search and read Lorebook entries by name and content
 before replying. An entry named "Location 3" is invisible there: name entries
 by what they contain.
 
-## Workshop: author DLC and player extensions
+## Workshop: author DLC, player extensions, and private universal extensions
 
-A card's original author controls its workshop. The switch is **off by default**;
-only that author can open it. Creating or publishing an item requires it to be
-open. The provider derives `kind` from the creator's identity; a client cannot
-choose author privileges by submitting `kind`.
+Only the original author can open the workshop. It starts closed and must be open to create or publish. The provider derives `kind` from ownership.
 
 | Layer | `kind` | What it can add |
 |---|---|---|
 | Original author's DLC | `dlc` | Openings, display rules and Lorebook entries |
-| Another player's extension | `lorebook` | Lorebook entries only; nonempty rules or openings are rejected |
+| Another player's extension | `lorebook` | Lorebook entries for one agent configuration, private until the player grants review consent |
 
-Each item can contain at most **1,500 characters of enabled, always-included
-Lorebook content**, counted as Unicode code points across its constant entries.
-This is a per-item resident-content cap, not a cap on its triggered entries.
-Extension entries append to the card's Lorebook recall pool; they do not replace
-its entries. Enabled DLC openings join the opening picker in player order; a
-new conversation uses one selected opening, not all DLC openings concatenated.
+Each item allows 1,500 enabled, always-included Lorebook characters (Unicode code points). Triggered entries are excluded from this limit.
+Entries join the card's recall pool. Enabled DLC openings join the picker in player order. A private universal extension can be manually added to individual cards from the play window.
 
-Workshop publication is direct, without content review or revenue sharing.
-Creators choose the rating; ownership, structure, capacity and author opt-in
-checks still apply. Ask the creator before publishing or unpublishing an item.
-A workshop draft read returns only that creator's own extension draft, never
-the original card's private instructions, Lorebook or display rules. Do not
-try to read or copy another author's private configuration to build an extension.
+Original authors publish and unpublish their own DLC. Ask before either action.
+A player can grant review consent from the site. Only the original author can showcase it. Withdrawing consent removes it from the Workshop.
+The original card's private instructions, Lorebook and display rules remain protected.
 
-The CLI exposes the connected provider's workshop contract with `--json`;
-reads require `role.read`, writes `role.write`. These commands do not upload
-or rewrite local media paths; use the creator's already-hosted media URLs.
+CLI reads need `role.read`, writes `role.write`. These commands use already-hosted media URLs.
 
 | Action | Command |
 |---|---|
 | List your items | `hearthroom workshop list` |
-| Create an empty draft for a card | `hearthroom workshop create <roleId> --operation-id <intent-token>` |
-| Read your draft | `hearthroom workshop get <workshopId>` |
-| Save a complete draft | `hearthroom workshop update <workshopId> --file <draft.json> --expected-revision N --operation-id <intent-token>` |
-| Publish / unpublish your item | `hearthroom workshop publish\|unpublish <workshopId> --expected-revision N --operation-id <intent-token>` |
-| Read the card's workshop switch | `hearthroom workshop policy <roleId>` |
+| Create a draft | `hearthroom workshop create <roleId> --operation-id <intent-token>` |
+| Read your draft | `hearthroom workshop get <workshopId> --json` |
+| Save the complete draft | `hearthroom workshop update <workshopId> --file <draft.json> --expected-revision N --operation-id <intent-token>` |
+| Publish or unpublish author DLC | `hearthroom workshop publish\|unpublish <workshopId> --expected-revision N --operation-id <intent-token>` |
+| Read the workshop switch | `hearthroom workshop policy <roleId>` |
 | Set the switch as the original author | `hearthroom workshop policy-set <roleId> --allow-new=true\|false --expected-revision N` |
 
-Read `get --json` before editing; `update` replaces the editable draft rather
-than patching it. Keep the fields you want: `name`, `summary`, `readme`,
-`coverUrl`, `rating`, `ratingAnswers`, `worldbook`, `rules`, `opening` and
-`updateNote`. Player extensions omit `rules` and `opening`. `worldbook` is an
-array of entries; `rules` and `opening` are objects, with their own workshop
-wire shape rather than the card folder's filenames. Entry flags are `isConstant` and `isEnabled`; the folder's `constant` and `disabled` are silently ignored while `update` still succeeds, so check the flags in a `get` readback. Edit the returned draft,
-then use its `revision` as `--expected-revision`. A stale revision means read
-again and reconcile, not overwrite blindly. Operation IDs are required,
-1–100 UTF-8 bytes. For a retry, keep the same ID, revision and content; use a new ID for a changed request. Publication receipts
-identify the stable `workshopId` and immutable published `version`. Publishing with `rating: null` fails with 422 `rating_required`: answer the card content-rating questionnaire ("Review and publication"), `update` the draft's `rating` and `ratingAnswers`, then publish. A draft can save an opening over the card's 8,000-character limit; the publish-time limit is undocumented, so a larger opening is unproven until a publish succeeds.
+Edit `get --json` output. `update` replaces editable fields: `name`, `summary`,
+`readme`, `coverUrl`, `rating`, `ratingAnswers`, `worldbook`, `rules`, `opening`,
+`updateNote` and the author DLC package fields below. Player extensions omit
+`rules` and `opening`. `worldbook` is an array; `rules` and `opening` are objects.
+Use entry flags `isConstant` and `isEnabled`. Folder flags `constant` and
+`disabled` are ignored; verify your readback. Use the draft's `revision` as
+`--expected-revision`. On a stale revision, read again and reconcile. Keep the same
+operation ID (1–100 UTF-8 bytes), revision and content for a retry. A changed
+request needs a new ID. Publication receipts identify the stable `workshopId` and
+immutable published `version`. A 422 `rating_required` means answer the rating
+questionnaire and save `rating` and `ratingAnswers` before publishing. Saving an
+opening over 8,000 characters does not verify that it can publish.
 
-A chat-page script reads current-conversation effective identities with `await
-sdk.workshop.list()` (classic: `await window.stage.workshop.list()`).
-It returns `{items, openingSource}`; items only contain `workshopId`, `version`,
-`kind` (`dlc` or `lorebook`) and `order` (zero-based player order, possibly gaps).
-`version` is resolved at read time and can change after republication, not frozen
-when the conversation starts.
-`openingSource` is `{kind: "base", index}`, `{kind: "workshop", workshopId, openingId}` or `null`. The source identifies
-the opening chosen for this game, even after its workshop is closed; it is not
-proof that the item is still effective. This read provides no extension content,
-display rules, Lorebook, private instructions or opening text.
-Use identities and versions for behavior your card already defines. Without a
-conversation the result is `{items: [], openingSource: null}`. For an older
-conversation, `null` can also mean its opening source was never recorded. An
-older host rejects with `HOST_DENIED`, so catch that and keep the card playable. A card
-or conversation change during the read rejects too; read again in the new
-conversation. Network or malformed-response failures are `NETWORK`, not an
-empty enabled list. This read sends no message and spends no model credits.
+`sdk.workshop.list()` (classic: `window.stage.workshop.list()`) returns a Promise
+for `{items, openingSource}`. Enabled author DLC and showcased player extensions supply `workshopId`, resolved
+published `version`, `kind` and zero-based player `order` (gaps may occur). The
+opening source is `{kind: "base", index}`, `{kind: "workshop", workshopId,
+openingId}` or `null` (unknown). It records the selected opening even after its DLC
+stops applying. The identity projection omits private and universal extensions. Before a conversation starts
+it returns `{items: [], openingSource: null}`; switching conversations during a
+call requires reading again. This query uses no model credits.
+
+### Author DLC Lorebook packages
+
+The draft fields are `lorePacks` and `scriptCanSwitchPacks`. Each package has a
+stable UUID `id`, a unique `name` (up to 12 characters), optional `description` (up
+to 24), and `defaultEnabled`. Players can see the name and description. Assign a
+Lorebook entry with `worldbook[].packId`; an unassigned entry follows the DLC
+switch. Keep IDs when renaming. To delete a package, clear its ID from entries in
+the same draft update. Prefer triggered entries to reduce always-included context.
+
+After the conversation starts, `sdk.workshop.packs.get()` (classic:
+`window.stage.workshop.packs.get()`) returns `{version, items}` for active author
+DLC. Each item contains `workshopId`, `canSwitch`, and `packs` with `id`, `name`,
+`description?`, `enabled`, `defaultEnabled`, and `residentChars`. Entry names,
+keywords and content stay private. When `canSwitch` is true, call
+`packs.apply(version, [{workshopId, packId, enabled}])`. Changes are atomic, belong
+to the current conversation, and affect the next send after saving. On `CONFLICT`,
+read again and reconcile. On `HOST_DENIED` (including older hosts), leave the card
+playable. `NETWORK` means the read or write could not be verified.
 
 ## Card styles and display rules
 

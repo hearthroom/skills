@@ -74,7 +74,7 @@ to read in `--json` output.
 | opening | `roleWelcome` | the first message of a conversation. Display rules apply to it like any AI message, so it can be anything from text to a full first screen. The author asset's `openingMode` (also in `rules.json`) picks how a chat opens: `greeting` (this message; a tapped suggested first line fills the input) or `page` (the opening page and the choices; a tapped choice is sent as the first line, and this may be empty). Omitted keeps the stored value; new cards default to `greeting`, AI Fengyue and RiliAI imports to `page`. Older cards with suggested first lines or an opening page may also leave it empty |
 | alternate openings | `welcomeAlternates` | other first messages the player can pick; no fixed item-count limit; blank entries are omitted |
 | suggested first lines | `prologue` | player-side first lines offered as choices; never the character's first message. Tapping one fills the input or sends it, per `openingMode` (see opening) |
-| opening page | author asset `openingPage`, `opening.html` | HTML (styles, scripts, handlers) shown at the top of every new chat, above the opening, in its own sandboxed frame on a light background; visible to the player, never sent to the model. Its buttons call `hearthroom.fill(text)` or `hearthroom.send(text)` (sent only right after the player clicks; otherwise filled); text it copies to the clipboard is filled too |
+| opening page | author asset `openingPage`, `opening.html` | HTML (styles, scripts, handlers) shown at the top of every new chat, above the opening, in its own sandboxed frame on a light background; visible to the player, never sent to the model. Its buttons call `hearthroom.fill(text)` or `hearthroom.send(text)` (sent only right after the player clicks; otherwise filled); text it copies to the clipboard is filled too. At most 524,288 UTF-8 bytes (512 KiB), measured after `assets/` paths become URLs and separate from `card.css`'s limit: the site editor will not save a bigger page and a push is refused with reason `openingPage`. Keep the page itself small by putting images and scripts in the media library and loading them by URL |
 | example conversations | `talkExample` | `{roleType: user|ai, content}` pairs |
 | custom instructions | `customInstructions` | the site editor's 額外指示 ("a reminder attached at the end of every turn"). Per the provider's prompt code it is a system message after the history, followed only by the platform's short format guard (cache-stable policy) and the `[Response preferences]` block (which carries any `responseDefaults` notes), then, under the ordinary policy only, the output contract, prefixed `[Content scope]` / `[內容範圍]`; a non-empty value replaces the platform's default content-scope block (which, in Chinese, frames the story as mature literary writing with romance and physical intimacy). A player's own text in their persona's Advanced field replaces the card's; it is left out at the strictest safety level |
 | output contract | `roleOutputContract` | format the reply must follow. Per the provider's prompt code it is sent under a `[Role Reply Format Template]` header saying platform format rules win over it; with the ordinary history policy it sits after the history (near generation), but with the cache-stable policy it moves into the stable prefix before the history, far from generation, which the provider uses once the history holds a recalled entry or a summary (Lorebook). `customInstructions` is always after the history (`instruction-guardrails.md`). A near-generation guard also tells the model to keep the latest reply's visible shape, so a format change takes hold in new conversations (they copy the opening and example conversations, which must use the new format) and is pulled back toward the old shape in existing ones |
@@ -98,7 +98,7 @@ my-card/
   intro.md           the introduction (CLI 0.8.4 and later); missing = left as is,
                      empty = cleared. Not README.md, which stays private
   opening.html       the opening page, pushed with rules.json; missing = left as is,
-                     empty = cleared
+                     empty = cleared; its `assets/` paths upload like a rule's
   welcome.md         the opening
   openings/alt-NN.md alternate openings, file-name order
   lorebook.json      { name, entries: [ … ] }
@@ -117,7 +117,7 @@ the card calls the player; placeholder values such as 你 / user / you / player
 are ignored and the player's own name or a language default is used instead.
 `nickname` is what `{{char}}` expands to when it differs from `name`.
 
-- Public publication (`card submit`, updating a published card, or restoring `public` visibility) requires at least one platform preset category or play-style tag in `card.json` `tags`; custom free-form tags remain optional and do not count toward this requirement. Draft saves, trial cards, `private` cards, and `unlisted` link sharing do not require a preset tag. Run `hearthroom tags --preset --lang <language>` (or `GET /v1/tags/catalog` on the community site) and add a preset tag's display name from `names`—preferring the card's `language`, not the URL `key`—before pushing and submitting.
+- Public publication (`card submit`, updating a published card, or restoring `public` visibility) requires at least one platform preset category or play-style tag in `card.json` `tags`; custom free-form tags remain optional and do not count toward this requirement. Draft saves, trial cards, `private` cards, and `unlisted` link sharing do not require a preset tag. Run `hearthroom tags --preset --lang <language>` (or `GET /v1/tags/catalog` on the community site) and add a preset tag's display name from `names`—preferring the card's `language`, not the URL `key`—before pushing and submitting. Submitting also stores a compressed review copy of the whole card (definition, openings, Lorebook, rules, card styles, opening page); it must stay under 1.5 MB (`card_too_large_for_review`), so keep big scripts and embedded images in the media library rather than inline.
 
 `responseDefaults` (CLI 0.6.0) sets the card's defaults for the player's
 Response preferences; an axis left out starts the player on the platform
@@ -373,7 +373,7 @@ playable. `NETWORK` means the read or write could not be verified.
 ## Card styles and display rules
 
 `card.css` (the website's **Card styles**) is installed once per chat page,
-without a match. Its 512 KiB UTF-8 limit is measured after asset URL rewriting.
+without a match. Its 512 KiB UTF-8 limit is measured after asset URL rewriting; the opening page has a separate limit of the same size.
 Omit it to keep stored CSS; an empty file clears it. It sits above platform
 defaults and theme, below display rules; use rules for overrides.
 
@@ -441,9 +441,9 @@ text in a tag the page added to the player's line. Platform blocks
   also show this warning, which does not cause them to fail. Consider splitting each
   affected rule into smaller rules. A replacement larger than 512 KiB remains
   an error. These sizes are measured in UTF-8 bytes and include disabled rules.
-- A script too big for one rule can live in the media library: put it under
-  `assets/` and load it from a rule with `<script src="assets/…">`; the push
-  uploads it and the 512 KB limit no longer applies. Name the file by a hash of
+- A script too big for one rule or the opening page can live in the media library: put it under
+  `assets/` and load it from a rule or `opening.html` with `<script src="assets/…">`; the push
+  uploads it and the 512 KB limit no longer applies (or upload it on the site's media library page or with `hearthroom media upload`, one file up to 100 MB, and use its URL). Name the file by a hash of
   its content so an update gets a new URL instead of a stale cache, and since an
   external script is not awaited, let a small inline stub take the calls other
   scripts make before it arrives.

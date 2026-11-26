@@ -310,7 +310,7 @@ Only the original author can open the workshop. It starts closed and must be ope
 | Original author's DLC | `dlc` | Openings, display rules and Lorebook entries |
 | Another player's extension | `lorebook` | Lorebook entries for one agent configuration, private until the player grants review consent |
 
-Each item allows 1,500 enabled, always-included Lorebook characters (Unicode code points). Triggered entries are excluded from this limit.
+Each author DLC allows 5,000 enabled, always-included Lorebook characters (Unicode code points). Each player extension, including private and universal extensions, allows 1,500. Triggered entries are excluded from this limit.
 Entries join the card's recall pool. Enabled DLC openings join the picker in player order. A private universal extension can be manually added to individual cards from the play window.
 
 Original authors publish and unpublish their own DLC. Ask before either action.

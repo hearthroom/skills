@@ -50,12 +50,12 @@
       "id": 4,
       "name": "workshop-original-author-dlc",
       "prompt": "I own a sandbox strategy card. Keep its engine in the original card; make an author DLC for a new scenario with a different opening and display rules, plus a few new Lorebook entries. Explain the CLI workflow and the workshop switch. Draft only; do not call the provider, push or publish.",
-      "expected_output": "Routes to the CLI operator and reads Workshop in platform-facts. Separates original card and DLC, identifies server-derived dlc kind, openings/rules/Lorebook support, default-closed author opt-in and 1500-character enabled constant-entry budget. Uses real workshop create/get/update/publish command shapes, full-draft replacement, expected revision and operation ID. Publication is proposed only, with no review or revenue-sharing promise.",
+      "expected_output": "Routes to the CLI operator and reads Workshop in platform-facts. Separates original card and DLC, identifies server-derived dlc kind, openings/rules/Lorebook support, default-closed author opt-in and the 5000-character enabled constant-entry budget for author DLC. Uses real workshop create/get/update/publish command shapes, full-draft replacement, expected revision and operation ID. Publication is proposed only, with no review or revenue-sharing promise.",
       "assertions": [
         "No provider write or publication is executed",
         "The engine and private original configuration stay in the base card",
         "The draft is author DLC with openings, display rules and Lorebook rather than a player extension",
-        "The explanation names the original-author opt-in, per-item resident cap and direct publication without review or revenue sharing",
+        "The explanation names the original-author opt-in, 5000-character resident cap for author DLC and direct publication without review or revenue sharing",
         "The CLI workflow reads the draft before replacement and preserves CAS and retry identity"
       ]
     },

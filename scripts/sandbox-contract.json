@@ -1108,7 +1108,9 @@
       "hearthroom.send(text)": "sends text as the player message right after the player clicked the page; otherwise fills"
     },
     "clipboardCopyFills": true,
-    "textMaxChars": 8000
+    "textMaxChars": 8000,
+    "anchors": "href=\"#id\" scrolls to that element inside the page; a bare \"#\" does not navigate",
+    "largePages": "pages too large to inline are fetched only when shown and load as a blob document: relative URLs and location.reload() do not work there, so use absolute URLs"
   },
   "cardCss": {
     "source": "author asset cardCss (raw CSS, display only, never sent to the model)",
@@ -1552,7 +1554,8 @@
       "tavern",
       "mmd"
     ],
-    "openingPageMaxBytes": 524288,
+    "openingPageMaxBytes": 100000000,
+    "workshopOpeningPageMaxBytes": 524288,
     "cardCssMaxBytes": 524288,
     "render": {
       "endpoint": "GET /open/v1/role/render",
@@ -1619,5 +1622,5 @@
       ]
     }
   },
-  "stageCommit": "a5189d98bd2f50f1192a854774599dfb0fac07d6"
+  "stageCommit": "1e98d251ad93798792586d04da49341795624e8d"
 }

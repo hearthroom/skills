@@ -1,7 +1,8 @@
 # Hearthroom platform facts
 
-Every platform claim in this toolkit comes from here or [author recall details](cli-workflow.md#author-lorebook-recall-details). If a fact is not on this
-page, a skill must not assert it; say "not documented" instead. The community
+Every platform claim in this toolkit comes from this page or a contract it
+links to. If a fact is absent from those references, say "not documented".
+See also [author recall details](cli-workflow.md#author-lorebook-recall-details). The community
 site's card authoring guide (`https://sukisuki.ai/en/guide.md`, the Markdown of
 `/guide`; `/guide.md` and `/<locale>/guide.md` for other languages) and the CLI manual
 (`https://cli.hearthroom.club/llms-full.txt`) are the primary sources.
@@ -24,6 +25,11 @@ stored and played by a connected card provider; the community site lists,
 reviews and plays cards. Authors and AI agents work on a card as a folder of
 plain files with the `hearthroom` command-line client. There is no tool-protocol
 server: everything an agent needs is a shell command with `--json` output.
+
+## Chat presets
+
+[Hearthroom chat presets](preset-authoring.md) covers the document format,
+platform slots, SillyTavern import, CLI editing and Preset Library sharing.
 
 ## Card tools
 

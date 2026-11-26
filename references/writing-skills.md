@@ -24,10 +24,9 @@ contract, an example reply) is written to the card's needs, not to these.
 
 ## Where a lesson goes
 
-- A platform fact (a field, a limit, a crop, an event, a CLI flag, what the
-  chat page does): `platform-facts.md`, after you have confirmed it in the
-  chat page's source or the CLI manual. Other files point to it and never
-  repeat the numbers.
+- Put verified platform facts in `platform-facts.md` or a focused contract it
+  links to. Confirm behavior in the relevant source or CLI manual. Link to
+  the fact where it is needed and keep its numbers in one place.
 - Something true of one card (its layout, its fonts, its scenes, the fix that
   worked for it): that card's `README.md` dossier. Not a skill.
 - A lesson that changes how any card should be made: a sentence or two in the

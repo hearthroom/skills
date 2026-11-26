@@ -1,6 +1,6 @@
 ---
 name: using-hearthroom
-description: Use when starting any Hearthroom card work (writing, improving, importing, diagnosing or playtesting a character card, running the hearthroom CLI loop), when the author just says "make me a card" or "the card feels off", or when unsure which skill in this toolkit applies.
+description: Use when writing, improving, importing, diagnosing or playtesting a Hearthroom card, using its CLI, writing, editing or importing a Hearthroom chat preset, or choosing a Hearthroom skill.
 ---
 
 # Using Hearthroom
@@ -11,9 +11,8 @@ mould: the packets list decisions, never answers, and a card that could be
 produced by filling them in is not good enough. This skill routes; pick the
 narrowest skill and load only it and the references it asks for.
 
-Every platform fact (fields, limits, Lorebook behaviour, display rules, chat
-pages, CLI commands) lives in `../../references/platform-facts.md`; nothing in
-this toolkit asserts a platform fact that page does not state.
+Start from `../../references/platform-facts.md` for fields, limits, Lorebook
+behaviour, display rules, chat pages and CLI commands.
 
 ## Required references
 
@@ -21,6 +20,10 @@ Read `../../references/platform-facts.md` once per session. Read
 `../../references/cli-workflow.md` only before the first CLI command.
 
 ## Route
+
+For writing, editing or importing a chat preset, use
+[Hearthroom chat presets](../../references/preset-authoring.md) for the
+format, slots, import and sharing. Use the card routes below for card work.
 
 1. Identify what the author actually has: nothing but a mood, a settled
    premise, source material, an imported card, a pushed card with evidence,

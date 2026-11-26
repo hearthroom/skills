@@ -43,7 +43,7 @@ These exact hosts belong to the same Hearthroom community and its connected serv
 a folder of plain files, and the [`hearthroom` CLI](https://cli.hearthroom.club) pushes that
 folder to a private trial card, validates it, renders it and plays it from the terminal.
 
-The CLI moves the files. These skills decide what goes in them. There are 43 skills and 50
+The CLI moves the files. These skills decide what goes in them. There are 43 skills and 51
 shared guides. They cover premise, character, relationships, world and Lorebook, openings,
 voice, state, presentation, diagnosis and iteration, and each one ends in a check the agent
 can run. Claude Code, Codex, Cursor and any agent that can read files and run a shell can use them.
@@ -170,10 +170,9 @@ so a new session can pick up where the last one stopped.
   plain example turn to copy.
 - **The agent looks at the screen.** Status panels, choice buttons and themes are checked
   in screenshots, not assumed to work from the source.
-- **Platform facts live on one page.** Fields, limits, Lorebook behaviour, display rules,
-  chat pages and CLI commands are stated only in
-  [`references/platform-facts.md`](references/platform-facts.md). The sandbox contract is
-  generated from the chat page's open source, and CI checks it every week.
+- **Platform facts have one entry point.** [`references/platform-facts.md`](references/platform-facts.md)
+  covers fields, limits, Lorebook behaviour, display rules, chat pages and CLI commands,
+  and links to the chat preset format. CI checks the sandbox contract against the chat page's open source every week.
 
 ## What's inside
 
@@ -264,7 +263,7 @@ so a new session can pick up where the last one stopped.
 
 ```text
 skills/        43 skills, one SKILL.md each, entered through using-hearthroom
-references/    shared guides; platform-facts.md is the only source of platform facts,
+references/    shared guides; platform-facts.md indexes the platform contracts,
                writing-skills.md is the standard for changing any of them
 assets/
   sandbox-kit/ status panel, choice buttons, themes, drawer and pinned bar, built into display rules

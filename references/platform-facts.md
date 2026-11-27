@@ -359,22 +359,22 @@ call requires reading again. This query uses no model credits.
 
 ### Author DLC Lorebook packages
 
-The draft fields are `lorePacks` and `scriptCanSwitchPacks`. Each package has a
-stable UUID `id`, a unique `name` (up to 12 characters), optional `description` (up
-to 24), and `defaultEnabled`. Players can see the name and description. Assign a
+An author DLC accepts up to 10,000 `lorePacks`. `scriptCanSwitchPacks` controls
+script writes. Each pack has a stable UUID `id`, unique `name` (up to 12 characters),
+optional `description` (up to 24) and `defaultEnabled`. Assign a
 Lorebook entry with `worldbook[].packId`; an unassigned entry follows the DLC
-switch. Keep IDs when renaming. To delete a package, clear its ID from entries in
-the same draft update. Prefer triggered entries to reduce always-included context.
+switch. Keep IDs when renaming. When deleting a pack, clear its entry bindings in the same draft update.
 
 After the conversation starts, `sdk.workshop.packs.get()` (classic:
 `window.stage.workshop.packs.get()`) returns `{version, items}` for active author
-DLC. Each item contains `workshopId`, `canSwitch`, and `packs` with `id`, `name`,
-`description?`, `enabled`, `defaultEnabled`, and `residentChars`. Entry names,
-keywords and content stay private. When `canSwitch` is true, call
-`packs.apply(version, [{workshopId, packId, enabled}])`. Changes are atomic, belong
-to the current conversation, and affect the next send after saving. On `CONFLICT`,
-read again and reconcile. On `HOST_DENIED` (including older hosts), leave the card
-playable. `NETWORK` means the read or write could not be verified.
+DLC. Items contain `workshopId`, `canSwitch` and `packs` (`id`, `name`, `description?`,
+`enabled`, `defaultEnabled`, `residentChars`). Lorebook entry data stays private.
+When `canSwitch` is true, `packs.apply(version, [{workshopId, packId, enabled}])`
+accepts up to 10,000 changes. Larger batches return `INVALID_ARGS`. Changes are
+atomic, affect the next send and stay in the current conversation.
+Authors can also use both methods in their own editor-launched DLC draft trial.
+The draft supplies packages and permission. Read again after edits or `CONFLICT`.
+Keep the card playable on `HOST_DENIED`. `NETWORK` leaves the result unverified.
 
 ## Card styles and display rules
 

@@ -97,7 +97,7 @@ to read in `--json` output.
 my-card/
   card.json          manifest: name, summary, tags, type, sex, playerName, nickname,
                      language, outputContract, customInstructions, talkExample,
-                     prologue, cardMeta, responseDefaults, tools, media.portrait,
+                     prologue, cardMeta, responseDefaults, tools, coverSensitive, media.portrait,
                      media.background, media.backgroundLandscape, media.share,
                      media.folder
   definition.md      the definition
@@ -121,7 +121,7 @@ my-card/
 `type` is one of `companion`, `story`, `game`, `generator`. `playerName` is what
 the card calls the player; placeholder values such as 你 / user / you / player
 are ignored and the player's own name or a language default is used instead.
-`nickname` is what `{{char}}` expands to when it differs from `name`.
+`nickname` is what `{{char}}` expands to when it differs from `name`. On owned cards, the optional `card.json` boolean `coverSensitive` controls the author mark. On push, `true` marks a card with a cover, `false` clears the author mark, and omitting the key preserves it. This is a site setting that takes effect on save. A review mark is independent. A marked cover is blurred in card lists until a reader reveals it, and link previews use the default site image.
 
 - Public publication (`card submit`, updating a published card, or restoring `public` visibility) requires at least one platform preset category or play-style tag in `card.json` `tags`; custom free-form tags remain optional and do not count toward this requirement. Draft saves, trial cards, `private` cards, and `unlisted` link sharing do not require a preset tag. Run `hearthroom tags --preset --lang <language>` (or `GET /v1/tags/catalog` on the community site) and add a preset tag's display name from `names`—preferring the card's `language`, not the URL `key`—before pushing and submitting. Submitting also stores a compressed review copy of the card. It must stay under 1.5 MB (`card_too_large_for_review`). The opening HTML is stored separately and does not count toward that limit.
 

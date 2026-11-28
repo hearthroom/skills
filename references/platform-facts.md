@@ -224,11 +224,9 @@ hearthroom media generate --model <id> --prompt "…" --size <one of sizes> -n 1
   terminal's language, the LANE column): each has its own `id`, price and
   `max_images` (the most images one request may ask for with `-n`).
 - `--image` (if `media generate --help` lists it): reference images owned by the author, using a library path or an owned library/card-image URL, up to `max_reference_images` (REFS; 0 = none). Paths are resolved through the library; arbitrary external images are refused uncharged. References have no extra cost.
-- Each image costs the model's listed credits and is paid from purchased
-  credits only; granted or gift credits cannot pay for it (402 says so).
-  Refused prompts, failures and an unavailable model provider are not
-  charged. The same `--idempotency-key` returns the same generation and is
-  charged once, so rerun a stopped wait with the printed key, never a new one.
+- The model sets the per-image price. Signed-in generation uses general-purpose credits and eligible month-pass purchase credits. Month-pass daily credits and first-purchase bonuses are for chat.
+  `hearthroom wallet --json` reports `imageCreditsAvailable` when supported. An insufficient-balance 402 reports the value at admission in `error.imageCreditsAvailable`. Zero is a known balance.
+  Refused prompts, failures and an unavailable model provider are not charged. Resume a stopped wait with the same `--idempotency-key` to avoid another charge.
 - A generation takes from under a minute to a few; the CLI waits (`--timeout`,
   default 10 minutes) and prints `images[]`: `resultUrl` (deleted after 7
   days), `file` with `--out`, and with `--dir`/`--folder` the saved library
@@ -1094,7 +1092,7 @@ hearthroom models | tags --preset [--lang <loc>] | tags --zone zh | search | med
   saves a larger owned card, unlisted by default; anyone with the link can play its latest saved content before review.
 - Pushing, validating, rendering, importing, pulling and browsing are free.
   `play -m` and `play --continue` generate and need `--allow-spend`; so does
-  `media generate`, which spends purchased credits per image.
+  `media generate`, which spends eligible credits per image.
 - A trial card expires three days after its last push; an account holds at
   most five (`--evict` frees the oldest). The site's inventory does not list
   trial cards, but their play link works for the author.

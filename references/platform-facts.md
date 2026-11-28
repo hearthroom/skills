@@ -1196,6 +1196,14 @@ These are community sharing controls. HarperHarbor Console retains its own SaaS
 configuration workflow and has no community visibility picker. The provider
 has no tool-protocol transport for these controls; use the CLI from a shell.
 
+### Public card statistics
+
+`hearthroom search --json` and `hearthroom card view <id> --json` can return `qualitySignal` for an approved card. `lengthCharacters` is the rounded effective character count of its settings, instructions, example turns, openings and enabled bound Lorebook text. Identical text counts once. Opening pages, rules, panel templates and styles are outside the count. Zero means under 1,000 characters. Null means no snapshot is available.
+
+`deepPlay` shows how many qualified players finished 5 player-sent turns, out of all qualifying players. It is null below 20 qualified players. The measure uses completed sends, excludes authors and sanctioned accounts, requires play across authors and deduplicates accounts sharing an observed device. It accrues going forward.
+
+`GET /v1/cards/{id}/quality` returns detailed counts and presentation flags under the card's visibility and adult-content rules. The author's private settings, Lorebooks, rules and opening page remain private.
+
 ### Review and publication
 
 `card push --create` makes an owned card that appears in the author's inventory, unlisted by default. Anyone with the link can play its latest saved content, including changes that have not passed review; it stays out of public listings. Trial cards remain private. Later plain pushes preserve the owned card's visibility. Creating a card does not submit it for review. The community service

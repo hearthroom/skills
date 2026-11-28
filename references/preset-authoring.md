@@ -60,13 +60,13 @@ and select profile `1` in Hearthroom's import preview.
   `"temperature"` to `excludedFields` suppresses that sampling override.
   Leave `acceptedAdaptationIds` empty in new work. It retains compatibility
   with older selections.
-- Only `temperature` (0–2) and `top_p` (0–1) project into the compiled
-  parameters. Put them in the source as numbers, for example `"top_p": 0.9`.
-  The chosen model still has to accept the override. Other sampling fields
-  such as `top_k` stay in the source.
+- Use numbers for `temperature` (0–2), `top_p` (0–1), `frequency_penalty`
+  and `presence_penalty` (both −2 to 2). The provider sends active penalties
+  on eligible OpenAI-compatible routes. Gemini and Anthropic-native routes
+  omit them. Other fields, such as `top_k`, stay in the source.
 - To create a preset directly in Hearthroom's native editor, start with plain
   authored text, platform markers using their default roles, and optionally the
-  two sampling fields. Native saves accept the document shape above but use a
+  sampling fields. Native saves accept the document shape above but use a
   narrower set of fields and macros. For the `suki_*` fields, marker role
   overrides and response or tool-reply slots, use the JSON import path.
 

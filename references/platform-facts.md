@@ -1200,7 +1200,7 @@ has no tool-protocol transport for these controls; use the CLI from a shell.
 
 `hearthroom search --json` and `hearthroom card view <id> --json` can return `qualitySignal` for an approved card. `lengthCharacters` is the rounded effective character count of its settings, instructions, example turns, openings and enabled bound Lorebook text. Identical text counts once. Opening pages, rules, panel templates and styles are outside the count. Zero means under 1,000 characters. Null means no snapshot is available.
 
-`deepPlay` shows how many qualified players finished 5 player-sent turns, out of all qualifying players. It is null below 20 qualified players. The measure uses completed sends, excludes authors and sanctioned accounts, requires play across authors and deduplicates accounts sharing an observed device. It accrues going forward.
+`deepPlay.rate` is the percentage of qualified players who completed at least 5 player-sent turns, rounded down to a whole number from 0 to 100. The public signal omits cohort counts and is null until the sample meets the publication threshold. It excludes authors and sanctioned accounts, requires play across authors, and deduplicates active links between accounts sharing a device. It accrues going forward.
 
 `GET /v1/cards/{id}/quality` returns detailed counts and presentation flags under the card's visibility and adult-content rules. The author's private settings, Lorebooks, rules and opening page remain private.
 

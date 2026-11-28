@@ -168,18 +168,10 @@ names, `{{// note}}` is a comment and `{{trim}}` trims adjacent line breaks.
 
 ## CLI editing
 
-Use a `hearthroom` CLI version whose `hearthroom preset --help` lists
-`check`, `push`, `pull` and `list`. If the group is unavailable, use the
-web preset editor. `check` validates the file locally without sign-in.
-For saves and exports, sign in with `hearthroom auth login --presets` on
-the first-party provider and grant access to your own presets.
-
-To save a new preset with the slots or `suki_*` fields above, save the
-`st` object from the example as `tavern.json` and import it through
-`push --create`. Pick a profile with `--profile-id` when the source has
-several. Creating from a full Hearthroom document uses the native editor's
-rules. If the provider asks for compatibility choices, open the import
-preview in the web editor.
+Use a CLI whose `hearthroom preset --help` lists the commands below. If the group is unavailable, use the web editor.
+`check` works offline. To save, export, or bind a preset, sign in on a supported provider with `hearthroom auth login --presets`.
+Save the example's `st` object as `tavern.json` to import slots or `suki_*` fields. Use `--profile-id` for files with multiple profiles.
+A full Hearthroom document follows the native editor's rules. Open the web import preview if compatibility checks require choices.
 
 ```sh
 hearthroom preset check tavern.json --profile-id 1 --json
@@ -188,10 +180,8 @@ hearthroom preset push tavern.json --profile-id 1 --create --title "My preset"
 hearthroom preset list
 ```
 
-To edit a saved preset, use its ID from the list. Export to a new file
-with `--format hearthroom` to keep the selection, then use the `version`
-from that same pull as `EXPORTED_VERSION` for the update. The default
-pull format exports SillyTavern JSON.
+Use the preset ID from that list. The default pull format is SillyTavern JSON. Use `--format hearthroom` to keep the selection and
+take `EXPORTED_VERSION` from the same pull. On a version conflict, pull to a new file and reconcile your edits.
 
 ```sh
 hearthroom preset pull "$PRESET_ID" --format hearthroom --out edit.json --json
@@ -200,11 +190,19 @@ hearthroom preset check edit.json
 hearthroom preset push edit.json --id "$PRESET_ID" --expected-version "$EXPORTED_VERSION"
 ```
 
-On a version conflict, pull to a new file and reconcile before saving.
-If the result is uncertain and the CLI prints an operation ID, retry the
-same save with `--operation-id` and that value. Updating a shared preset
-changes the content players use according to its current sharing mode.
-Use the web editor to manage sharing or apply a preset.
+If a push result is uncertain and the CLI prints an operation ID, retry the same save with `--operation-id` and that value.
+Updates to a shared preset follow its sharing settings. Use the web editor to manage sharing.
+With `bind`, `unbind` and `status` available, use the card UUID accepted by `hearthroom play --role`.
+
+```sh
+hearthroom preset bind "$PRESET_ID" --role "$ROLE_ID"
+hearthroom preset status --role "$ROLE_ID" --json
+hearthroom preset unbind --role "$ROLE_ID"
+```
+
+The choice applies to new turns in all your conversations with the card. Unbind before playing to compare with the platform default.
+JSON status reports `source` as `custom` (with `presetId` and content `version`), `platform-default`, or `unavailable`.
+If a change conflicts or its result is uncertain, check status before trying again.
 
 ## Preset Library
 
